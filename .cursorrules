@@ -1,0 +1,78 @@
+# Geekbrox Project Rules
+
+## 프로젝트 개요
+- 블로그 자동화: 일본 애니메이션 콘텐츠 (티스토리)
+- 게임 기획: 인디게임 개발 (로그라이크+방치형+덱빌딩)
+
+## 코딩 규칙
+- 언어: Python 3.12
+- 주석: 한국어
+- 에러 처리: 모든 API 호출에 try/except 필수
+- 환경변수: API 키는 반드시 .env 파일 사용
+
+## 주요 API
+- AniList API (GraphQL)
+- MyAnimeList API
+- Tistory API
+
+## 파일 구조
+- blog_automation/: 블로그 자동화 스크립트
+- game_planning/: 게임 기획 문서
+
+## 티스토리 Selenium 자동화 핵심 지식 (post_to_tistory.py)
+
+### 에디터 구조
+- Tistory 에디터: **TinyMCE(keditor)** 기반 (레거시)
+- 에디터 ID: `editor-tistory` (TinyMCE 인스턴스)
+- 에디터 iframe: `id="editor-tistory_ifr"` — 본문 편집 영역
+- 본문 요소: iframe 내부 `body#tinymce` (contenteditable)
+
+### 이미지 업로드 동작 방식 (확인 완료)
+- 첨부 버튼: `div[aria-label="첨부"]` (부모 div, 실제 이벤트 핸들러)
+  - 내부 button: `id="attach-layer-btn"`, `rect={w:0,h:0}` → EC.element_to_be_clickable 불가
+  - **JS click() 로 강제 클릭 필요**
+- 클릭 시 DOM에 동적 생성: `input#attach-image` (accept="image/*")
+- ⚠️ **toggle 방식**: 두 번 클릭하면 input이 사라짐 → 재클릭 절대 금지
+- ⚠️ TinyMCE iframe에 포커스가 있어야 첨부 버튼이 정상 작동
+- 업로드 방법: `_make_file_input_visible()` → `file_input.send_keys(절대경로)`
+
+### 업로드 순서 (upload_image_to_editor 함수) — 실제 동작 확인 기준
+1. **방법1 (주력, 실제 성공 확인)**: `editor-tistory_ifr` iframe의 `body#tinymce`에 DataTransfer 드롭 이벤트 발생
+   - Tistory keditor의 `fileUpload` / `kImage` 플러그인이 drop 이벤트를 처리해 이미지 서버 업로드
+   - `new DragEvent('drop', {dataTransfer: dt})` → `body.dispatchEvent(ev)`
+2. **방법2 (fallback)**: `div[aria-label="첨부"]` JS click() → `#attach-image` input 동적 생성 → `send_keys(절대경로)`
+   - ⚠️ toggle 방식: 두 번 클릭하면 input이 사라짐 → 재클릭 절대 금지
+   - ⚠️ 클릭 전 iframe 포커스 활성화 필요
+3. **방법3**: 메인 DOM `input[type='file']` 직접 탐색 → `send_keys()`
+
+### 해시태그/본문 입력
+- `editor-tistory_ifr` iframe 전환 후 `body#tinymce` 에서 Cmd+End → 클립보드 붙여넣기
+- 한국어 입력: pbcopy(macOS) / xclip(Linux) + Cmd/Ctrl+V
+
+### 발행 플로우 (확인 완료)
+1. `#publish-layer-btn` 클릭 → 발행 패널 열기
+2. `#open20` 라디오버튼 클릭 → 공개 설정
+3. `#publish-btn` 클릭 → 발행
+4. URL이 newpost에서 벗어나면 성공
+
+### 카테고리
+- `select#category` 로 직접 선택 (에디터 로드 직후 가능)
+- 대상 카테고리: "애니소개 및 리뷰"
+
+### write_post() 전체 실행 흐름 (확인 완료)
+1. `safe_get(NEWPOST_URL)` → `wait_for_editor()` — 에디터 로딩 대기
+2. `set_category()` — `select#category` 로 카테고리 선택
+3. `upload_image_to_editor()` — DataTransfer drop 방식으로 이미지 삽입 (방법1)
+4. `input#post-title-inp` — 제목 클립보드 붙여넣기
+5. `editor-tistory_ifr` iframe 내 `body#tinymce` — 본문 클립보드 붙여넣기
+6. 해시태그 10개 — iframe 내 `body#tinymce` Cmd+End 후 붙여넣기
+7. Telegram '포스팅' 키워드 수신 대기
+8. `#publish-layer-btn` → `#open20` → `#publish-btn` — 발행
+
+### 중요 주의사항
+- `EC.element_to_be_clickable` 로 찾을 수 없는 숨겨진 버튼은 `driver.execute_script("...click()")` 사용
+- iframe 전환 후 반드시 `driver.switch_to.default_content()` 복귀 필요
+- 한국어 텍스트는 반드시 클립보드(pbcopy) 경유 붙여넣기 — `send_keys()` 직접 입력 시 깨짐
+- `dismiss_alert_if_present()` 를 주요 단계마다 호출해 이어서 작성 팝업 처리
+- 이미지 파일: `output/images/` 폴더, md 파일명과 동일한 stem으로 저장
+- 완료된 md 파일: `output/posts/done/` 으로 자동 이동

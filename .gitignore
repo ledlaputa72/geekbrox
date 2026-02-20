@@ -1,0 +1,11 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+output/
+cookies.json
+*.log
+.pytest_cache/
+.cursor/
+blog_automation/scripts/cookies.json
