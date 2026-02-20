@@ -1,25 +1,147 @@
 # Geekbrox Project Rules
+# Cursor AI가 이 프로젝트에서 작업할 때 반드시 참고해야 하는 규칙
 
-## 프로젝트 개요
-- 블로그 자동화: 일본 애니메이션 콘텐츠 (티스토리)
-- 게임 기획: 인디게임 개발 (로그라이크+방치형+덱빌딩)
+---
 
-## 코딩 규칙
-- 언어: Python 3.12
-- 주석: 한국어
-- 에러 처리: 모든 API 호출에 try/except 필수
-- 환경변수: API 키는 반드시 .env 파일 사용
+## 📁 프로젝트 구조 및 저장소
 
-## 주요 API
-- AniList API (GraphQL)
-- MyAnimeList API
-- Tistory API
+```
+~/Projects/geekbrox/              ← geekbrox GitHub repo (모든 실제 작업 결과물)
+├── blog_automation/
+│   ├── scripts/                  ← 블로그 자동화 Python 스크립트
+│   │   ├── fetch_anime.py        — AniList API로 애니 정보 수집
+│   │   ├── generate_post.py      — Claude/Gemini로 블로그 초안 생성
+│   │   ├── post_to_tistory.py    — Selenium으로 Tistory 자동 포스팅
+│   │   └── atlas_bot.py          ⚠️ 폐기됨 — 절대 실행 금지 (봇 충돌)
+│   └── templates/
+│       └── anime_post_template.md
+├── teams/
+│   ├── game/workspace/           ← 게임개발팀 작업 공간
+│   │   ├── design/               — GDD, 메카닉, 컨셉 문서
+│   │   ├── art/                  — 아트 스타일 가이드, 캐릭터
+│   │   ├── dev/                  — 기술 결정, 개발 진행
+│   │   └── sound/                — 사운드 방향성
+│   ├── content/workspace/        ← 콘텐츠팀 작업 공간
+│   │   └── blog/                 — 블로그 가이드, 포스팅 이력
+│   └── ops/workspace/            ← 운영및사업팀 작업 공간
+│       ├── research/game-research/ — 게임 시장 리서치
+│       └── monetization/         — 마케팅 플랜, 유료화 모델
+├── output/                       ← 런타임 생성 파일 (git 제외)
+│   ├── posts/                    — 생성된 블로그 초안 md
+│   └── images/                   — 다운로드된 이미지
+├── .env                          ← API 키 (git 제외, 절대 커밋 금지)
+└── requirements.txt
+```
 
-## 파일 구조
-- blog_automation/: 블로그 자동화 스크립트
-- game_planning/: 게임 기획 문서
+**저장소 분리 원칙:**
+- `~/.openclaw/` → OpenClaw AI 에이전트 **설정·기억** 전용 (`openclaw-config` repo)
+- `~/Projects/geekbrox/` → **모든 실제 작업 결과물** (`geekbrox` repo)
+- 작업 결과물을 `~/.openclaw/workspace/`에 저장하지 말 것
 
-## 티스토리 Selenium 자동화 핵심 지식 (post_to_tistory.py)
+---
+
+## 🤖 OpenClaw 멀티 에이전트 시스템
+
+이 프로젝트는 OpenClaw 멀티 에이전트로 운영된다. Cursor AI는 코드 작업 시 이 구조를 인지하고 협력한다.
+
+```
+Steve (Telegram)
+    ↕
+🚀 Atlas — 총괄 PM  (Gemini 2.5 Flash, ~/.openclaw/workspace/)
+    │  역할: Steve 소통, 위임, 결과 통합 보고. 실무 직접 처리 없음.
+    │
+    ├── 📝 콘텐츠팀장  (Claude Sonnet 4.5 + Gemini fallback)
+    │   workspace: teams/content/workspace/
+    │   담당: 블로그·SNS·유튜브 자동화
+    │
+    ├── 🎮 게임개발팀장  (Claude Sonnet 4.5 + Gemini fallback)
+    │   workspace: teams/game/workspace/
+    │   담당: GDD, 개발, 아트, 사운드
+    │
+    └── 🏢 운영및사업팀장  (Claude Sonnet 4.5 + Gemini fallback)
+        workspace: teams/ops/workspace/
+        담당: 리서치, 유료화, QA
+```
+
+**Cursor AI 역할:** 각 팀장 에이전트의 지시에 따라 코드를 작성·수정한다.
+작업 결과는 해당 팀의 `workspace/dev/` 또는 `blog_automation/scripts/`에 저장한다.
+
+---
+
+## 🎮 현재 프로젝트 현황
+
+### 1. 블로그 자동화 (콘텐츠팀)
+- **플랫폼:** Tistory (https://geekbrox.tistory.com)
+- **완료:** 4건 (Hell's Paradise S2, Fire Force S3P2, Frieren S2, Fate/strange Fake)
+- **대기:** 9건 (JUJUTSU KAISEN S3, OSHI NO KO S3 등)
+- **AI:** generate_post.py — Claude 우선, 과부하 시 Gemini 자동 fallback
+
+### 2. 인디게임 개발 (게임팀)
+- **장르:** 로그라이크 + 방치형 + 덱빌딩 하이브리드
+- **현재 단계:** Phase 0 (컨셉 확정 대기)
+- **GDD 완성본:**
+  - `teams/game/workspace/design/GDD_Dream_Collector.md` ⭐ Atlas 추천
+  - `teams/game/workspace/design/GDD_Dungeon_Parasite.md`
+- **엔진:** 컨셉 확정 후 Unity/Godot 결정
+
+---
+
+## 🔐 환경변수 (.env)
+
+```
+ANTHROPIC_API_KEY=...      ← Claude API
+GOOGLE_API_KEY=...         ← Gemini API (fallback용)
+TISTORY_ACCESS_TOKEN=...   ← Tistory 포스팅
+KAKAO_REST_API_KEY=...     ← Kakao OAuth
+```
+
+**절대 규칙:** `.env` 파일을 git에 커밋하지 말 것. `cookies.json`도 동일.
+
+---
+
+## 🐍 코딩 규칙
+
+- **언어:** Python 3.12 (`.venv/` 가상환경 사용)
+- **주석:** 한국어
+- **에러 처리:** 모든 API 호출에 `try/except` 필수
+- **환경변수:** API 키는 반드시 `.env` + `python-dotenv` 사용
+- **AI API 호출:** Claude 우선, `overloaded_error` / `rate_limit_error` 시 Gemini로 fallback
+
+### API fallback 패턴 (generate_post.py 기준)
+```python
+def _is_rate_limit_error(e: Exception) -> bool:
+    msg = str(e).lower()
+    return any(kw in msg for kw in ("rate_limit", "rate limit", "429", "too many requests", "overloaded"))
+
+# Claude 우선 시도 → 실패 시 Gemini fallback
+try:
+    # Anthropic Claude
+    ...
+except Exception as e:
+    if _is_rate_limit_error(e):
+        # Gemini fallback
+        from google import genai
+        client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+        ...
+    else:
+        raise
+```
+
+---
+
+## 🌐 주요 API
+
+| API | 용도 | 인증 방식 |
+|-----|------|-----------|
+| AniList (GraphQL) | 애니 정보 수집 | 공개 API (키 불필요) |
+| Anthropic Claude | 블로그 초안 생성 | `ANTHROPIC_API_KEY` |
+| Google Gemini | Claude fallback | `GOOGLE_API_KEY` |
+| Tistory | 블로그 포스팅 | `TISTORY_ACCESS_TOKEN` + Selenium |
+| Kakao OAuth | Tistory 인증 갱신 | `KAKAO_REST_API_KEY` |
+
+---
+
+## 🧪 티스토리 Selenium 자동화 핵심 지식 (post_to_tistory.py)
 
 ### 에디터 구조
 - Tistory 에디터: **TinyMCE(keditor)** 기반 (레거시)
