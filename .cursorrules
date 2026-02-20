@@ -1,0 +1,200 @@
+# Geekbrox Project Rules
+# Cursor AI가 이 프로젝트에서 작업할 때 반드시 참고해야 하는 규칙
+
+---
+
+## 📁 프로젝트 구조 및 저장소
+
+```
+~/Projects/geekbrox/              ← geekbrox GitHub repo (모든 실제 작업 결과물)
+├── blog_automation/
+│   ├── scripts/                  ← 블로그 자동화 Python 스크립트
+│   │   ├── fetch_anime.py        — AniList API로 애니 정보 수집
+│   │   ├── generate_post.py      — Claude/Gemini로 블로그 초안 생성
+│   │   ├── post_to_tistory.py    — Selenium으로 Tistory 자동 포스팅
+│   │   └── atlas_bot.py          ⚠️ 폐기됨 — 절대 실행 금지 (봇 충돌)
+│   └── templates/
+│       └── anime_post_template.md
+├── teams/
+│   ├── game/workspace/           ← 게임개발팀 작업 공간
+│   │   ├── design/               — GDD, 메카닉, 컨셉 문서
+│   │   ├── art/                  — 아트 스타일 가이드, 캐릭터
+│   │   ├── dev/                  — 기술 결정, 개발 진행
+│   │   └── sound/                — 사운드 방향성
+│   ├── content/workspace/        ← 콘텐츠팀 작업 공간
+│   │   └── blog/                 — 블로그 가이드, 포스팅 이력
+│   └── ops/workspace/            ← 운영및사업팀 작업 공간
+│       ├── research/game-research/ — 게임 시장 리서치
+│       └── monetization/         — 마케팅 플랜, 유료화 모델
+├── output/                       ← 런타임 생성 파일 (git 제외)
+│   ├── posts/                    — 생성된 블로그 초안 md
+│   └── images/                   — 다운로드된 이미지
+├── .env                          ← API 키 (git 제외, 절대 커밋 금지)
+└── requirements.txt
+```
+
+**저장소 분리 원칙:**
+- `~/.openclaw/` → OpenClaw AI 에이전트 **설정·기억** 전용 (`openclaw-config` repo)
+- `~/Projects/geekbrox/` → **모든 실제 작업 결과물** (`geekbrox` repo)
+- 작업 결과물을 `~/.openclaw/workspace/`에 저장하지 말 것
+
+---
+
+## 🤖 OpenClaw 멀티 에이전트 시스템
+
+이 프로젝트는 OpenClaw 멀티 에이전트로 운영된다. Cursor AI는 코드 작업 시 이 구조를 인지하고 협력한다.
+
+```
+Steve (Telegram)
+    ↕
+🚀 Atlas — 총괄 PM  (Gemini 2.5 Flash, ~/.openclaw/workspace/)
+    │  역할: Steve 소통, 위임, 결과 통합 보고. 실무 직접 처리 없음.
+    │
+    ├── 📝 콘텐츠팀장  (Claude Sonnet 4.5 + Gemini fallback)
+    │   workspace: teams/content/workspace/
+    │   담당: 블로그·SNS·유튜브 자동화
+    │
+    ├── 🎮 게임개발팀장  (Claude Sonnet 4.5 + Gemini fallback)
+    │   workspace: teams/game/workspace/
+    │   담당: GDD, 개발, 아트, 사운드
+    │
+    └── 🏢 운영및사업팀장  (Claude Sonnet 4.5 + Gemini fallback)
+        workspace: teams/ops/workspace/
+        담당: 리서치, 유료화, QA
+```
+
+**Cursor AI 역할:** 각 팀장 에이전트의 지시에 따라 코드를 작성·수정한다.
+작업 결과는 해당 팀의 `workspace/dev/` 또는 `blog_automation/scripts/`에 저장한다.
+
+---
+
+## 🎮 현재 프로젝트 현황
+
+### 1. 블로그 자동화 (콘텐츠팀)
+- **플랫폼:** Tistory (https://geekbrox.tistory.com)
+- **완료:** 4건 (Hell's Paradise S2, Fire Force S3P2, Frieren S2, Fate/strange Fake)
+- **대기:** 9건 (JUJUTSU KAISEN S3, OSHI NO KO S3 등)
+- **AI:** generate_post.py — Claude 우선, 과부하 시 Gemini 자동 fallback
+
+### 2. 인디게임 개발 (게임팀)
+- **장르:** 로그라이크 + 방치형 + 덱빌딩 하이브리드
+- **현재 단계:** Phase 0 (컨셉 확정 대기)
+- **GDD 완성본:**
+  - `teams/game/workspace/design/GDD_Dream_Collector.md` ⭐ Atlas 추천
+  - `teams/game/workspace/design/GDD_Dungeon_Parasite.md`
+- **엔진:** 컨셉 확정 후 Unity/Godot 결정
+
+---
+
+## 🔐 환경변수 (.env)
+
+```
+ANTHROPIC_API_KEY=...      ← Claude API
+GOOGLE_API_KEY=...         ← Gemini API (fallback용)
+TISTORY_ACCESS_TOKEN=...   ← Tistory 포스팅
+KAKAO_REST_API_KEY=...     ← Kakao OAuth
+```
+
+**절대 규칙:** `.env` 파일을 git에 커밋하지 말 것. `cookies.json`도 동일.
+
+---
+
+## 🐍 코딩 규칙
+
+- **언어:** Python 3.12 (`.venv/` 가상환경 사용)
+- **주석:** 한국어
+- **에러 처리:** 모든 API 호출에 `try/except` 필수
+- **환경변수:** API 키는 반드시 `.env` + `python-dotenv` 사용
+- **AI API 호출:** Claude 우선, `overloaded_error` / `rate_limit_error` 시 Gemini로 fallback
+
+### API fallback 패턴 (generate_post.py 기준)
+```python
+def _is_rate_limit_error(e: Exception) -> bool:
+    msg = str(e).lower()
+    return any(kw in msg for kw in ("rate_limit", "rate limit", "429", "too many requests", "overloaded"))
+
+# Claude 우선 시도 → 실패 시 Gemini fallback
+try:
+    # Anthropic Claude
+    ...
+except Exception as e:
+    if _is_rate_limit_error(e):
+        # Gemini fallback
+        from google import genai
+        client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+        ...
+    else:
+        raise
+```
+
+---
+
+## 🌐 주요 API
+
+| API | 용도 | 인증 방식 |
+|-----|------|-----------|
+| AniList (GraphQL) | 애니 정보 수집 | 공개 API (키 불필요) |
+| Anthropic Claude | 블로그 초안 생성 | `ANTHROPIC_API_KEY` |
+| Google Gemini | Claude fallback | `GOOGLE_API_KEY` |
+| Tistory | 블로그 포스팅 | `TISTORY_ACCESS_TOKEN` + Selenium |
+| Kakao OAuth | Tistory 인증 갱신 | `KAKAO_REST_API_KEY` |
+
+---
+
+## 🧪 티스토리 Selenium 자동화 핵심 지식 (post_to_tistory.py)
+
+### 에디터 구조
+- Tistory 에디터: **TinyMCE(keditor)** 기반 (레거시)
+- 에디터 ID: `editor-tistory` (TinyMCE 인스턴스)
+- 에디터 iframe: `id="editor-tistory_ifr"` — 본문 편집 영역
+- 본문 요소: iframe 내부 `body#tinymce` (contenteditable)
+
+### 이미지 업로드 동작 방식 (확인 완료)
+- 첨부 버튼: `div[aria-label="첨부"]` (부모 div, 실제 이벤트 핸들러)
+  - 내부 button: `id="attach-layer-btn"`, `rect={w:0,h:0}` → EC.element_to_be_clickable 불가
+  - **JS click() 로 강제 클릭 필요**
+- 클릭 시 DOM에 동적 생성: `input#attach-image` (accept="image/*")
+- ⚠️ **toggle 방식**: 두 번 클릭하면 input이 사라짐 → 재클릭 절대 금지
+- ⚠️ TinyMCE iframe에 포커스가 있어야 첨부 버튼이 정상 작동
+- 업로드 방법: `_make_file_input_visible()` → `file_input.send_keys(절대경로)`
+
+### 업로드 순서 (upload_image_to_editor 함수) — 실제 동작 확인 기준
+1. **방법1 (주력, 실제 성공 확인)**: `editor-tistory_ifr` iframe의 `body#tinymce`에 DataTransfer 드롭 이벤트 발생
+   - Tistory keditor의 `fileUpload` / `kImage` 플러그인이 drop 이벤트를 처리해 이미지 서버 업로드
+   - `new DragEvent('drop', {dataTransfer: dt})` → `body.dispatchEvent(ev)`
+2. **방법2 (fallback)**: `div[aria-label="첨부"]` JS click() → `#attach-image` input 동적 생성 → `send_keys(절대경로)`
+   - ⚠️ toggle 방식: 두 번 클릭하면 input이 사라짐 → 재클릭 절대 금지
+   - ⚠️ 클릭 전 iframe 포커스 활성화 필요
+3. **방법3**: 메인 DOM `input[type='file']` 직접 탐색 → `send_keys()`
+
+### 해시태그/본문 입력
+- `editor-tistory_ifr` iframe 전환 후 `body#tinymce` 에서 Cmd+End → 클립보드 붙여넣기
+- 한국어 입력: pbcopy(macOS) / xclip(Linux) + Cmd/Ctrl+V
+
+### 발행 플로우 (확인 완료)
+1. `#publish-layer-btn` 클릭 → 발행 패널 열기
+2. `#open20` 라디오버튼 클릭 → 공개 설정
+3. `#publish-btn` 클릭 → 발행
+4. URL이 newpost에서 벗어나면 성공
+
+### 카테고리
+- `select#category` 로 직접 선택 (에디터 로드 직후 가능)
+- 대상 카테고리: "애니소개 및 리뷰"
+
+### write_post() 전체 실행 흐름 (확인 완료)
+1. `safe_get(NEWPOST_URL)` → `wait_for_editor()` — 에디터 로딩 대기
+2. `set_category()` — `select#category` 로 카테고리 선택
+3. `upload_image_to_editor()` — DataTransfer drop 방식으로 이미지 삽입 (방법1)
+4. `input#post-title-inp` — 제목 클립보드 붙여넣기
+5. `editor-tistory_ifr` iframe 내 `body#tinymce` — 본문 클립보드 붙여넣기
+6. 해시태그 10개 — iframe 내 `body#tinymce` Cmd+End 후 붙여넣기
+7. Telegram '포스팅' 키워드 수신 대기
+8. `#publish-layer-btn` → `#open20` → `#publish-btn` — 발행
+
+### 중요 주의사항
+- `EC.element_to_be_clickable` 로 찾을 수 없는 숨겨진 버튼은 `driver.execute_script("...click()")` 사용
+- iframe 전환 후 반드시 `driver.switch_to.default_content()` 복귀 필요
+- 한국어 텍스트는 반드시 클립보드(pbcopy) 경유 붙여넣기 — `send_keys()` 직접 입력 시 깨짐
+- `dismiss_alert_if_present()` 를 주요 단계마다 호출해 이어서 작성 팝업 처리
+- 이미지 파일: `output/images/` 폴더, md 파일명과 동일한 stem으로 저장
+- 완료된 md 파일: `output/posts/done/` 으로 자동 이동

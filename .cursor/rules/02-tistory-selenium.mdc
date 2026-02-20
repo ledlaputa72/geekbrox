@@ -1,0 +1,104 @@
+---
+description: Tistory Selenium 자동화 핵심 지식. post_to_tistory.py 수정 또는 Tistory 자동화 관련 코드 작성 시 반드시 참조.
+alwaysApply: false
+globs: ["blog_automation/scripts/post_to_tistory.py", "blog_automation/scripts/*.py"]
+---
+
+# Tistory Selenium 자동화 핵심 지식
+
+## 에디터 구조
+
+- Tistory 에디터: **TinyMCE(keditor)** 기반 (레거시)
+- 에디터 인스턴스 ID: `editor-tistory`
+- 본문 iframe: `id="editor-tistory_ifr"`
+- 본문 요소: iframe 내부 `body#tinymce` (contenteditable)
+
+## 이미지 업로드 (upload_image_to_editor)
+
+### 방법1 — 주력 ✅ (DataTransfer drop 이벤트)
+```python
+# iframe body에 드롭 이벤트 발생 → keditor fileUpload/kImage 플러그인이 처리
+driver.switch_to.frame("editor-tistory_ifr")
+driver.execute_script("""
+    const dt = new DataTransfer();
+    // ... 파일 설정
+    const ev = new DragEvent('drop', {dataTransfer: dt, bubbles: true});
+    document.body.dispatchEvent(ev);
+""")
+driver.switch_to.default_content()
+```
+
+### 방법2 — fallback (첨부 버튼 클릭)
+```python
+# ⚠️ toggle 방식: 두 번 클릭하면 input이 사라짐 → 재클릭 절대 금지
+# ⚠️ 클릭 전 iframe 포커스 활성화 필요
+# attach-layer-btn은 rect={w:0,h:0} → EC.element_to_be_clickable 불가
+driver.execute_script('document.querySelector("div[aria-label=\'첨부\']").click()')
+# 클릭 후 동적 생성: input#attach-image
+file_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#attach-image")))
+file_input.send_keys(absolute_path)  # 절대경로 필수
+```
+
+### 방법3 — 최후 수단
+```python
+file_input = driver.find_element(By.CSS_SELECTOR, "input[type='file']")
+file_input.send_keys(absolute_path)
+```
+
+## 텍스트 입력 (한국어)
+
+```python
+# ⚠️ send_keys() 직접 한국어 입력 시 깨짐 → 반드시 클립보드 경유
+import subprocess
+subprocess.run(['pbcopy'], input=text.encode('utf-8'))  # macOS
+
+driver.switch_to.frame("editor-tistory_ifr")
+body = driver.find_element(By.CSS_SELECTOR, "body#tinymce")
+body.send_keys(Keys.COMMAND + 'v')  # 붙여넣기
+driver.switch_to.default_content()
+```
+
+## 발행 플로우
+
+```python
+# 1. 발행 패널 열기
+driver.find_element(By.ID, "publish-layer-btn").click()
+
+# 2. 공개 설정
+driver.find_element(By.ID, "open20").click()
+
+# 3. 발행 버튼
+driver.find_element(By.ID, "publish-btn").click()
+
+# 4. 완료 확인 (URL 변경)
+wait.until(lambda d: "newpost" not in d.current_url)
+```
+
+## 카테고리 설정
+
+```python
+# 에디터 로드 직후 설정 가능
+from selenium.webdriver.support.ui import Select
+Select(driver.find_element(By.ID, "category")).select_by_visible_text("애니소개 및 리뷰")
+```
+
+## write_post() 전체 실행 순서
+
+1. `safe_get(NEWPOST_URL)` → `wait_for_editor()` — 에디터 로딩 대기
+2. `set_category()` — `select#category` 카테고리 선택
+3. `upload_image_to_editor()` — 방법1(DataTransfer drop) 이미지 삽입
+4. `input#post-title-inp` — 제목 클립보드 붙여넣기
+5. iframe `body#tinymce` — 본문 클립보드 붙여넣기
+6. 해시태그 10개 — `body#tinymce` Cmd+End 후 붙여넣기
+7. Telegram '포스팅' 키워드 수신 대기 (사람이 확인 후 승인)
+8. `#publish-layer-btn` → `#open20` → `#publish-btn` — 발행
+
+## 주의사항 체크리스트
+
+- [ ] 숨겨진 버튼: `EC.element_to_be_clickable` 불가 → `execute_script("...click()")` 사용
+- [ ] iframe 전환 후 반드시 `driver.switch_to.default_content()` 복귀
+- [ ] 한국어 텍스트: 클립보드(pbcopy) 경유 붙여넣기 필수
+- [ ] `dismiss_alert_if_present()` 주요 단계마다 호출 (이어서 작성 팝업 처리)
+- [ ] 이미지 파일 경로: `output/images/<stem>.jpg` (md 파일명과 동일 stem)
+- [ ] 완료 md 파일: `output/posts/done/`으로 자동 이동
+- [ ] `atlas_bot.py` 절대 실행 금지 (OpenClaw 봇과 충돌)

@@ -1,0 +1,76 @@
+---
+description: 인디게임 개발 관련 문서·코드 작업 시 참조. teams/game/workspace/ 파일 수정, GDD 관련 작업에 적용.
+alwaysApply: false
+globs: ["teams/game/**/*"]
+---
+
+# 인디게임 개발 가이드
+
+## 현재 상태 (Phase 0)
+
+- **장르:** 로그라이크 + 방치형 + 덱빌딩 하이브리드
+- **단계:** Phase 0 — Steve의 컨셉 선택 대기 중
+
+## 컨셉 후보
+
+| 코드 | 제목 | 핵심 메카닉 | GDD |
+|------|------|------------|-----|
+| A | 시간 탐험가 | 시간 조작 + 덱빌딩 | — |
+| B | 카드 공장 | 공장 자동화 + 카드 생산 | — |
+| C | 던전 기생충 | 몬스터 빙의 + 능력 흡수 | `design/GDD_Dungeon_Parasite.md` |
+| D | 꿈 수집가 ⭐ | 수면(방치) + 꿈 카드 수집 | `design/GDD_Dream_Collector.md` |
+
+**분석 자료:** `teams/game/workspace/design/CONCEPT_CANDIDATES.md`
+
+## 게임팀 워크스페이스 구조
+
+```
+teams/game/workspace/
+├── PROJECT_STATE.md     ← 현재 단계, 주요 결정사항
+├── design/
+│   ├── GDD.md           ← 컨셉 확정 후 메인 GDD (현재 placeholder)
+│   ├── GDD_Dream_Collector.md    ← 완성본
+│   ├── GDD_Dungeon_Parasite.md   ← 완성본
+│   ├── CONCEPT_CANDIDATES.md     ← 컨셉 비교 분석
+│   ├── MECHANICS.md     ← 메카닉 설계
+│   └── CONCEPT.md       ← 컨셉 및 세계관
+├── art/
+│   ├── STYLE_GUIDE.md   ← 아트 스타일 기준
+│   └── CHARACTER_SHEET.md
+├── dev/
+│   ├── TECH_DECISIONS.md ← 엔진·언어 결정 기록
+│   └── PROGRESS.md       ← 개발 진행 상황
+└── sound/
+    └── SOUND_GUIDE.md
+```
+
+## 개발 도구 (컨셉 확정 후 결정)
+
+- **엔진:** Unity 또는 Godot (Steve 결정 후 `dev/TECH_DECISIONS.md`에 기록)
+- **아트:** Aseprite (픽셀 아트)
+- **사운드:** FMOD / Audacity
+- **코드 에디터:** Cursor AI
+
+## 작업 원칙
+
+1. 작업 전 관련 워크스페이스 파일 읽기 (맥락 파악)
+2. 작업 후 반드시 파일 업데이트 (다음 작업자를 위해)
+3. `PROJECT_STATE.md`에 단계 변경 사항 기록
+4. 기술적 결정은 Steve 승인 후 `TECH_DECISIONS.md`에 기록
+5. 일별 작업 로그는 `memory/YYYY-MM-DD.md`에 저장
+
+## 개발 로드맵
+
+```
+Phase 0 (현재): 컨셉 확정 대기
+Phase 1: GDD 작성 + 핵심 메카닉 프로토타입
+Phase 2: 아트 스타일 가이드 + 기초 에셋 제작
+Phase 3: 알파 빌드 (핵심 루프 완성)
+Phase 4: 베타 + 밸런싱
+Phase 5: 출시 준비
+```
+
+## 리서치 자료 위치
+
+- 시장 분석, 경쟁작 분석: `teams/ops/workspace/research/game-research/`
+- 마케팅 플랜: `teams/ops/workspace/monetization/marketing-plan.md`

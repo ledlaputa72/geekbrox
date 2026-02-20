@@ -1,0 +1,95 @@
+---
+description: Python 코딩 규칙, 환경변수 사용법, Claude+Gemini fallback 패턴. Python 파일 작성·수정 시 항상 적용.
+alwaysApply: true
+globs: ["**/*.py"]
+---
+
+# 코딩 규칙
+
+## 기본 규칙
+
+- **언어:** Python 3.12
+- **가상환경:** `.venv/` (항상 활성화 후 실행: `source .venv/bin/activate`)
+- **주석:** 한국어
+- **에러 처리:** 모든 외부 API 호출에 `try/except` 필수
+- **환경변수:** API 키는 반드시 `.env` + `python-dotenv` 사용, 코드에 하드코딩 금지
+
+## 환경변수 (.env)
+
+```python
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]   # Claude API
+GOOGLE_API_KEY    = os.environ["GOOGLE_API_KEY"]       # Gemini API (fallback)
+TISTORY_ACCESS_TOKEN = os.environ["TISTORY_ACCESS_TOKEN"]
+KAKAO_REST_API_KEY   = os.environ["KAKAO_REST_API_KEY"]
+```
+
+> ⚠️ `.env`와 `cookies.json`은 절대 git 커밋 금지
+
+## Claude + Gemini Fallback 패턴
+
+AI API 호출 시 Claude를 우선 사용하고, 과부하/한도 초과 시 Gemini로 자동 전환한다.
+
+```python
+import os
+from anthropic import Anthropic
+
+def _is_rate_limit_error(e: Exception) -> bool:
+    """Claude API 과부하·한도 초과 여부 확인"""
+    msg = str(e).lower()
+    return any(kw in msg for kw in (
+        "rate_limit", "rate limit", "429",
+        "too many requests", "overloaded"
+    ))
+
+def _call_gemini(prompt: str, max_tokens: int = 2048) -> str:
+    """Gemini fallback 호출"""
+    from google import genai
+    from google.genai import types
+    client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt,
+        config=types.GenerateContentConfig(max_output_tokens=max_tokens),
+    )
+    return response.text
+
+def call_ai(prompt: str, max_tokens: int = 2048) -> str:
+    """Claude 우선 → 과부하 시 Gemini fallback"""
+    # 1차: Claude
+    try:
+        client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+        message = client.messages.create(
+            model="claude-sonnet-4-5-20250929",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return message.content[0].text
+    except Exception as e:
+        if _is_rate_limit_error(e):
+            print("  ⚠️  Claude 과부하 → Gemini fallback 전환")
+        else:
+            raise
+    # 2차: Gemini
+    return _call_gemini(prompt, max_tokens)
+```
+
+## 주요 API 레퍼런스
+
+| API | 용도 | 패키지 |
+|-----|------|--------|
+| AniList (GraphQL) | 애니 정보 수집 | `requests` (공개 API, 키 불필요) |
+| Anthropic Claude | 블로그 초안 생성 | `anthropic` |
+| Google Gemini | Claude fallback | `google-genai` |
+| Tistory | 블로그 포스팅 | `selenium` + `requests` |
+| Kakao OAuth | Tistory 인증 갱신 | `requests` |
+
+## 의존성 관리
+
+새 패키지 추가 시 반드시 `requirements.txt`에도 추가:
+```bash
+pip install <package> && pip freeze | grep <package> >> requirements.txt
+```
