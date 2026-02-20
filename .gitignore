@@ -7,5 +7,7 @@ output/
 cookies.json
 *.log
 .pytest_cache/
-.cursor/
+# .cursor/rules/ 는 팀 공유용으로 커밋 포함
+.cursor/settings.json
+.cursor/*.json
 blog_automation/scripts/cookies.json

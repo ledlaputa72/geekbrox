@@ -1,0 +1,108 @@
+---
+description: Geekbrox 프로젝트 전체 구조, 저장소 분리 원칙, 에이전트 시스템. 새 파일 생성·이동·경로 결정 시 항상 참조.
+alwaysApply: true
+---
+
+# Geekbrox 프로젝트 개요
+
+## 저장소 분리 원칙 (핵심 규칙)
+
+| 저장소 | 경로 | 저장 내용 |
+|--------|------|-----------|
+| `geekbrox` | `~/Projects/geekbrox/` | **모든 실제 작업 결과물** (코드, GDD, 리서치, 문서) |
+| `openclaw-config` | `~/.openclaw/` | AI 에이전트 **설정·기억 전용** (agent.md, memory/) |
+
+> ⚠️ **절대 금지:** 작업 결과물을 `~/.openclaw/workspace/`에 저장하지 말 것.
+
+---
+
+## 프로젝트 디렉토리 구조
+
+```
+~/Projects/geekbrox/
+├── blog_automation/
+│   ├── scripts/
+│   │   ├── fetch_anime.py        ← AniList API 애니 정보 수집
+│   │   ├── generate_post.py      ← Claude/Gemini 블로그 초안 생성
+│   │   ├── post_to_tistory.py    ← Selenium Tistory 자동 포스팅
+│   │   └── atlas_bot.py          ⚠️ 폐기 — 절대 실행 금지 (봇 충돌)
+│   └── templates/
+│       └── anime_post_template.md
+│
+├── teams/
+│   ├── game/workspace/           ← 🎮 게임개발팀 작업 공간
+│   │   ├── design/
+│   │   │   ├── GDD_Dream_Collector.md    ← 완성 GDD ⭐ Atlas 추천
+│   │   │   ├── GDD_Dungeon_Parasite.md   ← 완성 GDD
+│   │   │   ├── CONCEPT_CANDIDATES.md     ← 컨셉 비교 분석
+│   │   │   ├── GDD.md                    ← 선택 후 메인 GDD (현재 placeholder)
+│   │   │   ├── MECHANICS.md
+│   │   │   └── CONCEPT.md
+│   │   ├── art/                  ← 스타일 가이드, 캐릭터
+│   │   ├── dev/                  ← 기술 결정, 개발 진행
+│   │   └── sound/                ← 사운드 방향성
+│   │
+│   ├── content/workspace/        ← 📝 콘텐츠팀 작업 공간
+│   │   └── blog/
+│   │       ├── POST_HISTORY.md   ← 포스팅 이력
+│   │       ├── TONE_GUIDE.md     ← 글쓰기 톤 가이드
+│   │       ├── KEYWORD_LOG.md    ← SEO 키워드
+│   │       └── AUTOMATION_GUIDE.md ← 블로그 자동화 가이드
+│   │
+│   └── ops/workspace/            ← 🏢 운영및사업팀 작업 공간
+│       ├── research/
+│       │   ├── RESEARCH_LOG.md
+│       │   └── game-research/    ← 게임 시장 리서치 (11개 보고서)
+│       ├── monetization/
+│       │   ├── MODEL.md
+│       │   ├── marketing-plan.md
+│       │   └── marketing-plan-summary.md
+│       └── qa/
+│
+├── output/                       ← 런타임 생성 파일 (git 제외)
+├── .env                          ← API 키 (git 제외 — 절대 커밋 금지)
+├── .cursorrules                  ← 레거시 Cursor 규칙 (하위호환)
+└── requirements.txt
+```
+
+---
+
+## OpenClaw 멀티 에이전트 시스템
+
+```
+Steve (Telegram)
+    ↕
+🚀 Atlas — 총괄 PM  (Gemini 2.5 Flash)
+   workspace: ~/.openclaw/workspace/
+   역할: Steve 소통, 위임, 통합 보고. 실무 직접 처리 없음.
+    │
+    ├── 📝 콘텐츠팀장  (Claude Sonnet 4.5 + Gemini fallback)
+    │   workspace: teams/content/workspace/
+    │
+    ├── 🎮 게임개발팀장  (Claude Sonnet 4.5 + Gemini fallback)
+    │   workspace: teams/game/workspace/
+    │
+    └── 🏢 운영및사업팀장  (Claude Sonnet 4.5 + Gemini fallback)
+        workspace: teams/ops/workspace/
+```
+
+**Cursor AI의 역할:** 에이전트 지시에 따라 코드·문서를 작성한다.
+새 파일은 반드시 해당 팀의 `teams/<team>/workspace/` 또는 `blog_automation/` 경로에 저장한다.
+
+---
+
+## 현재 프로젝트 현황
+
+### 블로그 자동화 (콘텐츠팀)
+- 플랫폼: https://geekbrox.tistory.com
+- 완료: 4건 (Hell's Paradise S2, Fire Force S3P2, Frieren S2, Fate/strange Fake)
+- 대기: 9건 (JUJUTSU KAISEN S3, OSHI NO KO S3, STEEL BALL RUN 등)
+
+### 인디게임 개발 (게임팀)
+- 장르: 로그라이크 + 방치형 + 덱빌딩 하이브리드
+- **현재: Phase 0 — 컨셉 확정 대기 (Steve 선택 필요)**
+- GDD 완성: 꿈 수집가(D) ⭐, 던전 기생충(C)
+- 엔진: 컨셉 확정 후 Unity/Godot 결정
+
+### 로드맵
+`Phase 0(컨셉)` → `Phase 1(GDD+프로토)` → `Phase 2(아트)` → `Phase 3(알파)` → `Phase 4(베타)` → `Phase 5(출시)`
