@@ -1,11 +1,12 @@
 # 공통 UI 플랫폼 기획안 (Common UI Platform)
 ## 방치형 덱빌딩 모바일 게임 통합 인터페이스
 
-**문서 버전:** 1.0
+**문서 버전:** 1.1
 **작성일:** 2026-02-20
+**최종 수정:** 2026-02-20
 **작성자:** GeekBrox 게임팀
 **적용 대상:** 꿈 수집가 (Dream Collector) · 던전 기생충 (Dungeon Parasite)
-**상태:** 🟡 기획 확정, Figma 작업 대기
+**상태:** 🟢 기획 확정 + v0 워크플로우 수립 완료, v0 프로토타이핑 단계
 
 ---
 
@@ -344,16 +345,59 @@ func apply_theme(theme: Theme) -> void:
 
 ---
 
+## 🔄 개발 워크플로우 (v0 → Figma → 게임 엔진)
+
+> 자세한 내용: [`WORKFLOW_V0_TO_ENGINE.md`](WORKFLOW_V0_TO_ENGINE.md)
+> v0 프롬프트 가이드: [`V0_PROMPT_GUIDE.md`](V0_PROMPT_GUIDE.md)
+
+### 워크플로우 4단계 요약
+
+```
+[1단계: 기획]          [2단계: v0 프로토타입]       [3단계: Figma 디자인]      [4단계: 게임 엔진]
+기획 문서 작성    →    v0.dev로 빠른 UI 시안   →    Figma 디자인 시스템    →   Godot / Unity 구현
+(현재 문서)            React + Tailwind             Variables + Components      ThemeManager 적용
+                        CSS 변수로 테마 전환          Hi-Fi 프로토타입
+                        ↓                             ↓
+                    v0-exports/ 저장              figma-exports/ 저장
+```
+
+### 폴더 구조 (teams/game/interface/ 하위)
+
+```
+interface/
+├── COMMON_UI_PLATFORM.md     ← 이 문서 (핵심 기획)
+├── UI_COMPONENTS.md          ← 컴포넌트 상세 사양
+├── SCREEN_FLOW.md            ← 화면 흐름도
+├── IMPLEMENTATION_GUIDE.md   ← Figma/엔진 구현 가이드
+├── WORKFLOW_V0_TO_ENGINE.md  ← 전체 파이프라인 문서 (NEW)
+├── V0_PROMPT_GUIDE.md        ← v0 프롬프트 템플릿 (NEW)
+├── v0-exports/               ← v0에서 생성한 코드 저장
+│   ├── dream-theme/          ← 꿈 수집가 테마 화면
+│   ├── dark-theme/           ← 던전 기생충 테마 화면
+│   └── shared/tokens/        ← 공통 디자인 토큰
+└── figma-exports/            ← Figma에서 내보낸 에셋
+    ├── dream/                ← Dream 테마 에셋
+    └── dark/                 ← Dark 테마 에셋
+```
+
+---
+
 ## 📅 개발 우선순위 및 일정 제안
 
-### Phase 0: Figma 와이어프레임 (이번 주)
-- [ ] 마스터 레이아웃 와이어프레임 (C-01 ~ C-05)
-- [ ] Figma Variables 설정 (Dream/Dark 테마 변수)
-- [ ] 컴포넌트 라이브러리 초안 (Atoms + Molecules)
+### Phase 0: v0 프로토타이핑 (이번 주) ← 현재 단계
+- [ ] v0로 C-01 메인 로비 Dream/Dark 테마 시안 작성
+- [ ] v0로 C-02 카드 라이브러리 시안
+- [ ] v0로 C-03 덱 빌더 시안
+- [ ] v0로 C-04 업그레이드 트리 시안
+- [ ] v0로 C-05 상점 시안
+- [ ] 디자인 토큰 추출 (색상, 타이포, 간격)
 
-### Phase 1: Figma 프로토타입 (2주차)
-- [ ] 모든 공통 화면 Hi-Fi 목업 (Dream 테마)
-- [ ] Dark 테마 적용 (Variables 스위칭)
+> 📌 V0_PROMPT_GUIDE.md의 프롬프트 템플릿 활용
+
+### Phase 1: Figma 디자인 시스템 (2주차)
+- [ ] Figma Variables 설정 (v0 토큰 기반)
+- [ ] 컴포넌트 라이브러리 구축 (Atoms + Molecules)
+- [ ] Hi-Fi 화면 목업 (Dream + Dark 테마)
 - [ ] 인터랙션 프로토타입 (화면 전환 흐름)
 
 ### Phase 2: Unity/Godot 구현 (3~6주차)
@@ -377,9 +421,11 @@ func apply_theme(theme: Theme) -> void:
 | UI 컴포넌트 상세 사양 | `UI_COMPONENTS.md` | 각 컴포넌트 치수·색상·상태 |
 | 화면 흐름도 | `SCREEN_FLOW.md` | 전체 화면 네비게이션 맵 |
 | Figma 구현 가이드 | `IMPLEMENTATION_GUIDE.md` | Figma 작업 가이드라인 |
+| v0→Figma→엔진 워크플로우 | `WORKFLOW_V0_TO_ENGINE.md` | 전체 파이프라인 상세 |
+| v0 프롬프트 가이드 | `V0_PROMPT_GUIDE.md` | 화면별 v0 프롬프트 템플릿 |
 | 꿈 수집가 GDD | `../workspace/design/꿈수집가_GDD.md` | 원본 게임 기획 |
 | 던전 기생충 GDD | `../workspace/design/던전기생충_GDD.md` | 원본 게임 기획 |
 
 ---
 
-_Common UI Platform v1.0 | GeekBrox 게임팀 | 2026-02-20_
+_Common UI Platform v1.1 | GeekBrox 게임팀 | 2026-02-20 (v0 워크플로우 반영)_
