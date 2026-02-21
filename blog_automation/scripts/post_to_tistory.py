@@ -51,9 +51,9 @@ except ImportError:
 load_dotenv()
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-OUTPUT_DIR = SCRIPT_DIR.parent.parent / "output"
-POSTS_DIR = OUTPUT_DIR / "posts"
-DONE_DIR = POSTS_DIR / "done"
+OUTPUT_DIR = SCRIPT_DIR.parent.parent / "teams/content/workspace/blog"
+POSTS_DIR = OUTPUT_DIR / "drafts"
+DONE_DIR = OUTPUT_DIR / "published"
 def _debug_print(msg: str) -> None:
     """디버그 출력."""
     print(f"  [DBG] {msg}")
@@ -623,10 +623,10 @@ def login(driver: webdriver.Chrome) -> None:
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 def read_first_post() -> tuple[str, str, Path, Path | None]:
-    """output/posts/ 에서 첫 번째 .md 파일 하나만 읽어 (제목, 본문, 파일경로, 이미지경로) 반환.
+    """drafts/ 폴더에서 첫 번째 .md 파일 하나만 읽어 (제목, 본문, 파일경로, 이미지경로) 반환.
 
     이미지는 md 파일 내 ![...](../images/xxx) 패턴에서 추출하고,
-    없으면 output/images/ 에서 파일명 stem이 같은 이미지를 자동 탐색.
+    없으면 images/ 폴더에서 파일명 stem이 같은 이미지를 자동 탐색.
     """
     if not POSTS_DIR.exists():
         raise FileNotFoundError(f"posts 폴더 없음: {POSTS_DIR}")
@@ -1796,11 +1796,11 @@ def write_post(driver: webdriver.Chrome, title: str, body: str,
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 def move_to_done(md_path: Path) -> None:
-    """완료된 .md 파일을 output/posts/done/ 으로 이동."""
+    """완료된 .md 파일을 published/ 폴더로 이동."""
     DONE_DIR.mkdir(parents=True, exist_ok=True)
     dest = DONE_DIR / md_path.name
     shutil.move(str(md_path), str(dest))
-    print(f"파일 이동: {md_path.name} → done/")
+    print(f"파일 이동: {md_path.name} → published/")
 
 
 def main() -> None:
