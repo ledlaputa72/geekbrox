@@ -36,6 +36,37 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
+# ─────────────────────────────────────────────────────────────
+# 텔레그램 실시간 알림 (generate_post.py 전용)
+# ─────────────────────────────────────────────────────────────
+
+def _tg_notify(text: str) -> None:
+    """
+    텔레그램으로 진행 상황 메시지 전송.
+    TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID 환경변수가 없으면 조용히 스킵.
+    """
+    bot_token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    chat_id   = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+    if not bot_token or not chat_id:
+        return
+    try:
+        url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+        payload = json.dumps({
+            "chat_id": chat_id,
+            "text": text,
+            "parse_mode": "Markdown",
+        }).encode("utf-8")
+        req = urllib.request.Request(
+            url,
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(req, timeout=10)
+    except Exception:
+        pass  # 알림 실패는 조용히 무시 (메인 작업 영향 없음)
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = SCRIPT_DIR.parent.parent / "output"
 INPUT_JSON = OUTPUT_DIR / "seasonal_top_anime.json"
@@ -484,33 +515,72 @@ def _call_gemini(prompt: str, max_tokens: int = 8192) -> str:
         raise RuntimeError(f"Gemini API 호출 실패: {e}") from e
 
 
-def _call_llm(prompt: str, max_tokens: int = 8192) -> str:
-    """Claude → Gemini fallback."""
+# ─────────────────────────────────────────────────────────────
+# Rate Limit 자동 재시도 (Exponential Backoff)
+# ─────────────────────────────────────────────────────────────
+
+# 글 생성 간격 (초) — 연속 요청 시 Rate Limit 방지
+INTER_POST_DELAY = int(os.environ.get("INTER_POST_DELAY", "30"))
+# 최대 재시도 횟수
+MAX_RETRY = int(os.environ.get("LLM_MAX_RETRY", "4"))
+# 재시도 초기 대기 시간 (초)
+RETRY_BASE_WAIT = int(os.environ.get("LLM_RETRY_BASE_WAIT", "60"))
+
+
+def _call_llm_with_retry(prompt: str, max_tokens: int = 8192) -> str:
+    """Rate Limit 발생 시 Exponential Backoff로 자동 재시도, 최종 실패 시 Gemini fallback."""
     api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if api_key:
-        try:
-            client = Anthropic(api_key=api_key)
-            message = client.messages.create(
-                model="claude-sonnet-4-5-20250929",
-                max_tokens=max_tokens,
-                messages=[{"role": "user", "content": prompt}],
-            )
-            block = message.content[0]
-            if block.type != "text":
-                raise RuntimeError(f"Claude API 비텍스트 응답: {block.type}")
-            return block.text
-        except Exception as e:
-            if _is_rate_limit_error(e):
-                print("  ⚠️  Claude rate limit → Gemini fallback으로 전환합니다.")
-            else:
-                raise RuntimeError(f"Claude API 호출 실패: {e}") from e
-    else:
-        print("  ⚠️  ANTHROPIC_API_KEY 없음 → Gemini fallback으로 전환합니다.")
+
+    for attempt in range(1, MAX_RETRY + 1):
+        if api_key:
+            try:
+                client = Anthropic(api_key=api_key)
+                message = client.messages.create(
+                    model="claude-sonnet-4-5-20250929",
+                    max_tokens=max_tokens,
+                    messages=[{"role": "user", "content": prompt}],
+                )
+                block = message.content[0]
+                if block.type != "text":
+                    raise RuntimeError(f"Claude API 비텍스트 응답: {block.type}")
+                return block.text
+            except Exception as e:
+                if _is_rate_limit_error(e):
+                    wait_sec = RETRY_BASE_WAIT * (2 ** (attempt - 1))  # 60 → 120 → 240 → 480초
+                    print(f"  ⚠️  Claude rate limit (시도 {attempt}/{MAX_RETRY}) → {wait_sec}초 대기 후 재시도...")
+                    if attempt < MAX_RETRY:
+                        # ── Rate Limit 알림 ──
+                        _tg_notify(
+                            f"⚠️ *Claude Rate Limit 감지!*\n"
+                            f"🔄 시도 {attempt}/{MAX_RETRY}\n"
+                            f"⏳ *{wait_sec}초* 대기 후 자동 재시도\n"
+                            f"(약 {wait_sec // 60}분 {wait_sec % 60}초)"
+                        )
+                        time.sleep(wait_sec)
+                        _tg_notify(f"🔄 *Rate Limit 대기 완료* — 재시도 중...")
+                        continue
+                    else:
+                        print("  ⚠️  Claude 최대 재시도 초과 → Gemini fallback으로 전환합니다.")
+                        _tg_notify(
+                            f"🔀 *Claude 재시도 한도 초과*\n"
+                            f"→ Gemini 2.5 Flash로 자동 전환합니다"
+                        )
+                        break
+                else:
+                    raise RuntimeError(f"Claude API 호출 실패: {e}") from e
+        else:
+            print("  ⚠️  ANTHROPIC_API_KEY 없음 → Gemini fallback으로 전환합니다.")
+            break
 
     print("  🤖 Gemini 2.5 Flash 호출 중...")
     text = _call_gemini(prompt, max_tokens=max_tokens)
     print("  ✅ Gemini fallback 성공")
     return text
+
+
+def _call_llm(prompt: str, max_tokens: int = 8192) -> str:
+    """외부 호출 인터페이스 — 재시도 로직 포함."""
+    return _call_llm_with_retry(prompt, max_tokens=max_tokens)
 
 
 # ─────────────────────────────────────────────────────────────
@@ -833,6 +903,19 @@ def main() -> None:
     print(f"📡 API 현황: TMDB={'✅' if has_tmdb else '❌'} | YouTube={'✅' if has_youtube else '❌'} | Reddit={'✅' if has_reddit else '❌(공개API사용)'}")
     print()
 
+    total = len(anime_list)
+
+    # ── 작업 시작 알림 ──
+    _tg_notify(
+        f"🚀 *블로그 글 생성 시작*\n"
+        f"📋 총 *{total}개* 글 생성 예정\n"
+        f"⏳ 글 간 딜레이: {INTER_POST_DELAY}초\n"
+        f"⏱ 예상 소요시간: 약 {total * (2 + INTER_POST_DELAY // 60)}~{total * (4 + INTER_POST_DELAY // 60)}분"
+    )
+
+    success_count = 0
+    fail_count = 0
+
     for i, anime in enumerate(anime_list, start=1):
         title_display = (
             anime.get("title_korean")
@@ -844,8 +927,15 @@ def main() -> None:
         title_native = anime.get("title_native") or ""
         slug = slugify(title_display) or f"anime_{i}"
 
-        print(f"[{i}/{len(anime_list)}] {title_display}")
+        print(f"[{i}/{total}] {title_display}")
         print(f"  🔍 다중 API 데이터 수집 중...")
+
+        # ── 글 시작 알림 ──
+        _tg_notify(
+            f"✍️ *[{i}/{total}] 생성 시작*\n"
+            f"📄 {title_display}\n"
+            f"🔍 데이터 수집 중... (TMDB → AniList → YouTube → Reddit)"
+        )
 
         try:
             # 1. TMDB 검색
@@ -891,6 +981,14 @@ def main() -> None:
             image_paths = collect_images(anime, tmdb_data, anilist_details, slug)
             print(f"  ✅ 이미지: {len(image_paths)}개 수집 ({', '.join(image_paths.keys())})")
 
+            # ── LLM 호출 직전 알림 ──
+            _tg_notify(
+                f"🤖 *[{i}/{total}] AI 글 생성 중...*\n"
+                f"📄 {title_display}\n"
+                f"🖼 이미지 {len(image_paths)}개 수집 완료\n"
+                f"✍️ Claude API 호출 중 (30초~2분 소요)"
+            )
+
             # 6. 블로그 글 생성
             print(f"  ✍️  블로그 글 생성 중...")
             body = generate_blog_draft(
@@ -909,16 +1007,68 @@ def main() -> None:
             post_path.write_text(body.strip(), encoding="utf-8")
             word_count = len(body.replace(" ", ""))
             print(f"  ✅ 저장 완료: {post_path} ({word_count:,}자)")
+            success_count += 1
+
+            # ── 글 완료 알림 ──
+            remaining = total - i
+            _tg_notify(
+                f"✅ *[{i}/{total}] 생성 완료!*\n"
+                f"📄 {title_display}\n"
+                f"📝 분량: *{word_count:,}자*\n"
+                f"🖼 이미지: {len(image_paths)}개\n"
+                + (
+                    f"\n⏳ 다음 글까지 *{INTER_POST_DELAY}초* 대기 중...\n"
+                    f"📋 남은 글: *{remaining}개*"
+                    if remaining > 0
+                    else "\n🎉 마지막 글 완료!"
+                )
+            )
 
         except Exception as e:
+            fail_count += 1
             print(f"  ❌ 실패: {e}")
-            raise
+
+            # ── 에러 알림 ──
+            _tg_notify(
+                f"❌ *[{i}/{total}] 생성 실패!*\n"
+                f"📄 {title_display}\n"
+                f"🔴 오류: `{str(e)[:200]}`\n"
+                f"⏩ 다음 글로 넘어갑니다..."
+            )
+            # 실패해도 다음 글로 계속 진행 (raise 제거)
 
         print()
 
-    print(f"🎉 완료: {len(anime_list)}개 글 생성")
+        # ── 글 간 딜레이 (Rate Limit 방지) ──
+        if i < total:
+            remaining = total - i
+            print(f"  ⏳ Rate Limit 방지: {INTER_POST_DELAY}초 대기 후 다음 글 진행... (남은 글: {remaining}개)")
+            # 딜레이 중 카운트다운 알림 (30초 이상일 때만)
+            if INTER_POST_DELAY >= 30:
+                half = INTER_POST_DELAY // 2
+                time.sleep(half)
+                _tg_notify(
+                    f"⏳ *대기 중...* ({half}초 경과 / {INTER_POST_DELAY}초)\n"
+                    f"📋 남은 글: *{remaining}개* — 곧 다음 글 시작합니다"
+                )
+                time.sleep(INTER_POST_DELAY - half)
+            else:
+                time.sleep(INTER_POST_DELAY)
+            print()
+
+    # ── 전체 완료 알림 ──
+    print(f"🎉 완료: {total}개 중 성공 {success_count}개, 실패 {fail_count}개")
     print(f"   이미지: {IMAGES_DIR}")
     print(f"   글: {POSTS_DIR}")
+
+    _tg_notify(
+        f"🎉 *모든 글 생성 완료!*\n\n"
+        f"📊 결과 요약\n"
+        f"✅ 성공: *{success_count}개*\n"
+        f"❌ 실패: *{fail_count}개*\n"
+        f"📁 총 {total}개 처리\n\n"
+        f"📋 초안 확인 후 포스팅을 진행해 주세요!"
+    )
 
 
 def run_revise_mode(revise_path: Path, instruction: str) -> None:

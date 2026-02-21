@@ -23,8 +23,11 @@ import asyncio
 import os
 import subprocess
 import sys
+import time
+import json
 from pathlib import Path
 from datetime import datetime
+from collections import deque
 
 from dotenv import load_dotenv
 
@@ -69,6 +72,98 @@ IMAGES_DIR  = PROJECT_DIR / "output" / "images"
 
 BOT_TOKEN   = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
 ALLOWED_ID  = os.environ.get("TELEGRAM_CHAT_ID", "").strip()   # 허용할 chat_id (보안)
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Rate Limit 방지 작업 큐 시스템
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# 작업 큐: 대기 중인 작업 목록
+_task_queue: deque = deque()
+# 큐 처리 중 여부
+_queue_running: bool = False
+# 글 생성 간격 (초) — .env의 INTER_POST_DELAY와 동일
+QUEUE_DELAY = int(os.environ.get("INTER_POST_DELAY", "30"))
+# 최근 API 호출 타임스탬프 기록 (분당 제한 추적용)
+_api_call_times: deque = deque(maxlen=20)
+
+
+def _check_rate_limit_status() -> dict:
+    """최근 API 호출 빈도 분석 → 현재 Rate Limit 여유 여부 반환."""
+    now = time.time()
+    # 최근 60초 내 호출 수
+    recent_calls = sum(1 for t in _api_call_times if now - t < 60)
+    # 최근 5초 내 호출 수 (burst 감지)
+    burst_calls = sum(1 for t in _api_call_times if now - t < 5)
+    return {
+        "recent_60s": recent_calls,
+        "burst_5s": burst_calls,
+        "safe": recent_calls < 8 and burst_calls < 2,  # 안전 임계값
+        "recommended_delay": max(QUEUE_DELAY, 60 // max(1, (8 - recent_calls))),
+    }
+
+
+def _record_api_call():
+    """API 호출 시 타임스탬프 기록."""
+    _api_call_times.append(time.time())
+
+
+async def _process_queue(app_bot, chat_id: int):
+    """큐에 쌓인 작업을 순차적으로 딜레이를 두고 처리."""
+    global _queue_running
+    if _queue_running:
+        return
+    _queue_running = True
+
+    total = len(_task_queue)
+    completed = 0
+
+    try:
+        while _task_queue:
+            task = _task_queue.popleft()
+            completed += 1
+            remaining = len(_task_queue)
+
+            # 진행 상황 알림
+            await app_bot.send_message(
+                chat_id=chat_id,
+                text=(
+                    f"▶️ *작업 시작* [{completed}/{total}]\n"
+                    f"📄 {task['label']}\n"
+                    f"⏳ 남은 작업: {remaining}개"
+                ),
+                parse_mode="Markdown",
+            )
+
+            # 실제 작업 실행
+            _record_api_call()
+            ok, out = await asyncio.get_event_loop().run_in_executor(
+                None, run_script, task["script"], task.get("args")
+            )
+
+            status_icon = "✅" if ok else "❌"
+            await app_bot.send_message(
+                chat_id=chat_id,
+                text=(
+                    f"{status_icon} *완료* [{completed}/{total}]: {task['label']}\n\n"
+                    f"```\n{out[:600]}\n```"
+                    + (f"\n\n⏳ 다음 작업까지 {QUEUE_DELAY}초 대기 중..." if remaining > 0 else "")
+                ),
+                parse_mode="Markdown",
+            )
+
+            # 다음 작업 전 딜레이 (마지막 작업은 제외)
+            if remaining > 0:
+                await asyncio.sleep(QUEUE_DELAY)
+
+    finally:
+        _queue_running = False
+
+    # 모든 작업 완료 알림
+    await app_bot.send_message(
+        chat_id=chat_id,
+        text=f"🎉 *모든 작업 완료!* (총 {total}개)\nRate Limit 없이 안전하게 처리되었습니다.",
+        parse_mode="Markdown",
+    )
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 보안: 허용된 사용자만 응답
@@ -277,6 +372,18 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             get_status_text(),
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton("🔄 새로고침", callback_data="status"),
+                InlineKeyboardButton("📊 API 상태", callback_data="rl_status"),
+                InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu"),
+            ]]),
+            parse_mode="Markdown",
+        )
+
+    # ── Rate Limit 상태 조회 ──
+    elif data == "rl_status":
+        await query.edit_message_text(
+            _get_queue_status_text(),
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("🔄 새로고침", callback_data="rl_status"),
                 InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu"),
             ]]),
             parse_mode="Markdown",
@@ -301,10 +408,15 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     # ── 글 생성 ──
     elif data == "generate":
         pending = list(POSTS_DIR.glob("*.md")) if POSTS_DIR.exists() else []
+        rl = _check_rate_limit_status()
+        rl_warn = (
+            f"\n⚠️ *최근 60초 내 API 호출 {rl['recent_60s']}회* — 큐 모드 권장"
+            if not rl["safe"] else ""
+        )
         if pending:
             await query.edit_message_text(
                 f"⚠️ 현재 *{len(pending)}개*의 미발행 초안이 있습니다.\n"
-                "기존 초안을 먼저 처리하거나, 계속 생성하겠습니까?",
+                f"기존 초안을 먼저 처리하거나, 계속 생성하겠습니까?{rl_warn}",
                 reply_markup=InlineKeyboardMarkup([
                     [
                         InlineKeyboardButton("▶️ 계속 생성",  callback_data="generate_confirm"),
@@ -315,7 +427,12 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                 parse_mode="Markdown",
             )
         else:
-            await query.edit_message_text("✍️ 블로그 글 생성 중... (1~2분 소요)")
+            await query.edit_message_text(
+                f"✍️ 블로그 글 생성을 시작합니다.\n"
+                f"⏳ 글 간 {QUEUE_DELAY}초 딜레이로 Rate Limit을 방지합니다.{rl_warn}",
+                parse_mode="Markdown",
+            )
+            _record_api_call()
             ok, out = await asyncio.get_event_loop().run_in_executor(
                 None, run_script, "generate_post.py"
             )
@@ -330,7 +447,14 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             )
 
     elif data == "generate_confirm":
-        await query.edit_message_text("✍️ 블로그 글 생성 중... (1~2분 소요)")
+        rl = _check_rate_limit_status()
+        await query.edit_message_text(
+            f"✍️ 블로그 글 생성을 시작합니다.\n"
+            f"⏳ 글 간 {QUEUE_DELAY}초 딜레이로 Rate Limit을 방지합니다.\n"
+            f"📊 최근 60초 API 호출: {rl['recent_60s']}회",
+            parse_mode="Markdown",
+        )
+        _record_api_call()
         ok, out = await asyncio.get_event_loop().run_in_executor(
             None, run_script, "generate_post.py"
         )
@@ -522,6 +646,27 @@ def _wants_summary(text: str) -> bool:
     return any(k in t for k in keywords) or "tell me" in t or "what" in t and "post" in t
 
 
+def _get_queue_status_text() -> str:
+    """현재 큐 상태 및 Rate Limit 현황 반환."""
+    rl = _check_rate_limit_status()
+    queue_count = len(_task_queue)
+    status_icon = "🟢" if rl["safe"] else "🟡"
+    running_text = "🔄 큐 처리 중" if _queue_running else "⏸ 큐 대기 중"
+
+    lines = [
+        f"📊 *Rate Limit & 큐 현황*\n",
+        f"{status_icon} API 상태: {'안전' if rl['safe'] else '주의 (호출 빈번)'}",
+        f"🕐 최근 60초 API 호출: *{rl['recent_60s']}회*",
+        f"⚡ 최근 5초 burst: *{rl['burst_5s']}회*",
+        f"⏳ 권장 딜레이: *{rl['recommended_delay']}초*",
+        f"",
+        f"📋 대기 큐: *{queue_count}개*",
+        f"상태: {running_text}",
+        f"글 간 딜레이: *{QUEUE_DELAY}초*",
+    ]
+    return "\n".join(lines)
+
+
 async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # 허용되지 않은 사용자도 '수신함'을 알리기 위해 짧은 응답 전송
     if not is_allowed(update):
@@ -533,6 +678,28 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     awaiting = context.user_data.get("awaiting")
     text = (update.message.text or "").strip()
+
+    # ── Rate Limit / 큐 상태 조회 ──
+    if any(k in text for k in ("큐", "queue", "rate limit", "rate", "리밋", "limit", "대기 현황", "api 상태")):
+        await update.message.reply_text(
+            _get_queue_status_text(),
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("🔄 새로고침", callback_data="rl_status"),
+                InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu"),
+            ]]),
+            parse_mode="Markdown",
+        )
+        return
+
+    # ── 큐 취소 ──
+    if any(k in text for k in ("큐 취소", "queue cancel", "작업 취소", "취소")):
+        count = len(_task_queue)
+        _task_queue.clear()
+        await update.message.reply_text(
+            f"🗑️ 대기 큐 초기화 완료 — {count}개 작업이 취소되었습니다.",
+            reply_markup=main_menu_keyboard(),
+        )
+        return
 
     # 포스팅 확인 키워드 (post_to_tistory.py가 직접 처리하므로 여기서는 안내만)
     if text in ("인증완료", "포스팅"):
