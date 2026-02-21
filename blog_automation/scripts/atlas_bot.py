@@ -31,6 +31,26 @@ from collections import deque
 
 from dotenv import load_dotenv
 
+# shared_state 연동
+try:
+    from shared_state import (
+        telegram_format_status, telegram_get_activity_log,
+        telegram_get_conflicts, telegram_resolve_conflicts,
+        telegram_add_note, telegram_send_message,
+        ACTOR_CLAUDE, ACTOR_CURSOR,
+    )
+    _SHARED_STATE_OK = True
+except ImportError:
+    _SHARED_STATE_OK = False
+    def telegram_format_status(): return "⚠️ shared_state 모듈 없음"
+    def telegram_get_activity_log(n=15): return "⚠️ shared_state 모듈 없음"
+    def telegram_get_conflicts(unresolved_only=True): return "⚠️ shared_state 모듈 없음"
+    def telegram_resolve_conflicts(): return "⚠️ shared_state 모듈 없음"
+    def telegram_add_note(note): pass
+    def telegram_send_message(to, msg): pass
+    ACTOR_CLAUDE = "claude_code"
+    ACTOR_CURSOR = "cursor_ai"
+
 # python-telegram-bot v20+ 비동기
 try:
     from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -196,6 +216,13 @@ def main_menu_keyboard() -> InlineKeyboardMarkup:
         ],
         [
             InlineKeyboardButton("⚙️ 상태 조회",    callback_data="status"),
+            InlineKeyboardButton("🔗 공유 현황",     callback_data="shared_status"),
+        ],
+        [
+            InlineKeyboardButton("📋 활동 로그",     callback_data="activity_log"),
+            InlineKeyboardButton("🚨 충돌 확인",     callback_data="conflicts"),
+        ],
+        [
             InlineKeyboardButton("❓ 도움말",        callback_data="help"),
         ],
     ]
@@ -385,6 +412,92 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton("🔄 새로고침", callback_data="rl_status"),
                 InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu"),
+            ]]),
+            parse_mode="Markdown",
+        )
+
+    # ── Claude Code ↔ Bot 공유 현황 ──
+    elif data == "shared_status":
+        try:
+            status_text = telegram_format_status()
+        except Exception as e:
+            status_text = f"⚠️ 상태 읽기 실패: {e}"
+        await query.edit_message_text(
+            status_text,
+            reply_markup=InlineKeyboardMarkup([
+                [
+                    InlineKeyboardButton("🔄 새로고침",  callback_data="shared_status"),
+                    InlineKeyboardButton("📋 활동 로그", callback_data="activity_log"),
+                ],
+                [InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu")],
+            ]),
+            parse_mode="Markdown",
+        )
+
+    # ── 활동 로그 ──
+    elif data == "activity_log":
+        try:
+            log_text = telegram_get_activity_log(15)
+        except Exception as e:
+            log_text = f"⚠️ 로그 읽기 실패: {e}"
+        await query.edit_message_text(
+            log_text,
+            reply_markup=InlineKeyboardMarkup([
+                [
+                    InlineKeyboardButton("🔄 새로고침",   callback_data="activity_log"),
+                    InlineKeyboardButton("🔗 공유 현황",  callback_data="shared_status"),
+                ],
+                [InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu")],
+            ]),
+            parse_mode="Markdown",
+        )
+
+    # ── 충돌 확인 ──
+    elif data == "conflicts":
+        try:
+            conflict_text = telegram_get_conflicts(unresolved_only=True)
+        except Exception as e:
+            conflict_text = f"⚠️ 충돌 확인 실패: {e}"
+        await query.edit_message_text(
+            conflict_text,
+            reply_markup=InlineKeyboardMarkup([
+                [
+                    InlineKeyboardButton("✅ 충돌 해제",   callback_data="resolve_conflicts"),
+                    InlineKeyboardButton("🔄 새로고침",    callback_data="conflicts"),
+                ],
+                [
+                    InlineKeyboardButton("🔗 공유 현황",  callback_data="shared_status"),
+                    InlineKeyboardButton("🏠 메인 메뉴",  callback_data="menu"),
+                ],
+            ]),
+            parse_mode="Markdown",
+        )
+
+    # ── 충돌 해제 ──
+    elif data == "resolve_conflicts":
+        try:
+            result_text = telegram_resolve_conflicts()
+        except Exception as e:
+            result_text = f"⚠️ 충돌 해제 실패: {e}"
+        await query.edit_message_text(
+            result_text,
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("🚨 충돌 확인",  callback_data="conflicts"),
+                InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu"),
+            ]]),
+            parse_mode="Markdown",
+        )
+
+    # ── Claude Code / Cursor AI 에 메시지 전달 ──
+    elif data.startswith("msg_to_"):
+        target = data.replace("msg_to_", "")
+        context.user_data["awaiting"] = f"msg_to_{target}"
+        label = {"claude_code": "🖥 Claude Code", "cursor_ai": "🎯 Cursor AI"}.get(target, target)
+        await query.edit_message_text(
+            f"💬 *{label}* 에 전달할 메시지를 입력하세요:\n\n"
+            f"다음 작업 시작 시 해당 도구가 메시지를 확인합니다.",
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("❌ 취소", callback_data="menu")
             ]]),
             parse_mode="Markdown",
         )
@@ -678,6 +791,90 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     awaiting = context.user_data.get("awaiting")
     text = (update.message.text or "").strip()
+
+    # ── 충돌 해제 ──
+    if any(k in text for k in ("충돌 해제", "conflict resolve", "충돌해제", "강제 진행")):
+        try:
+            result = telegram_resolve_conflicts()
+        except Exception as e:
+            result = f"⚠️ 충돌 해제 실패: {e}"
+        await update.message.reply_text(
+            result,
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("🚨 충돌 확인",  callback_data="conflicts"),
+                InlineKeyboardButton("🔗 공유 현황", callback_data="shared_status"),
+                InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu"),
+            ]]),
+            parse_mode="Markdown",
+        )
+        return
+
+    # ── 충돌 현황 조회 ──
+    if any(k in text for k in ("충돌", "conflict", "충돌 확인")):
+        try:
+            conflict_text = telegram_get_conflicts(unresolved_only=True)
+        except Exception as e:
+            conflict_text = f"⚠️ 충돌 확인 실패: {e}"
+        await update.message.reply_text(
+            conflict_text,
+            reply_markup=InlineKeyboardMarkup([
+                [
+                    InlineKeyboardButton("✅ 충돌 해제",  callback_data="resolve_conflicts"),
+                    InlineKeyboardButton("🔄 새로고침",   callback_data="conflicts"),
+                ],
+                [InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu")],
+            ]),
+            parse_mode="Markdown",
+        )
+        return
+
+    # ── Claude Code 공유 현황 조회 ──
+    if any(k in text for k in ("공유 현황", "클로드 상태", "claude 상태", "코드 현황", "지금 뭐해", "뭐하고 있어")):
+        try:
+            status_text = telegram_format_status()
+        except Exception as e:
+            status_text = f"⚠️ 상태 읽기 실패: {e}"
+        await update.message.reply_text(
+            status_text,
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("🔄 새로고침",  callback_data="shared_status"),
+                InlineKeyboardButton("📋 활동 로그", callback_data="activity_log"),
+                InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu"),
+            ]]),
+            parse_mode="Markdown",
+        )
+        return
+
+    # ── Claude Code에 메모 전달 ──
+    if text.startswith("메모:") or text.startswith("note:"):
+        note_body = text.split(":", 1)[1].strip()
+        if note_body:
+            try:
+                telegram_add_note(note_body)
+                await update.message.reply_text(
+                    f"📝 *Claude Code에 메모 전달 완료*\n\n_{note_body}_\n\n"
+                    f"Claude Code가 다음 작업 시 확인합니다.",
+                    parse_mode="Markdown",
+                )
+            except Exception as e:
+                await update.message.reply_text(f"⚠️ 메모 전달 실패: {e}")
+        return
+
+    # ── 활동 로그 조회 ──
+    if any(k in text for k in ("활동 로그", "activity log", "로그", "작업 내역")):
+        try:
+            log_text = telegram_get_activity_log(15)
+        except Exception as e:
+            log_text = f"⚠️ 로그 읽기 실패: {e}"
+        await update.message.reply_text(
+            log_text,
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("🔗 공유 현황", callback_data="shared_status"),
+                InlineKeyboardButton("🏠 메인 메뉴", callback_data="menu"),
+            ]]),
+            parse_mode="Markdown",
+        )
+        return
 
     # ── Rate Limit / 큐 상태 조회 ──
     if any(k in text for k in ("큐", "queue", "rate limit", "rate", "리밋", "limit", "대기 현황", "api 상태")):

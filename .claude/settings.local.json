@@ -57,7 +57,8 @@
       "Bash(git remote add:*)",
       "Bash(git fetch:*)",
       "Bash(git checkout:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(git -C /Users/stevemacbook/Projects/geekbrox log --oneline -5)"
     ]
   }
 }

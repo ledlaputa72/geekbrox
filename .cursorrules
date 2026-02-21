@@ -3,6 +3,56 @@
 
 ---
 
+## 🔗 3-Way 공유 상태 시스템 (필수 준수)
+
+이 프로젝트는 **Claude Code, Cursor AI, Telegram Bot** 3개 도구가 협력하며,
+`output/shared_state.json` 파일을 통해 서로의 작업 상태를 실시간 공유한다.
+
+### Cursor AI 필수 행동 규칙
+
+**1. 작업 시작 시 반드시 상태 등록:**
+```bash
+python3 blog_automation/scripts/shared_state.py cursor start "<작업설명>" <수정할파일1> <수정할파일2>
+```
+예시:
+```bash
+python3 blog_automation/scripts/shared_state.py cursor start "atlas_bot.py 큐 시스템 수정" blog_automation/scripts/atlas_bot.py
+```
+
+**2. 작업 완료 시 반드시 완료 등록:**
+```bash
+python3 blog_automation/scripts/shared_state.py cursor done "완료 설명"
+```
+
+**3. 오류 발생 시:**
+```bash
+python3 blog_automation/scripts/shared_state.py cursor error "오류 내용"
+```
+
+**4. 현재 상태 확인 (작업 전 필수 확인):**
+```bash
+python3 blog_automation/scripts/shared_state.py status
+```
+
+**5. 메모 남기기:**
+```bash
+python3 blog_automation/scripts/shared_state.py cursor note "작업 중 발견한 사항"
+```
+
+### 충돌 발생 시 동작
+- `cursor start` 명령 결과에 `conflicts` 배열이 비어있지 않으면 → **작업 중단**
+- `severity: critical` → 즉시 중단, Steve에게 텔레그램 알림 자동 전송됨
+- `severity: warning` → Steve 판단 후 진행 (`충돌 해제` 텔레그램 입력 후 재시도)
+
+### 메시지 확인 (작업 시작 전 다른 도구의 메시지 확인)
+```bash
+python3 blog_automation/scripts/shared_state.py cursor messages
+```
+
+---
+
+---
+
 ## 📁 프로젝트 구조 및 저장소
 
 ```

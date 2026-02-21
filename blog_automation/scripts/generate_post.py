@@ -36,6 +36,22 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# shared_state 연동 (없으면 조용히 스킵)
+try:
+    from shared_state import (
+        claude_set_task, claude_update_progress, claude_set_waiting,
+        claude_set_done, claude_set_error, claude_idle,
+    )
+    _STATE_OK = True
+except ImportError:
+    _STATE_OK = False
+    def claude_set_task(*a, **k): pass
+    def claude_update_progress(*a, **k): pass
+    def claude_set_waiting(*a, **k): pass
+    def claude_set_done(*a, **k): pass
+    def claude_set_error(*a, **k): pass
+    def claude_idle(*a, **k): pass
+
 
 # ─────────────────────────────────────────────────────────────
 # 텔레그램 실시간 알림 (generate_post.py 전용)
@@ -68,10 +84,10 @@ def _tg_notify(text: str) -> None:
         pass  # 알림 실패는 조용히 무시 (메인 작업 영향 없음)
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-OUTPUT_DIR = SCRIPT_DIR.parent.parent / "output"
-INPUT_JSON = OUTPUT_DIR / "seasonal_top_anime.json"
+OUTPUT_DIR = SCRIPT_DIR.parent.parent / "teams/content/workspace/blog"
+INPUT_JSON = OUTPUT_DIR / "data/seasonal_top_anime.json"
 IMAGES_DIR = OUTPUT_DIR / "images"
-POSTS_DIR = OUTPUT_DIR / "posts"
+POSTS_DIR = OUTPUT_DIR / "drafts"
 
 SEASON_KR = {"WINTER": "겨울", "SPRING": "봄", "SUMMER": "여름", "FALL": "가을"}
 
@@ -905,7 +921,12 @@ def main() -> None:
 
     total = len(anime_list)
 
-    # ── 작업 시작 알림 ──
+    # ── 작업 시작 알림 + 상태 기록 ──
+    claude_set_task(
+        action=f"블로그 글 생성 ({total}개)",
+        detail=f"글 간 딜레이 {INTER_POST_DELAY}초",
+        progress=f"0/{total}",
+    )
     _tg_notify(
         f"🚀 *블로그 글 생성 시작*\n"
         f"📋 총 *{total}개* 글 생성 예정\n"
@@ -930,7 +951,11 @@ def main() -> None:
         print(f"[{i}/{total}] {title_display}")
         print(f"  🔍 다중 API 데이터 수집 중...")
 
-        # ── 글 시작 알림 ──
+        # ── 글 시작 알림 + 상태 기록 ──
+        claude_update_progress(
+            progress=f"{i}/{total}",
+            detail=f"[{i}/{total}] {title_display} — 데이터 수집 중",
+        )
         _tg_notify(
             f"✍️ *[{i}/{total}] 생성 시작*\n"
             f"📄 {title_display}\n"
@@ -981,7 +1006,11 @@ def main() -> None:
             image_paths = collect_images(anime, tmdb_data, anilist_details, slug)
             print(f"  ✅ 이미지: {len(image_paths)}개 수집 ({', '.join(image_paths.keys())})")
 
-            # ── LLM 호출 직전 알림 ──
+            # ── LLM 호출 직전 알림 + 상태 기록 ──
+            claude_update_progress(
+                progress=f"{i}/{total}",
+                detail=f"[{i}/{total}] {title_display} — Claude API 호출 중",
+            )
             _tg_notify(
                 f"🤖 *[{i}/{total}] AI 글 생성 중...*\n"
                 f"📄 {title_display}\n"
@@ -1027,6 +1056,7 @@ def main() -> None:
         except Exception as e:
             fail_count += 1
             print(f"  ❌ 실패: {e}")
+            claude_set_error(f"[{i}/{total}] {title_display}: {str(e)[:100]}")
 
             # ── 에러 알림 ──
             _tg_notify(
@@ -1043,6 +1073,7 @@ def main() -> None:
         if i < total:
             remaining = total - i
             print(f"  ⏳ Rate Limit 방지: {INTER_POST_DELAY}초 대기 후 다음 글 진행... (남은 글: {remaining}개)")
+            claude_set_waiting(reason="Rate Limit 방지 딜레이", wait_sec=INTER_POST_DELAY)
             # 딜레이 중 카운트다운 알림 (30초 이상일 때만)
             if INTER_POST_DELAY >= 30:
                 half = INTER_POST_DELAY // 2
@@ -1056,8 +1087,10 @@ def main() -> None:
                 time.sleep(INTER_POST_DELAY)
             print()
 
-    # ── 전체 완료 알림 ──
-    print(f"🎉 완료: {total}개 중 성공 {success_count}개, 실패 {fail_count}개")
+    # ── 전체 완료 알림 + 상태 기록 ──
+    result_str = f"성공 {success_count}개 / 실패 {fail_count}개 (총 {total}개)"
+    claude_set_done(result=result_str)
+    print(f"🎉 완료: {result_str}")
     print(f"   이미지: {IMAGES_DIR}")
     print(f"   글: {POSTS_DIR}")
 
