@@ -122,6 +122,7 @@ def fetch_seasonal_top_anime(season: str, year: int) -> list[dict]:
             or cover.get("medium")
         )
         result.append({
+            "anilist_id": m.get("id"),  # AniList Media ID (상세 조회용)
             "title_korean": extract_korean_from_synonyms(m.get("synonyms")),
             "title_english": title.get("english") or title.get("romaji"),
             "title_native": title.get("native"),
