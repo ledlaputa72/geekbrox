@@ -570,6 +570,17 @@ def generate_blog_draft(
         for r in anilist_details.get("recommendations", [])
     ) or ""
 
+    # MAL 평점/순위 정보
+    mal_score      = anime.get("mal_score")       # 예: 8.45
+    mal_rank       = anime.get("mal_rank")         # 예: 123
+    mal_popularity = anime.get("mal_popularity")   # 예: 456
+    mal_members    = anime.get("mal_members")      # 예: 1234567
+    mal_episodes   = anime.get("mal_episodes")     # 예: 24
+    mal_score_str  = f"{mal_score}/10" if mal_score else "정보 없음"
+    mal_rank_str   = f"#{mal_rank:,}" if mal_rank else "정보 없음"
+    mal_pop_str    = f"#{mal_popularity:,}" if mal_popularity else "정보 없음"
+    mal_mem_str    = f"{mal_members:,}명" if mal_members else "정보 없음"
+
     # TMDB 추가 정보
     tmdb_overview  = tmdb_data.get("overview_ko", "")
     tmdb_vote      = tmdb_data.get("vote_average", 0)
@@ -647,6 +658,8 @@ def generate_blog_draft(
 - **방영일**: {tmdb_air_date or "2026년 방영"}
 - **방영국**: {tmdb_networks or "일본"}
 - **AniList 평점**: {anime.get("average_score") or "-"}/100
+- **MAL 평점**: {mal_score_str} | **MAL 순위**: {mal_rank_str} | **MAL 인기순위**: {mal_pop_str} | **MAL 멤버**: {mal_mem_str}
+- **에피소드 수**: {mal_episodes or "정보 없음"}화
 - **TMDB 평점**: {f"{tmdb_vote:.1f}/10 ({tmdb_vote_cnt:,}명 평가)" if tmdb_vote else "정보 없음"}
 
 ## 줄거리 (AniList)
@@ -696,8 +709,9 @@ def generate_blog_draft(
 - 핵심 매력 한 줄 요약
 
 ## 📋 기본 정보
-- 제목, 장르, 제작사, 방영일, 시즌/에피소드 정보
-- AniList/TMDB 평점 비교
+- 제목, 장르, 제작사, 방영일, 에피소드 수
+- AniList / MAL / TMDB 3사 평점 비교 표로 정리
+- MAL 순위 및 멤버 수 (인기 지표로 활용)
 - 스트리밍 서비스 안내
 
 [포스터 이미지: {poster_md.strip() if poster_md else "없음"}]
