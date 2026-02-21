@@ -814,6 +814,116 @@ def set_category(driver: webdriver.Chrome, category_name: str = "애니소개 �
     return False
 
 
+def switch_to_markdown_mode(driver: webdriver.Chrome) -> bool:
+    """티스토리 에디터 모드를 '마크다운'으로 전환. 성공 시 True.
+    
+    티스토리 에디터는 우측 상단에 '기본모드/마크다운/HTML' 모드 선택 드롭다운이 있음.
+    Markdown 문법(##, **, [] 등)이 올바르게 렌더링되려면 마크다운 모드로 전환 필요.
+    """
+    print("  에디터 모드 → 마크다운 전환 시도")
+    
+    # 1단계: 모드 선택 드롭다운 버튼 찾기 및 클릭
+    mode_button_selectors = [
+        # 텍스트로 찾기
+        (By.XPATH, "//button[contains(., '기본모드')]"),
+        (By.XPATH, "//button[contains(., '모드')]"),
+        (By.XPATH, "//div[contains(@class, 'mode')]//button"),
+        # class/id로 찾기
+        (By.CSS_SELECTOR, "button[class*='mode']"),
+        (By.CSS_SELECTOR, "button[class*='editor-mode']"),
+        (By.CSS_SELECTOR, "[class*='mode-selector'] button"),
+        (By.CSS_SELECTOR, "[class*='mode-dropdown'] button"),
+        # aria-label로 찾기
+        (By.CSS_SELECTOR, "button[aria-label*='모드']"),
+        (By.CSS_SELECTOR, "button[aria-label*='에디터']"),
+        # 드롭다운 트리거 일반 패턴
+        (By.CSS_SELECTOR, "[role='button'][class*='mode']"),
+        (By.CSS_SELECTOR, ".editor-toolbar button"),
+    ]
+    
+    mode_btn = None
+    for by, sel in mode_button_selectors:
+        try:
+            btn = WebDriverWait(driver, 3).until(EC.presence_of_element_located((by, sel)))
+            # 버튼이 화면에 보이고 클릭 가능한지 확인
+            if btn.is_displayed() and btn.is_enabled():
+                mode_btn = btn
+                print(f"    모드 버튼 발견: {sel}")
+                break
+        except (TimeoutException, NoSuchElementException):
+            continue
+    
+    if not mode_btn:
+        print("  ⚠️ 모드 선택 버튼 미발견 - 기본 모드로 진행")
+        return False
+    
+    # 드롭다운 열기
+    try:
+        driver.execute_script("arguments[0].scrollIntoView({block:'center'});", mode_btn)
+        time.sleep(0.3)
+        mode_btn.click()
+        time.sleep(1.5)
+        print("    모드 드롭다운 열림")
+    except Exception as e:
+        print(f"  ⚠️ 모드 버튼 클릭 실패: {e}")
+        return False
+    
+    # 2단계: '마크다운' 옵션 찾기 및 클릭
+    markdown_option_selectors = [
+        # 텍스트 정확히 일치
+        (By.XPATH, "//button[normalize-space(.)='마크다운']"),
+        (By.XPATH, "//a[normalize-space(.)='마크다운']"),
+        (By.XPATH, "//li[normalize-space(.)='마크다운']"),
+        (By.XPATH, "//div[normalize-space(.)='마크다운']"),
+        # 텍스트 부분 일치
+        (By.XPATH, "//button[contains(., '마크다운')]"),
+        (By.XPATH, "//a[contains(., '마크다운')]"),
+        (By.XPATH, "//li[contains(., '마크다운')]"),
+        (By.XPATH, "//*[@role='option' and contains(., '마크다운')]"),
+        (By.XPATH, "//*[@role='menuitem' and contains(., '마크다운')]"),
+        # data 속성으로 찾기
+        (By.CSS_SELECTOR, "[data-mode='markdown']"),
+        (By.CSS_SELECTOR, "[data-value='markdown']"),
+        (By.CSS_SELECTOR, "button[value='markdown']"),
+        # class로 찾기
+        (By.CSS_SELECTOR, ".mode-markdown"),
+        (By.CSS_SELECTOR, "[class*='markdown']"),
+    ]
+    
+    for by, sel in markdown_option_selectors:
+        try:
+            opt = WebDriverWait(driver, 3).until(EC.element_to_be_clickable((by, sel)))
+            opt.click()
+            time.sleep(1)
+            print("  ✅ 마크다운 모드로 전환 완료")
+            return True
+        except (TimeoutException, NoSuchElementException):
+            continue
+    
+    # JS 폴백: DOM에서 '마크다운' 텍스트를 가진 클릭 가능 요소 탐색
+    try:
+        md_el = driver.execute_script("""
+            var all = document.querySelectorAll('button, a, li, div, span, [role="option"], [role="menuitem"]');
+            for (var i = 0; i < all.length; i++) {
+                var t = (all[i].innerText || all[i].textContent || '').trim();
+                if (t === '마크다운' || t === 'Markdown' || t === 'markdown') {
+                    if (all[i].offsetParent !== null) return all[i];
+                }
+            }
+            return null;
+        """)
+        if md_el:
+            md_el.click()
+            time.sleep(1)
+            print("  ✅ 마크다운 모드로 전환 완료 (JS 폴백)")
+            return True
+    except Exception:
+        pass
+    
+    print("  ⚠️ 마크다운 옵션 미발견 - 기본 모드로 진행")
+    return False
+
+
 def upload_image_to_editor(driver: webdriver.Chrome, img_path: Path) -> bool:
     """에디터 본문 맨 앞에 이미지를 삽입. Tistory TinyMCE 에디터 이미지 업로드 UI 활용.
     성공 시 True.
@@ -1029,6 +1139,11 @@ def write_post(driver: webdriver.Chrome, title: str, body: str,
         if not cat_ok:
             print(f"  ⚠️ 카테고리 설정 실패 - 계속 진행")
         time.sleep(1)
+
+    # ── 에디터 모드 → 마크다운 전환 ──
+    dismiss_alert_if_present(driver)
+    switch_to_markdown_mode(driver)
+    time.sleep(1)
 
     # ── 이미지 업로드 (본문 맨 앞에 삽입) ──
     if img_path and img_path.exists():
