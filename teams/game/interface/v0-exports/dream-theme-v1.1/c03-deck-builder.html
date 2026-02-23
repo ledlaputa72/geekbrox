@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Collector - Deck Builder</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #1A1A2E;
+      color: #FFFFFF;
+      overflow: hidden;
+    }
+    #root {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const getRarityGradient = (rarity) => {
+      const gradients = {
+        Common: 'linear-gradient(135deg, #AAAAAA 0%, #CCCCCC 100%)',
+        Uncommon: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+        Rare: 'linear-gradient(135deg, #2196F3 0%, #64B5F6 100%)',
+        Epic: 'linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%)',
+        Legendary: 'linear-gradient(135deg, #FFC107 0%, #FFD54F 100%)'
+      };
+      return gradients[rarity];
+    };
+
+    const generateCards = () => {
+      const rarities = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'];
+      const types = ['Attack', 'Defense', 'Collection', 'Synergy'];
+      const cards = [];
+      
+      for (let i = 1; i <= 30; i++) {
+        const rarity = rarities[Math.floor(Math.random() * rarities.length)];
+        cards.push({
+          id: i,
+          name: `Card ${i}`,
+          cost: Math.floor(Math.random() * 5) + 1,
+          type: types[Math.floor(Math.random() * types.length)],
+          rarity: rarity,
+          owned: true
+        });
+      }
+      return cards;
+    };
+
+    const DeckBuilder = () => {
+      const [availableCards, setAvailableCards] = useState([]);
+      const [deck, setDeck] = useState([]);
+      const [selectedCard, setSelectedCard] = useState(null);
+      const maxDeckSize = 12;
+
+      useEffect(() => {
+        setAvailableCards(generateCards());
+      }, []);
+
+      const addToDeck = (card) => {
+        if (deck.length < maxDeckSize && !deck.find(c => c.id === card.id)) {
+          setDeck([...deck, card]);
+        }
+      };
+
+      const removeFromDeck = (cardId) => {
+        setDeck(deck.filter(c => c.id !== cardId));
+      };
+
+      const deckStats = deck.reduce((acc, card) => {
+        acc.dps += card.type === 'Attack' ? 10 : 0;
+        acc.totalCost += card.cost;
+        return acc;
+      }, { dps: 0, totalCost: 0 });
+
+      const avgCost = deck.length > 0 ? (deckStats.totalCost / deck.length).toFixed(1) : 0;
+
+      return (
+        <div style={{
+          width: '390px',
+          height: '844px',
+          background: '#1A1A2E',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          {/* Header */}
+          <div style={{
+            height: '60px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 20px',
+            background: '#2C2C3E'
+          }}>
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: '#FFFFFF',
+              fontSize: '24px',
+              cursor: 'pointer'
+            }}>←</button>
+            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Deck Builder</div>
+            <button style={{
+              background: deck.length >= 8 ? '#5A7FC0' : '#555555',
+              border: 'none',
+              color: '#FFFFFF',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              cursor: deck.length >= 8 ? 'pointer' : 'not-allowed',
+              fontFamily: 'Nunito',
+              fontWeight: 'bold'
+            }}>
+              💾 Save
+            </button>
+          </div>
+
+          {/* Deck Summary Bar */}
+          <div style={{
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: '#2C2C3E',
+            fontSize: '14px'
+          }}>
+            Current deck ({deck.length}/{maxDeckSize}): DPS: {deckStats.dps} | Avg cost: {avgCost}
+          </div>
+
+          {/* Current Deck Area */}
+          <div style={{
+            height: '120px',
+            padding: '10px 20px',
+            overflowX: 'auto',
+            display: 'flex',
+            gap: '8px',
+            alignItems: 'center'
+          }}>
+            {deck.map(card => (
+              <div
+                key={card.id}
+                onClick={() => removeFromDeck(card.id)}
+                style={{
+                  minWidth: '64px',
+                  height: '90px',
+                  background: getRarityGradient(card.rarity),
+                  borderRadius: '8px',
+                  padding: '6px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                }}
+              >
+                <div style={{
+                  position: 'absolute',
+                  top: '4px',
+                  right: '4px',
+                  width: '16px',
+                  height: '16px',
+                  borderRadius: '50%',
+                  background: '#1A1A2E',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '8px',
+                  fontWeight: 'bold'
+                }}>
+                  {card.cost}
+                </div>
+                <div style={{
+                  fontSize: '9px',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  marginTop: '16px'
+                }}>
+                  {card.name}
+                </div>
+              </div>
+            ))}
+
+            {/* Empty Slots */}
+            {[...Array(maxDeckSize - deck.length)].map((_, i) => (
+              <div
+                key={`empty-${i}`}
+                style={{
+                  minWidth: '64px',
+                  height: '90px',
+                  border: '2px dashed #555555',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '24px',
+                  color: '#555555'
+                }}
+              >
+                +
+              </div>
+            ))}
+          </div>
+
+          {/* Filter Bar */}
+          <div style={{
+            height: '50px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            padding: '0 20px'
+          }}>
+            <button style={{
+              padding: '8px 16px',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#5A7FC0',
+              color: '#FFFFFF',
+              fontFamily: 'Nunito',
+              cursor: 'pointer'
+            }}>
+              Filter ▼
+            </button>
+            <button style={{
+              padding: '8px 16px',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#5A7FC0',
+              color: '#FFFFFF',
+              fontFamily: 'Nunito',
+              cursor: 'pointer'
+            }}>
+              Sort ▼
+            </button>
+            <button style={{
+              padding: '8px 16px',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#5A7FC0',
+              color: '#FFFFFF',
+              fontFamily: 'Nunito',
+              cursor: 'pointer'
+            }}>
+              🔍 Search
+            </button>
+          </div>
+
+          {/* Available Cards Grid */}
+          <div style={{
+            height: 'calc(844px - 270px)',
+            overflowY: 'auto',
+            padding: '20px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '12px'
+          }}>
+            {availableCards.map(card => {
+              const inDeck = deck.find(c => c.id === card.id);
+              return (
+                <div
+                  key={card.id}
+                  onClick={() => !inDeck && addToDeck(card)}
+                  style={{
+                    width: '100px',
+                    height: '140px',
+                    background: getRarityGradient(card.rarity),
+                    borderRadius: '12px',
+                    padding: '8px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    cursor: inDeck ? 'not-allowed' : 'pointer',
+                    position: 'relative',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                    opacity: inDeck ? 0.5 : 1
+                  }}
+                >
+                  {/* Cost Badge */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '8px',
+                    right: '8px',
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    background: '#1A1A2E',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '10px',
+                    fontWeight: 'bold'
+                  }}>
+                    {card.cost}
+                  </div>
+
+                  {/* Card Name */}
+                  <div style={{
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    marginTop: '20px',
+                    textAlign: 'center'
+                  }}>
+                    {card.name}
+                  </div>
+
+                  {/* Type Icon & Checkmark */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <div style={{ fontSize: '16px' }}>
+                      {card.type === 'Attack' ? '⚔️' : 
+                       card.type === 'Defense' ? '🛡' :
+                       card.type === 'Collection' ? '💎' : '✨'}
+                    </div>
+                    <div style={{ fontSize: '16px', color: '#4CAF50' }}>
+                      ✓
+                    </div>
+                  </div>
+
+                  {/* In Deck Label */}
+                  {inDeck && (
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '8px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      background: 'rgba(0,0,0,0.7)',
+                      padding: '2px 8px',
+                      borderRadius: '8px',
+                      fontSize: '10px'
+                    }}>
+                      In Deck
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<DeckBuilder />, document.getElementById('root'));
+  </script>
+</body>
+</html>
