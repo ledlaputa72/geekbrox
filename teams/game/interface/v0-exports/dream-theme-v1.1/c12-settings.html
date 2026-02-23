@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Collector - Settings</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #1A1A2E;
+      color: #FFFFFF;
+      overflow: hidden;
+    }
+    #root {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState } = React;
+
+    const Settings = () => {
+      const [masterVolume, setMasterVolume] = useState(80);
+      const [musicVolume, setMusicVolume] = useState(70);
+      const [sfxVolume, setSfxVolume] = useState(60);
+      const [particleEffects, setParticleEffects] = useState(true);
+      const [screenShake, setScreenShake] = useState(true);
+      const [language, setLanguage] = useState('EN');
+
+      const [playerInfo] = useState({
+        name: 'Player',
+        accountId: 'DC-2026-1234',
+        playTime: '24h 35m'
+      });
+
+      return (
+        <div style={{
+          width: '390px',
+          height: '844px',
+          background: '#1A1A2E',
+          overflow: 'hidden'
+        }}>
+          {/* Header */}
+          <div style={{
+            height: '60px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 20px',
+            background: '#2C2C3E'
+          }}>
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: '#FFFFFF',
+              fontSize: '24px',
+              cursor: 'pointer'
+            }}>←</button>
+            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Settings</div>
+            <div style={{ width: '24px' }}></div>
+          </div>
+
+          {/* Content */}
+          <div style={{
+            height: 'calc(844px - 60px)',
+            overflowY: 'auto',
+            padding: '20px'
+          }}>
+            {/* Audio Section */}
+            <div style={{
+              background: '#2C2C3E',
+              borderRadius: '16px',
+              padding: '20px',
+              marginBottom: '20px'
+            }}>
+              <div style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                🔊 Audio
+              </div>
+
+              {/* Master Volume */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginBottom: '8px'
+                }}>
+                  <span style={{ fontSize: '14px' }}>Master Volume</span>
+                  <span style={{ fontSize: '14px', color: '#7B9EF0', fontWeight: 'bold' }}>
+                    {masterVolume}%
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={masterVolume}
+                  onChange={(e) => setMasterVolume(Number(e.target.value))}
+                  style={{
+                    width: '100%',
+                    height: '8px',
+                    borderRadius: '4px',
+                    background: `linear-gradient(to right, #7B9EF0 0%, #7B9EF0 ${masterVolume}%, #555555 ${masterVolume}%, #555555 100%)`,
+                    outline: 'none',
+                    appearance: 'none',
+                    cursor: 'pointer'
+                  }}
+                />
+              </div>
+
+              {/* Music Volume */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginBottom: '8px'
+                }}>
+                  <span style={{ fontSize: '14px' }}>Music Volume</span>
+                  <span style={{ fontSize: '14px', color: '#7B9EF0', fontWeight: 'bold' }}>
+                    {musicVolume}%
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={musicVolume}
+                  onChange={(e) => setMusicVolume(Number(e.target.value))}
+                  style={{
+                    width: '100%',
+                    height: '8px',
+                    borderRadius: '4px',
+                    background: `linear-gradient(to right, #7B9EF0 0%, #7B9EF0 ${musicVolume}%, #555555 ${musicVolume}%, #555555 100%)`,
+                    outline: 'none',
+                    appearance: 'none',
+                    cursor: 'pointer'
+                  }}
+                />
+              </div>
+
+              {/* SFX Volume */}
+              <div>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginBottom: '8px'
+                }}>
+                  <span style={{ fontSize: '14px' }}>SFX Volume</span>
+                  <span style={{ fontSize: '14px', color: '#7B9EF0', fontWeight: 'bold' }}>
+                    {sfxVolume}%
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={sfxVolume}
+                  onChange={(e) => setSfxVolume(Number(e.target.value))}
+                  style={{
+                    width: '100%',
+                    height: '8px',
+                    borderRadius: '4px',
+                    background: `linear-gradient(to right, #7B9EF0 0%, #7B9EF0 ${sfxVolume}%, #555555 ${sfxVolume}%, #555555 100%)`,
+                    outline: 'none',
+                    appearance: 'none',
+                    cursor: 'pointer'
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Display Section */}
+            <div style={{
+              background: '#2C2C3E',
+              borderRadius: '16px',
+              padding: '20px',
+              marginBottom: '20px'
+            }}>
+              <div style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                🎨 Display
+              </div>
+
+              {/* Particle Effects */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '16px'
+              }}>
+                <span style={{ fontSize: '14px' }}>Particle Effects</span>
+                <button
+                  onClick={() => setParticleEffects(!particleEffects)}
+                  style={{
+                    width: '56px',
+                    height: '32px',
+                    borderRadius: '16px',
+                    border: 'none',
+                    background: particleEffects ? '#4CAF50' : '#555555',
+                    position: 'relative',
+                    cursor: 'pointer',
+                    transition: 'background 0.3s'
+                  }}
+                >
+                  <div style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    background: '#FFFFFF',
+                    position: 'absolute',
+                    top: '4px',
+                    left: particleEffects ? '28px' : '4px',
+                    transition: 'left 0.3s',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                  }} />
+                </button>
+              </div>
+
+              {/* Screen Shake */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}>
+                <span style={{ fontSize: '14px' }}>Screen Shake</span>
+                <button
+                  onClick={() => setScreenShake(!screenShake)}
+                  style={{
+                    width: '56px',
+                    height: '32px',
+                    borderRadius: '16px',
+                    border: 'none',
+                    background: screenShake ? '#4CAF50' : '#555555',
+                    position: 'relative',
+                    cursor: 'pointer',
+                    transition: 'background 0.3s'
+                  }}
+                >
+                  <div style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    background: '#FFFFFF',
+                    position: 'absolute',
+                    top: '4px',
+                    left: screenShake ? '28px' : '4px',
+                    transition: 'left 0.3s',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                  }} />
+                </button>
+              </div>
+            </div>
+
+            {/* Account Section */}
+            <div style={{
+              background: '#2C2C3E',
+              borderRadius: '16px',
+              padding: '20px',
+              marginBottom: '20px'
+            }}>
+              <div style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                👤 Account
+              </div>
+
+              <div style={{ marginBottom: '12px' }}>
+                <div style={{ fontSize: '12px', color: '#AAAAAA', marginBottom: '4px' }}>
+                  Player Name
+                </div>
+                <div style={{ fontSize: '16px', fontWeight: 'bold' }}>
+                  {playerInfo.name}
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '12px' }}>
+                <div style={{ fontSize: '12px', color: '#AAAAAA', marginBottom: '4px' }}>
+                  Account ID
+                </div>
+                <div style={{ fontSize: '14px', fontFamily: 'monospace', color: '#7B9EF0' }}>
+                  {playerInfo.accountId}
+                </div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: '12px', color: '#AAAAAA', marginBottom: '4px' }}>
+                  Total Play Time
+                </div>
+                <div style={{ fontSize: '16px', fontWeight: 'bold' }}>
+                  {playerInfo.playTime}
+                </div>
+              </div>
+            </div>
+
+            {/* Language Section */}
+            <div style={{
+              background: '#2C2C3E',
+              borderRadius: '16px',
+              padding: '20px',
+              marginBottom: '20px'
+            }}>
+              <div style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                🌐 Language
+              </div>
+
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <button
+                  onClick={() => setLanguage('EN')}
+                  style={{
+                    flex: 1,
+                    height: '44px',
+                    borderRadius: '8px',
+                    border: language === 'EN' ? '2px solid #7B9EF0' : 'none',
+                    background: language === 'EN' ? '#7B9EF0' : '#1A1A2E',
+                    color: '#FFFFFF',
+                    fontFamily: 'Nunito',
+                    fontWeight: 'bold',
+                    cursor: 'pointer'
+                  }}
+                >
+                  English
+                </button>
+                <button
+                  onClick={() => setLanguage('KR')}
+                  style={{
+                    flex: 1,
+                    height: '44px',
+                    borderRadius: '8px',
+                    border: language === 'KR' ? '2px solid #7B9EF0' : 'none',
+                    background: language === 'KR' ? '#7B9EF0' : '#1A1A2E',
+                    color: '#FFFFFF',
+                    fontFamily: 'Nunito',
+                    fontWeight: 'bold',
+                    cursor: 'pointer'
+                  }}
+                >
+                  한국어
+                </button>
+              </div>
+            </div>
+
+            {/* Other Options */}
+            <div style={{
+              background: '#2C2C3E',
+              borderRadius: '16px',
+              padding: '20px',
+              marginBottom: '20px'
+            }}>
+              <button style={{
+                width: '100%',
+                height: '48px',
+                borderRadius: '8px',
+                border: 'none',
+                background: '#5A7FC0',
+                color: '#FFFFFF',
+                fontFamily: 'Nunito',
+                fontWeight: 'bold',
+                fontSize: '16px',
+                cursor: 'pointer',
+                marginBottom: '12px'
+              }}>
+                📚 View Credits
+              </button>
+
+              <button style={{
+                width: '100%',
+                height: '48px',
+                borderRadius: '8px',
+                border: 'none',
+                background: '#F44336',
+                color: '#FFFFFF',
+                fontFamily: 'Nunito',
+                fontWeight: 'bold',
+                fontSize: '16px',
+                cursor: 'pointer'
+              }}>
+                🔄 Reset Tutorial
+              </button>
+            </div>
+
+            {/* Version Info */}
+            <div style={{
+              textAlign: 'center',
+              fontSize: '12px',
+              color: '#666666',
+              marginBottom: '20px'
+            }}>
+              Dream Collector v1.0.0
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<Settings />, document.getElementById('root'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Collector - Defeat</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #1A1A2E;
+      color: #FFFFFF;
+      overflow: hidden;
+    }
+    #root {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes slideUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState } = React;
+
+    const DefeatScreen = () => {
+      const [stats] = useState({
+        nodesCleared: 6,
+        totalNodes: 10,
+        turns: 18,
+        damageDealt: 98,
+        reveries: 145,
+        causeOfDeath: 'Shadow Fiend',
+        finalBlow: 'Enemy dealt 5 damage (HP: 0/10)'
+      });
+
+      return (
+        <div style={{
+          width: '390px',
+          height: '844px',
+          background: 'linear-gradient(180deg, #1A1A2E 0%, #1C1C2E 100%)',
+          position: 'relative',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          {/* Dark Overlay */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'radial-gradient(circle, rgba(244,67,54,0.1) 0%, rgba(26,26,46,0.3) 100%)',
+            animation: 'fadeIn 1s ease-out'
+          }} />
+
+          {/* Defeat Title */}
+          <div style={{
+            textAlign: 'center',
+            marginBottom: '30px',
+            animation: 'slideUp 0.6s ease-out',
+            position: 'relative',
+            zIndex: 10
+          }}>
+            <div style={{
+              fontSize: '64px',
+              marginBottom: '16px',
+              opacity: 0.8
+            }}>
+              💀
+            </div>
+            <div style={{
+              fontSize: '36px',
+              fontWeight: 'bold',
+              color: '#F44336',
+              marginBottom: '12px'
+            }}>
+              DEFEAT
+            </div>
+            <div style={{
+              fontSize: '16px',
+              color: '#AAAAAA'
+            }}>
+              The Dream Has Ended
+            </div>
+          </div>
+
+          {/* Cause of Death */}
+          <div style={{
+            width: '100%',
+            background: '#2C2C3E',
+            borderRadius: '16px',
+            padding: '20px',
+            marginBottom: '20px',
+            animation: 'slideUp 0.8s ease-out',
+            position: 'relative',
+            zIndex: 10,
+            border: '2px solid #F44336'
+          }}>
+            <div style={{
+              fontSize: '14px',
+              color: '#AAAAAA',
+              marginBottom: '8px'
+            }}>
+              Defeated by:
+            </div>
+            <div style={{
+              fontSize: '24px',
+              fontWeight: 'bold',
+              color: '#F44336',
+              marginBottom: '12px'
+            }}>
+              {stats.causeOfDeath}
+            </div>
+            <div style={{
+              fontSize: '12px',
+              color: '#AAAAAA',
+              padding: '12px',
+              background: '#1A1A2E',
+              borderRadius: '8px',
+              fontFamily: 'monospace'
+            }}>
+              {stats.finalBlow}
+            </div>
+          </div>
+
+          {/* Stats Box */}
+          <div style={{
+            width: '100%',
+            background: '#2C2C3E',
+            borderRadius: '16px',
+            padding: '20px',
+            marginBottom: '30px',
+            animation: 'slideUp 1s ease-out',
+            position: 'relative',
+            zIndex: 10
+          }}>
+            <div style={{
+              fontSize: '16px',
+              fontWeight: 'bold',
+              marginBottom: '16px',
+              textAlign: 'center'
+            }}>
+              Final Statistics
+            </div>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '16px'
+            }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#7B9EF0' }}>
+                  {stats.nodesCleared}/{stats.totalNodes}
+                </div>
+                <div style={{ fontSize: '14px', color: '#AAAAAA' }}>Nodes Cleared</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#9C27B0' }}>
+                  {stats.turns}
+                </div>
+                <div style={{ fontSize: '14px', color: '#AAAAAA' }}>Turns Survived</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#F44336' }}>
+                  {stats.damageDealt}
+                </div>
+                <div style={{ fontSize: '14px', color: '#AAAAAA' }}>Damage Dealt</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#FFD700' }}>
+                  {stats.reveries}
+                </div>
+                <div style={{ fontSize: '14px', color: '#AAAAAA' }}>Reveries Earned</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Death Recap (Optional) */}
+          <div style={{
+            width: '100%',
+            background: '#2C2C3E',
+            borderRadius: '12px',
+            padding: '16px',
+            marginBottom: '30px',
+            animation: 'slideUp 1.2s ease-out',
+            position: 'relative',
+            zIndex: 10
+          }}>
+            <div style={{
+              fontSize: '14px',
+              fontWeight: 'bold',
+              marginBottom: '8px'
+            }}>
+              💡 Tip
+            </div>
+            <div style={{
+              fontSize: '12px',
+              color: '#AAAAAA'
+            }}>
+              Consider upgrading your HP or adding more defense cards to survive longer runs.
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            animation: 'slideUp 1.4s ease-out',
+            position: 'relative',
+            zIndex: 10
+          }}>
+            <button style={{
+              width: '100%',
+              height: '56px',
+              borderRadius: '16px',
+              border: 'none',
+              background: 'linear-gradient(135deg, #F44336 0%, #E91E63 100%)',
+              color: '#FFFFFF',
+              fontFamily: 'Nunito',
+              fontWeight: 'bold',
+              fontSize: '18px',
+              cursor: 'pointer',
+              boxShadow: '0 8px 16px rgba(244,67,54,0.3)'
+            }}>
+              🔄 Retry (Same Setup)
+            </button>
+
+            <button style={{
+              width: '100%',
+              height: '48px',
+              borderRadius: '12px',
+              border: 'none',
+              background: '#5A7FC0',
+              color: '#FFFFFF',
+              fontFamily: 'Nunito',
+              fontWeight: 'bold',
+              fontSize: '16px',
+              cursor: 'pointer'
+            }}>
+              Return to Main Lobby
+            </button>
+
+            <button style={{
+              width: '100%',
+              height: '44px',
+              borderRadius: '12px',
+              border: '2px solid #7B9EF0',
+              background: 'transparent',
+              color: '#7B9EF0',
+              fontFamily: 'Nunito',
+              fontWeight: 'bold',
+              fontSize: '14px',
+              cursor: 'pointer'
+            }}>
+              View Death Recap
+            </button>
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<DefeatScreen />, document.getElementById('root'));
+  </script>
+</body>
+</html>

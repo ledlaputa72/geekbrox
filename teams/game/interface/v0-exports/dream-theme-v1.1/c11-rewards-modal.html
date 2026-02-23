@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Collector - Rewards</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #1A1A2E;
+      color: #FFFFFF;
+      overflow: hidden;
+    }
+    #root {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    @keyframes slideDown {
+      0% { opacity: 0; transform: translateY(-50px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState } = React;
+
+    const getRarityGradient = (rarity) => {
+      const gradients = {
+        Common: 'linear-gradient(135deg, #AAAAAA 0%, #CCCCCC 100%)',
+        Uncommon: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+        Rare: 'linear-gradient(135deg, #2196F3 0%, #64B5F6 100%)',
+        Epic: 'linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%)',
+        Legendary: 'linear-gradient(135deg, #FFC107 0%, #FFD54F 100%)'
+      };
+      return gradients[rarity];
+    };
+
+    const rewardCards = [
+      { 
+        id: 1, 
+        name: 'Void Strike', 
+        rarity: 'Rare', 
+        cost: 3, 
+        type: 'Attack', 
+        effect: 'Deal 10 damage. If enemy has Block, deal 5 extra damage.',
+        damage: 10,
+        special: '+5 vs Block'
+      },
+      { 
+        id: 2, 
+        name: 'Dream Shield', 
+        rarity: 'Uncommon', 
+        cost: 2, 
+        type: 'Defense', 
+        effect: 'Gain 8 block. Heal 2 HP.',
+        block: 8,
+        heal: 2
+      },
+      { 
+        id: 3, 
+        name: 'Memory Blast', 
+        rarity: 'Epic', 
+        cost: 4, 
+        type: 'Attack', 
+        effect: 'Deal 12 damage. Draw 2 cards. Gain 30 Reveries.',
+        damage: 12,
+        draw: 2,
+        reveries: 30
+      }
+    ];
+
+    const RewardsModal = () => {
+      const [selectedCard, setSelectedCard] = useState(null);
+      const [hoveredCard, setHoveredCard] = useState(null);
+
+      return (
+        <div style={{
+          width: '390px',
+          height: '844px',
+          background: 'rgba(0, 0, 0, 0.85)',
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          {/* Modal Container */}
+          <div style={{
+            width: '100%',
+            maxHeight: '700px',
+            background: '#2C2C3E',
+            borderRadius: '20px',
+            padding: '24px',
+            boxShadow: '0 16px 32px rgba(0,0,0,0.5)',
+            animation: 'slideDown 0.5s ease-out'
+          }}>
+            {/* Header */}
+            <div style={{
+              textAlign: 'center',
+              marginBottom: '24px'
+            }}>
+              <div style={{
+                fontSize: '32px',
+                marginBottom: '12px'
+              }}>
+                ✨
+              </div>
+              <div style={{
+                fontSize: '24px',
+                fontWeight: 'bold',
+                marginBottom: '8px'
+              }}>
+                Choose Your Reward
+              </div>
+              <div style={{
+                fontSize: '14px',
+                color: '#AAAAAA'
+              }}>
+                Select 1 card to add to your deck
+              </div>
+            </div>
+
+            {/* Card Options */}
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              marginBottom: '24px',
+              justifyContent: 'center'
+            }}>
+              {rewardCards.map((card, index) => (
+                <div
+                  key={card.id}
+                  onMouseEnter={() => setHoveredCard(card)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                  onClick={() => setSelectedCard(card)}
+                  style={{
+                    width: '100px',
+                    height: '160px',
+                    background: getRarityGradient(card.rarity),
+                    borderRadius: '12px',
+                    padding: '10px',
+                    cursor: 'pointer',
+                    border: selectedCard?.id === card.id ? '3px solid #FFD700' : 
+                            hoveredCard?.id === card.id ? '3px solid #FFFFFF' : 'none',
+                    boxShadow: selectedCard?.id === card.id ? '0 8px 24px rgba(255,215,0,0.6)' : 
+                                hoveredCard?.id === card.id ? '0 8px 16px rgba(255,255,255,0.3)' :
+                                '0 4px 8px rgba(0,0,0,0.3)',
+                    transform: selectedCard?.id === card.id ? 'scale(1.08)' : 
+                               hoveredCard?.id === card.id ? 'scale(1.05)' : 'scale(1)',
+                    transition: 'all 0.3s',
+                    position: 'relative',
+                    animation: `cardFloat ${2 + index * 0.2}s infinite ease-in-out`,
+                    animationDelay: `${index * 0.1}s`
+                  }}
+                >
+                  {/* Cost Badge */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '8px',
+                    right: '8px',
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    background: '#1A1A2E',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '12px',
+                    fontWeight: 'bold'
+                  }}>
+                    {card.cost}
+                  </div>
+
+                  {/* Card Content */}
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    justifyContent: 'space-between'
+                  }}>
+                    {/* Name */}
+                    <div style={{
+                      fontSize: '12px',
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      marginTop: '20px'
+                    }}>
+                      {card.name}
+                    </div>
+
+                    {/* Type Icon */}
+                    <div style={{
+                      fontSize: '40px',
+                      textAlign: 'center'
+                    }}>
+                      {card.type === 'Attack' ? '⚔️' : '🛡'}
+                    </div>
+
+                    {/* Rarity & Stats */}
+                    <div>
+                      <div style={{
+                        fontSize: '9px',
+                        textAlign: 'center',
+                        marginBottom: '4px',
+                        opacity: 0.8
+                      }}>
+                        {card.rarity}
+                      </div>
+                      {card.damage && (
+                        <div style={{
+                          fontSize: '10px',
+                          textAlign: 'center',
+                          color: '#F44336',
+                          fontWeight: 'bold'
+                        }}>
+                          DMG: {card.damage}
+                        </div>
+                      )}
+                      {card.block && (
+                        <div style={{
+                          fontSize: '10px',
+                          textAlign: 'center',
+                          color: '#2196F3',
+                          fontWeight: 'bold'
+                        }}>
+                          Block: {card.block}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Card Details */}
+            {selectedCard && (
+              <div style={{
+                background: '#1A1A2E',
+                borderRadius: '12px',
+                padding: '16px',
+                marginBottom: '24px',
+                border: '2px solid #7B9EF0'
+              }}>
+                <div style={{
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  marginBottom: '8px',
+                  color: '#7B9EF0'
+                }}>
+                  {selectedCard.name}
+                </div>
+                <div style={{
+                  fontSize: '12px',
+                  color: '#AAAAAA',
+                  lineHeight: '1.5'
+                }}>
+                  {selectedCard.effect}
+                </div>
+              </div>
+            )}
+
+            {/* Quick Stats Comparison */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '8px',
+              marginBottom: '24px'
+            }}>
+              {rewardCards.map(card => (
+                <div
+                  key={card.id}
+                  style={{
+                    background: selectedCard?.id === card.id ? '#7B9EF0' : '#1A1A2E',
+                    borderRadius: '8px',
+                    padding: '8px',
+                    textAlign: 'center',
+                    fontSize: '10px',
+                    opacity: selectedCard?.id === card.id ? 1 : 0.6,
+                    transition: 'all 0.3s'
+                  }}
+                >
+                  <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                    Cost: {card.cost}
+                  </div>
+                  {card.damage && <div>DMG: {card.damage}</div>}
+                  {card.block && <div>Block: {card.block}</div>}
+                  {card.heal && <div>Heal: {card.heal}</div>}
+                </div>
+              ))}
+            </div>
+
+            {/* Buttons */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px'
+            }}>
+              <button
+                disabled={!selectedCard}
+                style={{
+                  width: '100%',
+                  height: '56px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  background: selectedCard ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : '#555555',
+                  color: '#FFFFFF',
+                  fontFamily: 'Nunito',
+                  fontWeight: 'bold',
+                  fontSize: '18px',
+                  cursor: selectedCard ? 'pointer' : 'not-allowed',
+                  boxShadow: selectedCard ? '0 8px 16px rgba(102,126,234,0.4)' : 'none'
+                }}
+              >
+                {selectedCard ? `Add ${selectedCard.name} to Deck` : 'Select a Card'}
+              </button>
+
+              <button style={{
+                width: '100%',
+                height: '44px',
+                borderRadius: '12px',
+                border: '2px solid #7B9EF0',
+                background: 'transparent',
+                color: '#7B9EF0',
+                fontFamily: 'Nunito',
+                fontWeight: 'bold',
+                fontSize: '14px',
+                cursor: 'pointer'
+              }}>
+                Skip Reward
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<RewardsModal />, document.getElementById('root'));
+  </script>
+</body>
+</html>
