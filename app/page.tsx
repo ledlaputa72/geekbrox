@@ -1,4 +1,4 @@
-import V0APIInterface from '@/teams/game/interface/v0-exports/dream-theme/v0-api-interface'
+import V0APIInterface from '../teams/game/interface/v0-exports/dream-theme/v0-api-interface'
 
 export default function Home() {
   return (
