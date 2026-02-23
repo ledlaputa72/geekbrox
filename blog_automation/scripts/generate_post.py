@@ -1,11 +1,11 @@
 """
 seasonal_top_anime.json을 읽어 각 애니마다 한국어 블로그 글 초안 생성 (Claude API → Gemini fallback)
-커버 이미지 다운로드 → output/images/
-글 저장 → output/posts/애니제목.md
+커버 이미지 다운로드 → teams/content/workspace/blog/images/
+글 저장 → teams/content/workspace/blog/drafts/애니제목.md
 
 수정 모드: --revise <md파일경로> --instruction <지시문>
   → 해당 .md 파일 내용을 지시에 맞게 Claude로 수정 후 같은 파일에 덮어쓰기.
-  → atlas_bot.py 등에서 subprocess로 호출 시 사용.
+  → content_team_bot.py 등에서 subprocess로 호출 시 사용.
 
 LLM 전략:
   1차: Claude Sonnet (고품질)
@@ -41,16 +41,18 @@ try:
     from shared_state import (
         claude_set_task, claude_update_progress, claude_set_waiting,
         claude_set_done, claude_set_error, claude_idle,
+        claude_check_messages,
     )
     _STATE_OK = True
 except ImportError:
     _STATE_OK = False
-    def claude_set_task(*a, **k): pass
+    def claude_set_task(*a, **k): return []
     def claude_update_progress(*a, **k): pass
     def claude_set_waiting(*a, **k): pass
     def claude_set_done(*a, **k): pass
     def claude_set_error(*a, **k): pass
     def claude_idle(*a, **k): pass
+    def claude_check_messages(*a, **k): return []
 
 
 # ─────────────────────────────────────────────────────────────
@@ -83,11 +85,13 @@ def _tg_notify(text: str) -> None:
     except Exception:
         pass  # 알림 실패는 조용히 무시 (메인 작업 영향 없음)
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-OUTPUT_DIR = SCRIPT_DIR.parent.parent / "teams/content/workspace/blog"
-INPUT_JSON = OUTPUT_DIR / "data/seasonal_top_anime.json"
-IMAGES_DIR = OUTPUT_DIR / "images"
-POSTS_DIR = OUTPUT_DIR / "drafts"
+SCRIPT_DIR   = Path(__file__).resolve().parent
+PROJECT_DIR  = SCRIPT_DIR.parent.parent                          # /geekbrox
+CONTENT_DIR  = PROJECT_DIR / "teams" / "content" / "workspace"  # /geekbrox/teams/content/workspace/
+BLOG_DIR     = CONTENT_DIR / "blog"                             # /geekbrox/teams/content/workspace/blog/
+INPUT_JSON   = BLOG_DIR / "data" / "seasonal_top_anime.json"
+IMAGES_DIR   = BLOG_DIR / "images"
+POSTS_DIR    = BLOG_DIR / "drafts"
 
 SEASON_KR = {"WINTER": "겨울", "SPRING": "봄", "SUMMER": "여름", "FALL": "가을"}
 
@@ -921,12 +925,32 @@ def main() -> None:
 
     total = len(anime_list)
 
+    # ── Bot/Cursor 메시지 확인 (작업 시작 전) ──
+    pending_msgs = claude_check_messages()
+    if pending_msgs:
+        msg_lines = "\n".join(
+            f"  [{m.get('from','?')}] {m.get('msg','')}" for m in pending_msgs
+        )
+        print(f"📬 대기 중인 메시지 {len(pending_msgs)}건:\n{msg_lines}")
+        _tg_notify(
+            f"📬 *Claude Code 수신 메시지* ({len(pending_msgs)}건)\n{msg_lines}"
+        )
+
     # ── 작업 시작 알림 + 상태 기록 ──
-    claude_set_task(
+    conflicts = claude_set_task(
         action=f"블로그 글 생성 ({total}개)",
+        target_files=[str(POSTS_DIR)],
         detail=f"글 간 딜레이 {INTER_POST_DELAY}초",
         progress=f"0/{total}",
     )
+    # 충돌 감지 시 경고 (알림은 shared_state가 자동 전송)
+    if conflicts:
+        crit = [c for c in conflicts if c.get("severity") == "critical"]
+        if crit:
+            print(f"🚨 충돌 감지! {len(crit)}건 — 텔레그램에서 '충돌 해제' 후 계속하세요.")
+            # critical 충돌은 작업 중단 (Steve 판단 필요)
+            return
+
     _tg_notify(
         f"🚀 *블로그 글 생성 시작*\n"
         f"📋 총 *{total}개* 글 생성 예정\n"

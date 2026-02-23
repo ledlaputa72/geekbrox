@@ -25,7 +25,7 @@ alwaysApply: true
 │   │   ├── fetch_anime.py        ← AniList API 애니 정보 수집
 │   │   ├── generate_post.py      ← Claude/Gemini 블로그 초안 생성
 │   │   ├── post_to_tistory.py    ← Selenium Tistory 자동 포스팅
-│   │   └── atlas_bot.py          ⚠️ 폐기 — 절대 실행 금지 (봇 충돌)
+│   │   └── content_team_bot.py   — 텔레그램 원격제어 봇 (콘텐츠팀장 역할)
 │   └── templates/
 │       └── anime_post_template.md
 │

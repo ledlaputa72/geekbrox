@@ -9,7 +9,7 @@ blog_automation/
 ├── scripts/
 │   ├── fetch_anime.py        # AniList API → 시즌 Top 10 수집 (anilist_id 포함)
 │   ├── generate_post.py      # 다중 API → 심층 블로그 글 생성 (v2.0)
-│   ├── atlas_bot.py          # Telegram 봇 (원격 제어 인터페이스)
+│   ├── content_team_bot.py   # Telegram 봇 (콘텐츠팀장 원격 제어 인터페이스)
 │   └── post_to_tistory.py    # Selenium → 티스토리 자동 포스팅
 ├── output/
 │   ├── images/               # 다운로드된 이미지 (커버 + 포스터 + 스틸컷)
@@ -121,7 +121,7 @@ TELEGRAM_CHAT_ID=...
    └── Claude/Gemini → 심층 블로그 글 생성 (2,000자+, 이미지 5개 삽입)
    └── output/posts/{slug}.md 저장
 
-3. atlas_bot.py (Telegram 제어)
+3. content_team_bot.py (Telegram 제어 — 콘텐츠팀장 역할)
    ├── 🔍 자료조사 → fetch_anime.py 실행
    ├── ✍️ 글 생성 → generate_post.py 실행
    ├── 📋 초안 확인 → posts/ 파일 목록

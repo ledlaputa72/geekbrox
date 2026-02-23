@@ -16,7 +16,7 @@ python3 blog_automation/scripts/shared_state.py cursor start "<작업설명>" <�
 ```
 예시:
 ```bash
-python3 blog_automation/scripts/shared_state.py cursor start "atlas_bot.py 큐 시스템 수정" blog_automation/scripts/atlas_bot.py
+python3 blog_automation/scripts/shared_state.py cursor start "content_team_bot.py 큐 시스템 수정" blog_automation/scripts/content_team_bot.py
 ```
 
 **2. 작업 완료 시 반드시 완료 등록:**
@@ -62,7 +62,7 @@ python3 blog_automation/scripts/shared_state.py cursor messages
 │   │   ├── fetch_anime.py        — AniList API로 애니 정보 수집
 │   │   ├── generate_post.py      — Claude/Gemini로 블로그 초안 생성
 │   │   ├── post_to_tistory.py    — Selenium으로 Tistory 자동 포스팅
-│   │   └── atlas_bot.py          ⚠️ 폐기됨 — 절대 실행 금지 (봇 충돌)
+│   │   └── content_team_bot.py   — 텔레그램 원격제어 봇 (콘텐츠팀장 역할)
 │   └── templates/
 │       └── anime_post_template.md
 ├── teams/

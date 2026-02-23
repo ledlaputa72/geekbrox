@@ -58,7 +58,25 @@
       "Bash(git fetch:*)",
       "Bash(git checkout:*)",
       "Bash(git pull:*)",
-      "Bash(git -C /Users/stevemacbook/Projects/geekbrox log --oneline -5)"
+      "Bash(git -C /Users/stevemacbook/Projects/geekbrox log --oneline -5)",
+      "Bash(# .env 파일에서 봇 토큰 확인 \\(토큰 자체는 숨김\\) grep -E \"\"TELEGRAM_BOT_TOKEN|TELEGRAM_CHAT_ID\"\" /Users/stevemacbook/Projects/geekbrox/.env)",
+      "Bash(kill:*)",
+      "Bash(# 혹시 남아있는 봇 관련 python 프로세스 모두 종료 pkill -f \"\"atlas_bot.py\"\" pkill -f \"\"content_team_bot.py\"\" sleep 2 # 확인 ps aux)",
+      "Bash(# 1. 현재 실행 중인 모든 봇 프로세스 완전 종료 pkill -f \"\"atlas_bot.py\"\" pkill -f \"\"content_team_bot.py\"\" sleep 2 ps aux)",
+      "Bash(# 텔레그램 봇 관련 모든 Python 프로세스 강제 종료 pkill -9 -f \"\"atlas_bot\"\" pkill -9 -f \"\"content_team_bot\"\" pkill -9 -f \"\"telegram\"\" sleep 2 # 남은 프로세스 확인 ps aux)",
+      "Bash(pkill:*)",
+      "Bash(# 1. 모든 atlas/telegram 관련 Python 프로세스 완전 종료 kill -9 9950 9408 9706 9866 # Python으로 실행 중인 모든 봇 관련 프로세스 \\(notion_fix 제외\\) 종료 ps aux)",
+      "Bash(# .openclaw 봇도 같은 토큰 쓰는지 확인 grep -r \"\"TELEGRAM_BOT_TOKEN\\\\|8413325668\"\" /Users/stevemacbook/.openclaw/)",
+      "Bash(# OpenClaw 로그 확인 ls ~/.openclaw/logs/ || echo \"\"logs 폴더 없음\"\" ls ~/.openclaw/*.log || echo \"\".log 파일 없음\"\" # OpenClaw 최근 에러 확인 find ~/.openclaw -name \"\"*.log\"\" -newer ~/.openclaw/openclaw.json)",
+      "Bash(# atlas_bot.py 완전 종료 kill -9 36301 # 혹시 남아있는 atlas_bot 모두 종료 pkill -9 -f \"\"atlas_bot.py\"\" sleep 2 echo \"\"=== 남은 봇 프로세스 ===\"\" ps aux)",
+      "Bash(# OpenClaw 재시작 pkill -f \"\"openclaw-gateway\"\" sleep 3 echo \"\"=== OpenClaw 종료 확인 ===\"\" ps aux)",
+      "Bash(# OpenClaw에서 agent 위임이 어떻게 동작하는지 확인 openclaw agent --help || echo \"\"openclaw agent 명령 없음\"\" openclaw --help)",
+      "Bash(# 게이트웨이 재시작 후 현재 main 에이전트 모델 확인 openclaw config get agents.list)",
+      "Bash(# Atlas가 텔레그램에 보내는 인라인 키보드 버튼이 어디서 설정되는지 확인 grep -r \"\"전체 현황\\\\|프로젝트 대시보드\\\\|keyboard\\\\|inline\\\\|button\\\\|reply_markup\"\" \\\\ /Users/stevemacbook/.openclaw/agents/main/agent/)",
+      "Bash(pgrep:*)",
+      "Bash(jobs:*)",
+      "Bash(git -C /Users/stevemacbook/Projects/geekbrox log --oneline --follow atlas_bot.py)",
+      "Bash(git -C /Users/stevemacbook/Projects/geekbrox log --oneline -10)"
     ]
   }
 }

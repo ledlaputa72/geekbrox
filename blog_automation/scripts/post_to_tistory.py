@@ -1,5 +1,5 @@
 """
-output/posts/ 의 .md 파일을 Selenium으로 티스토리에 자동 포스팅.
+teams/content/workspace/blog/drafts/ 의 .md 파일을 Selenium으로 티스토리에 자동 포스팅.
 
 - 최초 실행: Chrome에서 수동 카카오 로그인 → cookies.json 저장
 - 이후 실행: cookies.json 로드 → 자동 로그인 → 글쓰기
@@ -50,14 +50,15 @@ except ImportError:
 
 load_dotenv()
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-OUTPUT_DIR = SCRIPT_DIR.parent.parent / "teams/content/workspace/blog"
-POSTS_DIR = OUTPUT_DIR / "drafts"
-DONE_DIR = OUTPUT_DIR / "published"
+SCRIPT_DIR  = Path(__file__).resolve().parent
+PROJECT_DIR = SCRIPT_DIR.parent.parent
+BLOG_DIR    = PROJECT_DIR / "teams" / "content" / "workspace" / "blog"
+POSTS_DIR   = BLOG_DIR / "drafts"
+DONE_DIR    = BLOG_DIR / "published"
 def _debug_print(msg: str) -> None:
     """디버그 출력."""
     print(f"  [DBG] {msg}")
-IMAGES_DIR = OUTPUT_DIR / "images"
+IMAGES_DIR  = BLOG_DIR / "images"
 COOKIES_FILE = SCRIPT_DIR / "cookies.json"
 
 BLOG_NAME = os.environ.get("TISTORY_BLOG_NAME", "geekbrox").strip()
@@ -1856,7 +1857,7 @@ def dump_publish_dom() -> None:
                 break
             except Exception:
                 continue
-        print("  완료. output/publish_button_dump.json 확인")
+        print("  완료. teams/content/workspace/blog/ 하위 dump 파일 확인")
     finally:
         try:
             driver.quit()

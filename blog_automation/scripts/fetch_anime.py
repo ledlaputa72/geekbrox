@@ -18,8 +18,10 @@ load_dotenv()
 
 ANILIST_GRAPHQL_URL = "https://graphql.anilist.co"
 MAL_API_URL = "https://api.myanimelist.net/v2"
-SCRIPT_DIR = Path(__file__).resolve().parent
-OUTPUT_DIR = SCRIPT_DIR.parent.parent / "teams/content/workspace/blog/data"
+SCRIPT_DIR   = Path(__file__).resolve().parent
+PROJECT_DIR  = SCRIPT_DIR.parent.parent                          # /geekbrox
+CONTENT_DIR  = PROJECT_DIR / "teams" / "content" / "workspace"  # /geekbrox/teams/content/workspace/
+OUTPUT_DIR   = CONTENT_DIR / "blog" / "data"                    # /geekbrox/teams/content/workspace/blog/data/
 TOP_N = 10
 
 
