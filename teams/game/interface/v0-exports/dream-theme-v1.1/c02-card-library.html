@@ -72,6 +72,63 @@
       return owned ? gradients[rarity] : '#555555';
     };
 
+    // Bottom Tab Bar Component
+    const BottomTabBar = ({ activeTab }) => {
+      const tabs = [
+        { id: 'home', icon: '🏠', label: 'Home' },
+        { id: 'cards', icon: '🎴', label: 'Cards' },
+        { id: 'upgrade', icon: '⬆️', label: 'Upgrade' },
+        { id: 'progress', icon: '📊', label: 'Progress' },
+        { id: 'shop', icon: '🛒', label: 'Shop' }
+      ];
+
+      return (
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '390px',
+          height: '60px',
+          background: '#2C2C3E',
+          borderTop: '1px solid #1A1A2E',
+          display: 'flex',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          zIndex: 100
+        }}>
+          {tabs.map(tab => (
+            <div
+              key={tab.id}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '4px',
+                cursor: tab.id === 'progress' ? 'not-allowed' : 'pointer',
+                opacity: tab.id === 'progress' ? 0.4 : 1
+              }}
+            >
+              <div style={{
+                fontSize: '24px',
+                filter: activeTab === tab.id ? 'none' : 'grayscale(100%)',
+                opacity: activeTab === tab.id ? 1 : 0.6
+              }}>
+                {tab.icon}
+              </div>
+              <div style={{
+                fontSize: '12px',
+                fontFamily: 'Nunito',
+                color: activeTab === tab.id ? '#FFFFFF' : '#888888',
+                fontWeight: activeTab === tab.id ? 'bold' : 'normal'
+              }}>
+                {tab.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    };
+
     const CardLibrary = () => {
       const [cards, setCards] = useState([]);
       const [filteredCards, setFilteredCards] = useState([]);
@@ -234,9 +291,9 @@
             />
           </div>
 
-          {/* Card Grid */}
+          {/* Card Grid - Adjusted height for bottom tab bar */}
           <div style={{
-            height: 'calc(844px - 150px)',
+            height: 'calc(844px - 60px - 40px - 50px - 60px)',
             overflowY: 'auto',
             padding: '20px',
             display: 'grid',
@@ -322,7 +379,8 @@
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              animation: 'fadeIn 0.3s'
+              animation: 'fadeIn 0.3s',
+              zIndex: 200
             }}>
               <div style={{
                 width: '350px',
@@ -390,6 +448,9 @@
               </div>
             </div>
           )}
+
+          {/* Bottom Tab Bar */}
+          <BottomTabBar activeTab="cards" />
         </div>
       );
     };
