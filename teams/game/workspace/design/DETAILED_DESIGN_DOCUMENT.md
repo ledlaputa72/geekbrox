@@ -4721,32 +4721,39 @@ Testing:
   - ✅ Different deck archetypes viable
 ```
 
-### Week 4: Progression Loop
+### Week 4: Meta-Game System (Tarot Cards)
 
 **Goals:**
-- Implement node system
-- Add reward distribution
-- Create run completion flow
+- Implement Dream Linking system (3-block tarot cards)
+- Add Energy system
+- Create Dream Home UI
 
 **Deliverables:**
 ```yaml
 Code:
-  - ✅ Node generation algorithm
-  - ✅ Reward tables (Reveries, cards)
-  - ✅ Run state persistence
+  - ✅ Dream Card data structure (JSON)
+  - ✅ 3-block dream system (draw, match, complete)
+  - ✅ Energy manager (regen, consume, IAP hooks)
+  - ✅ Dream-to-Combat transition logic
 
 Content:
-  - ✅ 10-node path generation
-  - ✅ All node types (Memory, Event, Combat, Boss)
+  - ✅ 10 Dream Series (Common tier)
+  - ✅ 30 Dream Cards total (10 series × 3 stages)
+  - ✅ 5 event cards (integrated with dream triggers)
   - ✅ 1 boss enemy (Dream Eater)
 
 UI:
-  - ✅ Node map visualization
-  - ✅ Reward screen
-  - ✅ Victory/defeat screens
+  - ✅ Dream Home screen (tarot card display)
+  - ✅ Energy display (top bar, animated)
+  - ✅ Card reveal animation (flip + glow)
+  - ✅ Vortex transition (Dream Home ↔ Combat)
+  - ✅ Dream History stack (scrollable)
 
 Testing:
-  - ✅ Full runs playable (prototype complete!)
+  - ✅ Perfect Dream achievable (30% rate)
+  - ✅ Broken Dream functional (fallback rewards)
+  - ✅ Energy system balanced (3 dreams/day free)
+  - ✅ Progression loop complete: Dream → Combat → Rewards
   - ✅ Rewards feel fair
   - ✅ Progression satisfying
 ```
@@ -4783,29 +4790,45 @@ Testing:
   - ✅ All enemies tested
 ```
 
-### Week 7: Idle System
+### Week 7: Idle System & Auto-Battle
 
 **Goals:**
-- Implement offline progression
-- Add idle power calculation
+- Implement offline dream progression
+- Add Auto-Battle AI (3 strategies)
 - Create push notifications
 
 **Deliverables:**
 ```yaml
 Code:
-  - ✅ Offline time tracking
-  - ✅ Idle reward calculation
+  - ✅ Offline time tracking (8-hour cap)
+  - ✅ Automatic dream playing (uses energy)
+  - ✅ Auto-Battle AI:
+    - Aggressive mode (high damage priority)
+    - Defensive mode (survival priority)
+    - Balanced mode (adaptive)
   - ✅ Notification system (iOS/Android)
 
 UI:
-  - ✅ Offline reward popup
-  - ✅ Idle deck optimization tips
+  - ✅ Offline reward popup (animated count-up)
+  - ✅ Auto-Battle settings screen:
+    - Strategy selector (3 modes)
+    - Preview combat simulation
+    - Toggle auto-battle on/off
+  - ✅ Idle optimization tips (deck suggestions)
   - ✅ Notification settings
 
+Content:
+  - ✅ Auto-Battle card priority database
+  - ✅ AI decision trees (per strategy)
+
 Testing:
-  - ✅ Offline rewards accurate
+  - ✅ Offline rewards accurate (energy consumption)
+  - ✅ Auto-Battle win rates:
+    - Aggressive: 60% (fast, risky)
+    - Defensive: 80% (slow, safe)
+    - Balanced: 70% (medium)
   - ✅ Idle balancing (not too fast/slow)
-  - ✅ Notifications work
+  - ✅ Notifications work (8h cap reminder)
 ```
 
 ### Week 8: Prestige System
