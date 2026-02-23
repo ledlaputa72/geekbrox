@@ -1,0 +1,110 @@
+Create a NEW Dream Collector Defeat Screen with the following specs:
+
+LAYOUT (390×844px portrait):
+- Full-screen defeat UI (no header/footer)
+- Dark radial gradient overlay
+- Defeat title (64px emoji + 36px red text)
+- Cause of death panel (bordered, emphasized)
+- Final statistics box (4-column grid)
+- Tip panel (optional, helpful advice)
+- Action buttons (Retry, Main Lobby, View Death Recap)
+
+BACKGROUND:
+- Base: linear-gradient(180deg, #1A1A2E 0%, #1C1C2E 100%)
+- Overlay: radial-gradient(circle, rgba(244,67,54,0.1) 0%, rgba(26,26,46,0.3) 100%)
+- Animation: fadeIn 1s
+
+DEFEAT TITLE:
+- Emoji: 💀 (64px, opacity 0.8)
+- Title: "DEFEAT" (36px, Nunito Bold, #F44336)
+- Subtitle: "The Dream Has Ended" (16px, #AAAAAA)
+- Animation: slideUp 0.6s ease-out
+
+CAUSE OF DEATH PANEL (350×120px):
+- Background: #2C2C3E
+- Border: 2px solid #F44336
+- Border-radius: 16px
+- Padding: 20px
+- Animation: slideUp 0.8s ease-out
+
+Content:
+- Label: "Defeated by:" (14px, #AAAAAA)
+- Enemy name: "Shadow Fiend" (24px bold, #F44336)
+- Final blow description: monospace 12px on #1A1A2E background
+- Example: "Enemy dealt 5 damage (HP: 0/10)"
+
+STATS BOX (350×140px):
+- Title: "Final Statistics" (16px bold, center)
+- Background: #2C2C3E
+- Border-radius: 16px
+- Padding: 20px
+- Animation: slideUp 1.0s ease-out
+- Grid: 2×2 (4 stats)
+
+Stats display:
+1. **Nodes Cleared**: 6/10 (32px bold, #7B9EF0)
+2. **Turns Survived**: 18 (32px bold, #9C27B0)
+3. **Damage Dealt**: 98 (32px bold, #F44336)
+4. **Reveries Earned**: 145 (32px bold, #FFD700)
+
+TIP PANEL (350×80px):
+- Background: #2C2C3E
+- Border-radius: 12px
+- Padding: 16px
+- Animation: slideUp 1.2s ease-out
+
+Content:
+- Icon: 💡 (14px)
+- Title: "Tip" (14px bold)
+- Text: "Consider upgrading your HP or adding more defense cards to survive longer runs." (12px, #AAAAAA)
+
+ACTION BUTTONS:
+- Primary button (56px height):
+  - Text: "🔄 Retry (Same Setup)"
+  - Background: linear-gradient(135deg, #F44336 0%, #E91E63 100%)
+  - Box-shadow: 0 8px 16px rgba(244,67,54,0.3)
+  - Hover: scale(1.02)
+
+- Secondary button (48px height):
+  - Text: "Return to Main Lobby"
+  - Background: #5A7FC0
+  - Border-radius: 12px
+
+- Tertiary button (44px height):
+  - Text: "View Death Recap"
+  - Border: 2px solid #7B9EF0
+  - Background: transparent
+  - Color: #7B9EF0
+
+INTERACTIONS:
+- Retry button: Restart run with same Dreamer + deck
+- Main Lobby button: Return to c01-main-lobby
+- Death Recap button: Show detailed combat log (modal, planned)
+
+ANIMATIONS:
+- Background overlay: fadeIn 1s
+- Title: slideUp 0.6s
+- Cause of death: slideUp 0.8s
+- Stats: slideUp 1.0s
+- Tip: slideUp 1.2s
+- Buttons: slideUp 1.4s
+
+slideUp keyframes:
+```
+0%: opacity 0, translateY(30px)
+100%: opacity 1, translateY(0)
+```
+
+THEME:
+- Background: #1A1A2E → #1C1C2E gradient
+- Panels: #2C2C3E
+- Text: #FFFFFF (white), #AAAAAA (gray)
+- Accent: #F44336 (red), #7B9EF0 (blue)
+- Font: Nunito
+
+OPTIONAL FEATURES:
+- Death recap modal (show turn-by-turn combat log)
+- Retry counter (e.g., "Attempt #3")
+- Best run comparison (vs personal best)
+
+Make it somber but informative, encouraging player to try again with helpful tips.

@@ -6,7 +6,7 @@
 
 ---
 
-## 📋 프롬프트 목록 (총 8개)
+## 📋 프롬프트 목록 (총 12개)
 
 ### 기존 컴포넌트 업그레이드 (5개)
 
@@ -18,13 +18,22 @@
 | `c04-upgrade-tree-v1.1.txt` | 업그레이드 트리 | c04-upgrade-tree.tsx | 업그레이드 |
 | `c05-shop-v1.1.txt` | 상점 | c05-shop.tsx | 업그레이드 |
 
-### 신규 화면 (3개)
+### 신규 화면 - 런 시스템 (3개)
 
 | 파일 | 화면 | 상태 |
 |------|------|------|
 | `c06-run-prep-v1.1.txt` | 런 준비 | 신규 |
 | `c07-in-run-v1.1.txt` | 진행 중인 런 | 신규 |
 | `c08-combat-v1.1.txt` | 전투 | 신규 |
+
+### 신규 화면 - Priority 1 (4개)
+
+| 파일 | 화면 | 상태 |
+|------|------|------|
+| `c09-victory-screen-v1.1.txt` | 승리 화면 | 신규 |
+| `c10-defeat-screen-v1.1.txt` | 패배 화면 | 신규 |
+| `c11-rewards-modal-v1.1.txt` | 보상 선택 모달 | 신규 |
+| `c12-settings-v1.1.txt` | 설정 | 신규 |
 
 ---
 
@@ -82,7 +91,7 @@ v0.dev의 입력창에 프롬프트를 붙여넣고 생성합니다.
 
 ```
 v0-exports/dream-theme-v1.1/
-├── c01-main-lobby-v1.1.tsx
+├── c01-main-lobby-v1.1.tsx (또는 .html)
 ├── c02-card-library-v1.1.tsx
 ├── c03-deck-builder-v1.1.tsx
 ├── c04-upgrade-tree-v1.1.tsx
@@ -90,26 +99,41 @@ v0-exports/dream-theme-v1.1/
 ├── c06-run-prep-v1.1.tsx
 ├── c07-in-run-v1.1.tsx
 ├── c08-combat-v1.1.tsx
+├── c09-victory-screen-v1.1.tsx
+├── c10-defeat-screen-v1.1.tsx
+├── c11-rewards-modal-v1.1.tsx
+├── c12-settings-v1.1.tsx
 └── theme-tokens-v1.1.ts
 ```
+
+**현재 상태 (2026-02-23):**
+- HTML 프로토타입: c01-c12 (12개 완성) ✅
+- v0 프롬프트: c01-c12 (12개 완성) ✅
+- TSX 컴포넌트: 대기 중 (v0.dev 생성 필요)
 
 ---
 
 ## 🎯 우선순위
 
-### Phase 1 (Week 1-2): 기초
+### Phase 1 (Week 1-2): 기초 ✅
 1. ✅ c01-main-lobby-v1.1 (홈 화면)
 2. ✅ c03-deck-builder-v1.1 (덱 빌더)
 3. ✅ c02-card-library-v1.1 (카드 라이브러리)
 
-### Phase 2 (Week 3): 런 시스템
+### Phase 2 (Week 3): 런 시스템 ✅
 4. ✅ c06-run-prep-v1.1 (런 준비)
 5. ✅ c07-in-run-v1.1 (진행 중인 런)
 6. ✅ c08-combat-v1.1 (전투)
 
-### Phase 3 (Week 4): 메타 진행
+### Phase 3 (Week 4): 메타 진행 ✅
 7. ✅ c04-upgrade-tree-v1.1 (업그레이드)
 8. ✅ c05-shop-v1.1 (상점)
+
+### Phase 4 (Week 4-5): Priority 1 ✅
+9. ✅ c09-victory-screen-v1.1 (승리 화면)
+10. ✅ c10-defeat-screen-v1.1 (패배 화면)
+11. ✅ c11-rewards-modal-v1.1 (보상 선택)
+12. ✅ c12-settings-v1.1 (설정)
 
 ---
 
@@ -138,10 +162,15 @@ v0는 매번 다른 결과를 만들 수 있습니다.
 
 | 작업 | 소요 시간 |
 |------|----------|
-| v0 프롬프트 실행 (8개) | 2-3시간 |
-| 결과물 수정 및 조정 | 3-4시간 |
-| 통합 및 테스트 | 2-3시간 |
-| **총합** | **7-10시간 (1-2일)** |
+| v0 프롬프트 실행 (12개) | 3-4시간 |
+| 결과물 수정 및 조정 | 4-5시간 |
+| 통합 및 테스트 | 3-4시간 |
+| **총합** | **10-13시간 (1.5-2일)** |
+
+**Progress (2026-02-23):**
+- ✅ HTML 프로토타입: 12/12 (100%)
+- ✅ v0 프롬프트: 12/12 (100%)
+- ⏳ TSX 컴포넌트: 0/12 (0%)
 
 ---
 

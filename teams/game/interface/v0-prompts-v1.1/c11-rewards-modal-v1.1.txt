@@ -1,0 +1,138 @@
+Create a NEW Dream Collector Rewards Modal (mid-run reward selection) with the following specs:
+
+LAYOUT (390×844px portrait):
+- Full-screen overlay (rgba(0,0,0,0.85) background)
+- Centered modal container (350×700px max)
+- Header with title and subtitle
+- 3 reward cards (100×160px each)
+- Selected card details panel
+- Quick stats comparison grid
+- Action buttons (Claim, Skip)
+
+MODAL CONTAINER:
+- Size: 350px width, auto height (max 700px)
+- Background: #2C2C3E
+- Border-radius: 20px
+- Padding: 24px
+- Box-shadow: 0 16px 32px rgba(0,0,0,0.5)
+- Animation: slideDown 0.5s ease-out
+
+HEADER:
+- Emoji: ✨ (32px)
+- Title: "Choose Your Reward" (24px, Nunito Bold)
+- Subtitle: "Select 1 card to add to your deck" (14px, #AAAAAA)
+- Margin-bottom: 24px
+
+REWARD CARDS (3 options):
+- Layout: horizontal row, gap 12px, centered
+- Card size: 100×160px
+- Rarity gradients: Common (gray) → Legendary (gold)
+- Cost badge: top-right 24×24px circle
+- Card name: Nunito Bold 12px
+- Type icon: 40px emoji (⚔️ Attack, 🛡 Defense)
+- Rarity label: 9px, opacity 0.8
+- Stats: 10px (DMG, Block, Heal, etc.)
+
+Card states:
+- Default: shadow 0 4px 8px rgba(0,0,0,0.3)
+- Hover: border 3px #FFFFFF + shadow 0 8px 16px + scale(1.05)
+- Selected: border 3px #FFD700 + shadow 0 8px 24px rgba(255,215,0,0.6) + scale(1.08)
+
+SAMPLE CARDS:
+1. **Void Strike** (Rare)
+   - Cost: 3, Attack
+   - Effect: "Deal 10 damage. If enemy has Block, deal 5 extra damage."
+   - Stats: DMG: 10, Special: +5 vs Block
+
+2. **Dream Shield** (Uncommon)
+   - Cost: 2, Defense
+   - Effect: "Gain 8 block. Heal 2 HP."
+   - Stats: Block: 8, Heal: 2
+
+3. **Memory Blast** (Epic)
+   - Cost: 4, Attack
+   - Effect: "Deal 12 damage. Draw 2 cards. Gain 30 Reveries."
+   - Stats: DMG: 12, Draw: 2, Reveries: 30
+
+FLOATING ANIMATION:
+- Each card: float up/down 10px
+- Duration: 2s + (index * 0.2s)
+- Delay: index * 0.1s
+- Easing: ease-in-out infinite
+
+CARD DETAILS PANEL (when card selected):
+- Background: #1A1A2E
+- Border: 2px solid #7B9EF0
+- Border-radius: 12px
+- Padding: 16px
+- Margin-bottom: 24px
+
+Content:
+- Card name: 16px bold, #7B9EF0
+- Effect description: 12px, #AAAAAA, line-height 1.5
+
+QUICK STATS COMPARISON:
+- Grid: 3 columns (one per card)
+- Gap: 8px
+- Each cell:
+  - Background: #1A1A2E (selected: #7B9EF0)
+  - Border-radius: 8px
+  - Padding: 8px
+  - Text: 10px, center
+  - Opacity: selected 1.0, others 0.6
+
+Stats shown:
+- Cost: X
+- DMG: X (if applicable)
+- Block: X (if applicable)
+- Heal: X (if applicable)
+
+ACTION BUTTONS:
+- Primary button (56px height):
+  - Text: "Add [Card Name] to Deck" OR "Select a Card"
+  - Background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+  - Enabled: shadow 0 8px 16px rgba(102,126,234,0.4)
+  - Disabled: #555555, cursor not-allowed
+
+- Secondary button (44px height):
+  - Text: "Skip Reward"
+  - Border: 2px solid #7B9EF0
+  - Background: transparent
+  - Color: #7B9EF0
+
+INTERACTIONS:
+- Card tap: Select card (highlight, show details, enable claim)
+- Card hover: Preview (scale + border)
+- Card long-press: Not implemented (future: detailed modal)
+- Claim button: Add card to deck → close modal → return to in-run
+- Skip button: Close modal → return to in-run (no card added)
+
+ANIMATIONS:
+- Modal entrance: slideDown 0.5s
+- Card float: up/down 10px, 2s infinite
+- Selection: border + shadow transition 0.3s
+- Button enabled: fade-in 0.2s
+
+slideDown keyframes:
+```
+0%: opacity 0, translateY(-50px)
+100%: opacity 1, translateY(0)
+```
+
+THEME:
+- Overlay: rgba(0,0,0,0.85)
+- Modal: #2C2C3E
+- Panel: #1A1A2E
+- Text: #FFFFFF (white), #AAAAAA (gray)
+- Accent: #7B9EF0 (blue), #FFD700 (gold)
+- Font: Nunito
+
+VARIANTS:
+This modal can be used for:
+- Post-combat card rewards
+- Event rewards
+- Shop preview (before purchase)
+- Upgrade selection (different card types)
+
+Make it visually engaging with smooth animations and clear selection feedback.
+Allow easy comparison between card options with quick stats grid.
