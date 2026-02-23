@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #7B9EF0;
+  --secondary: #6B5B95;
+  --accent: #C4A8E8;
+  --dark: #0F0F1E;
+  --darker: #0A0A14;
+  --card: rgba(123, 158, 240, 0.08);
+  --card-border: rgba(123, 158, 240, 0.15);
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0B0;
+  --background: #0F0F1E;
+}
+
+@layer base {
+  body {
+    @apply bg-[#0F0F1E] text-[#FFFFFF];
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
