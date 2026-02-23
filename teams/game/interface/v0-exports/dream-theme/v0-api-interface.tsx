@@ -2,8 +2,6 @@
 
 import { useState } from 'react'
 import { Copy, CheckCircle2, Code, Book, Lightbulb, ArrowRight, Github } from 'lucide-react'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Button } from '@/components/ui/button'
 
 interface ApiExample {
   id: string
@@ -238,8 +236,8 @@ export default function V0ApiInterface() {
 
       {/* Category Filter - Horizontal Scroll */}
       <div className="relative z-10 px-4 py-3">
-        <ScrollArea className="w-full">
-          <div className="flex gap-2 pb-2">
+        <div className="w-full overflow-x-auto">
+          <div className="flex gap-2 pb-2 min-w-max">
             {categories.map((cat) => (
               <button
                 key={cat.id}
@@ -258,22 +256,20 @@ export default function V0ApiInterface() {
               </button>
             ))}
           </div>
-        </ScrollArea>
+        </div>
       </div>
 
       {/* Content - Examples Grid */}
-      <div className="relative z-10 h-[540px] px-4 pb-4">
-        <ScrollArea className="h-full">
-          <div className="grid grid-cols-1 gap-3 pb-40 pr-4">
-            {filteredExamples.map((example) => (
-              <ExampleCard 
-                key={example.id} 
-                example={example}
-                onCopy={handleCopy}
-              />
-            ))}
-          </div>
-        </ScrollArea>
+      <div className="relative z-10 h-[540px] px-4 pb-4 overflow-y-auto">
+        <div className="grid grid-cols-1 gap-3 pb-40 pr-4">
+          {filteredExamples.map((example) => (
+            <ExampleCard 
+              key={example.id} 
+              example={example}
+              onCopy={handleCopy}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Copy Notification */}
