@@ -53,6 +53,386 @@ This document provides **implementation-level specifications** for Dream Collect
 
 # 1. Game Systems Design
 
+## 1.0 Meta Game System (Dream Linking)
+
+### 1.0.1 Overview: Tarot Card-Based Dream Connection
+
+**Core Concept:**
+Dream Collector features a **meta-game layer** above the combat system, where players connect **Tarot-style Dream Cards** in a 3-stage sequence to create complete dreams. This system determines:
+- Which combat encounters occur
+- Rewards and bonuses earned
+- Idle progression efficiency
+
+**System Hierarchy:**
+```
+┌─────────────────────────────────────────┐
+│ META GAME: Dream Linking (Tarot Cards) │ ← Player selects/draws cards
+├─────────────────────────────────────────┤
+│ COMBAT LAYER: Deckbuilding Battles     │ ← Triggered by Dream progress
+├─────────────────────────────────────────┤
+│ IDLE LAYER: Offline Progression        │ ← Runs automatically
+└─────────────────────────────────────────┘
+```
+
+**Integration with Paper Prototype:**
+- **Combat system remains unchanged** (PROTOTYPE_RULEBOOK.md mechanics)
+- Tarot cards **trigger** combat encounters within dreams
+- Players build combat decks separately from Dream Cards
+
+---
+
+### 1.0.2 Dream Linking Mechanics
+
+**3-Stage Dream Structure:**
+```
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ DREAM START  │ →  │ DREAM MIDDLE │ →  │ DREAM END    │
+│ (Tarot Card) │    │ (Tarot Card) │    │ (Tarot Card) │
+│              │    │ + Combat     │    │              │
+└──────────────┘    └──────────────┘    └──────────────┘
+      Block 1            Block 2             Block 3
+```
+
+**Connection States:**
+
+| Connection Type | Condition | Rewards | Description |
+|----------------|-----------|---------|-------------|
+| **Perfect Dream** (완성형 꿈) | All 3 cards same series | 100% base + 50% bonus | Complete story arc |
+| **Partial Dream** | 2 cards match | 100% base + 20% bonus | Coherent but incomplete |
+| **Broken Dream** (개꿈) | No matches | 50% base rewards | Random disconnected dreams |
+
+**Example:**
+```
+Perfect Dream:
+[The Fool - I] → [The Fool - II] → [The Fool - III]
+Result: "The Fool's Journey" complete story
+Bonus: +50% Reveries, rare card guaranteed
+
+Broken Dream:
+[The Fool - I] → [The Tower - II] → [Death - III]
+Result: Incoherent dream fragments
+Penalty: -50% Reveries, no bonus card
+```
+
+---
+
+### 1.0.3 Tarot Card System
+
+**Dream Card Structure:**
+```json
+{
+  "id": "dream_001",
+  "name": "The Fool",
+  "series": "Major Arcana - The Fool",
+  "stage": 1,
+  "tier": "Common",
+  "combat_triggers": [
+    {"type": "basic_enemy", "difficulty": 1},
+    {"type": "event", "id": "crossroads"}
+  ],
+  "story_text": "A young dreamer stands at the edge of a cliff, ready to leap into the unknown.",
+  "completion_bonus": {
+    "reveries": 50,
+    "card_drop": "guaranteed_uncommon"
+  }
+}
+```
+
+**Card Drawing Mechanic:**
+```python
+def draw_dream_card(player, block_stage, tier):
+    """
+    Draw a random Dream Card for the current block.
+    Higher tiers = lower connection probability.
+    """
+    
+    # Tier affects series distribution
+    if tier == "common":
+        series_weights = {"same_as_previous": 60, "different": 40}
+    elif tier == "rare":
+        series_weights = {"same_as_previous": 30, "different": 70}
+    elif tier == "epic":
+        series_weights = {"same_as_previous": 10, "different": 90}
+    
+    # Draw card
+    if block_stage == 1:
+        # First block: random series
+        return random_dream_card(tier)
+    else:
+        # Blocks 2-3: weighted by previous series
+        previous_series = player.current_dream.blocks[-1].series
+        
+        if weighted_random(series_weights) == "same_as_previous":
+            return draw_from_series(previous_series, block_stage, tier)
+        else:
+            return random_dream_card(tier)
+```
+
+**Re-draw Mechanic:**
+```yaml
+Re-draw Cost: 10 Reveries (Block 1), 20 Reveries (Block 2), 30 Reveries (Block 3)
+Re-draw Limit: 3 per block
+Strategy: Players can spend Reveries to re-draw cards, increasing connection chance
+```
+
+---
+
+### 1.0.4 Dream Series (Tarot-Inspired)
+
+**Series Categories (30 total series):**
+
+| Series Name | Theme | Stages | Combat Type | Tier |
+|-------------|-------|--------|-------------|------|
+| **The Fool's Journey** | Beginnings | 3 | Easy enemies | Common |
+| **The Tower's Fall** | Chaos | 3 | Hard enemies | Rare |
+| **Death's Transformation** | Change | 3 | Elite enemies | Epic |
+| **The Moon's Illusion** | Mystery | 3 | Boss encounters | Legendary |
+
+**Example Series: The Fool's Journey (Common)**
+```yaml
+Stage 1 - The Fool Awakens:
+  Story: "A dreamer opens their eyes in a strange new world."
+  Combat: 1× Dream Wisp (tutorial enemy)
+  Reward: 20 Reveries
+
+Stage 2 - The Fool Explores:
+  Story: "Wandering through shifting landscapes, curiosity drives them forward."
+  Combat: 1× Shadow Whisper + 1× Event (Crossroads)
+  Reward: 40 Reveries
+
+Stage 3 - The Fool Leaps:
+  Story: "At the cliff's edge, they choose to leap into the unknown."
+  Combat: 1× Lucid Hunter (mini-boss)
+  Reward: 60 Reveries + Series Completion Bonus
+
+Completion Bonus:
+  - Total: 120 Reveries (base) + 60 (50% bonus) = 180 Reveries
+  - Guaranteed: 1 Uncommon card
+  - Achievement: "First Steps" unlocked
+```
+
+---
+
+### 1.0.5 Energy System (Tarot Card Activation)
+
+**Energy as Gating Mechanic:**
+```yaml
+Energy Purpose: Gate dream progression, monetization lever
+Energy Max: 5 units
+Energy Consumption: 1 unit per Dream Block (3 total per complete dream)
+Energy Regeneration: 1 unit per 30 minutes (natural)
+Energy Purchase: 5 units for $0.99 (IAP)
+
+Daily Free Energy: +3 units at daily reset (00:00 local time)
+```
+
+**Energy Flow:**
+```python
+class EnergyManager:
+    def __init__(self):
+        self.max_energy = 5
+        self.current_energy = 5
+        self.regen_rate = 1800  # 30 minutes in seconds
+        self.last_regen = time.time()
+    
+    def can_start_dream_block(self):
+        return self.current_energy >= 1
+    
+    def consume_energy(self, amount=1):
+        if self.current_energy >= amount:
+            self.current_energy -= amount
+            return True
+        return False
+    
+    def update(self):
+        """Called every frame to regenerate energy"""
+        now = time.time()
+        elapsed = now - self.last_regen
+        
+        if elapsed >= self.regen_rate:
+            regen_count = int(elapsed / self.regen_rate)
+            self.current_energy = min(self.max_energy, self.current_energy + regen_count)
+            self.last_regen = now
+    
+    def add_energy(self, amount):
+        """IAP or reward"""
+        self.current_energy = min(self.max_energy, self.current_energy + amount)
+```
+
+**Energy Monetization:**
+```yaml
+Energy Packs:
+  - Small Pack: 5 Energy → $0.99
+  - Medium Pack: 15 Energy → $2.99
+  - Large Pack: 50 Energy → $9.99
+
+Alternative: Energy-Free Mode ($4.99 one-time purchase)
+  - Unlimited energy
+  - No regeneration wait
+  - Premium feature
+```
+
+---
+
+### 1.0.6 Dream Home (Hub Screen)
+
+**UI Layout:**
+```
+┌────────────────────────────────────┐
+│ [Energy: ⚡⚡⚡▫▫] [Settings ⚙]    │ ← Top Bar (Energy display)
+├────────────────────────────────────┤
+│  ╔════════╗  ╔════════╗  ╔════════╗│
+│  ║ BLOCK 1║  ║ BLOCK 2║  ║ BLOCK 3║│ ← Tarot Cards (Horizontal)
+│  ║  [?]   ║  ║ [LOCK] ║  ║ [LOCK] ║│   Block 1 active, 2-3 locked
+│  ╚════════╝  ╚════════╝  ╚════════╝│
+│  [Draw Card - 1 Energy]            │ ← Action Button
+├────────────────────────────────────┤
+│ Current Dream Story:               │
+│ "The Fool awakens in a strange     │ ← Story Text (scrollable)
+│  world, filled with wonder and     │
+│  uncertainty..."                   │
+├────────────────────────────────────┤
+│ Previous Dreams (Stack):           │
+│ ┌──────────────────────────────┐  │
+│ │ [Complete] The Fool's Journey │  │ ← Scrollable History
+│ │ +180 Reveries • 2 hours ago   │  │
+│ └──────────────────────────────┘  │
+│ ┌──────────────────────────────┐  │
+│ │ [Broken] Mixed Dreams         │  │
+│ │ +50 Reveries • 5 hours ago    │  │
+│ └──────────────────────────────┘  │
+└────────────────────────────────────┘
+```
+
+**Interaction Flow:**
+```
+1. Player Opens App → Dream Home loads
+   ↓
+2. Check Current Dream State:
+   - No active dream? Start new dream (Block 1)
+   - Active dream? Resume where left off
+   ↓
+3. Player taps "Draw Card" (costs 1 Energy)
+   ↓
+4. Tarot Card Reveal Animation (2s)
+   ↓
+5. Card placed in current block
+   ↓
+6. If Block has combat trigger → Transition to Combat
+   ↓
+7. After combat → Return to Dream Home
+   ↓
+8. If Block 3 complete → Calculate Dream Completion
+   ↓
+9. Show Dream Result Screen (rewards, story)
+   ↓
+10. Stack completed dream, start new dream
+```
+
+---
+
+### 1.0.7 Dream-to-Combat Transition
+
+**Visual Transition:**
+```
+Dream Home Screen (Calm, Floating Tarot Cards)
+        ↓
+[Tarot Card pulses and grows]
+        ↓
+[Screen vortex effect - player "sucked into" card]
+        ↓
+Combat Screen (Dark, Intense)
+```
+
+**Technical Implementation:**
+```python
+def transition_to_combat(dream_block):
+    # Store return state
+    game_state.previous_screen = "dream_home"
+    game_state.current_dream_block = dream_block
+    
+    # Trigger animation
+    play_animation("vortex_transition", duration=1.5)
+    
+    # Load combat
+    combat_encounter = dream_block.combat_trigger
+    load_combat_scene(combat_encounter)
+    
+    # After combat ends, return to Dream Home
+    on_combat_end = lambda result: return_to_dream_home(result)
+```
+
+**Combat Return Flow:**
+```python
+def return_to_dream_home(combat_result):
+    # Apply combat rewards
+    player.reveries += combat_result.reveries_earned
+    player.cards.extend(combat_result.cards_earned)
+    
+    # Update dream progress
+    current_dream.blocks[current_block_index].completed = True
+    
+    # Transition back
+    play_animation("emerge_from_vortex", duration=1.5)
+    load_scene("dream_home")
+    
+    # Check if dream complete
+    if all_blocks_complete(current_dream):
+        calculate_dream_completion_bonus()
+```
+
+---
+
+### 1.0.8 Idle Dream Automation
+
+**Automatic Dream Playing (While Offline):**
+```python
+def calculate_idle_dreams(time_away_seconds):
+    """
+    While offline, the game automatically plays dreams
+    using player's auto-battle settings.
+    """
+    
+    # Calculate energy regenerated while away
+    energy_regen = min(5, time_away_seconds // 1800)
+    
+    # Each dream costs 3 energy (3 blocks)
+    dreams_playable = energy_regen // 3
+    
+    # Simulate dreams with auto-battle
+    total_rewards = {
+        "reveries": 0,
+        "cards": []
+    }
+    
+    for i in range(dreams_playable):
+        dream_result = simulate_auto_dream(player.auto_battle_settings)
+        total_rewards["reveries"] += dream_result.reveries
+        total_rewards["cards"].extend(dream_result.cards)
+    
+    return total_rewards
+```
+
+**Auto-Battle Settings (for Idle):**
+```yaml
+Aggressive Mode:
+  - Prioritize high-damage cards
+  - Ignore defense unless HP < 30%
+  - Fast combat, higher risk
+
+Defensive Mode:
+  - Prioritize block cards
+  - Only attack when safe
+  - Slow combat, lower risk
+
+Balanced Mode:
+  - Mix of attack and defense
+  - Adaptive to enemy threat
+  - Medium speed, medium risk
+```
+
+---
+
 ## 1.1 Combat System
 
 ### 1.1.1 Turn-Based Combat Flow
@@ -813,7 +1193,335 @@ Special Event:
 
 # 2. Content Specification
 
-## 2.1 Card Database
+## 2.0 Dream Card Database (Tarot System)
+
+### 2.0.1 Dream Card Data Structure
+
+**JSON Schema:**
+```json
+{
+  "id": "dream_001",
+  "name": "The Fool - Awakening",
+  "name_ko": "바보 - 각성",
+  "series": "The Fool's Journey",
+  "series_id": "series_001",
+  "stage": 1,
+  "tier": "common",
+  "theme": "beginnings",
+  "story_text": "A young dreamer stands at the edge of a cliff, ready to leap into the unknown.",
+  "story_text_ko": "젊은 꿈꾸는 자가 절벽 끝에 서서, 미지의 세계로 뛰어들 준비를 합니다.",
+  "combat_triggers": [
+    {
+      "type": "combat",
+      "enemy_id": "enemy_001",
+      "chance": 0.8
+    },
+    {
+      "type": "event",
+      "event_id": "event_001",
+      "chance": 0.2
+    }
+  ],
+  "rewards": {
+    "reveries_base": 20,
+    "card_drop_chance": 0.3,
+    "card_pool": ["common"]
+  },
+  "art_asset": "dreams/the_fool_01.png"
+}
+```
+
+---
+
+### 2.0.2 Dream Series List (30 Series)
+
+**Tier 1: Common Series (10 series, 3 stages each = 30 cards)**
+
+```yaml
+series_001:
+  name: "The Fool's Journey"
+  theme: "Beginnings & Innocence"
+  difficulty: Easy
+  stages:
+    - stage_1: "The Fool - Awakening"
+      combat: 1× Dream Wisp
+      reveries: 20
+    - stage_2: "The Fool - Wandering"
+      combat: 1× Sleepy Shadow + Event (Crossroads)
+      reveries: 40
+    - stage_3: "The Fool - Leaping"
+      combat: 1× Memory Nibbler
+      reveries: 60
+  completion_bonus:
+    reveries: +60 (50% of 120)
+    card: Guaranteed Uncommon
+    achievement: "First Steps"
+
+series_002:
+  name: "The Magician's Craft"
+  theme: "Skill & Creation"
+  difficulty: Easy
+  stages:
+    - stage_1: "The Magician - Tools"
+      combat: 1× Shadow Whisper
+      reveries: 25
+    - stage_2: "The Magician - Practice"
+      combat: 1× Anxious Echo
+      reveries: 45
+    - stage_3: "The Magician - Mastery"
+      combat: 1× Dream Glutton
+      reveries: 70
+  completion_bonus:
+    reveries: +70
+    card: Guaranteed Uncommon (Attack type)
+
+series_003:
+  name: "The High Priestess's Secrets"
+  theme: "Intuition & Mystery"
+  difficulty: Easy
+  stages:
+    - stage_1: "The Priestess - Veil"
+      combat: Event (Mystic Fountain)
+      reveries: 30
+    - stage_2: "The Priestess - Insight"
+      combat: 1× Regret Wraith
+      reveries: 50
+    - stage_3: "The Priestess - Revelation"
+      combat: Event (Dream Library)
+      reveries: 80
+  completion_bonus:
+    reveries: +80
+    card: Guaranteed Uncommon (Collection type)
+
+series_004:
+  name: "The Empress's Garden"
+  theme: "Abundance & Growth"
+  difficulty: Easy
+  stages:
+    - stage_1: "The Empress - Seeds"
+    - stage_2: "The Empress - Bloom"
+    - stage_3: "The Empress - Harvest"
+  completion_bonus:
+    reveries: +90
+    card: Guaranteed Uncommon (Collection type)
+
+series_005:
+  name: "The Emperor's Throne"
+  theme: "Authority & Structure"
+  difficulty: Medium
+  stages:
+    - stage_1: "The Emperor - Foundation"
+    - stage_2: "The Emperor - Rule"
+    - stage_3: "The Emperor - Legacy"
+  completion_bonus:
+    reveries: +100
+    card: Guaranteed Uncommon (Defense type)
+
+series_006:
+  name: "The Hierophant's Wisdom"
+  theme: "Tradition & Teaching"
+  difficulty: Medium
+  completion_bonus:
+    reveries: +110
+    card: Guaranteed Rare
+
+series_007:
+  name: "The Lovers' Choice"
+  theme: "Relationships & Decisions"
+  difficulty: Medium
+  completion_bonus:
+    reveries: +120
+    card: Guaranteed Rare
+
+series_008:
+  name: "The Chariot's Victory"
+  theme: "Willpower & Triumph"
+  difficulty: Medium
+  completion_bonus:
+    reveries: +130
+    card: Guaranteed Rare (Attack type)
+
+series_009:
+  name: "Strength's Courage"
+  theme: "Inner Strength & Compassion"
+  difficulty: Medium
+  completion_bonus:
+    reveries: +140
+    card: Guaranteed Rare (Defense type)
+
+series_010:
+  name: "The Hermit's Solitude"
+  theme: "Introspection & Guidance"
+  difficulty: Medium
+  completion_bonus:
+    reveries: +150
+    card: Guaranteed Rare
+```
+
+**Tier 2: Rare Series (10 series, 3 stages each = 30 cards)**
+
+```yaml
+series_011:
+  name: "The Wheel of Fortune"
+  theme: "Fate & Change"
+  difficulty: Hard
+  completion_bonus:
+    reveries: +200
+    card: Guaranteed Rare + 50% Epic chance
+
+series_012:
+  name: "Justice's Balance"
+  theme: "Fairness & Consequence"
+  difficulty: Hard
+
+series_013:
+  name: "The Hanged Man's Sacrifice"
+  theme: "Surrender & New Perspective"
+  difficulty: Hard
+
+series_014:
+  name: "Death's Transformation"
+  theme: "Endings & Beginnings"
+  difficulty: Hard
+
+series_015:
+  name: "Temperance's Harmony"
+  theme: "Balance & Moderation"
+  difficulty: Hard
+
+series_016:
+  name: "The Devil's Temptation"
+  theme: "Bondage & Materialism"
+  difficulty: Very Hard
+
+series_017:
+  name: "The Tower's Destruction"
+  theme: "Chaos & Revelation"
+  difficulty: Very Hard
+
+series_018:
+  name: "The Star's Hope"
+  theme: "Inspiration & Renewal"
+  difficulty: Very Hard
+
+series_019:
+  name: "The Moon's Illusion"
+  theme: "Subconscious & Deception"
+  difficulty: Very Hard
+
+series_020:
+  name: "The Sun's Radiance"
+  theme: "Joy & Success"
+  difficulty: Very Hard
+```
+
+**Tier 3: Epic Series (10 series, 3 stages each = 30 cards)**
+
+```yaml
+series_021:
+  name: "Judgement's Reckoning"
+  theme: "Rebirth & Absolution"
+  difficulty: Extreme
+  completion_bonus:
+    reveries: +500
+    card: Guaranteed Epic
+
+series_022:
+  name: "The World's Completion"
+  theme: "Fulfillment & Unity"
+  difficulty: Extreme
+  completion_bonus:
+    reveries: +600
+    card: Guaranteed Epic + Legendary chance
+
+series_023-030:
+  name: "[Additional Epic Series]"
+  theme: "Nightmare Variations"
+  difficulty: Nightmare
+  completion_bonus:
+    reveries: +400-800
+    card: Epic/Legendary mix
+```
+
+---
+
+### 2.0.3 Dream Series Connection Probability
+
+**Tier-Based Connection Rates:**
+
+| Tier | Stage 2 Match Probability | Stage 3 Match Probability | Perfect Dream Rate |
+|------|---------------------------|---------------------------|-------------------|
+| **Common** | 60% | 50% | 30% |
+| **Rare** | 30% | 25% | 7.5% |
+| **Epic** | 10% | 10% | 1% |
+
+**Calculation Example:**
+```python
+def calculate_perfect_dream_probability(tier):
+    """
+    Probability of drawing all 3 stages of same series
+    """
+    if tier == "common":
+        # Stage 1: 100% (any card)
+        # Stage 2: 60% match
+        # Stage 3: 50% match
+        return 1.0 * 0.6 * 0.5  # = 0.30 (30%)
+    
+    elif tier == "rare":
+        return 1.0 * 0.3 * 0.25  # = 0.075 (7.5%)
+    
+    elif tier == "epic":
+        return 1.0 * 0.1 * 0.1  # = 0.01 (1%)
+```
+
+**Re-draw Impact:**
+```yaml
+Re-draw Strategy:
+  - Player can re-draw up to 3 times per block
+  - Cost: 10/20/30 Reveries (increasing)
+  
+Example:
+  - Common tier, no re-draws: 30% perfect dream chance
+  - Common tier, 2 re-draws on Stage 2-3:
+    - Stage 2: 60% + (40% × 60%) = 84% chance
+    - Stage 3: 50% + (50% × 50%) = 75% chance
+    - Perfect: 84% × 75% = 63% chance
+  
+Investment: 50 Reveries (20+30) for +33% success rate
+Return: 50 Reveries spent → 60 Reveries bonus (net +10)
+```
+
+---
+
+### 2.0.4 Dream Card Visual Design
+
+**Card Layout (Tarot-Inspired):**
+```
+┌─────────────────────────┐
+│  [SERIES ICON]          │  ← Top: Series symbol
+│                         │
+│    [MAIN ART]           │  ← Center: Dream illustration
+│                         │
+│  "The Fool - Awakening" │  ← Bottom: Card name
+│  ⚡ Stage 1/3           │  ← Stage indicator
+└─────────────────────────┘
+```
+
+**Color Coding:**
+- **Common:** Silver/Gray border
+- **Rare:** Gold border
+- **Epic:** Purple/Violet border
+- **Legendary:** Rainbow/Prismatic border
+
+**Animation States:**
+- **Idle:** Gentle floating animation (± 5px vertical)
+- **Drawing:** Flip animation (card reveal)
+- **Matching:** Glow effect (green for match, red for mismatch)
+- **Complete:** Burst of light + series logo appears
+
+---
+
+## 2.1 Combat Card Database
 
 ### 2.1.1 Card Data Structure
 
@@ -2311,6 +3019,164 @@ def apply_economic_balance(player):
         upgrade_cost_multiplier = 1.5  # Late-game upgrades more expensive
 ```
 
+### 3.2.3 Dream Linking Economy
+
+**Dream Completion Income:**
+```yaml
+Expected Income per Dream (3 Blocks):
+
+Perfect Dream (30% chance, Common Tier):
+  Base Reveries: 120 (20 + 40 + 60)
+  Completion Bonus: +60 (50%)
+  Total: 180 Reveries
+  Time: ~10 minutes (with combat)
+  
+Broken Dream (70% chance, Common Tier):
+  Base Reveries: 120
+  Penalty: -50%
+  Total: 60 Reveries
+  Time: ~10 minutes
+  
+Weighted Average per Dream:
+  (0.3 × 180) + (0.7 × 60) = 54 + 42 = 96 Reveries/dream
+  
+Energy Cost: 3 units per dream
+Reveries per Energy: 96 / 3 = 32 Reveries/Energy
+```
+
+**Dream vs Combat Run Comparison:**
+```yaml
+Traditional Combat Run (10 nodes, 25 minutes):
+  Income: ~440 Reveries
+  Reveries/minute: 17.6
+  Requires: Active play
+  
+Dream System (1 dream, 10 minutes):
+  Income: 96 Reveries (average)
+  Reveries/minute: 9.6
+  Requires: Minimal interaction
+  
+Dream System (Idle, 8 hours):
+  Energy regen: 16 units (8 hours / 0.5 hours per unit)
+  Dreams playable: 5 (16 / 3)
+  Income: 5 × 96 = 480 Reveries
+  Reveries/hour: 60
+  
+Balance: Dreams provide steady idle income, combat runs provide active bursts
+```
+
+**Re-draw Investment Analysis:**
+```python
+def analyze_redraw_roi(tier, blocks_redrawn):
+    """
+    Return on Investment for re-drawing cards
+    """
+    
+    # Costs
+    redraw_costs = {
+        1: 10,  # Block 1
+        2: 20,  # Block 2
+        3: 30   # Block 3
+    }
+    
+    total_cost = sum(redraw_costs[b] for b in blocks_redrawn)
+    
+    # Benefits (increased perfect dream probability)
+    if tier == "common":
+        base_chance = 0.30
+        # Each re-draw adds ~20% to match chance
+        improved_chance = min(0.80, base_chance + (len(blocks_redrawn) * 0.15))
+    
+    expected_bonus = 60 * improved_chance  # 60 Reveries bonus
+    
+    return {
+        "investment": total_cost,
+        "expected_return": expected_bonus,
+        "net_profit": expected_bonus - total_cost,
+        "roi": (expected_bonus - total_cost) / total_cost * 100
+    }
+
+# Example:
+# Re-draw Blocks 2-3 (50 Reveries cost)
+# Improved chance: 30% → 60%
+# Expected bonus: 60 × 0.6 = 36 Reveries
+# Net: 36 - 50 = -14 Reveries (LOSS)
+# Conclusion: Not worth it for Common tier with bonus alone
+# BUT: Valuable for rare card drops and achievements
+```
+
+### 3.2.4 Energy System Balance
+
+**Energy as Pacing Mechanic:**
+```yaml
+Free-to-Play Player (No IAP):
+  Daily Energy: 3 (free) + 16 (regen 8 hours) = 19 units
+  Dreams per day: 6 (19 / 3)
+  Daily Reveries: 6 × 96 = 576 Reveries
+  
+Paying Player (1× $0.99 energy pack):
+  Daily Energy: 19 (free) + 5 (IAP) = 24 units
+  Dreams per day: 8
+  Daily Reveries: 8 × 96 = 768 Reveries
+  Extra income: +192 Reveries for $0.99
+  Reveries per $: 194 Reveries/$
+  
+Energy-Free Mode ($4.99 one-time):
+  Daily Energy: Unlimited
+  Dreams per day: Limited by time (~20 dreams)
+  Daily Reveries: 20 × 96 = 1,920 Reveries
+  Extra income: +1,344 Reveries/day
+  Value: Pays for itself in 4 days
+```
+
+**Energy Regeneration vs Spending:**
+```python
+class EnergyEconomy:
+    """Balance energy generation and consumption"""
+    
+    def __init__(self):
+        self.regen_rate = 1800  # 30 minutes = 1 energy
+        self.daily_free = 3
+        self.max_storage = 5
+    
+    def daily_free_energy(self):
+        """Total free energy per day"""
+        # Regen: 24 hours / 0.5 hours per unit = 48 units
+        # But capped at storage: 5 max
+        # Realistic: Player checks 3× daily = 15 units
+        return self.daily_free + 15
+    
+    def calculate_energy_value(self):
+        """Monetary value of 1 energy unit"""
+        reveries_per_energy = 32  # From dream completion average
+        reveries_per_dollar = 194  # From $0.99 pack (5 energy)
+        
+        energy_value = 194 / 5  # $0.198 per energy
+        return {
+            "usd_per_energy": 0.198,
+            "reveries_per_energy": 32,
+            "usd_per_reverie": 0.198 / 32  # $0.0062 per Reverie
+        }
+```
+
+**Energy Cap Strategy:**
+```yaml
+Why 5-unit cap?
+  - Prevents infinite hoarding
+  - Encourages regular play (3-4 times/day)
+  - Monetization lever (IAP for overflow)
+  
+Player Behavior:
+  Morning: Collect 3 free + 3 regen = 6 units (capped at 5)
+  Play 1 dream: -3 energy = 2 remaining
+  Afternoon: +3 regen = 5 (capped)
+  Play 1 dream: -3 energy = 2 remaining
+  Evening: +3 regen = 5 (capped)
+  Play 1 dream: -3 energy = 2 remaining
+  
+Total: 3 dreams/day (9 energy) without IAP
+```
+
 ---
 
 ## 3.3 Card Balance
@@ -2490,40 +3356,192 @@ All Prestige Bonuses (Tier 10):
 
 ## 4.1 Screen Structure
 
-### 4.1.1 Home/Archive Screen
+### 4.1.1 Dream Home Screen (Primary Hub)
+
+**Core Concept:**
+The **Dream Home** is the primary hub where players manage their dream-linking meta-game. It replaces the traditional "lobby" with a tarot card-based interface that visualizes dream progression.
 
 **Layout (Portrait 390×844px):**
 ```
 ┌────────────────────────────────┐
-│ [Reveries: 1,234] [Settings ⚙] │ ← Top Bar (60px)
+│ [Energy: ⚡⚡⚡▫▫] [Reveries: 1,234] [⚙] │ ← Top Bar (60px)
 ├────────────────────────────────┤
-│                                │
-│     [Dream Collector]          │ ← Character Idle Anim
-│     (Floating Animation)       │   (300px center)
-│                                │
+│  ╔════════╗  ╔════════╗  ╔════════╗│
+│  ║ BLOCK 1║  ║ BLOCK 2║  ║ BLOCK 3║│ ← Tarot Cards (200px)
+│  ║        ║  ║        ║  ║        ║│   Horizontal scroll
+│  ║ [Card] ║  ║ [LOCK] ║  ║ [LOCK] ║│   Large, central focus
+│  ║        ║  ║        ║  ║        ║│
+│  ╚════════╝  ╚════════╝  ╚════════╝│
+│  The Fool's Journey • Stage 1/3   │ ← Series Name
+│  [🔄 Re-draw: 10 R] [▶ Continue]  │ ← Action Buttons
 ├────────────────────────────────┤
-│ ┌────────────────────────────┐ │
-│ │ Offline Rewards Ready!     │ │ ← Banner (100px)
-│ │ Tap to Collect: 2,345 R    │ │
+│ 📖 Current Dream Story:         │
+│ ┌────────────────────────────┐ │ ← Story Text Box (150px)
+│ │ "A young dreamer stands at │ │   Scrollable
+│ │  the edge of a cliff,      │ │   Atmospheric text
+│ │  ready to leap into the    │ │
+│ │  unknown..."               │ │
 │ └────────────────────────────┘ │
 ├────────────────────────────────┤
-│ ┌──────────┐  ┌──────────┐    │
-│ │ Start    │  │ Cards    │    │ ← Main Actions
-│ │ Run      │  │          │    │   (2×2 grid)
-│ └──────────┘  └──────────┘    │
-│ ┌──────────┐  ┌──────────┐    │
-│ │ Upgrade  │  │ Shop     │    │
-│ └──────────┘  └──────────┘    │
+│ Previous Dreams (Completed):   │
+│ ┌──────────────────────────────┐│ ← Dream History Stack
+│ │ ✓ Perfect: The Fool's Journey││   (Scrollable list)
+│ │   +180 Reveries • 2h ago     ││   Each entry tappable
+│ └──────────────────────────────┘│
+│ ┌──────────────────────────────┐│
+│ │ ✗ Broken: Mixed Dreams       ││
+│ │   +60 Reveries • 5h ago      ││
+│ └──────────────────────────────┘│
+│ ┌──────────────────────────────┐│
+│ │ ✓ Partial: Tower's Fall I-II ││
+│ │   +140 Reveries • 8h ago     ││
+│ └──────────────────────────────┘│
 └────────────────────────────────┘
-│ [Home] [Cards] [Up] [Prog] [Shop] │ ← Tab Bar (80px)
+│ [Home] [Combat Deck] [Library] [Shop]│ ← Tab Bar (80px)
 └────────────────────────────────┘
 ```
 
 **Interactive Elements:**
-- **Reveries Counter:** Animates on change, tappable for details
-- **Offline Banner:** Big tap target (entire banner), shows breakdown on tap
-- **Start Run:** Primary CTA, glows when available
-- **Settings:** Opens drawer with options (sound, language, etc.)
+
+**1. Energy Display (Top Left):**
+- Visual: 5 energy orbs (⚡ filled, ▫ empty)
+- Tap to open Energy Info modal:
+  - Current: 3/5
+  - Next regen: 15 minutes
+  - [Buy Energy] button → IAP shop
+
+**2. Tarot Card Blocks:**
+- **Block 1 (Active):**
+  - Shows drawn card or [?] placeholder
+  - Tap → Card detail view (story, combat triggers)
+  - Glow animation if card drawn
+  
+- **Block 2-3 (Locked):**
+  - Grayed out with lock icon
+  - Unlock when previous block complete
+  
+**3. Action Buttons:**
+- **Re-draw (10-30 Reveries):**
+  - Only visible if current block not confirmed
+  - Shows cost dynamically
+  - 3 re-draws max per block
+  
+- **Continue (1 Energy):**
+  - Primary CTA, glowing
+  - Draws next card OR proceeds to combat
+  - Disabled if energy = 0
+
+**4. Story Text Box:**
+- Auto-updates with each card drawn
+- Smooth fade transition (500ms)
+- Font: Serif, slightly larger (14pt)
+- Background: Semi-transparent dark overlay
+
+**5. Dream History Stack:**
+- Reverse chronological (newest on top)
+- Each entry shows:
+  - Completion status icon (✓ Perfect, ⚠ Partial, ✗ Broken)
+  - Series name
+  - Reveries earned
+  - Time ago (relative: "2h ago")
+- Tap entry → Full dream replay (story + rewards summary)
+- Swipe left → Archive (hide from list)
+
+**6. Tab Bar:**
+- **Home:** Dream Home (current screen)
+- **Combat Deck:** Deckbuilding screen (for combat cards)
+- **Library:** Content library (cards, dreamers, achievements)
+- **Shop:** Monetization (IAP, ads, cosmetics)
+
+**Visual Theme:**
+- **Background:** Soft gradient (purple to blue), animated stars
+- **Tarot Cards:** Large, ornate, golden borders
+- **Typography:** Mix of serif (story) and sans-serif (UI)
+- **Animations:** Gentle floating (cards), particle effects (energy)
+
+---
+
+### 4.1.1.1 Dream Card Reveal Animation
+
+**Sequence:**
+```
+1. Player taps "Continue" (costs 1 Energy)
+   ↓ (Energy orb depletes with glow effect, 300ms)
+   
+2. Tarot card placeholder grows and centers (500ms)
+   ↓ (Card scales to 150%, rest of UI blurs)
+   
+3. Card flips to reveal front (800ms)
+   ↓ (3D flip animation, glowing edges)
+   
+4. Series match check:
+   - Match: Green glow + "Series Continues!" text
+   - No match: Red glow + "New Path..." text
+   ↓ (Feedback lasts 1s)
+   
+5. Card shrinks back to block position (500ms)
+   ↓ (Returns to Dream Home layout)
+   
+6. Story text updates (fade transition, 500ms)
+   ↓
+   
+7. If combat trigger: Show "Enter Dream" button
+   If no combat: Auto-unlock next block
+```
+
+**Total Time:** ~3.5 seconds (skippable after 1s)
+
+---
+
+### 4.1.1.2 Dream Home to Combat Transition
+
+**Vortex Effect:**
+```
+1. Player taps "Enter Dream" button
+   ↓
+   
+2. Tarot card pulses and glows (300ms)
+   ↓
+   
+3. Vortex appears behind card (500ms)
+   - Spiral animation (rotating inward)
+   - Color: Card's series color
+   - Sound: Deep whoosh
+   ↓
+   
+4. Screen elements sucked into vortex (800ms)
+   - UI elements fly toward center
+   - Dream Home fades to black
+   - Player feels "pulled in"
+   ↓
+   
+5. Brief darkness (200ms)
+   ↓
+   
+6. Combat screen fades in (500ms)
+   - Enemy appears from darkness
+   - Combat UI slides in from edges
+   
+Total: ~2.3 seconds (non-skippable, narrative importance)
+```
+
+**Return Transition (Combat → Dream Home):**
+```
+1. Combat victory/defeat screen (2s)
+   ↓
+   
+2. Screen whites out (300ms)
+   - Flash of light
+   - Sound: Chime
+   ↓
+   
+3. Dream Home fades back in (500ms)
+   - Completed card now has checkmark
+   - Story text updates with outcome
+   - Rewards briefly highlight (+120 R, +1 card)
+   
+Total: ~2.8 seconds (skippable after victory screen)
+```
 
 ### 4.1.2 Deck Builder Screen
 
