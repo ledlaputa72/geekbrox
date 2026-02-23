@@ -1,0 +1,75 @@
+Create an upgraded Dream Collector Upgrade Tree screen with the following specs:
+
+LAYOUT (390×844px portrait):
+- Header (60px): ← Back button (left) | "Upgrade Tree" title | "Dream Shards: 12" (right, #00CED1)
+- Tree visual (600px): Scrollable tree diagram with nodes and connection lines
+  - Vertical + horizontal scroll
+  - Pinch zoom (0.5x ~ 2.0x)
+- Info panel (140px bottom): Selected upgrade details on #2C2C3E background
+
+TREE NODES (40×40px each):
+- States:
+  - Locked: #333333 background, gray icon
+  - Unlockable: #7B9EF0 background, glowing pulse (2s cycle)
+  - Unlocked: #4CAF50 background, checkmark overlay
+- Icon: 24×24px center
+- Border: 2px solid (state color)
+- Connection lines: 2px
+  - Locked: #555555 dashed
+  - Active: #7B9EF0 solid
+
+UPGRADE TREE STRUCTURE:
+```
+    ○───○───○───○───○
+   ╱ ╲ ╱ ╲ ╱ ╲ ╱ ╲ ╱
+  ○   ○   ○   ○   ○
+   ╲ ╱ ╲ ╱ ╲ ╱ ╲ ╱
+    ○───○───○───○
+```
+
+INFO PANEL (140px):
+- Background: #2C2C3E
+- Border radius: 16px (top only)
+- Padding: 20px
+- Content:
+  - Upgrade name: Nunito Bold 18px
+  - Cost: "Cost: 3 Dream Shards" (Nunito Bold 14px, #00CED1)
+  - Effect: Multi-line description (Nunito Regular 14px)
+  - Unlock button: Full-width × 44px
+    - Active: #7B9EF0 "Unlock"
+    - Inactive: #555555 "Shards Insufficient"
+    - Already unlocked: #4CAF50 "Unlocked"
+
+EXAMPLE UPGRADES:
+1. Enhanced Starting Deck (3 Shards)
+   - Effect: Start with 1 Rare card
+2. Energy Boost (5 Shards)
+   - Effect: +1 max energy
+3. HP Recovery (4 Shards)
+   - Effect: +2 starting HP
+4. Reveries Boost (6 Shards)
+   - Effect: +20% Reveries earned
+5. Card Draw (7 Shards)
+   - Effect: Draw 1 extra card at turn start
+
+INTERACTIONS:
+- Node tap: Select → update info panel
+- Node long-press: Tooltip with quick info
+- Scroll: Pan tree view (all directions)
+- Pinch: Zoom in/out
+- Unlock button tap: Deduct Shards → unlock animation (400ms) → update tree
+
+ANIMATIONS:
+- Unlock: Node pulse + color change #333333 → #4CAF50 (400ms)
+- Glow: Unlockable nodes pulse (2s cycle)
+- Panel update: Fade transition (200ms)
+
+THEME:
+- Background: #1A1A2E
+- Nodes: State-based colors
+- Lines: #555555 (locked), #7B9EF0 (active)
+- Text: #FFFFFF (white), #00CED1 (Dream Shards)
+- Font: Nunito
+
+Dream Shards counter should have count-up animation on changes.
+Make the tree visually clear with smooth scroll/zoom and immediate feedback.

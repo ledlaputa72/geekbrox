@@ -1,0 +1,104 @@
+Create a NEW Dream Collector Run Preparation screen with the following specs:
+
+LAYOUT (390×844px portrait):
+- Header (60px): ← Back button (left) | "Run Preparation" title
+- Section title (40px): "Select Dreamer: (Difficulty)"
+- Dreamer selection (200px): Horizontal scroll, 140×180px cards
+  - 3 dreamers: Serenity (Easy), Anxiety (Normal), Fear (Hard)
+- Section title (40px): "Your Deck (12 cards): DPS: 45 | Avg cost: 2.8"
+- Deck preview (140px): Horizontal scroll, 64×90px cards
+- Edit deck button (44px): Full-width button
+- Run start CTA (80px): Large button with energy status
+- Info text (30px): "Estimated: 15-25 min"
+
+DREAMER CARDS (140×180px):
+- Difficulty-based gradients:
+  - Easy (Serenity): linear-gradient(135deg, #4CAF50 0%, #81C784 100%)
+  - Normal (Anxiety): linear-gradient(135deg, #FFC107 0%, #FFD54F 100%)
+  - Hard (Fear): linear-gradient(135deg, #F44336 0%, #E57373 100%)
+- Border radius: 16px
+- Shadow: 0 4px 8px rgba(0,0,0,0.3)
+- Content:
+  - Name: Nunito Bold 16px
+  - Icon: 64×64px (center)
+  - Difficulty: 🟢🟡🔴 + text (Nunito Regular 14px)
+  - HP: Nunito Bold 18px (e.g., "10 HP")
+  - Reward multiplier: Nunito Regular 12px (#FFD700) (e.g., "+20% R")
+- Selected state:
+  - Border: 4px solid #7B9EF0
+  - Shadow: 0 0 16px rgba(123, 158, 240, 0.6)
+  - "Selected" label (bottom center)
+- Unselected: Opacity 0.7
+
+DREAMER DETAILS:
+1. **Serenity (Easy)**
+   - Icon: 😌
+   - HP: 10
+   - Reward: +20% Reveries
+   - Difficulty: 🟢 Easy
+
+2. **Anxiety (Normal)**
+   - Icon: 😰
+   - HP: 8
+   - Reward: +0% Reveries
+   - Difficulty: 🟡 Normal
+
+3. **Fear (Hard)**
+   - Icon: 😱
+   - HP: 6
+   - Reward: -20% Reveries, +50% Card drops
+   - Difficulty: 🔴 Hard
+
+DECK PREVIEW (140px):
+- Horizontal scroll: 64×90px cards, gap 8px
+- Show rarity gradient backgrounds
+- Cost badge top-right
+- Tap card → card detail modal
+- Show deck stats: DPS, avg cost
+
+EDIT DECK BUTTON (44px):
+- Full-width × 44px
+- Background: #5A7FC0
+- Text: "Edit Deck" (Nunito Bold 16px)
+- Tap → navigate to deck builder
+
+RUN START CTA (60px):
+- Size: 350×60px
+- Background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+- Border radius: 16px
+- Shadow: 0 8px 16px rgba(102, 126, 234, 0.5)
+- Text:
+  - Main: "🚀 Start Run" (Nunito Bold 20px)
+  - Sub: "(Energy: 100%)" (Nunito Regular 14px)
+- Animation: Glowing pulse (2s cycle)
+- Tap: Scale 0.95 (100ms) → fade-out → start run
+- States:
+  - Active: Glow + shadow
+  - Inactive (low energy): Grayscale + "Energy Insufficient" label
+
+INFO TEXT (30px):
+- Text: "Estimated: 15-25 min" (Nunito Regular 14px)
+- Color: #AAAAAA
+- Center aligned
+
+INTERACTIONS:
+- Dreamer tap: Select dreamer (deselect others)
+- Dreamer long-press: Dreamer detail modal
+- Deck card tap: Card detail modal
+- Edit deck button: Navigate to deck builder
+- Run start: Validation → confirmation modal → start run
+
+ANIMATIONS:
+- Dreamer selection: Border fade-in (200ms)
+- Run start button: Pulse glow (2s cycle)
+- Transition: Fade to in-run screen (300ms)
+
+THEME:
+- Background: #1A1A2E
+- Cards: Difficulty gradients
+- Text: #FFFFFF (white), #AAAAAA (gray)
+- Font: Nunito
+- Accent: #7B9EF0
+
+Make it clear which dreamer is selected with strong visual feedback.
+Show deck information prominently and make the run start button the primary CTA.

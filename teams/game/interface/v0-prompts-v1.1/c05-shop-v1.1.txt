@@ -1,0 +1,98 @@
+Create an upgraded Dream Collector Shop screen with the following specs:
+
+LAYOUT (390×844px portrait):
+- Header (60px): ← Back button (left) | "Shop" title | "Reveries: 1,234" (right, #FFD700)
+- Tab bar (50px): [Daily Deal] [Cards] [Energy]
+  - Active: #7B9EF0 + 4px bottom underline
+  - Inactive: #666666
+  - Transition: Slide 200ms
+- Daily deal banner (100px): Gradient background, featured item, timer
+- Product grid (scrollable): 2-column grid, 170×220px products, gap 12px
+
+DAILY DEAL BANNER (350×80px):
+- Background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%)
+- Border radius: 16px
+- Shadow: 0 4px 8px rgba(240, 147, 251, 0.5)
+- Content:
+  - Title: "🎁 Daily Deal" (Nunito Bold 18px)
+  - Discount: "50% OFF" (Nunito Bold 20px)
+  - Timer: "6 hours left" (Nunito Regular 14px)
+- Tap → daily deal detail page
+
+PRODUCT CARDS (170×220px):
+- Background: #2C2C3E
+- Border radius: 16px
+- Shadow: 0 2px 4px rgba(0,0,0,0.2)
+- Padding: 16px
+- Content:
+  - Icon: 64×64px (top center)
+  - Name: Nunito Bold 16px
+  - Description: Nunito Regular 12px (2 lines)
+  - Price: Nunito Bold 18px (#FFD700)
+  - Buy button: Full-width × 40px
+    - Active: #5A7FC0 "Buy"
+    - Inactive: #555555 "Insufficient Reveries"
+    - Purchased: #4CAF50 "Purchased" (if limit)
+
+PRODUCT EXAMPLES:
+
+**Cards Tab:**
+1. Rare Card Pack (100 R)
+   - Icon: 🎴
+   - 5 random Rare cards
+2. Epic Card Pack (300 R)
+   - Icon: ✨
+   - 3 random Epic cards
+3. Legendary Card (500 R)
+   - Icon: 💎
+   - 1 random Legendary card
+4. Starter Deck Upgrade (200 R)
+   - Icon: 📚
+   - Replace 3 Common with Uncommon
+
+**Energy Tab:**
+1. Energy Refill (50 R)
+   - Icon: ⚡
+   - Restore 100% energy
+2. Energy Pack (150 R)
+   - Icon: 🔋
+   - 5 energy refills
+3. Max Energy +1 (500 R)
+   - Icon: ⚡⚡
+   - Permanent +1 max energy
+
+**Daily Deal Tab:**
+- Featured item with 50% discount
+- Limited time (24h timer)
+- Special badge: "LIMITED"
+
+PURCHASE FLOW:
+1. Tap product card → confirmation modal
+2. Modal shows:
+   - Product details
+   - Current Reveries
+   - Cost
+   - [Cancel] [Confirm Purchase] buttons
+3. Confirm → deduct Reveries → success toast → item received animation
+
+STATES:
+- Purchasable: Glow effect
+- Insufficient funds: Grayscale + red "Insufficient" badge
+- Sold out (limited): "Sold Out" badge
+- Purchased (one-time): Green checkmark
+
+ANIMATIONS:
+- Tab transition: Slide content 200ms
+- Purchase: Card pulse → fade-out → success toast (600ms)
+- Timer: Live countdown with red warning at <1h
+- Buy button tap: Scale 0.95 (100ms)
+
+THEME:
+- Background: #1A1A2E
+- Cards: #2C2C3E
+- Text: #FFFFFF (white), #FFD700 (gold for Reveries)
+- Font: Nunito
+- Accent: #7B9EF0 (active), #F5576C (daily deal)
+
+Make it visually appealing with clear purchase states and smooth transactions.
+Include a timer animation for daily deals with urgency indicators.
