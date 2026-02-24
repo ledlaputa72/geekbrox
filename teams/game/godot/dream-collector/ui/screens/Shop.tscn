@@ -1,0 +1,200 @@
+[gd_scene load_steps=3 format=3 uid="uid://shop"]
+
+[ext_resource type="Script" path="res://ui/screens/Shop.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://alert_modal" path="res://ui/components/AlertModal.tscn" id="2"]
+
+[node name="Shop" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.18, 1)
+
+[node name="TopBar" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+
+[node name="HBox" type="HBoxContainer" parent="TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = -16.0
+
+[node name="BackButton" type="Button" parent="TopBar/HBox"]
+layout_mode = 2
+text = "← Back"
+
+[node name="TitleLabel" type="Label" parent="TopBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Shop"
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnergyCounter" type="HBoxContainer" parent="TopBar/HBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="Icon" type="Label" parent="TopBar/HBox/EnergyCounter"]
+layout_mode = 2
+text = "⚡"
+theme_override_font_sizes/font_size = 16
+
+[node name="CountLabel" type="Label" parent="TopBar/HBox/EnergyCounter"]
+layout_mode = 2
+text = "100"
+theme_override_font_sizes/font_size = 16
+
+[node name="GemsCounter" type="HBoxContainer" parent="TopBar/HBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="Icon" type="Label" parent="TopBar/HBox/GemsCounter"]
+layout_mode = 2
+text = "💎"
+theme_override_font_sizes/font_size = 16
+
+[node name="CountLabel" type="Label" parent="TopBar/HBox/GemsCounter"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 16
+
+[node name="RevariesCounter" type="HBoxContainer" parent="TopBar/HBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="Icon" type="Label" parent="TopBar/HBox/RevariesCounter"]
+layout_mode = 2
+text = "🪙"
+theme_override_font_sizes/font_size = 16
+
+[node name="CountLabel" type="Label" parent="TopBar/HBox/RevariesCounter"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 16
+
+[node name="TabBar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 60.0
+offset_bottom = 110.0
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="GemsTabButton" type="Button" parent="TabBar"]
+layout_mode = 2
+text = "💎 보석 구매"
+
+[node name="ExchangeTabButton" type="Button" parent="TabBar"]
+layout_mode = 2
+text = "🪙 재화 교환"
+
+[node name="ContentContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 110.0
+offset_bottom = -60.0
+
+[node name="GemsTab" type="ScrollContainer" parent="ContentContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_scroll_mode = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="ContentContainer/GemsTab"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="ContentContainer/GemsTab/CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="GemsGrid" type="GridContainer" parent="ContentContainer/GemsTab/CenterContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 3
+
+[node name="ExchangeTab" type="ScrollContainer" parent="ContentContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+horizontal_scroll_mode = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="ContentContainer/ExchangeTab"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="ContentContainer/ExchangeTab/CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ExchangeGrid" type="VBoxContainer" parent="ContentContainer/ExchangeTab/CenterContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BottomNav" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -60.0
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="HomeTab" type="Button" parent="BottomNav"]
+custom_minimum_size = Vector2(78, 60)
+layout_mode = 2
+text = "🏠
+Home"
+
+[node name="CardsTab" type="Button" parent="BottomNav"]
+custom_minimum_size = Vector2(78, 60)
+layout_mode = 2
+text = "🎴
+Cards"
+
+[node name="UpgradeTab" type="Button" parent="BottomNav"]
+custom_minimum_size = Vector2(78, 60)
+layout_mode = 2
+text = "⬆️
+Upgrade"
+
+[node name="ProgressTab" type="Button" parent="BottomNav"]
+custom_minimum_size = Vector2(78, 60)
+layout_mode = 2
+text = "📊
+Progress"
+
+[node name="ShopTab" type="Button" parent="BottomNav"]
+custom_minimum_size = Vector2(78, 60)
+layout_mode = 2
+text = "🛒
+Shop"
+
+[node name="AlertModal" parent="." instance=ExtResource("2")]
