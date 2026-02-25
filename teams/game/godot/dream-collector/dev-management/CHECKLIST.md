@@ -62,13 +62,20 @@
   - [x] 상단 스탯 바 (HP/Energy/Reveries)
   - [x] 액션 바 (Skip/Auto/Menu)
 
-- [x] **c08-combat (Phase 1)** (Combat.tscn) ✅ 2026-02-24
-  - [ ] 핸드 (최대 7장)
-  - [ ] 드로우 덱 / 버린 덱 카운터
-  - [ ] 에너지 표시
-  - [ ] 적 표시 (HP, 의도)
-  - [ ] 카드 드래그 앤 드롭
-  - [ ] 턴 종료 버튼
+- [x] **c08-combat** (Combat.tscn) ✅ Phase 1 완료 (2026-02-24)
+  - [x] Top Bar (HP/Energy 표시)
+  - [x] Battle Scene (Hero vs Monsters 가로 액자)
+  - [x] Hero 스프라이트 + HP 바 + ATB 바
+  - [x] Monsters (2마리) 스프라이트 + HP 바 + ATB 바
+  - [x] Combat Log (스크롤 가능)
+  - [x] Action Buttons (Pass/Auto/Menu)
+  - [x] ATB 시스템 (실시간 게이지 충전)
+  - [x] 기본 공격 로직 (데미지 계산, 회피 체크)
+  - [x] 승리/패배 조건
+  - [x] InRun ↔ Combat 씬 전환
+  - [ ] 🔴 Phase 2: Energy Timer + Card Draw
+  - [ ] 🔴 Phase 3: Card Hand UI (부채꼴) + Card Play
+  - [ ] 🔴 Phase 4: Auto-Battle AI
 
 ### Category 3: 모달 화면
 - [ ] **c09-victory-screen** (VictoryScreen.tscn)
@@ -305,5 +312,9 @@
 
 ---
 
-**마지막 업데이트:** 2026-02-24 19:00 PST
-**다음 목표:** c08-combat Phase 2 (카드 덱 시스템), c09-victory, c10-defeat
+**마지막 업데이트:** 2026-02-24 19:30 PST
+**다음 목표:** 
+- 🔴 c08-combat Phase 2 (에너지 타이머 + 카드 드로우)
+- 🔴 c08-combat Phase 3 (카드 핸드 UI + 카드 플레이)
+- c09-victory-screen
+- c10-defeat-screen

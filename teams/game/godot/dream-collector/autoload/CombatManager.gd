@@ -4,6 +4,8 @@ extends Node
 signal combat_log_updated(message: String)
 signal entity_updated(entity_type: String, index: int)
 signal combat_ended(victory: bool)
+signal energy_changed(current: int, max: int)
+signal energy_timer_updated(progress: float)
 
 # Combat State
 var in_combat: bool = false
@@ -14,6 +16,11 @@ var combat_log: Array = []
 # ATB Settings
 const ATB_MAX: float = 100.0
 const ATB_CHARGE_RATE: float = 1.0  # Multiplier for delta time
+
+# Energy System Settings
+const ENERGY_MAX: int = 3
+const ENERGY_TIMER_DURATION: float = 5.0  # Seconds per energy charge
+var energy_timer: float = 0.0  # Current timer progress
 
 func _ready():
 	pass
@@ -27,6 +34,9 @@ func _process(delta):
 	
 	# Check for turns
 	_check_atb_turns()
+	
+	# Update Energy Timer
+	_update_energy_timer(delta)
 
 func start_combat(monster_data: Array):
 	in_combat = true
@@ -54,8 +64,32 @@ func start_combat(monster_data: Array):
 		monster["block"] = 0
 		monsters.append(monster)
 	
+	# Initialize Deck
+	var starting_deck = _get_starting_deck()
+	DeckManager.initialize_combat_deck(starting_deck)
+	
+	# Draw starting hand (5 cards)
+	DeckManager.draw_cards(5)
+	
+	# Initialize Energy Timer
+	energy_timer = 0.0
+	
+	# Initialize Deck
+	_initialize_starting_deck()
+	
+	# Draw starting hand (5 cards)
+	DeckManager.draw_cards(5)
+	
 	add_log("Combat started!")
 	add_log("Hero vs %d monsters" % monsters.size())
+	
+	# Emit initial energy state
+	energy_changed.emit(hero.energy, ENERGY_MAX)
+	energy_timer_updated.emit(0.0)
+	add_log("Drew 5 starting cards")
+	
+	# Emit initial energy state
+	energy_changed.emit(hero.energy, ENERGY_MAX)
 
 func end_combat():
 	in_combat = false
@@ -194,12 +228,123 @@ func add_log(message: String):
 	combat_log_updated.emit(message)
 	print("[Combat] " + message)
 
-# Card Play (for Phase 2+)
-func play_card(card_id: String, target_index: int = -1):
-	# TODO: Implement in Phase 2
-	add_log("Card play not implemented yet.")
+func _update_energy_timer(delta: float):
+	"""Update energy timer and charge energy when full"""
+	# Increment timer
+	energy_timer += delta
+	
+	# Emit progress signal
+	var progress = energy_timer / ENERGY_TIMER_DURATION
+	energy_timer_updated.emit(progress)
+	
+	# Check if timer is full
+	if energy_timer >= ENERGY_TIMER_DURATION:
+		energy_timer = 0.0  # Reset timer
+		
+		# Charge energy (if not at max)
+		if hero.energy < ENERGY_MAX:
+			hero.energy += 1
+			add_log("+1 Energy ⚡")
+			energy_changed.emit(hero.energy, ENERGY_MAX)
+			entity_updated.emit("hero", 0)
+		
+		# Draw 1 card
+		var drawn_card = DeckManager.draw_card()
+		if not drawn_card.is_empty():
+			add_log("Drew 1 card: %s" % drawn_card.name)
 
-# Energy System (for Phase 2+)
-func add_energy(amount: int):
-	# TODO: Implement in Phase 2
-	pass
+func _initialize_starting_deck():
+	"""Initialize deck for combat"""
+	var deck_ids = _get_starting_deck()
+	DeckManager.initialize_combat_deck(deck_ids)
+
+func _get_starting_deck() -> Array:
+	"""Get starting deck card IDs"""
+	# TODO: Get from GameManager or use default
+	return [
+		"attack_01", "attack_01", "attack_01", "attack_01",  # 4x Strike
+		"attack_03", "attack_03", "attack_03",  # 3x Slash
+		"defense_01", "defense_01", "defense_01", "defense_01",  # 4x Defend
+		"skill_02"  # 1x Focus
+	]
+
+# Card Play
+func play_card(card_index: int, target_index: int = -1) -> bool:
+	"""
+	Play a card from hand
+	Returns true if successful
+	"""
+	if card_index < 0 or card_index >= DeckManager.get_hand_size():
+		add_log("Invalid card selection")
+		return false
+	
+	var cards = DeckManager.get_hand_cards()
+	var card = cards[card_index]
+	
+	# Check energy cost
+	if hero.energy < card.cost:
+		add_log("Not enough energy! (Need %d, have %d)" % [card.cost, hero.energy])
+		return false
+	
+	# Check target
+	if card.target == "single" and target_index == -1:
+		target_index = _get_first_alive_monster()
+		if target_index == -1:
+			add_log("No valid target!")
+			return false
+	
+	# Spend energy
+	hero.energy -= card.cost
+	energy_changed.emit(hero.energy, ENERGY_MAX)
+	entity_updated.emit("hero", 0)
+	
+	# Play card from DeckManager (moves to discard)
+	DeckManager.play_card(card_index)
+	
+	# Apply card effects
+	_apply_card_effects(card, target_index)
+	
+	add_log("Played %s (Cost: %d)" % [card.name, card.cost])
+	
+	return true
+
+func _apply_card_effects(card: Dictionary, target_index: int):
+	"""Apply card effects"""
+	# Damage
+	if card.has("damage"):
+		if target_index >= 0 and target_index < monsters.size():
+			var target = monsters[target_index]
+			var damage = card.damage
+			_apply_damage(target, damage)
+			add_log("→ %s dealt %d damage to %s" % [card.name, damage, target.name])
+			entity_updated.emit("monster", target_index)
+			_check_combat_end()
+	
+	# Block
+	if card.has("block"):
+		hero.block += card.block
+		add_log("→ Gained %d Block 🛡" % card.block)
+		entity_updated.emit("hero", 0)
+	
+	# Buff
+	if card.has("buff"):
+		var buff = card.buff
+		if buff.stat == "atk":
+			hero.atk += buff.value
+			add_log("→ ATK +%d (now %d)" % [buff.value, hero.atk])
+			entity_updated.emit("hero", 0)
+	
+	# Draw
+	if card.has("draw"):
+		DeckManager.draw_cards(card.draw)
+		add_log("→ Drew %d cards" % card.draw)
+
+# Energy Management
+func can_afford_card(card_cost: int) -> bool:
+	return hero.energy >= card_cost
+
+func get_current_energy() -> int:
+	return hero.energy
+
+func get_max_energy() -> int:
+	return ENERGY_MAX

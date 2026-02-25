@@ -1,0 +1,93 @@
+{
+  "cards": [
+    {
+      "id": "attack_01",
+      "name": "Strike",
+      "type": "Attack",
+      "cost": 1,
+      "description": "Deal 6 damage.",
+      "damage": 6,
+      "target": "single"
+    },
+    {
+      "id": "attack_02",
+      "name": "Heavy Blow",
+      "type": "Attack",
+      "cost": 2,
+      "description": "Deal 12 damage.",
+      "damage": 12,
+      "target": "single"
+    },
+    {
+      "id": "attack_03",
+      "name": "Slash",
+      "type": "Attack",
+      "cost": 1,
+      "description": "Deal 5 damage.",
+      "damage": 5,
+      "target": "single"
+    },
+    {
+      "id": "defense_01",
+      "name": "Defend",
+      "type": "Defense",
+      "cost": 1,
+      "description": "Gain 5 Block.",
+      "block": 5
+    },
+    {
+      "id": "defense_02",
+      "name": "Shield Wall",
+      "type": "Defense",
+      "cost": 2,
+      "description": "Gain 10 Block.",
+      "block": 10
+    },
+    {
+      "id": "skill_01",
+      "name": "Power Up",
+      "type": "Skill",
+      "cost": 1,
+      "description": "Gain +2 ATK this combat.",
+      "buff": {
+        "stat": "atk",
+        "value": 2
+      }
+    },
+    {
+      "id": "skill_02",
+      "name": "Focus",
+      "type": "Skill",
+      "cost": 0,
+      "description": "Draw 2 cards.",
+      "draw": 2
+    },
+    {
+      "id": "attack_04",
+      "name": "Quick Strike",
+      "type": "Attack",
+      "cost": 0,
+      "description": "Deal 3 damage.",
+      "damage": 3,
+      "target": "single"
+    },
+    {
+      "id": "defense_03",
+      "name": "Dodge",
+      "type": "Defense",
+      "cost": 1,
+      "description": "Gain 3 Block. Draw 1 card.",
+      "block": 3,
+      "draw": 1
+    },
+    {
+      "id": "attack_05",
+      "name": "Berserk",
+      "type": "Attack",
+      "cost": 3,
+      "description": "Deal 20 damage.",
+      "damage": 20,
+      "target": "single"
+    }
+  ]
+}

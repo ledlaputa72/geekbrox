@@ -151,13 +151,64 @@ H 키: 보석 +1,000
 - ~~AlertModal z-order 문제~~ → 해결 완료
 - ~~BottomNav 폰트 크기 불일치~~ → 해결 완료
 
+#### 11. **c08-combat 화면 Phase 1 구현** ✅🔴
+- **설계 문서:** COMBAT_SYSTEM_DESIGN_V2.md (13.5 KB) 작성
+  - 실시간 ATB + 실시간 카드 하이브리드 시스템
+  - 디펜스 게임 + Slay the Spire + Final Fantasy ATB 융합
+  - 4단계 구현 계획 (Phase 1-4, 7-11일 예상)
+- **파일:** Combat.tscn (9.5 KB), Combat.gd (4.4 KB)
+- **CombatManager.gd Autoload** (4.6 KB):
+  - ATB 시스템 구현
+  - 실시간 게이지 충전 (_process)
+  - ATB 100% → 자동 공격 실행
+  - 데미지 계산 (ATK vs DEF, 회피 체크)
+  - 승리/패배 조건 체크
+- **Combat UI 레이아웃:**
+  - Top Bar: HP/Energy 표시
+  - Battle Scene (280px): 가로 액자 전투 뷰
+    - 좌측: Hero (스프라이트, HP 바, ATB 바)
+    - 우측: Monsters 2마리 (스프라이트, HP 바, ATB 바)
+  - Combat Log: 스크롤 가능 전투 로그
+  - Action Buttons: Pass/Auto/Menu
+- **ATB 메커니즘:**
+  - 충전 공식: `ATB += (100 / Speed) * delta`
+  - Hero: 10 Speed (10초마다 턴)
+  - Monsters: 8-12 Speed (8-12초마다 턴)
+  - ATB 100% 도달 → 자동 기본 공격 → ATB 리셋
+- **기본 전투 로직:**
+  - 데미지: `(ATK - DEF) * variance(0.9-1.1)`
+  - 회피: `EVA%` 확률로 miss
+  - 타겟: 첫 번째 살아있는 적
+- **Scene Flow:**
+  - InRun → Combat (전투 시작)
+  - Combat → InRun (승리 시)
+  - Combat → MainLobby (패배 시)
+- **Test Monsters:**
+  - Slime: 20 HP, 3 ATK, 1 DEF, 8 SPD, 5 EVA
+  - Goblin: 15 HP, 5 ATK, 0 DEF, 12 SPD, 10 EVA
+- **Phase 1 Status:** ✅ 완료 (2-3일 중 1일차)
+- **다음 단계:** Phase 2 - Energy & Card System (2-3일)
+
+### 📊 진행 상황 (Updated 18:45 PST)
+- **완료된 화면:** 7/12 (58%) ← +1!
+  - ✅ c01-main-lobby
+  - ✅ c02-card-library
+  - ✅ c03-deck-builder
+  - ✅ c05-shop
+  - ✅ c06-run-prep
+  - ✅ c07-in-run
+  - ✅ **c08-combat (Phase 1)** 🆕
+- **남은 화면:** c04, c09-c12 (5 screens)
+- **전투 시스템 진행:** Phase 1/4 완료 (25%)
+
 ### 📝 Git 커밋
 - `d5dbc5c`: Godot UI 구현 (37 files, +5,215 lines)
 - `84774dc`: Shop v2.0 기획 문서 (4 files, +1,005 lines)
 - `becabbb`: 개발 관리 문서 시스템 (5 files, +1,465 lines)
 - `df93259`: Gacha 시스템 (2 files, +212 lines)
 - `f1ef236`: BottomNav 폰트 수정 (1 file, +3/-3 lines)
-- `9e6c42c`: c06-run-prep 화면 구현 (5 files, +1,108 lines) ✅ NEW!
+- `9e6c42c`: c06-run-prep 화면 구현 (5 files, +1,108 lines)
+- `d941bfe`: **Phase 1 - ATB Basic Combat** (18 files, +3,625/-1,584 lines) ✅ 🆕
 
 ---
 

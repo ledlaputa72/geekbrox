@@ -26,6 +26,11 @@ func _ready():
 	CombatManager.combat_log_updated.connect(_on_combat_log_updated)
 	CombatManager.entity_updated.connect(_on_entity_updated)
 	CombatManager.combat_ended.connect(_on_combat_ended)
+	CombatManager.energy_changed.connect(_on_energy_changed)
+	CombatManager.energy_timer_updated.connect(_on_energy_timer_updated)
+	
+	# Connect to DeckManager signals
+	DeckManager.hand_changed.connect(_on_hand_changed)
 
 func _apply_theme_styles():
 	# Apply UITheme styles
@@ -50,6 +55,7 @@ func _initialize_combat():
 	# Initial UI update
 	_update_hero_ui()
 	_update_monsters_ui()
+	_update_deck_status()
 
 func _get_test_monsters() -> Array:
 	# TODO: Get from GameManager or InRun
@@ -160,3 +166,39 @@ func _on_auto_pressed():
 func _on_menu_pressed():
 	# TODO: Open pause menu
 	add_combat_log("Menu not implemented yet.")
+
+func _on_energy_changed(current: int, max: int):
+	hero_energy_label.text = "⚡ %d" % current
+
+func _on_energy_timer_updated(progress: float):
+	# TODO: Update energy timer bar UI
+	pass
+
+func _on_hand_changed():
+	# TODO: Update hand UI
+	_update_deck_status()
+
+func _update_deck_status():
+	"""Update deck status in combat log"""
+	var deck_size = DeckManager.get_deck_size()
+	var hand_size = DeckManager.get_hand_size()
+	var discard_size = DeckManager.get_discard_size()
+	
+	add_combat_log("📚 Deck: %d | ✋ Hand: %d | 🪦 Discard: %d" % [deck_size, hand_size, discard_size])
+
+# Cheat codes for testing
+func _input(event):
+	if event is InputEventKey and event.pressed:
+		match event.keycode:
+			KEY_D:  # Draw card
+				DeckManager.draw_card()
+				_update_deck_status()
+			KEY_P:  # Play first card
+				if DeckManager.get_hand_size() > 0:
+					CombatManager.play_card(0)
+					_update_deck_status()
+			KEY_S:  # Print deck state
+				DeckManager.print_state()
+			KEY_1:  # Draw 5 cards
+				DeckManager.draw_cards(5)
+				_update_deck_status()
