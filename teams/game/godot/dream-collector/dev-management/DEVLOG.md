@@ -382,3 +382,32 @@ H 키: 보석 +1,000
 ### 📝 Git 커밋
 - `1f46f51`: 전투 시스템 v2 설계 문서
 - `917153d`: Combat Phase 1 구현 (ATB 기본 전투)
+
+#### 12. **Combat UI 레이아웃 재설계 (Slay the Spire 스타일)** ✅
+- **작업 완료:** 2026-02-24 19:30 PST
+- **목표:** 전투 화면을 Slay the Spire 스타일로 재구성
+- **변경 사항:**
+  - **레이아웃 비율:** 상단(1/3) + 중간(1/3) + 하단(1/3)
+  - **상단 280px (전투 영역):**
+    - Hero (왼쪽): 큰 스프라이트(64px), HP/Energy/Block/ATB
+    - 3 Enemies (오른쪽): 스프라이트(48px), HP/ATB, 가로 배치
+    - 배경: bg_light
+  - **중간 280px (핸드 영역):**
+    - 5장 카드 placeholder (70×200px)
+    - 가로 스크롤 지원
+    - Phase 2 준비 완료
+  - **하단 284px (정보 영역):**
+    - Top Bar: 메뉴, 턴, Auto, End Turn
+    - Energy Bar: ⚡⚡⚡ 시각화 + Deck/Discard 카운터
+    - Combat Log: 스크롤 가능, 색상 구분
+- **개선 효과:**
+  - 시각적 계층 구조 명확
+  - 카드 선택 편의성 증가
+  - 전투 상황 가독성 향상
+  - Slay the Spire UX 패턴 적용
+- **파일:**
+  - Combat.tscn (13.4 KB) - 재설계된 레이아웃
+  - Combat.gd (12.2 KB) - 노드 참조 업데이트
+
+### 📝 Git 커밋
+- `d341fce`: Combat UI 재설계 (Slay the Spire 스타일)
