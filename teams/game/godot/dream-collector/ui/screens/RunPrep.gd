@@ -1,6 +1,6 @@
 # RunPrep.gd
 # 런 준비 화면 - 덱 확인 및 난이도 선택
-# 런 시작 전 마지막 확인 단계
+# 새로운 레이아웃: 상단 난이도+시작, 하단 덱 표시
 
 extends Control
 
@@ -12,8 +12,8 @@ const DIFFICULTY_DATA = {
 		"monster_hp_mult": 0.7,
 		"monster_damage_mult": 0.7,
 		"reward_mult": 0.8,
-		"color": Color(0.3, 0.9, 0.4),  # 초록
-		"description": "초보자에게 추천"
+		"color": Color(0.3, 0.9, 0.4),
+		"description": "몬스터 HP/대미지 ×0.7 | 보상 ×0.8"
 	},
 	"normal": {
 		"name": "보통",
@@ -21,8 +21,8 @@ const DIFFICULTY_DATA = {
 		"monster_hp_mult": 1.0,
 		"monster_damage_mult": 1.0,
 		"reward_mult": 1.0,
-		"color": Color(0.3, 0.6, 0.9),  # 파랑
-		"description": "균형잡힌 도전"
+		"color": Color(0.3, 0.6, 0.9),
+		"description": "균형잡힌 도전\n몬스터 HP/대미지 ×1.0 | 보상 ×1.0"
 	},
 	"hard": {
 		"name": "어려움",
@@ -30,8 +30,8 @@ const DIFFICULTY_DATA = {
 		"monster_hp_mult": 1.3,
 		"monster_damage_mult": 1.3,
 		"reward_mult": 1.5,
-		"color": Color(0.9, 0.3, 0.3),  # 빨강
-		"description": "숙련자용 고난이도"
+		"color": Color(0.9, 0.3, 0.3),
+		"description": "몬스터 HP/대미지 ×1.3 | 보상 ×1.5"
 	}
 }
 
@@ -45,20 +45,19 @@ var is_deck_valid: bool = false
 @onready var back_button: Button = $TopBar/HBox/BackButton
 @onready var title_label: Label = $TopBar/HBox/TitleLabel
 
-# 덱 표시
-@onready var deck_scroll: ScrollContainer = $DeckSection/DeckScroll
-@onready var deck_grid: GridContainer = $DeckSection/DeckScroll/MarginContainer/DeckGrid
-@onready var deck_status_label: Label = $DeckSection/DeckStatusLabel
+# 상단: 난이도 + 시작
+@onready var difficulty_label: Label = $TopSection/DifficultyLabel
+@onready var easy_button: Button = $TopSection/DifficultyButtons/EasyButton
+@onready var normal_button: Button = $TopSection/DifficultyButtons/NormalButton
+@onready var hard_button: Button = $TopSection/DifficultyButtons/HardButton
+@onready var difficulty_desc_label: Label = $TopSection/DifficultyDescLabel
+@onready var start_button: Button = $TopSection/StartButton
 
-# 난이도 선택
-@onready var easy_button: Button = $DifficultySection/DifficultyButtons/EasyButton
-@onready var normal_button: Button = $DifficultySection/DifficultyButtons/NormalButton
-@onready var hard_button: Button = $DifficultySection/DifficultyButtons/HardButton
-@onready var difficulty_desc_label: Label = $DifficultySection/DifficultyDescLabel
-
-# 시작 버튼
-@onready var start_button: Button = $StartButton
-@onready var validation_label: Label = $ValidationLabel
+# 하단: 덱 표시
+@onready var deck_info_label: Label = $BottomSection/DeckInfoBar/DeckInfoLabel
+@onready var edit_deck_button: Button = $BottomSection/DeckInfoBar/EditDeckButton
+@onready var deck_scroll: ScrollContainer = $BottomSection/DeckScroll
+@onready var deck_grid: GridContainer = $BottomSection/DeckScroll/DeckGrid
 
 # BottomNav
 @onready var home_tab: Button = $BottomNav/HomeTab
@@ -68,6 +67,10 @@ var is_deck_valid: bool = false
 @onready var shop_tab: Button = $BottomNav/ShopTab
 
 var nav_buttons: Array = []
+var difficulty_buttons: Array = []
+
+# CardItem Scene
+const CardItemScene = preload("res://ui/components/CardItem.tscn")
 
 # ─── 초기화 ──────────────────────────────────────────
 func _ready() -> void:
@@ -76,7 +79,7 @@ func _ready() -> void:
 	load_deck()
 	set_difficulty("normal")
 	validate_deck()
-	set_active_nav_tab(0)  # Home 활성화 (런 준비는 Home에서 진입)
+	set_active_nav_tab(0)
 	
 	print("[RunPrep] 런 준비 화면 로드 완료")
 
@@ -93,23 +96,26 @@ func apply_styles() -> void:
 	
 	# Labels
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
-	deck_status_label.add_theme_color_override("font_color", UITheme.COLORS.text)
+	difficulty_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 	difficulty_desc_label.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
-	validation_label.add_theme_color_override("font_color", UITheme.COLORS.danger)
+	deck_info_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 	
 	# Buttons
 	UITheme.apply_button_style(back_button, "primary")
-	UITheme.apply_button_style(easy_button, "success")
-	UITheme.apply_button_style(normal_button, "info")
-	UITheme.apply_button_style(hard_button, "danger")
-	UITheme.apply_button_style(start_button, "primary")
+	UITheme.apply_button_style(start_button, "success")
+	UITheme.apply_button_style(edit_deck_button, "info")
+	
+	# Difficulty buttons
+	difficulty_buttons = [easy_button, normal_button, hard_button]
+	for button in difficulty_buttons:
+		UITheme.apply_button_style(button, "panel_light")
 	
 	# Nav buttons
 	nav_buttons = [home_tab, cards_tab, upgrade_tab, progress_tab, shop_tab]
 	for button in nav_buttons:
-		_apply_nav_button_style(button)
+		_apply_tab_button_style(button)
 
-func _apply_nav_button_style(button: Button) -> void:
+func _apply_tab_button_style(button: Button) -> void:
 	var normal_style = StyleBoxFlat.new()
 	normal_style.bg_color = UITheme.COLORS.panel
 	button.add_theme_stylebox_override("normal", normal_style)
@@ -124,134 +130,83 @@ func _apply_nav_button_style(button: Button) -> void:
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
 	back_button.pressed.connect(_on_back_pressed)
+	start_button.pressed.connect(_on_start_pressed)
+	edit_deck_button.pressed.connect(_on_edit_deck_pressed)
+	
 	easy_button.pressed.connect(_on_difficulty_pressed.bind("easy"))
 	normal_button.pressed.connect(_on_difficulty_pressed.bind("normal"))
 	hard_button.pressed.connect(_on_difficulty_pressed.bind("hard"))
-	start_button.pressed.connect(_on_start_pressed)
 	
-	# Nav buttons
 	home_tab.pressed.connect(_on_nav_tab_pressed.bind(0))
 	cards_tab.pressed.connect(_on_nav_tab_pressed.bind(1))
 	upgrade_tab.pressed.connect(_on_nav_tab_pressed.bind(2))
 	progress_tab.pressed.connect(_on_nav_tab_pressed.bind(3))
 	shop_tab.pressed.connect(_on_nav_tab_pressed.bind(4))
 
-# ─── 덱 로드 및 표시 ─────────────────────────────────
+# ─── 덱 로드 ─────────────────────────────────────────
 func load_deck() -> void:
-	current_deck = GameManager.get_current_deck()
+	# GameManager에서 현재 덱 가져오기
+	if GameManager.has_method("get_current_deck"):
+		current_deck = GameManager.get_current_deck()
+	else:
+		# 임시 테스트 덱
+		current_deck = _generate_test_deck()
+	
 	update_deck_display()
+	print("[RunPrep] 덱 로드: %d장" % current_deck.size())
 
+func _generate_test_deck() -> Array:
+	var deck = []
+	var card_types = ["Attack", "Defense", "Skill", "Power"]
+	
+	for i in range(12):
+		var card_type = card_types[i % 4]
+		var card = {
+			"id": i + 1,
+			"name": "%s %d" % [card_type, i + 1],
+			"type": card_type,
+			"cost": (i % 5) + 1,
+			"description": _get_description(card_type, (i % 5) + 5),
+			"rarity": "common"
+		}
+		deck.append(card)
+	
+	return deck
+
+func _get_description(type: String, value: int) -> String:
+	match type:
+		"Attack":
+			return "Deal %d damage." % value
+		"Defense":
+			return "Gain %d block." % value
+		"Skill":
+			return "Draw %d cards." % min(value / 5, 3)
+		"Power":
+			return "+%d strength." % min(value / 5, 2)
+	return "Effect."
+
+# ─── 덱 표시 업데이트 ────────────────────────────────
 func update_deck_display() -> void:
 	# 기존 카드 제거
 	for child in deck_grid.get_children():
 		child.queue_free()
 	
-	# 현재 덱 카드 표시
+	# 카드 생성
 	for card_data in current_deck:
-		var card_item = create_deck_card_item(card_data)
+		var card_item = CardItemScene.instantiate()
 		deck_grid.add_child(card_item)
+		card_item.set_card_data(card_data)
 	
-	# 빈 슬롯 표시 (12장까지)
-	var empty_slots = 12 - current_deck.size()
-	for i in range(empty_slots):
-		var empty_card = create_empty_card_slot()
-		deck_grid.add_child(empty_card)
-	
-	# 덱 상태 업데이트
-	update_deck_status()
+	# 덱 정보 업데이트
+	update_deck_info()
 
-func create_deck_card_item(card_data: Dictionary) -> Panel:
-	var panel = Panel.new()
-	panel.custom_minimum_size = Vector2(80, 112)  # 작은 카드 사이즈
-	
-	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = get_card_type_color(card_data.get("type", "attack"))
-	panel_style.border_width_left = 2
-	panel_style.border_width_top = 2
-	panel_style.border_width_right = 2
-	panel_style.border_width_bottom = 2
-	panel_style.border_color = Color(1, 1, 1, 0.3)
-	panel_style.corner_radius_top_left = UITheme.RADIUS.small
-	panel_style.corner_radius_top_right = UITheme.RADIUS.small
-	panel_style.corner_radius_bottom_left = UITheme.RADIUS.small
-	panel_style.corner_radius_bottom_right = UITheme.RADIUS.small
-	panel.add_theme_stylebox_override("panel", panel_style)
-	
-	var vbox = VBoxContainer.new()
-	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
-	vbox.offset_left = 4
-	vbox.offset_top = 4
-	vbox.offset_right = -4
-	vbox.offset_bottom = -4
-	panel.add_child(vbox)
-	
-	# 카드 이름
-	var name_label = Label.new()
-	name_label.text = card_data.get("name", "Unknown")
-	name_label.add_theme_font_size_override("font_size", 10)
-	name_label.add_theme_color_override("font_color", Color.WHITE)
-	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(name_label)
-	
-	# 코스트
-	var cost_label = Label.new()
-	cost_label.text = "💎 " + str(card_data.get("cost", 0))
-	cost_label.add_theme_font_size_override("font_size", 12)
-	cost_label.add_theme_color_override("font_color", Color.WHITE)
-	cost_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(cost_label)
-	
-	return panel
-
-func create_empty_card_slot() -> Panel:
-	var panel = Panel.new()
-	panel.custom_minimum_size = Vector2(80, 112)
-	
-	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = Color(0.2, 0.2, 0.2, 0.5)
-	panel_style.border_width_left = 2
-	panel_style.border_width_top = 2
-	panel_style.border_width_right = 2
-	panel_style.border_width_bottom = 2
-	panel_style.border_color = Color(0.5, 0.5, 0.5, 0.3)
-	panel_style.corner_radius_top_left = UITheme.RADIUS.small
-	panel_style.corner_radius_top_right = UITheme.RADIUS.small
-	panel_style.corner_radius_bottom_left = UITheme.RADIUS.small
-	panel_style.corner_radius_bottom_right = UITheme.RADIUS.small
-	panel.add_theme_stylebox_override("panel", panel_style)
-	
-	var label = Label.new()
-	label.text = "빈 슬롯"
-	label.add_theme_font_size_override("font_size", 10)
-	label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7, 0.5))
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	panel.add_child(label)
-	
-	return panel
-
-func get_card_type_color(type: String) -> Color:
-	match type:
-		"attack":
-			return UITheme.COLORS.attack
-		"defense":
-			return UITheme.COLORS.defense
-		"skill":
-			return UITheme.COLORS.skill
-		"power":
-			return UITheme.COLORS.power
-		_:
-			return UITheme.COLORS.panel
-
-func update_deck_status() -> void:
+func update_deck_info() -> void:
 	var deck_size = current_deck.size()
-	var avg_cost = calculate_average_cost()
-	
-	deck_status_label.text = "덱: %d/12장 | 평균 코스트: %.1f" % [deck_size, avg_cost]
+	var avg_cost = _calculate_average_cost()
+	deck_info_label.text = "덱: %d/12장 | 평균 코스트: %.1f" % [deck_size, avg_cost]
 
-func calculate_average_cost() -> float:
-	if current_deck.size() == 0:
+func _calculate_average_cost() -> float:
+	if current_deck.is_empty():
 		return 0.0
 	
 	var total_cost = 0
@@ -260,28 +215,32 @@ func calculate_average_cost() -> float:
 	
 	return float(total_cost) / float(current_deck.size())
 
-# ─── 난이도 선택 ─────────────────────────────────────
+# ─── 난이도 설정 ─────────────────────────────────────
 func set_difficulty(difficulty: String) -> void:
 	current_difficulty = difficulty
 	
-	# 버튼 하이라이트
-	easy_button.modulate = Color(1, 1, 1, 0.5) if difficulty != "easy" else Color.WHITE
-	normal_button.modulate = Color(1, 1, 1, 0.5) if difficulty != "normal" else Color.WHITE
-	hard_button.modulate = Color(1, 1, 1, 0.5) if difficulty != "hard" else Color.WHITE
+	var data = DIFFICULTY_DATA[difficulty]
 	
 	# 설명 업데이트
-	var diff_data = DIFFICULTY_DATA[difficulty]
-	difficulty_desc_label.text = "%s: %s\n몬스터 HP/데미지 ×%.1f | 보상 ×%.1f" % [
-		diff_data.name,
-		diff_data.description,
-		diff_data.monster_hp_mult,
-		diff_data.reward_mult
+	difficulty_desc_label.text = "%s: %s\n%s" % [
+		data["name"],
+		data["name_en"],
+		data["description"]
 	]
 	
-	print("[RunPrep] 난이도 변경: %s" % difficulty)
-
-func _on_difficulty_pressed(difficulty: String) -> void:
-	set_difficulty(difficulty)
+	# 버튼 하이라이트
+	for button in difficulty_buttons:
+		button.modulate = Color(0.7, 0.7, 0.7)
+	
+	match difficulty:
+		"easy":
+			easy_button.modulate = data["color"]
+		"normal":
+			normal_button.modulate = data["color"]
+		"hard":
+			hard_button.modulate = data["color"]
+	
+	print("[RunPrep] 난이도 선택: %s" % difficulty)
 
 # ─── 덱 유효성 검증 ──────────────────────────────────
 func validate_deck() -> void:
@@ -289,38 +248,44 @@ func validate_deck() -> void:
 	
 	if deck_size < 10:
 		is_deck_valid = false
-		validation_label.text = "⚠️ 덱에 최소 10장의 카드가 필요합니다 (현재: %d장)" % deck_size
-		validation_label.visible = true
 		start_button.disabled = true
+		start_button.text = "⚠️ 덱이 부족합니다 (%d/10)" % deck_size
 	elif deck_size > 12:
 		is_deck_valid = false
-		validation_label.text = "⚠️ 덱은 최대 12장까지 가능합니다 (현재: %d장)" % deck_size
-		validation_label.visible = true
 		start_button.disabled = true
+		start_button.text = "⚠️ 덱이 너무 많습니다 (%d/12)" % deck_size
 	else:
 		is_deck_valid = true
-		validation_label.visible = false
 		start_button.disabled = false
-
-# ─── 런 시작 ─────────────────────────────────────────
-func _on_start_pressed() -> void:
-	if not is_deck_valid:
-		print("[RunPrep] 덱이 유효하지 않음")
-		return
+		start_button.text = "🎮 런 시작!"
 	
-	# 난이도 설정을 GameManager에 저장
-	GameManager.current_difficulty = current_difficulty
-	GameManager.difficulty_data = DIFFICULTY_DATA[current_difficulty]
-	
-	print("[RunPrep] 런 시작! 난이도: %s, 덱: %d장" % [current_difficulty, current_deck.size()])
-	
-	# 런 화면으로 이동 (c07-in-run)
-	get_tree().change_scene_to_file("res://ui/screens/InRun.tscn")
+	print("[RunPrep] 덱 검증: %s (%d장)" % ["유효" if is_deck_valid else "무효", deck_size])
 
 # ─── 이벤트 핸들러 ───────────────────────────────────
 func _on_back_pressed() -> void:
 	print("[RunPrep] 뒤로 가기")
 	get_tree().change_scene_to_file("res://scenes/MainLobby.tscn")
+
+func _on_start_pressed() -> void:
+	if not is_deck_valid:
+		print("[RunPrep] 덱이 유효하지 않음 - 시작 불가")
+		return
+	
+	# 난이도 데이터 GameManager에 저장
+	if GameManager.has_method("set_difficulty"):
+		GameManager.set_difficulty(current_difficulty, DIFFICULTY_DATA[current_difficulty])
+	
+	print("[RunPrep] 런 시작! 난이도: %s" % current_difficulty)
+	
+	# InRun 화면으로 이동
+	get_tree().change_scene_to_file("res://ui/screens/InRun.tscn")
+
+func _on_edit_deck_pressed() -> void:
+	print("[RunPrep] 덱 편집으로 이동")
+	get_tree().change_scene_to_file("res://ui/screens/DeckBuilder.tscn")
+
+func _on_difficulty_pressed(difficulty: String) -> void:
+	set_difficulty(difficulty)
 
 func _on_nav_tab_pressed(tab_index: int) -> void:
 	set_active_nav_tab(tab_index)
@@ -331,7 +296,7 @@ func _on_nav_tab_pressed(tab_index: int) -> void:
 		1:  # Cards
 			get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
 		2:  # Upgrade
-			print("[RunPrep] Upgrade Tree로 이동 (미구현)")
+			print("[RunPrep] Upgrade Tree (미구현)")
 		3:  # Progress
 			print("[RunPrep] Progress (미구현)")
 		4:  # Shop
