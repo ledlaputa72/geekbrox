@@ -50,24 +50,76 @@ G 키: 보석 +100
 H 키: 보석 +1,000
 ```
 
+#### 6. **개발 관리 문서 시스템 구축**
+- `dev-management/` 폴더 생성
+- 5개 핵심 문서 작성:
+  - DEVLOG.md (6.3 KB) - 날짜별 개발 일지
+  - CHECKLIST.md (7.5 KB) - 기능 체크리스트
+  - PROGRESS_TRACKER.md (6.3 KB) - 진행 상황 대시보드
+  - TECHNICAL_SUMMARY.md (8.8 KB) - 기술 스택 요약
+  - README.md (6.0 KB) - 문서 인덱스
+
+#### 7. **Gacha 시스템 프레임워크**
+- Shop 화면에 3탭 시스템 추가:
+  - 🎲 뽑기 (Gacha)
+  - 💎 보석 구매
+  - 🪙 재화 교환
+- 4개 배너 타입:
+  - 일반 뽑기 (골드 1000/9000)
+  - 프리미엄 뽑기 (보석 100/900, 희귀+ 보장)
+  - 이벤트 한정 뽑기 (보석 150/1350)
+  - 초보자 뽑기 (골드 500/4000, 1회 제한)
+- AlertModal 통합 (재화 부족 시 경고)
+- TODO: 실제 뽑기 로직, 카드 풀, 결과 화면
+
+#### 8. **BottomNav 폰트 버그 수정**
+- **문제:** MainLobby BottomNav 폰트가 다른 화면보다 큼
+- **원인:** `tab_buttons` 배열 초기화가 `_apply_theme_styles()` 호출 이후 발생
+- **해결:** 배열 초기화를 스타일 적용 전으로 이동
+- **결과:** 모든 화면 BottomNav 폰트 12px 통일
+
+#### 9. **c06-run-prep 화면 구현** ✅
+- **파일:** RunPrep.tscn (4.9 KB), RunPrep.gd (11.6 KB)
+- **기능:**
+  - 현재 덱 표시 (12 슬롯, 80×112px 카드)
+  - 덱 상태 표시 (카드 수, 평균 코스트)
+  - 난이도 선택 (Easy/Normal/Hard)
+    - Easy: 적 ×0.7, 보상 ×0.8 (초록)
+    - Normal: 기본 ×1.0 (파랑)
+    - Hard: 적 ×1.3, 보상 ×1.5 (빨강)
+  - 덱 유효성 검증 (10~12장)
+  - 런 시작 버튼 (유효 시 활성화)
+- **GameManager 확장:**
+  - `current_difficulty: String`
+  - `difficulty_data: Dictionary`
+- **통합:** MainLobby "꿈 런 시작" 버튼 → RunPrep 이동
+
 ### 📊 진행 상황
-- **완료된 화면:** 4/12 (33%)
+- **완료된 화면:** 5/12 (42%)
   - ✅ c01-main-lobby
   - ✅ c02-card-library
   - ✅ c03-deck-builder
   - ✅ c05-shop
+  - ✅ c06-run-prep (NEW!)
 
 ### 🔧 기술적 개선
 - CanvasLayer를 활용한 UI 레이어링 시스템 확립
 - 시그널 기반 반응형 UI 패턴 안정화
 - 재화 시스템 아키텍처 확정
+- 난이도 밸런싱 프레임워크 구축
+- 초기화 순서 문제 패턴 발견 및 해결
 
 ### 🐛 발견된 이슈
 - ~~AlertModal z-order 문제~~ → 해결 완료
+- ~~BottomNav 폰트 크기 불일치~~ → 해결 완료
 
 ### 📝 Git 커밋
 - `d5dbc5c`: Godot UI 구현 (37 files, +5,215 lines)
 - `84774dc`: Shop v2.0 기획 문서 (4 files, +1,005 lines)
+- `becabbb`: 개발 관리 문서 시스템 (5 files, +1,465 lines)
+- `df93259`: Gacha 시스템 (2 files, +212 lines)
+- `f1ef236`: BottomNav 폰트 수정 (1 file, +3/-3 lines)
+- `9e6c42c`: c06-run-prep 화면 구현 (5 files, +1,108 lines) ✅ NEW!
 
 ---
 
