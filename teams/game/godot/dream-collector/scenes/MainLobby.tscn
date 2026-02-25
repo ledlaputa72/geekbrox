@@ -208,8 +208,8 @@ Upgrade"
 [node name="ProgressTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
 layout_mode = 2
-text = "📊
-Progress"
+text = "⚙️
+설정"
 
 [node name="ShopTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)

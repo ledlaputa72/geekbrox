@@ -251,9 +251,11 @@ func _on_tab_pressed(tab_index: int) -> void:
 			print("[MainLobbyUI] Card Library로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
 		2:  # Upgrade
-			print("[MainLobbyUI] Upgrade (미구현)")
-		3:  # Progress
-			print("[MainLobbyUI] Progress (미구현)")
+			print("[MainLobbyUI] Upgrade Tree로 이동")
+			get_tree().change_scene_to_file("res://ui/screens/UpgradeTree.tscn")
+		3:  # Settings
+			print("[MainLobbyUI] Settings로 이동")
+			get_tree().change_scene_to_file("res://ui/screens/Settings.tscn")
 		4:  # Shop
 			print("[MainLobbyUI] Shop으로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")
