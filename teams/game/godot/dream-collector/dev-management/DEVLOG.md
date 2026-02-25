@@ -324,3 +324,61 @@ H 키: 보석 +1,000
 - [GDScript 스타일 가이드](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_styleguide.html)
 - HTML 프로토타입: `teams/game/interface/html/`
 - Figma 디자인: https://www.figma.com/design/Wo1MKHvWNE9Yl5bsmD4pkK/
+
+#### 11. **c08-combat 화면 구현 (Phase 1: ATB 기본 전투)** ✅
+- **파일:** Combat.tscn (10 KB), Combat.gd (10.7 KB)
+- **구현 완료:** 2026-02-24 19:00 PST
+- **시스템:** ATB (Active Time Battle) 실시간 전투
+- **기능:**
+  - **전투 UI:**
+    - Hero (왼쪽): HP 바, 에너지, 방어력, ATB 게이지
+    - 3 Enemies (오른쪽): HP, ATB 게이지
+    - Combat Log (스크롤, 색상 구분)
+    - 카드 핸드 영역 (Phase 2 placeholder)
+    - 덱 카운터 (Deck/Discard/Banish)
+  - **ATB 시스템:**
+    - 실시간 게이지 충전 (SPD 기반)
+    - 100% 도달 시 자동 턴 실행
+    - ATB 속도 조절 (×1 / ×5)
+  - **전투 스탯:**
+    - HP, ATK, DEF, SPD, EVA(회피율)
+    - Hero: 60 HP, 10 ATK, 5 DEF, 10 SPD
+    - 3종 적: Slime (20 HP), Goblin (12 HP), Bat (8 HP)
+  - **데미지 계산:**
+    - 기본: ATK - DEF (최소 1)
+    - 회피 체크 (EVA%)
+    - 랜덤 편차 (±10%)
+    - Block 시스템 (데미지 흡수)
+  - **자동 전투:**
+    - Hero → 첫 번째 살아있는 적 공격
+    - Enemy → Hero 공격
+    - Auto 모드 토글
+  - **승리/패배:**
+    - Victory: 모든 적 사망
+    - Defeat: Hero HP ≤ 0
+  - **치트 코드:**
+    - H/J: HP 증감
+    - K: 적 즉사
+    - Space: ATB 속도 (×5)
+- **통합:** InRun Combat 노드 → Combat.tscn 전환
+- **다음 단계:** Phase 2 - 카드 덱 시스템
+
+### 📊 진행 상황 (2026-02-24 업데이트)
+- **완료된 화면:** 7/12 (58%)
+  - ✅ c01-main-lobby
+  - ✅ c02-card-library
+  - ✅ c03-deck-builder
+  - ✅ c05-shop
+  - ✅ c06-run-prep
+  - ✅ c07-in-run
+  - ✅ c08-combat (Phase 1) (NEW!)
+
+### 🔧 기술적 개선
+- ATB 실시간 전투 시스템 구축
+- 스탯 기반 데미지 계산
+- 회피/블록 메커니즘
+- 실시간 UI 업데이트 (_process)
+
+### 📝 Git 커밋
+- `1f46f51`: 전투 시스템 v2 설계 문서
+- `917153d`: Combat Phase 1 구현 (ATB 기본 전투)
