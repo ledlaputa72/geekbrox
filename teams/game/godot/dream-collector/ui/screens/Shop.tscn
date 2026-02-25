@@ -92,7 +92,11 @@ anchor_right = 1.0
 offset_top = 60.0
 offset_bottom = 110.0
 alignment = 1
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
+
+[node name="GachaTabButton" type="Button" parent="TabBar"]
+layout_mode = 2
+text = "🎲 뽑기"
 
 [node name="GemsTabButton" type="Button" parent="TabBar"]
 layout_mode = 2
@@ -109,6 +113,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 110.0
 offset_bottom = -60.0
+
+[node name="GachaTab" type="ScrollContainer" parent="ContentContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="ContentContainer/GachaTab"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="BannersContainer" type="VBoxContainer" parent="ContentContainer/GachaTab/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="GemsTab" type="ScrollContainer" parent="ContentContainer"]
 layout_mode = 1
