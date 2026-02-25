@@ -106,7 +106,8 @@ func _on_energy_changed(new_amount: int) -> void:
 
 # ─── 런 시작 버튼 ────────────────────────────────────
 func _on_start_run_pressed() -> void:
-	GameManager.start_run()
+	print("[MainLobbyUI] Run Prep으로 이동")
+	get_tree().change_scene_to_file("res://ui/screens/RunPrep.tscn")
 
 # ─── 프레스티지 버튼 ─────────────────────────────────
 func _on_prestige_pressed() -> void:

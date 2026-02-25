@@ -25,6 +25,10 @@ var prestige_count: int = 0
 # ─── 덱 데이터 ───────────────────────────────────────
 var current_deck: Array = []  # 현재 장착된 덱 (최대 12장) - Array[Dictionary]는 JSON 로드 시 타입 충돌
 
+# ─── 난이도 설정 ─────────────────────────────────────
+var current_difficulty: String = "normal"  # easy, normal, hard
+var difficulty_data: Dictionary = {}  # 난이도별 multiplier 데이터
+
 # ─── 시그널 ─────────────────────────────────────────
 signal reveries_changed(new_amount: float)
 signal gems_changed(new_amount: int)

@@ -1,0 +1,198 @@
+[gd_scene load_steps=2 format=3 uid="uid://run_prep"]
+
+[ext_resource type="Script" path="res://ui/screens/RunPrep.gd" id="1"]
+
+[node name="RunPrep" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.18, 1)
+
+[node name="TopBar" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+
+[node name="HBox" type="HBoxContainer" parent="TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = -16.0
+
+[node name="BackButton" type="Button" parent="TopBar/HBox"]
+layout_mode = 2
+text = "← Back"
+
+[node name="TitleLabel" type="Label" parent="TopBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Run Preparation"
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeckSection" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_right = -16.0
+offset_top = 80.0
+offset_bottom = 320.0
+theme_override_constants/separation = 8
+
+[node name="DeckStatusLabel" type="Label" parent="DeckSection"]
+layout_mode = 2
+text = "덱: 0/12장 | 평균 코스트: 0.0"
+theme_override_font_sizes/font_size = 14
+
+[node name="DeckScroll" type="ScrollContainer" parent="DeckSection"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="DeckSection/DeckScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="DeckGrid" type="GridContainer" parent="DeckSection/DeckScroll/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="DifficultySection" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_right = -16.0
+offset_top = 340.0
+offset_bottom = 480.0
+theme_override_constants/separation = 12
+
+[node name="SectionLabel" type="Label" parent="DifficultySection"]
+layout_mode = 2
+text = "난이도 선택"
+theme_override_font_sizes/font_size = 18
+
+[node name="DifficultyButtons" type="HBoxContainer" parent="DifficultySection"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="EasyButton" type="Button" parent="DifficultySection/DifficultyButtons"]
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 2
+text = "쉬움
+Easy"
+
+[node name="NormalButton" type="Button" parent="DifficultySection/DifficultyButtons"]
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 2
+text = "보통
+Normal"
+
+[node name="HardButton" type="Button" parent="DifficultySection/DifficultyButtons"]
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 2
+text = "어려움
+Hard"
+
+[node name="DifficultyDescLabel" type="Label" parent="DifficultySection"]
+layout_mode = 2
+text = "보통: 균형잡힌 도전
+몬스터 HP/데미지 ×1.0 | 보상 ×1.0"
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -140.0
+offset_right = 150.0
+offset_bottom = -80.0
+text = "🎮 런 시작!"
+theme_override_font_sizes/font_size = 20
+
+[node name="ValidationLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = 200.0
+offset_right = 175.0
+offset_bottom = 240.0
+text = "⚠️ 덱에 최소 10장의 카드가 필요합니다"
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+visible = false
+
+[node name="BottomNav" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.0
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -60.0
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="HomeTab" type="Button" parent="BottomNav"]
+custom_minimum_size = Vector2(78, 60)
+layout_mode = 2
+text = "🏠
+Home"
+
+[node name="CardsTab" type="Button" parent="BottomNav"]
+custom_minimum_size = Vector2(78, 60)
+layout_mode = 2
+text = "🎴
+Cards"
+
+[node name="UpgradeTab" type="Button" parent="BottomNav"]
+custom_minimum_size = Vector2(78, 60)
+layout_mode = 2
+text = "⬆️
+Upgrade"
+
+[node name="ProgressTab" type="Button" parent="BottomNav"]
+custom_minimum_size = Vector2(78, 60)
+layout_mode = 2
+text = "📊
+Progress"
+
+[node name="ShopTab" type="Button" parent="BottomNav"]
+custom_minimum_size = Vector2(78, 60)
+layout_mode = 2
+text = "🛒
+Shop"
