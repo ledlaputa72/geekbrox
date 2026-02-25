@@ -227,13 +227,13 @@ func _on_combat_ended(victory: bool):
 	if victory:
 		add_combat_log("=== VICTORY ===")
 		await get_tree().create_timer(2.0).timeout
-		# Return to InRun
-		get_tree().change_scene_to_file("res://ui/screens/InRun.tscn")
+		# Go to Victory screen
+		get_tree().change_scene_to_file("res://ui/screens/VictoryScreen.tscn")
 	else:
 		add_combat_log("=== DEFEAT ===")
 		await get_tree().create_timer(2.0).timeout
-		# Return to MainLobby (run failed)
-		get_tree().change_scene_to_file("res://ui/screens/MainLobby.tscn")
+		# Go to Defeat screen
+		get_tree().change_scene_to_file("res://ui/screens/DefeatScreen.tscn")
 
 func add_combat_log(message: String):
 	CombatManager.add_log(message)
