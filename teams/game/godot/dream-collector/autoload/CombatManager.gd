@@ -22,6 +22,14 @@ const ENERGY_MAX: int = 3
 const ENERGY_TIMER_DURATION: float = 5.0  # Seconds per energy charge
 var energy_timer: float = 0.0  # Current timer progress
 
+# Auto-Battle Settings
+var auto_battle_enabled: bool = false
+var auto_battle_delay: float = 0.5  # Delay between auto plays (seconds)
+var auto_battle_timer: float = 0.0
+
+# Speed Settings
+var speed_multiplier: float = 1.0  # 1×, 2×, 3×
+
 func _ready():
 	pass
 
@@ -29,14 +37,21 @@ func _process(delta):
 	if not in_combat:
 		return
 	
+	# Apply speed multiplier
+	var scaled_delta = delta * speed_multiplier
+	
 	# Update ATB for all entities
-	_update_atb(delta)
+	_update_atb(scaled_delta)
 	
 	# Check for turns
 	_check_atb_turns()
 	
 	# Update Energy Timer
-	_update_energy_timer(delta)
+	_update_energy_timer(scaled_delta)
+	
+	# Update Auto-Battle
+	if auto_battle_enabled:
+		_update_auto_battle(scaled_delta)
 
 func start_combat(monster_data: Array):
 	in_combat = true
@@ -348,3 +363,48 @@ func get_current_energy() -> int:
 
 func get_max_energy() -> int:
 	return ENERGY_MAX
+
+# Auto-Battle System
+func toggle_auto_battle():
+	"""Toggle auto-battle on/off"""
+	auto_battle_enabled = not auto_battle_enabled
+	auto_battle_timer = 0.0
+	
+	if auto_battle_enabled:
+		add_log("🤖 Auto-battle enabled")
+	else:
+		add_log("🤖 Auto-battle disabled")
+
+func set_speed_multiplier(multiplier: float):
+	"""Set combat speed multiplier (1×, 2×, 3×)"""
+	speed_multiplier = clamp(multiplier, 0.5, 3.0)
+	add_log("⚡ Speed: %.1f×" % speed_multiplier)
+
+func _update_auto_battle(delta: float):
+	"""Update auto-battle AI"""
+	if not auto_battle_enabled:
+		return
+	
+	# Wait for delay
+	auto_battle_timer += delta
+	if auto_battle_timer < auto_battle_delay:
+		return
+	
+	# Try to play a card
+	var hand = DeckManager.get_hand_cards()
+	if hand.is_empty() or hero.energy <= 0:
+		return
+	
+	# Use AI to choose card
+	var choice = AutoBattleAI.choose_card_to_play(hand, hero, monsters, hero.energy)
+	
+	if choice.is_empty():
+		# No valid card to play
+		return
+	
+	# Play the chosen card
+	var success = play_card(choice.card_index, choice.get("target_index", -1))
+	
+	if success:
+		auto_battle_timer = 0.0  # Reset timer for next play
+

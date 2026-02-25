@@ -243,8 +243,13 @@ func _on_end_turn_pressed():
 	add_combat_log("Player passed.")
 
 func _on_auto_pressed():
-	# TODO: Toggle auto-battle
-	add_combat_log("Auto-battle not implemented yet.")
+	CombatManager.toggle_auto_battle()
+	
+	# Update button text
+	if CombatManager.auto_battle_enabled:
+		auto_button.text = "Auto: ON"
+	else:
+		auto_button.text = "Auto: OFF"
 
 func _on_menu_pressed():
 	# TODO: Open pause menu
@@ -411,3 +416,15 @@ func _input(event):
 			KEY_1:  # Draw 5 cards
 				DeckManager.draw_cards(5)
 				_update_deck_ui()
+			KEY_A:  # Toggle auto-battle
+				_on_auto_pressed()
+			KEY_BRACKETLEFT:  # Speed down
+				var speed = CombatManager.speed_multiplier - 0.5
+				CombatManager.set_speed_multiplier(speed)
+			KEY_BRACKETRIGHT:  # Speed up
+				var speed = CombatManager.speed_multiplier + 0.5
+				CombatManager.set_speed_multiplier(speed)
+			KEY_ESCAPE:  # Cancel target selection
+				if selecting_target:
+					_cancel_target_selection()
+					add_combat_log("Target selection cancelled.")
