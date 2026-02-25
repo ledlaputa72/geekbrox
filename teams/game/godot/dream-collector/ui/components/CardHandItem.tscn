@@ -8,88 +8,126 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_card_hand")
 
-[node name="CardBg" type="ColorRect" parent="."]
+[node name="CardBG" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.2, 0.2, 0.3, 1)
 
-[node name="CardPanel" type="Panel" parent="."]
+[node name="CostBadge" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="CostLabel" type="Label" parent="CostBadge"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CostLabel" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 20.0
-offset_bottom = 18.0
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ImageArea" type="ColorRect" parent="."]
+[node name="NameBanner" type="Panel" parent="."]
 layout_mode = 1
-anchors_preset = 0
-offset_left = 4.0
-offset_top = 20.0
-offset_right = 66.0
-offset_bottom = 53.0
-color = Color(0.3, 0.3, 0.4, 1)
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 6.0
+offset_top = 12.0
+offset_right = -6.0
+offset_bottom = 22.0
+grow_horizontal = 2
 
-[node name="NameLabel" type="Label" parent="ImageArea"]
+[node name="NameLabel" type="Label" parent="NameBanner"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Strike"
+text = "카드 이름"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+clip_text = true
 
-[node name="TypeLabel" type="Label" parent="ImageArea"]
+[node name="ArtCircle" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -8.0
+offset_right = 20.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ArtBG" type="ColorRect" parent="ArtCircle"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+color = Color(1, 0.4, 0.2, 1)
+
+[node name="ArtPlaceholder" type="Label" parent="ArtCircle"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "⚔️"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TypeBadge" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -30.0
-offset_top = -14.0
-offset_right = 30.0
+offset_left = -16.0
+offset_top = -58.0
+offset_right = 16.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "Attack"
+
+[node name="TypeLabel" type="Label" parent="TypeBadge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "공격"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="DescLabel" type="Label" parent="."]
 visible = false
 layout_mode = 1
-anchors_preset = 0
-offset_left = 4.0
-offset_top = 53.0
-offset_right = 66.0
-offset_bottom = 94.0
-text = "Deal 6 damage."
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -30.0
+offset_right = -3.0
+offset_bottom = -3.0
+text = "피해를 5 줍니다."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+clip_text = true
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 flat = true
