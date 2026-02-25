@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3vh5k9m2xr5d"]
+[gd_scene format=3 uid="uid://d3vh5lam2xr5d"]
 
 [ext_resource type="Script" path="res://ui/screens/VictoryScreen.gd" id="1_victory"]
 

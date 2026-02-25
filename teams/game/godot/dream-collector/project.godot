@@ -25,7 +25,6 @@ SaveSystem="*res://scripts/SaveSystem.gd"
 IdleSystem="*res://scripts/IdleSystem.gd"
 CombatManager="*res://autoload/CombatManager.gd"
 DeckManager="*res://autoload/DeckManager.gd"
-DeckManager="*res://autoload/DeckManager.gd"
 
 [display]
 
