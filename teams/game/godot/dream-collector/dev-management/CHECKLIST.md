@@ -62,22 +62,40 @@
   - [x] 상단 스탯 바 (HP/Energy/Reveries)
   - [x] 액션 바 (Skip/Auto/Menu)
 
-- [x] **c08-combat** (Combat.tscn) ✅ Phase 1 완료 (2026-02-24)
-  - [x] Top Bar (HP/Energy 표시)
-  - [x] Battle Scene (Hero vs Monsters 가로 액자)
-  - [x] Hero 스프라이트 + HP 바 + ATB 바
-  - [x] Monsters (2마리) 스프라이트 + HP 바 + ATB 바
-  - [x] Combat Log (스크롤 가능)
-  - [x] Action Buttons (Pass/Auto/Menu)
-  - [x] ATB 시스템 (실시간 게이지 충전)
-  - [x] 기본 공격 로직 (데미지 계산, 회피 체크)
-  - [x] 승리/패배 조건
-  - [x] InRun ↔ Combat 씬 전환
-  - [ ] 🔴 Phase 2: Energy Timer + Card Draw
-  - [ ] 🔴 Phase 3: Card Hand UI (부채꼴) + Card Play
-  - [ ] 🔴 Phase 4: Auto-Battle AI
+- [x] **c08-combat** (Combat.tscn) ✅ 100% 완료 (2026-02-24)
+  - [x] Phase 1: ATB Basic Combat
+  - [x] Phase 2: Energy Timer + Card Draw
+  - [x] Phase 3: Card Hand UI (부채꼴) + Card Play
+  - [x] Phase 4: Auto-Battle AI + Speed Control
+  - [x] DeckManager.gd (덱 관리 시스템)
+  - [x] AutoBattleAI.gd (휴리스틱 AI)
+  - [x] CardHandItem component (부채꼴 레이아웃)
+  - [x] 타겟 선택 시스템
+  - [x] 속도 조절 (0.5× ~ 3×)
 
 ### Category 3: 모달 화면
+- [x] **c09-victory-screen** (VictoryScreen.tscn) ✅ 2026-02-24
+  - [x] 승리 타이틀 (Gold color)
+  - [x] 전투 통계 (Turns, Damage, Time)
+  - [x] 보상 표시 (Gold, Reveries)
+  - [x] 난이도 배율 적용
+  - [x] Continue 버튼 → InRun
+  - [x] 보상 자동 적용 (GameManager)
+
+- [x] **c10-defeat-screen** (DefeatScreen.tscn) ✅ 2026-02-24
+  - [x] 패배 타이틀 (Red color)
+  - [x] 전투 통계 (Turns, Damage, Time)
+  - [x] 런 진행도 표시
+  - [x] Return to Lobby 버튼
+
+- [x] **c11-rewards-modal** (RewardsModal component) ✅ 2026-02-24
+  - [x] CanvasLayer (layer 100)
+  - [x] 카드 보상 선택 (3장 중 1장)
+  - [x] 타입별 색상 구분
+  - [x] Skip Reward 옵션
+  - [x] Signals (reward_selected, reward_skipped)
+
+- [ ] **c12-settings** (Settings.tscn)
 - [ ] **c09-victory-screen** (VictoryScreen.tscn)
   - [ ] 승리 메시지
   - [ ] 보상 표시
@@ -303,18 +321,18 @@
 
 | 카테고리 | 완료 | 전체 | 진행률 |
 |---------|------|------|--------|
-| UI 화면 | 7 | 12 | **58%** |
-| 컴포넌트 | 3 | 5 | **60%** |
-| 시스템 | 3 | 8 | **38%** |
-| 문서 | 6 | 8 | **75%** |
+| UI 화면 | 10 | 12 | **83%** |
+| 컴포넌트 | 4 | 5 | **80%** |
+| 시스템 | 5 | 8 | **63%** |
+| 문서 | 7 | 8 | **88%** |
 | 게임 콘텐츠 | 1 | 3 | **33%** |
-| **전체** | **20** | **36** | **56%** |
+| **전체** | **27** | **36** | **75%** |
 
 ---
 
-**마지막 업데이트:** 2026-02-24 19:30 PST
+**마지막 업데이트:** 2026-02-24 20:15 PST  
 **다음 목표:** 
-- 🔴 c08-combat Phase 2 (에너지 타이머 + 카드 드로우)
-- 🔴 c08-combat Phase 3 (카드 핸드 UI + 카드 플레이)
-- c09-victory-screen
-- c10-defeat-screen
+- c04-upgrade-tree
+- c12-settings
+- 게임 콘텐츠 확장 (카드 85장, 몬스터 34종)
+- 밸런싱 & 폴리시

@@ -189,26 +189,131 @@ H 키: 보석 +1,000
 - **Phase 1 Status:** ✅ 완료 (2-3일 중 1일차)
 - **다음 단계:** Phase 2 - Energy & Card System (2-3일)
 
-### 📊 진행 상황 (Updated 18:45 PST)
-- **완료된 화면:** 7/12 (58%) ← +1!
+#### 12. **c08-combat Phases 2-4 구현** ✅🔴🟡🟢 (저녁 세션)
+- **Phase 2: Energy Timer & Card Draw System**
+  - **DeckManager.gd** (4.7 KB) - Autoload
+    - Deck/Hand/Discard Pile 관리
+    - 카드 드로우 로직, 덱 셔플
+    - 최대 핸드 10장, 시작 덱 12장
+  - **cards.json** (10장 테스트 카드)
+    - Attack/Defense/Skill 타입
+    - 코스트, 데미지, 블록, 효과 데이터
+  - **에너지 타이머:**
+    - 5초마다 +1 에너지 & +1 카드 드로우
+    - 최대 3 에너지
+  - **UI 확장:**
+    - 에너지 표시 (⚡⚡⚡)
+    - 에너지 타이머 바
+    - Deck/Discard/Exile 카운터
+    - 핸드 표시 (기본 버튼)
+
+- **Phase 3: Card Hand UI (Fan Layout)**
+  - **CardHandItem 컴포넌트** (2.4 KB)
+    - 타입별 색상 (Attack=Red, Defense=Blue, Skill=Green)
+    - Cost, Name, Type, Description 표시
+    - Hover lift 효과 (10px up)
+    - Affordable/unaffordable 시각 피드백
+  - **부채꼴 레이아웃:**
+    - Arc 기반 positioning (200px radius)
+    - 40° spread angle
+    - 카드 rotation (angle × 0.5)
+    - 동적 positioning (카드 수에 따라)
+  - **타겟 선택 시스템:**
+    - Attack 카드 → 타겟 선택 모드
+    - 몬스터 하이라이트 (1.5× 밝게)
+    - ESC로 취소
+  - **몬스터 클릭 감지:**
+    - Button overlay 추가
+    - 클릭 시 타겟 선택 or 정보 표시
+
+- **Phase 4: Auto-Battle AI + Speed Control**
+  - **AutoBattleAI.gd** (3.0 KB)
+    - 휴리스틱 기반 AI
+    - HP < 30% → Defense 우선 (block/cost ratio)
+    - HP >= 30% → Attack 우선 (damage/cost ratio)
+    - Fallback to any playable card
+  - **Auto-Battle 시스템:**
+    - toggle_auto_battle() (ON/OFF)
+    - 0.5초 딜레이 between plays
+    - Auto 버튼 텍스트 업데이트 (Auto: ON/OFF)
+  - **속도 조절:**
+    - speed_multiplier: 0.5× ~ 3×
+    - ATB, Energy Timer, Auto-Battle 모두 적용
+    - [ ] 키: 속도 감소, ] 키: 속도 증가
+  - **치트 코드:**
+    - A: Auto toggle
+    - D: Draw card
+    - P: Play first card
+    - S: Print deck state
+    - 1: Draw 5 cards
+
+#### 13. **Victory/Defeat/Rewards 화면 구현** ✅ (저녁 세션)
+- **VictoryScreen.tscn/gd** (c09)
+  - 승리 타이틀 (Gold color)
+  - 전투 통계 (Turns, Total Damage, Time)
+  - 보상 표시 (Gold, Reveries)
+  - 난이도 배율 적용 (difficulty_data.reward_multiplier)
+  - Continue 버튼 → InRun
+  - 보상 자동 적용 (GameManager)
+  - SaveSystem.save_game() 호출
+  - Space 키 단축키
+
+- **DefeatScreen.tscn/gd** (c10)
+  - 패배 타이틀 (Red color)
+  - 전투 통계 (Turns Survived, Total Damage, Time)
+  - 런 진행도 (Nodes Reached)
+  - Reveries Collected 표시
+  - Return to Lobby 버튼 → MainLobby
+  - Space 키 단축키
+
+- **RewardsModal component** (c11)
+  - CanvasLayer (layer 100) 기반
+  - 카드 보상 선택 (3장 중 1장)
+  - 타입별 색상 구분
+  - Skip Reward 옵션
+  - Signals: reward_selected, reward_skipped
+
+- **Combat Flow 업데이트:**
+  - Combat → Victory → InRun (런 계속)
+  - Combat → Defeat → MainLobby (런 종료)
+
+### 📊 진행 상황 (Updated 20:09 PST)
+- **완료된 화면:** 10/12 (83%) 🎉 ← +3!
   - ✅ c01-main-lobby
   - ✅ c02-card-library
   - ✅ c03-deck-builder
   - ✅ c05-shop
   - ✅ c06-run-prep
   - ✅ c07-in-run
-  - ✅ **c08-combat (Phase 1)** 🆕
-- **남은 화면:** c04, c09-c12 (5 screens)
-- **전투 시스템 진행:** Phase 1/4 완료 (25%)
+  - ✅ c08-combat (Phases 1-4) 🆕
+  - ✅ c09-victory-screen 🆕
+  - ✅ c10-defeat-screen 🆕
+  - ✅ c11-rewards-modal 🆕
+- **남은 화면:** c04-upgrade-tree, c12-settings (2개)
+- **전투 시스템:** ✅ 100% 완료 (Phase 1-4)
+- **전체 진행률:** 60% → **67%** (27/40) 🎉
 
-### 📝 Git 커밋
+### 🔧 기술적 개선
+- CanvasLayer 활용한 Modal z-ordering (AlertModal, RewardsModal)
+- Signal 기반 반응형 UI 시스템
+- 부채꼴 레이아웃 알고리즘 (arc positioning)
+- 휴리스틱 기반 AI (AutoBattleAI)
+- 속도 조절 시스템 (speed_multiplier)
+- 덱 순환 시스템 (Deck → Hand → Discard → Shuffle)
+
+### 📝 Git 커밋 (오늘: 5개)
 - `d5dbc5c`: Godot UI 구현 (37 files, +5,215 lines)
 - `84774dc`: Shop v2.0 기획 문서 (4 files, +1,005 lines)
 - `becabbb`: 개발 관리 문서 시스템 (5 files, +1,465 lines)
 - `df93259`: Gacha 시스템 (2 files, +212 lines)
 - `f1ef236`: BottomNav 폰트 수정 (1 file, +3/-3 lines)
 - `9e6c42c`: c06-run-prep 화면 구현 (5 files, +1,108 lines)
-- `d941bfe`: **Phase 1 - ATB Basic Combat** (18 files, +3,625/-1,584 lines) ✅ 🆕
+- `d941bfe`: Phase 1 - ATB Basic Combat (18 files, +3,625/-1,584 lines) ✅
+- `df3d5fe`: **Phase 2 - Energy Timer & Card Draw** (5 files, +250 lines) ✅ 🆕
+- `f071962`: **Phase 2 UI - Energy Timer & Hand Display** (1 file, +112 lines) ✅ 🆕
+- `74cf682`: **Phase 3 - Card Hand UI (Fan Layout)** (3 files, +289 lines) ✅ 🆕
+- `234af0e`: **Phase 4 - Auto-Battle AI + Speed Control** (3 files, +186 lines) ✅ 🆕
+- `932ab68`: **Victory/Defeat/Rewards screens (c09-c11)** (7 files, +529 lines) ✅ 🆕
 
 ---
 
