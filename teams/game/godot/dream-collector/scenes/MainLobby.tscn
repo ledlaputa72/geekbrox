@@ -14,7 +14,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.08, 0.1, 0.2, 1)
+color = Color(0.1, 0.1, 0.18, 1)
 
 [node name="CurrencyBar" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -75,7 +75,7 @@ theme_override_font_sizes/font_size = 16
 
 [node name="GoldLabel" type="Label" parent="CurrencyBar/GoldPanel/GoldHBox"]
 layout_mode = 2
-text = "0"
+text = "329"
 theme_override_font_sizes/font_size = 14
 
 [node name="Header" type="VBoxContainer" parent="."]
@@ -83,85 +83,97 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -195.0
-offset_right = 195.0
+offset_left = -100.0
+offset_right = 100.0
 offset_top = 80.0
-offset_bottom = 160.0
+offset_bottom = 140.0
+theme_override_constants/separation = 4
 
 [node name="TitleLabel" type="Label" parent="Header"]
 layout_mode = 2
 text = "꿈 수집가"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 28
 
 [node name="RateLabel" type="Label" parent="Header"]
 layout_mode = 2
 text = "10.0 / hour"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 14
 
-[node name="OfflineBanner" type="PanelContainer" parent="."]
+[node name="CircleViewport" type="Panel" parent="."]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -175.0
-offset_right = 175.0
-offset_top = 160.0
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -80.0
+offset_right = 150.0
 offset_bottom = 220.0
-visible = false
+grow_horizontal = 2
+grow_vertical = 2
+clip_contents = true
 
-[node name="OfflineLabel" type="Label" parent="OfflineBanner"]
-layout_mode = 2
-text = "오프라인 수집: +0 Reveries"
-horizontal_alignment = 1
-
-[node name="ActionGrid" type="GridContainer" parent="."]
+[node name="ViewportContent" type="Control" parent="CircleViewport"]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_right = -20.0
-offset_top = -200.0
-offset_bottom = -80.0
-columns = 2
+clip_contents = true
 
-[node name="StartRunButton" type="Button" parent="ActionGrid"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "꿈 런 시작"
-theme_override_font_sizes/font_size = 16
+[node name="Background" type="ColorRect" parent="CircleViewport/ViewportContent"]
+custom_minimum_size = Vector2(600, 300)
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 300.0
+color = Color(0.3, 0.5, 0.3, 1)
 
-[node name="CardLibraryButton" type="Button" parent="ActionGrid"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "카드 라이브러리"
-theme_override_font_sizes/font_size = 16
+[node name="Character" type="Label" parent="CircleViewport/ViewportContent"]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 120.0
+offset_right = 160.0
+offset_bottom = 170.0
+text = "👤"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="UpgradeButton" type="Button" parent="ActionGrid"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "업그레이드"
-theme_override_font_sizes/font_size = 16
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = 200.0
+offset_right = 160.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "시작"
 
-[node name="PrestigeButton" type="Button" parent="ActionGrid"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "프레스티지"
-theme_override_font_sizes/font_size = 16
+[node name="EnergyCostLabel" type="Label" parent="StartButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 10.0
+offset_right = 20.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "⚡ 5"
+horizontal_alignment = 1
 
 [node name="BottomNav" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.0
-anchor_right = 1.0
+anchors_preset = 12
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -60.0
 alignment = 1

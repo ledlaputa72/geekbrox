@@ -1,180 +1,110 @@
-## MainLobbyUI.gd
-## 메인 로비 UI 컨트롤러
-## v0.dev 디자인(c01-main-lobby.tsx)을 Godot으로 구현
+# MainLobbyUI.gd
+# 메인 로비 UI - 원형 뷰포트 + 스크롤 배경 + 걷는 캐릭터
+# Dream Collector - Main Lobby with animated viewport
 
 extends Control
 
+# ─── 애니메이션 설정 ─────────────────────────────────
+const BACKGROUND_SCROLL_SPEED = 30.0  # 배경 스크롤 속도 (px/s)
+const CHARACTER_WALK_SPEED = 0.5      # 캐릭터 애니메이션 속도
+
+var background_offset: float = 0.0
+
 # ─── UI 노드 참조 ────────────────────────────────────
-@onready var background: ColorRect     = $Background
-@onready var energy_label: Label       = $CurrencyBar/EnergyPanel/EnergyHBox/EnergyLabel
-@onready var gems_label: Label         = $CurrencyBar/GemsPanel/GemsHBox/GemsLabel
-@onready var gold_label: Label         = $CurrencyBar/GoldPanel/GoldHBox/GoldLabel
-@onready var rate_label: Label         = $Header/RateLabel
-@onready var offline_banner: PanelContainer = $OfflineBanner
-@onready var offline_label: Label      = $OfflineBanner/OfflineLabel
-@onready var start_run_btn: Button     = $ActionGrid/StartRunButton
-@onready var prestige_btn: Button      = $ActionGrid/PrestigeButton
+@onready var background: ColorRect = $Background
+@onready var energy_label: Label = $CurrencyBar/EnergyPanel/EnergyHBox/EnergyLabel
+@onready var gems_label: Label = $CurrencyBar/GemsPanel/GemsHBox/GemsLabel
+@onready var gold_label: Label = $CurrencyBar/GoldPanel/GoldHBox/GoldLabel
+@onready var title_label: Label = $Header/TitleLabel
+@onready var rate_label: Label = $Header/RateLabel
 
-# BottomNav 탭 버튼
-@onready var home_tab: Button          = $BottomNav/HomeTab
-@onready var cards_tab: Button         = $BottomNav/CardsTab
-@onready var upgrade_tab: Button       = $BottomNav/UpgradeTab
-@onready var progress_tab: Button      = $BottomNav/ProgressTab
-@onready var shop_tab: Button          = $BottomNav/ShopTab
+# CircleViewport
+@onready var circle_viewport: Panel = $CircleViewport
+@onready var viewport_bg: ColorRect = $CircleViewport/ViewportContent/Background
+@onready var character_sprite: Label = $CircleViewport/ViewportContent/Character
 
-var tab_buttons: Array[Button] = []
-var current_tab: int = 0  # 0=Home, 1=Cards, 2=Upgrade, 3=Progress, 4=Shop
+# StartButton
+@onready var start_button: Button = $StartButton
+@onready var energy_cost_label: Label = $StartButton/EnergyCostLabel
 
-# ─── 초기화 ─────────────────────────────────────────
+# BottomNav
+@onready var home_tab: Button = $BottomNav/HomeTab
+@onready var cards_tab: Button = $BottomNav/CardsTab
+@onready var upgrade_tab: Button = $BottomNav/UpgradeTab
+@onready var progress_tab: Button = $BottomNav/ProgressTab
+@onready var shop_tab: Button = $BottomNav/ShopTab
+
+var tab_buttons: Array = []
+
+# ─── 초기화 ──────────────────────────────────────────
 func _ready() -> void:
-	# 탭 버튼 배열 초기화 (스타일 적용 전에 먼저!)
 	tab_buttons = [home_tab, cards_tab, upgrade_tab, progress_tab, shop_tab]
 	
-	# UITheme 스타일 적용
-	_apply_theme_styles()
+	apply_styles()
+	setup_signals()
+	update_display()
+	set_active_tab(0)  # Home 활성화
 	
-	# GameManager 시그널 연결
-	GameManager.reveries_changed.connect(_on_reveries_changed)
-	GameManager.gems_changed.connect(_on_gems_changed)
-	GameManager.energy_changed.connect(_on_energy_changed)
-	GameManager.run_started.connect(_on_run_started)
-	GameManager.run_completed.connect(_on_run_completed)
-
-	# 버튼 연결
-	start_run_btn.pressed.connect(_on_start_run_pressed)
-	prestige_btn.pressed.connect(_on_prestige_pressed)
-	$ActionGrid/CardLibraryButton.pressed.connect(_on_cards_pressed)
-	$ActionGrid/UpgradeButton.pressed.connect(_on_upgrade_pressed)
-	
-	# 탭 버튼 시그널 연결
-	home_tab.pressed.connect(_on_tab_pressed.bind(0))
-	cards_tab.pressed.connect(_on_tab_pressed.bind(1))
-	upgrade_tab.pressed.connect(_on_tab_pressed.bind(2))
-	progress_tab.pressed.connect(_on_tab_pressed.bind(3))
-	shop_tab.pressed.connect(_on_tab_pressed.bind(4))
-	
-	# 초기 활성 탭 설정 (Home)
-	_set_active_tab(0)
-
-	# 오프라인 수집이 있었으면 배너 표시
-	if IdleSystem.accumulated_offline > 0:
-		_show_offline_banner(IdleSystem.accumulated_offline)
-
-	_update_display()
 	print("[MainLobbyUI] 메인 로비 준비 완료")
 
-# ─── 매 프레임 UI 갱신 ──────────────────────────────
-func _process(_delta: float) -> void:
-	_update_rate_label()
+# ─── 매 프레임 업데이트 ──────────────────────────────
+func _process(delta: float) -> void:
+	# 배경 스크롤 애니메이션
+	background_offset += BACKGROUND_SCROLL_SPEED * delta
+	if background_offset > viewport_bg.size.x:
+		background_offset = 0.0
+	
+	viewport_bg.position.x = -background_offset
+	
+	# Rate 업데이트
+	update_rate_label()
+	
+	# 캐릭터 걷기 애니메이션 (간단한 좌우 흔들림)
+	var walk_offset = sin(Time.get_ticks_msec() * CHARACTER_WALK_SPEED * 0.001) * 5.0
+	character_sprite.position.x = 140 + walk_offset
 
-# ─── 치트 코드 (개발용) ──────────────────────────────
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed:
-		match event.keycode:
-			KEY_M:  # M키: Reveries +1000
-				GameManager.add_reveries(1000)
-				print("💰 치트: Reveries +1000 (현재: %.0f)" % GameManager.reveries)
-			KEY_N:  # N키: Reveries +10000
-				GameManager.add_reveries(10000)
-				print("💰 치트: Reveries +10000 (현재: %.0f)" % GameManager.reveries)
-			KEY_G:  # G키: Gems +100
-				GameManager.add_gems(100)
-				print("💎 치트: Gems +100 (현재: %d)" % GameManager.gems)
-			KEY_H:  # H키: Gems +1000
-				GameManager.add_gems(1000)
-				print("💎 치트: Gems +1000 (현재: %d)" % GameManager.gems)
-			KEY_E:  # E키: Energy +50
-				GameManager.add_energy(50)
-				print("⚡ 치트: Energy +50 (현재: %d)" % GameManager.energy)
-			KEY_R:  # R키: Energy +200
-				GameManager.add_energy(200)
-				print("⚡ 치트: Energy +200 (현재: %d)" % GameManager.energy)
-
-# ─── Reveries 변경 시 ────────────────────────────────
-func _on_reveries_changed(new_amount: float) -> void:
-	gold_label.text = _format_number(new_amount)
-	# 프레스티지 버튼 활성화 조건
-	prestige_btn.disabled = new_amount < 10000.0
-
-# ─── Gems 변경 시 ─────────────────────────────────────
-func _on_gems_changed(new_amount: int) -> void:
-	gems_label.text = str(new_amount)
-
-# ─── Energy 변경 시 ───────────────────────────────────
-func _on_energy_changed(new_amount: int) -> void:
-	energy_label.text = str(new_amount)
-
-# ─── 런 시작 버튼 ────────────────────────────────────
-func _on_start_run_pressed() -> void:
-	print("[MainLobbyUI] Run Prep으로 이동")
-	get_tree().change_scene_to_file("res://ui/screens/RunPrep.tscn")
-
-# ─── 프레스티지 버튼 ─────────────────────────────────
-func _on_prestige_pressed() -> void:
-	GameManager.prestige()
-
-# ─── 카드 라이브러리 버튼 ────────────────────────────
-func _on_cards_pressed() -> void:
-	print("[MainLobbyUI] Card Library로 이동")
-	get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
-
-# ─── 업그레이드 버튼 ─────────────────────────────────
-func _on_upgrade_pressed() -> void:
-	print("[MainLobbyUI] Upgrade Tree로 이동 (미구현)")
-
-# ─── 런 시작 시 ──────────────────────────────────────
-func _on_run_started() -> void:
-	start_run_btn.text = "런 진행 중..."
-	start_run_btn.disabled = true
-
-# ─── 런 완료 시 ──────────────────────────────────────
-func _on_run_completed(_success: bool) -> void:
-	start_run_btn.text = "꿈 런 시작"
-	start_run_btn.disabled = false
-
-# ─── 오프라인 배너 표시 ──────────────────────────────
-func _show_offline_banner(amount: float) -> void:
-	offline_banner.visible = true
-	offline_label.text = "오프라인 수집: +%s Gold" % _format_number(amount)
-	# 3초 후 자동 숨김
-	await get_tree().create_timer(3.0).timeout
-	offline_banner.visible = false
-
-# ─── UI 전체 갱신 ────────────────────────────────────
-func _update_display() -> void:
-	_on_reveries_changed(GameManager.reveries)
-	_on_gems_changed(GameManager.gems)
-	_on_energy_changed(GameManager.energy)
-	_update_rate_label()
-
-func _update_rate_label() -> void:
-	rate_label.text = "%.1f / hour" % IdleSystem.get_current_rate()
-
-# ─── 숫자 포맷 (1000 → 1K, 1000000 → 1M) ────────────
-func _format_number(amount: float) -> String:
-	if amount >= 1_000_000:
-		return "%.2fM" % (amount / 1_000_000.0)
-	elif amount >= 1_000:
-		return "%.2fK" % (amount / 1_000.0)
-	else:
-		return "%.0f" % amount
-
-# ─── UITheme 스타일 적용 ──────────────────────────────
-func _apply_theme_styles() -> void:
-	# 배경 색상
+# ─── 스타일 적용 ─────────────────────────────────────
+func apply_styles() -> void:
 	background.color = UITheme.COLORS.bg
 	
-	# 액션 버튼 스타일
-	UITheme.apply_button_style(start_run_btn, "primary")
-	UITheme.apply_button_style($ActionGrid/CardLibraryButton, "info")
-	UITheme.apply_button_style($ActionGrid/UpgradeButton, "success")
-	UITheme.apply_button_style(prestige_btn, "warning")
+	# 타이틀
+	title_label.add_theme_font_size_override("font_size", 24)
+	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 	
-	# 탭 버튼 스타일
+	rate_label.add_theme_font_size_override("font_size", 14)
+	rate_label.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
+	
+	# CircleViewport 스타일 (원형)
+	var circle_style = StyleBoxFlat.new()
+	circle_style.bg_color = UITheme.COLORS.panel
+	circle_style.corner_radius_top_left = 150
+	circle_style.corner_radius_top_right = 150
+	circle_style.corner_radius_bottom_left = 150
+	circle_style.corner_radius_bottom_right = 150
+	circle_style.border_width_left = 4
+	circle_style.border_width_top = 4
+	circle_style.border_width_right = 4
+	circle_style.border_width_bottom = 4
+	circle_style.border_color = UITheme.COLORS.primary
+	circle_viewport.add_theme_stylebox_override("panel", circle_style)
+	
+	# Viewport 배경 (숲 느낌 - 그라데이션)
+	viewport_bg.color = Color(0.3, 0.5, 0.3)  # 초록 숲
+	
+	# 캐릭터 (플레이스홀더)
+	character_sprite.add_theme_font_size_override("font_size", 48)
+	
+	# StartButton
+	UITheme.apply_button_style(start_button, "success")
+	start_button.add_theme_font_size_override("font_size", 20)
+	energy_cost_label.add_theme_font_size_override("font_size", 16)
+	energy_cost_label.add_theme_color_override("font_color", UITheme.COLORS.warning)
+	
+	# Tab buttons
 	for button in tab_buttons:
-		_apply_tab_button_style(button)
+		apply_tab_button_style(button)
 
-func _apply_tab_button_style(button: Button) -> void:
+func apply_tab_button_style(button: Button) -> void:
 	var normal_style = StyleBoxFlat.new()
 	normal_style.bg_color = UITheme.COLORS.panel
 	button.add_theme_stylebox_override("normal", normal_style)
@@ -186,34 +116,95 @@ func _apply_tab_button_style(button: Button) -> void:
 	button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
 	button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
 
-# ─── 탭 버튼 클릭 ─────────────────────────────────────
+# ─── 시그널 연결 ─────────────────────────────────────
+func setup_signals() -> void:
+	# GameManager 시그널
+	if GameManager.has_signal("energy_changed"):
+		GameManager.energy_changed.connect(_on_energy_changed)
+	if GameManager.has_signal("gems_changed"):
+		GameManager.gems_changed.connect(_on_gems_changed)
+	
+	# Buttons
+	start_button.pressed.connect(_on_start_pressed)
+	
+	# Tabs
+	home_tab.pressed.connect(_on_tab_pressed.bind(0))
+	cards_tab.pressed.connect(_on_tab_pressed.bind(1))
+	upgrade_tab.pressed.connect(_on_tab_pressed.bind(2))
+	progress_tab.pressed.connect(_on_tab_pressed.bind(3))
+	shop_tab.pressed.connect(_on_tab_pressed.bind(4))
+
+# ─── 디스플레이 업데이트 ─────────────────────────────
+func update_display() -> void:
+	if GameManager.has_method("get_energy"):
+		_on_energy_changed(GameManager.energy)
+	else:
+		energy_label.text = "100"
+	
+	if GameManager.has_method("get_gems"):
+		_on_gems_changed(GameManager.gems)
+	else:
+		gems_label.text = "0"
+	
+	# Gold (Reveries)
+	gold_label.text = "329"
+	
+	# Energy cost
+	energy_cost_label.text = "⚡ 5"
+	
+	update_rate_label()
+
+func update_rate_label() -> void:
+	rate_label.text = "10.0 / hour"
+
+func _on_energy_changed(new_amount: int) -> void:
+	energy_label.text = str(new_amount)
+
+func _on_gems_changed(new_amount: int) -> void:
+	gems_label.text = str(new_amount)
+
+# ─── 이벤트 핸들러 ───────────────────────────────────
+func _on_start_pressed() -> void:
+	print("[MainLobbyUI] Run Prep으로 이동")
+	get_tree().change_scene_to_file("res://ui/screens/RunPrep.tscn")
+
 func _on_tab_pressed(tab_index: int) -> void:
-	_set_active_tab(tab_index)
+	set_active_tab(tab_index)
 	
 	match tab_index:
 		0:  # Home
-			print("[MainLobbyUI] 이미 Home 화면입니다")
+			print("[MainLobbyUI] 이미 Home 화면")
 		1:  # Cards
 			print("[MainLobbyUI] Card Library로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
 		2:  # Upgrade
-			print("[MainLobbyUI] Upgrade Tree로 이동")
-			# get_tree().change_scene_to_file("res://ui/screens/UpgradeTree.tscn")
+			print("[MainLobbyUI] Upgrade (미구현)")
 		3:  # Progress
 			print("[MainLobbyUI] Progress (미구현)")
 		4:  # Shop
 			print("[MainLobbyUI] Shop으로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")
 
-# ─── 활성 탭 설정 ─────────────────────────────────────
-func _set_active_tab(tab_index: int) -> void:
-	current_tab = tab_index
-	
+func set_active_tab(tab_index: int) -> void:
 	for i in range(tab_buttons.size()):
 		var button = tab_buttons[i]
 		if i == tab_index:
-			# 활성 탭 - 흰색 텍스트
 			button.add_theme_color_override("font_color", UITheme.COLORS.text)
 		else:
-			# 비활성 탭 - 회색 텍스트
 			button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
+
+# ─── 치트 코드 ───────────────────────────────────────
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		match event.keycode:
+			KEY_M:  # M키: Gold +1000
+				gold_label.text = str(int(gold_label.text) + 1000)
+				print("💰 치트: Gold +1000")
+			KEY_G:  # G키: Gems +100
+				if GameManager.has_method("add_gems"):
+					GameManager.add_gems(100)
+				print("💎 치트: Gems +100")
+			KEY_E:  # E키: Energy +50
+				if GameManager.has_method("add_energy"):
+					GameManager.add_energy(50)
+				print("⚡ 치트: Energy +50")
