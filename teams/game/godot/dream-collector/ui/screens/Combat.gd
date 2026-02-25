@@ -267,6 +267,12 @@ func _update_monsters_ui():
 		
 		if i < monsters.size():
 			var monster = monsters[i]
+			
+			# Hide dead monsters (HP <= 0)
+			if monster.hp <= 0:
+				node.visible = false
+				continue
+			
 			node.visible = true
 			
 			var hp_bar = node.get_node("HPBar")
