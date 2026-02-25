@@ -1,8 +1,8 @@
 # CardItem.gd
-# 카드 라이브러리에서 사용되는 단일 카드 컴포넌트
-# Dream Collector - 100×140px 카드 디자인
+# 카드 라이브러리, 덱빌더에서 사용되는 카드 컴포넌트
+# Dream Collector - Iron Glory Style (100×140px)
 
-extends PanelContainer
+extends Control
 
 # ─── 카드 데이터 ─────────────────────────────────────
 var card_id: int = 0
@@ -13,12 +13,18 @@ var description: String = ""
 var rarity: String = "common"  # common, uncommon, rare, epic, legendary
 
 # ─── UI 노드 참조 ────────────────────────────────────
-@onready var background: ColorRect = $Background
-@onready var name_label: Label = $VBox/TopSection/HBox/NameLabel
-@onready var cost_label: Label = $VBox/TopSection/HBox/CostLabel
-@onready var type_label: Label = $VBox/TopSection/TypeLabel
-@onready var art_placeholder: ColorRect = $VBox/ArtContainer/ArtPlaceholder
-@onready var description_label: Label = $VBox/BottomSection/DescriptionLabel
+@onready var card_bg: Panel = $CardBG
+@onready var cost_badge: Panel = $CostBadge
+@onready var cost_label: Label = $CostBadge/CostLabel
+@onready var name_banner: Panel = $NameBanner
+@onready var name_label: Label = $NameBanner/NameLabel
+@onready var art_circle: Panel = $ArtCircle
+@onready var art_bg: ColorRect = $ArtCircle/ArtBG
+@onready var art_placeholder: Label = $ArtCircle/ArtPlaceholder
+@onready var type_badge: Panel = $TypeBadge
+@onready var type_label: Label = $TypeBadge/TypeLabel
+@onready var description_panel: Panel = $DescriptionPanel
+@onready var description_label: Label = $DescriptionPanel/DescriptionLabel
 
 # ─── 시그널 ──────────────────────────────────────────
 signal card_clicked(card_data: Dictionary)
@@ -26,7 +32,7 @@ signal card_hovered(card_data: Dictionary)
 
 # ─── 초기화 ──────────────────────────────────────────
 func _ready() -> void:
-	custom_minimum_size = Vector2(UITheme.CARD.width, UITheme.CARD.height)
+	custom_minimum_size = Vector2(100, 140)
 	apply_styles()
 	update_display()
 	
@@ -50,42 +56,161 @@ func update_display() -> void:
 	if not is_node_ready():
 		return
 	
+	# 카드 이름
 	name_label.text = card_name
+	
+	# 코스트
 	cost_label.text = str(cost)
-	type_label.text = card_type.capitalize()
+	
+	# 타입
+	type_label.text = get_type_korean(card_type)
+	
+	# 설명
 	description_label.text = description
 	
-	# 타입별 색상 적용
-	var type_color = UITheme.COLORS.get(card_type, UITheme.COLORS.attack)
-	background.color = type_color
+	# 일러스트 플레이스홀더 (이모지 또는 첫 글자)
+	art_placeholder.text = get_art_emoji(card_type)
 	
-	# 희귀도별 테두리 색상
-	var rarity_color = UITheme.COLORS.get(rarity, UITheme.COLORS.common)
-	var panel_style = get_theme_stylebox("panel")
-	if panel_style is StyleBoxFlat:
-		panel_style.border_color = rarity_color
+	# 타입별 색상 적용
+	apply_type_colors()
+
+# ─── 타입별 색상 적용 ────────────────────────────────
+func apply_type_colors() -> void:
+	var type_colors = {
+		"attack": {
+			"bg": Color(0.8, 0.2, 0.2),  # 빨강
+			"art_bg": Color(1.0, 0.4, 0.2),  # 주황
+			"banner": Color(0.4, 0.7, 1.0)  # 하늘색
+		},
+		"defense": {
+			"bg": Color(0.2, 0.4, 0.8),  # 파랑
+			"art_bg": Color(0.3, 0.6, 1.0),  # 밝은 파랑
+			"banner": Color(0.4, 0.7, 1.0)  # 하늘색
+		},
+		"skill": {
+			"bg": Color(0.2, 0.6, 0.3),  # 초록
+			"art_bg": Color(0.4, 0.8, 0.4),  # 밝은 초록
+			"banner": Color(0.4, 0.7, 1.0)  # 하늘색
+		},
+		"power": {
+			"bg": Color(0.6, 0.2, 0.8),  # 보라
+			"art_bg": Color(0.8, 0.4, 1.0),  # 밝은 보라
+			"banner": Color(0.4, 0.7, 1.0)  # 하늘색
+		}
+	}
+	
+	var colors = type_colors.get(card_type, type_colors["attack"])
+	
+	# 카드 배경
+	var card_style = card_bg.get_theme_stylebox("panel")
+	if card_style is StyleBoxFlat:
+		card_style.bg_color = colors["bg"]
+	
+	# 일러스트 배경
+	art_bg.color = colors["art_bg"]
+	
+	# 이름 배너
+	var banner_style = name_banner.get_theme_stylebox("panel")
+	if banner_style is StyleBoxFlat:
+		banner_style.bg_color = colors["banner"]
 
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
-	# Panel 스타일
-	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = UITheme.COLORS.panel
-	panel_style.border_width_left = 2
-	panel_style.border_width_top = 2
-	panel_style.border_width_right = 2
-	panel_style.border_width_bottom = 2
-	panel_style.border_color = UITheme.COLORS.panel_border
-	panel_style.corner_radius_top_left = UITheme.RADIUS.small
-	panel_style.corner_radius_top_right = UITheme.RADIUS.small
-	panel_style.corner_radius_bottom_left = UITheme.RADIUS.small
-	panel_style.corner_radius_bottom_right = UITheme.RADIUS.small
-	add_theme_stylebox_override("panel", panel_style)
+	# 1. 카드 배경 (전체)
+	var card_style = StyleBoxFlat.new()
+	card_style.bg_color = Color(0.8, 0.2, 0.2)  # 기본 빨강
+	card_style.corner_radius_top_left = 8
+	card_style.corner_radius_top_right = 8
+	card_style.corner_radius_bottom_left = 8
+	card_style.corner_radius_bottom_right = 8
+	card_style.border_width_left = 2
+	card_style.border_width_top = 2
+	card_style.border_width_right = 2
+	card_style.border_width_bottom = 2
+	card_style.border_color = Color(0.1, 0.1, 0.1, 0.5)
+	card_bg.add_theme_stylebox_override("panel", card_style)
 	
-	# 라벨 색상
-	name_label.add_theme_color_override("font_color", UITheme.COLORS.text)
-	cost_label.add_theme_color_override("font_color", UITheme.COLORS.warning)
-	type_label.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
-	description_label.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
+	# 2. 코스트 배지 (좌상단)
+	var cost_style = StyleBoxFlat.new()
+	cost_style.bg_color = Color(1, 0.8, 0.2)  # 노란색
+	cost_style.corner_radius_top_left = 16
+	cost_style.corner_radius_top_right = 16
+	cost_style.corner_radius_bottom_left = 16
+	cost_style.corner_radius_bottom_right = 16
+	cost_style.border_width_left = 2
+	cost_style.border_width_top = 2
+	cost_style.border_width_right = 2
+	cost_style.border_width_bottom = 2
+	cost_style.border_color = Color(0.6, 0.4, 0.1)
+	cost_badge.add_theme_stylebox_override("panel", cost_style)
+	cost_label.add_theme_font_size_override("font_size", 14)
+	cost_label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
+	
+	# 3. 이름 배너 (상단)
+	var banner_style = StyleBoxFlat.new()
+	banner_style.bg_color = Color(0.4, 0.7, 1.0)  # 하늘색
+	banner_style.corner_radius_top_left = 4
+	banner_style.corner_radius_top_right = 4
+	banner_style.corner_radius_bottom_left = 4
+	banner_style.corner_radius_bottom_right = 4
+	name_banner.add_theme_stylebox_override("panel", banner_style)
+	name_label.add_theme_font_size_override("font_size", 9)
+	name_label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
+	
+	# 4. 원형 일러스트 영역
+	var circle_style = StyleBoxFlat.new()
+	circle_style.bg_color = Color(0.3, 0.6, 0.9, 0.3)  # 반투명
+	circle_style.corner_radius_top_left = 30
+	circle_style.corner_radius_top_right = 30
+	circle_style.corner_radius_bottom_left = 30
+	circle_style.corner_radius_bottom_right = 30
+	circle_style.border_width_left = 2
+	circle_style.border_width_top = 2
+	circle_style.border_width_right = 2
+	circle_style.border_width_bottom = 2
+	circle_style.border_color = Color(0.4, 0.7, 1.0)
+	art_circle.add_theme_stylebox_override("panel", circle_style)
+	art_placeholder.add_theme_font_size_override("font_size", 28)
+	
+	# 5. 타입 배지
+	var type_style = StyleBoxFlat.new()
+	type_style.bg_color = Color(0.4, 0.7, 1.0)  # 하늘색
+	type_style.corner_radius_top_left = 4
+	type_style.corner_radius_top_right = 4
+	type_style.corner_radius_bottom_left = 4
+	type_style.corner_radius_bottom_right = 4
+	type_badge.add_theme_stylebox_override("panel", type_style)
+	type_label.add_theme_font_size_override("font_size", 7)
+	type_label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
+	
+	# 6. 설명 패널
+	var desc_style = StyleBoxFlat.new()
+	desc_style.bg_color = Color(0.15, 0.15, 0.2)  # 어두운 배경
+	desc_style.corner_radius_bottom_left = 6
+	desc_style.corner_radius_bottom_right = 6
+	description_panel.add_theme_stylebox_override("panel", desc_style)
+	description_label.add_theme_font_size_override("font_size", 7)
+	description_label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.9))
+
+# ─── 타입 한글 변환 ──────────────────────────────────
+func get_type_korean(type: String) -> String:
+	var korean_types = {
+		"attack": "공격",
+		"defense": "방어",
+		"skill": "스킬",
+		"power": "파워"
+	}
+	return korean_types.get(type, "공격")
+
+# ─── 일러스트 이모지 ─────────────────────────────────
+func get_art_emoji(type: String) -> String:
+	var emojis = {
+		"attack": "⚔️",
+		"defense": "🛡️",
+		"skill": "✨",
+		"power": "💪"
+	}
+	return emojis.get(type, "⚔️")
 
 # ─── 마우스 입력 처리 ────────────────────────────────
 func _gui_input(event: InputEvent) -> void:
@@ -95,23 +220,25 @@ func _gui_input(event: InputEvent) -> void:
 
 func _mouse_entered() -> void:
 	# 호버 효과
-	var panel_style = get_theme_stylebox("panel")
-	if panel_style is StyleBoxFlat:
-		panel_style.border_width_left = 3
-		panel_style.border_width_top = 3
-		panel_style.border_width_right = 3
-		panel_style.border_width_bottom = 3
+	var card_style = card_bg.get_theme_stylebox("panel")
+	if card_style is StyleBoxFlat:
+		card_style.border_width_left = 4
+		card_style.border_width_top = 4
+		card_style.border_width_right = 4
+		card_style.border_width_bottom = 4
+		card_style.border_color = Color(1, 1, 1, 0.8)
 	
 	card_hovered.emit(get_card_data())
 
 func _mouse_exited() -> void:
 	# 호버 해제
-	var panel_style = get_theme_stylebox("panel")
-	if panel_style is StyleBoxFlat:
-		panel_style.border_width_left = 2
-		panel_style.border_width_top = 2
-		panel_style.border_width_right = 2
-		panel_style.border_width_bottom = 2
+	var card_style = card_bg.get_theme_stylebox("panel")
+	if card_style is StyleBoxFlat:
+		card_style.border_width_left = 2
+		card_style.border_width_top = 2
+		card_style.border_width_right = 2
+		card_style.border_width_bottom = 2
+		card_style.border_color = Color(0.1, 0.1, 0.1, 0.5)
 
 # ─── 카드 클릭 이벤트 ────────────────────────────────
 func _on_card_clicked() -> void:
