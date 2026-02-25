@@ -43,7 +43,7 @@ func _load_combat_stats():
 	combat_time = 154.5  # seconds
 	
 	# Calculate rewards based on difficulty
-	if GameManager.has("difficulty_data"):
+	if not GameManager.difficulty_data.is_empty():
 		var difficulty = GameManager.difficulty_data
 		var multiplier = difficulty.get("reward_multiplier", 1.0)
 		gold_reward = int(50 * multiplier)
@@ -64,9 +64,8 @@ func _update_display():
 func _apply_rewards():
 	"""Apply rewards to GameManager"""
 	# Add gold (reveries)
-	if GameManager.has("reveries"):
-		GameManager.reveries += reveries_reward
-		print("[Victory] +%d Reveries (Total: %d)" % [reveries_reward, GameManager.reveries])
+	GameManager.add_reveries(reveries_reward)
+	print("[Victory] +%d Reveries (Total: %.1f)" % [reveries_reward, GameManager.reveries])
 	
 	# TODO: Add other rewards (cards, relics, etc.)
 	

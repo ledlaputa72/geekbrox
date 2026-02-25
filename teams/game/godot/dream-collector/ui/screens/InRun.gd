@@ -8,8 +8,7 @@ extends Control
 @onready var energy_bar: ProgressBar = $StatusBar/HBox/EnergyContainer/EnergyBar
 @onready var reveries_label: Label = $StatusBar/HBox/ReveriesLabel
 
-@onready var node_map: Panel = $NodeMap
-@onready var node_container: HBoxContainer = $NodeMap/ScrollContainer/NodeContainer
+@onready var node_map_visual: Control = $NodeMapVisual
 @onready var current_node_icon: Label = $MainView/CurrentNodeIcon
 
 @onready var action_bar: Panel = $ActionBar
@@ -68,11 +67,6 @@ func _apply_theme_styles():
 	# Reveries label
 	reveries_label.add_theme_color_override("font_color", Color(1.0, 0.843, 0.0))  # Gold
 	
-	# Node map
-	var node_map_style = StyleBoxFlat.new()
-	node_map_style.bg_color = UITheme.COLORS.panel
-	node_map.add_theme_stylebox_override("panel", node_map_style)
-	
 	# Action bar
 	var action_style = StyleBoxFlat.new()
 	action_style.bg_color = UITheme.COLORS.panel
@@ -116,55 +110,9 @@ func _update_status_bar():
 	reveries_label.text = "R: %d" % reveries
 
 func _generate_node_map():
-	# Clear existing nodes
-	for child in node_container.get_children():
-		child.queue_free()
-	
-	# Create node icons
-	for i in range(nodes.size()):
-		var node = nodes[i]
-		
-		# Node icon
-		var node_button = Button.new()
-		node_button.custom_minimum_size = Vector2(32, 32)
-		node_button.text = node.icon
-		node_button.flat = true
-		
-		# Style based on state
-		var node_style = StyleBoxFlat.new()
-		node_style.corner_radius_top_left = 16
-		node_style.corner_radius_top_right = 16
-		node_style.corner_radius_bottom_left = 16
-		node_style.corner_radius_bottom_right = 16
-		
-		if node.completed:
-			node_style.bg_color = Color(0.298, 0.686, 0.314)  # Green
-		elif node.current:
-			node_style.bg_color = UITheme.COLORS.primary
-			node_style.border_width_left = 3
-			node_style.border_width_right = 3
-			node_style.border_width_top = 3
-			node_style.border_width_bottom = 3
-			node_style.border_color = Color.WHITE
-		else:
-			node_style.bg_color = Color(0.4, 0.4, 0.4)  # Gray
-		
-		node_button.add_theme_stylebox_override("normal", node_style)
-		node_button.add_theme_stylebox_override("hover", node_style)
-		node_button.add_theme_stylebox_override("pressed", node_style)
-		
-		node_container.add_child(node_button)
-		
-		# Add connector line (except after last node)
-		if i < nodes.size() - 1:
-			var line = ColorRect.new()
-			line.custom_minimum_size = Vector2(16, 2)
-			var next_node = nodes[i + 1]
-			if next_node.completed or next_node.current:
-				line.color = Color(0.298, 0.686, 0.314)  # Green
-			else:
-				line.color = Color(0.4, 0.4, 0.4)  # Gray
-			node_container.add_child(line)
+	# Update visual node map
+	if node_map_visual:
+		node_map_visual.set_nodes(nodes, current_node_index)
 
 func _update_current_node():
 	if current_node_index < 0 or current_node_index >= nodes.size():

@@ -45,7 +45,7 @@ func _load_combat_stats():
 	
 	# Get run progress from GameManager
 	nodes_completed = 3  # TODO: Get actual progress
-	reveries_collected = GameManager.get("reveries", 0)
+	reveries_collected = int(GameManager.reveries)
 
 func _update_display():
 	turns_label.text = "Turns Survived: %d" % turns

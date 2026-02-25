@@ -89,22 +89,13 @@ func start_combat(monster_data: Array):
 	# Initialize Energy Timer
 	energy_timer = 0.0
 	
-	# Initialize Deck
-	_initialize_starting_deck()
-	
-	# Draw starting hand (5 cards)
-	DeckManager.draw_cards(5)
-	
 	add_log("Combat started!")
 	add_log("Hero vs %d monsters" % monsters.size())
-	
-	# Emit initial energy state
-	energy_changed.emit(hero.energy, ENERGY_MAX)
-	energy_timer_updated.emit(0.0)
 	add_log("Drew 5 starting cards")
 	
 	# Emit initial energy state
 	energy_changed.emit(hero.energy, ENERGY_MAX)
+	energy_timer_updated.emit(0.0)
 
 func end_combat():
 	in_combat = false
@@ -245,28 +236,37 @@ func add_log(message: String):
 
 func _update_energy_timer(delta: float):
 	"""Update energy timer and charge energy when full"""
+	# DYNAMIC DURATION: Based on hand size (5 cards = 5 seconds)
+	var hand_size = DeckManager.get_hand_size()
+	var dynamic_duration = max(1.0, float(hand_size))  # Minimum 1 second
+	
 	# Increment timer
 	energy_timer += delta
 	
-	# Emit progress signal
-	var progress = energy_timer / ENERGY_TIMER_DURATION
+	# Emit progress signal (based on dynamic duration)
+	var progress = energy_timer / dynamic_duration
 	energy_timer_updated.emit(progress)
 	
-	# Check if timer is full
-	if energy_timer >= ENERGY_TIMER_DURATION:
+	# Check if timer is full (based on dynamic duration)
+	if energy_timer >= dynamic_duration:
 		energy_timer = 0.0  # Reset timer
 		
-		# Charge energy (if not at max)
-		if hero.energy < ENERGY_MAX:
+		# NEW LOGIC: If energy is at max (3), only draw card. Otherwise, charge energy + draw card.
+		if hero.energy >= ENERGY_MAX:
+			# Energy at max: only draw card
+			var drawn_card = DeckManager.draw_card()
+			if not drawn_card.is_empty():
+				add_log("Drew 1 card: %s" % drawn_card.name)
+		else:
+			# Energy below max: charge energy AND draw card
 			hero.energy += 1
 			add_log("+1 Energy ⚡")
 			energy_changed.emit(hero.energy, ENERGY_MAX)
 			entity_updated.emit("hero", 0)
-		
-		# Draw 1 card
-		var drawn_card = DeckManager.draw_card()
-		if not drawn_card.is_empty():
-			add_log("Drew 1 card: %s" % drawn_card.name)
+			
+			var drawn_card = DeckManager.draw_card()
+			if not drawn_card.is_empty():
+				add_log("Drew 1 card: %s" % drawn_card.name)
 
 func _initialize_starting_deck():
 	"""Initialize deck for combat"""
@@ -301,8 +301,9 @@ func play_card(card_index: int, target_index: int = -1) -> bool:
 		add_log("Not enough energy! (Need %d, have %d)" % [card.cost, hero.energy])
 		return false
 	
-	# Check target
-	if card.target == "single" and target_index == -1:
+	# Check target (safe access with .get())
+	var card_target = card.get("target", "none")
+	if card_target == "single" and target_index == -1:
 		target_index = _get_first_alive_monster()
 		if target_index == -1:
 			add_log("No valid target!")
