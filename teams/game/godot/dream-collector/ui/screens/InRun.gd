@@ -8,8 +8,14 @@ extends Control
 @onready var energy_bar: ProgressBar = $StatusBar/HBox/EnergyContainer/EnergyBar
 @onready var reveries_label: Label = $StatusBar/HBox/ReveriesLabel
 
+@onready var node_map: Panel = $NodeMap
 @onready var node_container: HBoxContainer = $NodeMap/ScrollContainer/NodeContainer
 @onready var current_node_icon: Label = $MainView/CurrentNodeIcon
+
+@onready var action_bar: Panel = $ActionBar
+@onready var skip_button: Button = $ActionBar/HBox/SkipButton
+@onready var auto_button: Button = $ActionBar/HBox/AutoButton
+@onready var menu_button: Button = $ActionBar/HBox/MenuButton
 
 @onready var node_panel: Panel = $NodePanel
 @onready var title_label: Label = $NodePanel/VBox/TitleLabel
@@ -62,6 +68,16 @@ func _apply_theme_styles():
 	# Reveries label
 	reveries_label.add_theme_color_override("font_color", Color(1.0, 0.843, 0.0))  # Gold
 	
+	# Node map
+	var node_map_style = StyleBoxFlat.new()
+	node_map_style.bg_color = UITheme.COLORS.panel
+	node_map.add_theme_stylebox_override("panel", node_map_style)
+	
+	# Action bar
+	var action_style = StyleBoxFlat.new()
+	action_style.bg_color = UITheme.COLORS.panel
+	action_bar.add_theme_stylebox_override("panel", action_style)
+	
 	# Node panel
 	var panel_style = StyleBoxFlat.new()
 	panel_style.bg_color = UITheme.COLORS.panel
@@ -69,9 +85,14 @@ func _apply_theme_styles():
 	panel_style.corner_radius_top_right = UITheme.RADIUS.large
 	node_panel.add_theme_stylebox_override("panel", panel_style)
 	
-	# Buttons
-	UITheme.apply_button_style(choice1, UITheme.COLORS.primary)
-	UITheme.apply_button_style(choice2, UITheme.COLORS.skill)
+	# Action bar buttons
+	UITheme.apply_button_style(skip_button, "primary")
+	UITheme.apply_button_style(auto_button, "primary")
+	UITheme.apply_button_style(menu_button, "primary")
+	
+	# Node panel buttons
+	UITheme.apply_button_style(choice1, "primary")
+	UITheme.apply_button_style(choice2, "skill")
 
 func _update_status_bar():
 	# HP
