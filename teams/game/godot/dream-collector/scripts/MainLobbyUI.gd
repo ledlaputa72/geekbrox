@@ -27,11 +27,11 @@ var current_tab: int = 0  # 0=Home, 1=Cards, 2=Upgrade, 3=Progress, 4=Shop
 
 # ─── 초기화 ─────────────────────────────────────────
 func _ready() -> void:
+	# 탭 버튼 배열 초기화 (스타일 적용 전에 먼저!)
+	tab_buttons = [home_tab, cards_tab, upgrade_tab, progress_tab, shop_tab]
+	
 	# UITheme 스타일 적용
 	_apply_theme_styles()
-	
-	# 탭 버튼 배열 초기화
-	tab_buttons = [home_tab, cards_tab, upgrade_tab, progress_tab, shop_tab]
 	
 	# GameManager 시그널 연결
 	GameManager.reveries_changed.connect(_on_reveries_changed)
