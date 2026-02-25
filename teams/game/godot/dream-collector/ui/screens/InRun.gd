@@ -255,7 +255,7 @@ func _on_choice1_pressed():
 		"Combat":
 			# Start combat
 			print("Starting combat...")
-			# TODO: Load combat scene
+			get_tree().change_scene_to_file("res://ui/screens/Combat.tscn")
 		
 		"Shop":
 			# Open shop

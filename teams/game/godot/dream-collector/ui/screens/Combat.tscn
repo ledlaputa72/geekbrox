@@ -1,0 +1,361 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvq3xm5h8y7r3"]
+
+[ext_resource type="Script" path="res://ui/screens/Combat.gd" id="1_combat"]
+
+[node name="Combat" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_combat")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101961, 0.101961, 0.180392, 1)
+
+[node name="TopBar" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="HBox" type="HBoxContainer" parent="TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="MenuButton" type="Button" parent="TopBar/HBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+text = "☰"
+
+[node name="Spacer1" type="Control" parent="TopBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TurnLabel" type="Label" parent="TopBar/HBox"]
+layout_mode = 2
+text = "Turn: 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AutoToggle" type="Button" parent="TopBar/HBox"]
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
+text = "🤖 Auto"
+flat = true
+
+[node name="Spacer2" type="Control" parent="TopBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EndTurnButton" type="Button" parent="TopBar/HBox"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "End Turn"
+
+[node name="BattleArea" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -250.0
+offset_right = 175.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="HeroArea" type="VBoxContainer" parent="BattleArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="HeroSprite" type="Label" parent="BattleArea/HeroArea"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "👤"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HeroName" type="Label" parent="BattleArea/HeroArea"]
+layout_mode = 2
+text = "Hero"
+horizontal_alignment = 1
+
+[node name="HeroHP" type="VBoxContainer" parent="BattleArea/HeroArea"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HPLabel" type="Label" parent="BattleArea/HeroArea/HeroHP"]
+layout_mode = 2
+text = "HP: 50/60"
+horizontal_alignment = 1
+
+[node name="HPBar" type="ProgressBar" parent="BattleArea/HeroArea/HeroHP"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+max_value = 60.0
+value = 50.0
+show_percentage = false
+
+[node name="HeroStats" type="HBoxContainer" parent="BattleArea/HeroArea"]
+layout_mode = 2
+alignment = 1
+
+[node name="Energy" type="Label" parent="BattleArea/HeroArea/HeroStats"]
+layout_mode = 2
+text = "⚡3"
+
+[node name="Block" type="Label" parent="BattleArea/HeroArea/HeroStats"]
+layout_mode = 2
+text = "🛡0"
+
+[node name="HeroATB" type="VBoxContainer" parent="BattleArea/HeroArea"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ATBLabel" type="Label" parent="BattleArea/HeroArea/HeroATB"]
+layout_mode = 2
+text = "ATB"
+horizontal_alignment = 1
+
+[node name="ATBBar" type="ProgressBar" parent="BattleArea/HeroArea/HeroATB"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+value = 0.0
+show_percentage = false
+
+[node name="EnemyArea" type="VBoxContainer" parent="BattleArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="Enemy1" type="VBoxContainer" parent="BattleArea/EnemyArea"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HBox" type="HBoxContainer" parent="BattleArea/EnemyArea/Enemy1"]
+layout_mode = 2
+
+[node name="Sprite" type="Label" parent="BattleArea/EnemyArea/Enemy1/HBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "👾"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Info" type="VBoxContainer" parent="BattleArea/EnemyArea/Enemy1/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Name" type="Label" parent="BattleArea/EnemyArea/Enemy1/HBox/Info"]
+layout_mode = 2
+text = "Slime"
+
+[node name="HP" type="Label" parent="BattleArea/EnemyArea/Enemy1/HBox/Info"]
+layout_mode = 2
+text = "HP: 20/20"
+
+[node name="ATBBar" type="ProgressBar" parent="BattleArea/EnemyArea/Enemy1"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+value = 0.0
+show_percentage = false
+
+[node name="Enemy2" type="VBoxContainer" parent="BattleArea/EnemyArea"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HBox" type="HBoxContainer" parent="BattleArea/EnemyArea/Enemy2"]
+layout_mode = 2
+
+[node name="Sprite" type="Label" parent="BattleArea/EnemyArea/Enemy2/HBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "👾"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Info" type="VBoxContainer" parent="BattleArea/EnemyArea/Enemy2/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Name" type="Label" parent="BattleArea/EnemyArea/Enemy2/HBox/Info"]
+layout_mode = 2
+text = "Goblin"
+
+[node name="HP" type="Label" parent="BattleArea/EnemyArea/Enemy2/HBox/Info"]
+layout_mode = 2
+text = "HP: 12/12"
+
+[node name="ATBBar" type="ProgressBar" parent="BattleArea/EnemyArea/Enemy2"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+value = 0.0
+show_percentage = false
+
+[node name="Enemy3" type="VBoxContainer" parent="BattleArea/EnemyArea"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HBox" type="HBoxContainer" parent="BattleArea/EnemyArea/Enemy3"]
+layout_mode = 2
+
+[node name="Sprite" type="Label" parent="BattleArea/EnemyArea/Enemy3/HBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "👾"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Info" type="VBoxContainer" parent="BattleArea/EnemyArea/Enemy3/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Name" type="Label" parent="BattleArea/EnemyArea/Enemy3/HBox/Info"]
+layout_mode = 2
+text = "Bat"
+
+[node name="HP" type="Label" parent="BattleArea/EnemyArea/Enemy3/HBox/Info"]
+layout_mode = 2
+text = "HP: 8/8"
+
+[node name="ATBBar" type="ProgressBar" parent="BattleArea/EnemyArea/Enemy3"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+value = 0.0
+show_percentage = false
+
+[node name="CombatLog" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -430.0
+offset_bottom = -330.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CombatLog"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+vertical_scroll_mode = 2
+
+[node name="LogContainer" type="VBoxContainer" parent="CombatLog/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CardHandArea" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -280.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBox" type="VBoxContainer" parent="CardHandArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="CardHandArea/VBox"]
+layout_mode = 2
+text = "Hand (Card System - Phase 2)"
+horizontal_alignment = 1
+
+[node name="HandScroll" type="ScrollContainer" parent="CardHandArea/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 0
+
+[node name="HandContainer" type="HBoxContainer" parent="CardHandArea/VBox/HandScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="EnergyLabel" type="Label" parent="CardHandArea/VBox"]
+layout_mode = 2
+text = "Energy: ⚡⚡⚡ (3/3)  Deck: 12  Discard: 0"
+horizontal_alignment = 1
+
+[node name="DeckArea" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBox" type="HBoxContainer" parent="DeckArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="DeckButton" type="Button" parent="DeckArea/HBox"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Deck (12)"
+
+[node name="DiscardButton" type="Button" parent="DeckArea/HBox"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Discard (0)"
+
+[node name="BanishButton" type="Button" parent="DeckArea/HBox"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Banish (0)"
+
+[connection signal="pressed" from="TopBar/HBox/MenuButton" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="TopBar/HBox/AutoToggle" to="." method="_on_auto_toggle_pressed"]
+[connection signal="pressed" from="TopBar/HBox/EndTurnButton" to="." method="_on_end_turn_pressed"]
+[connection signal="pressed" from="BattleArea/EnemyArea/Enemy1/HBox/Sprite" to="." method="_on_enemy_clicked" binds= [0]]
+[connection signal="pressed" from="BattleArea/EnemyArea/Enemy2/HBox/Sprite" to="." method="_on_enemy_clicked" binds= [1]]
+[connection signal="pressed" from="BattleArea/EnemyArea/Enemy3/HBox/Sprite" to="." method="_on_enemy_clicked" binds= [2]]
