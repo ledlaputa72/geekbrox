@@ -47,6 +47,7 @@ const DreamItemScene = preload("res://ui/components/DreamItem.tscn")
 
 # Past dreams data
 var past_dreams: Array = []
+var currently_expanded_item = null  # Track currently expanded DreamItem for accordion
 
 # ─── 초기화 ──────────────────────────────────────────
 func _ready() -> void:
@@ -219,6 +220,22 @@ func _on_deck_pressed() -> void:
 
 func _on_dream_item_clicked(dream_id: int) -> void:
 	print("[MainLobbyUI] Dream item clicked: %d" % dream_id)
+	
+	# Accordion: collapse all except clicked item
+	var clicked_item = null
+	for child in dreams_container.get_children():
+		if child.dream_id == dream_id:
+			clicked_item = child
+			break
+	
+	# If clicking a different item, collapse previous
+	if clicked_item and clicked_item != currently_expanded_item:
+		if currently_expanded_item and currently_expanded_item.is_expanded:
+			currently_expanded_item.collapse()
+		currently_expanded_item = clicked_item
+	elif clicked_item == currently_expanded_item and not clicked_item.is_expanded:
+		# Item was collapsed, no longer expanded
+		currently_expanded_item = null
 
 func _on_dream_reward_claimed(dream_id: int) -> void:
 	print("[MainLobbyUI] Reward claimed: %d" % dream_id)

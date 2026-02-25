@@ -360,7 +360,7 @@ func can_afford_card(card_cost: int) -> bool:
 	return hero.energy >= card_cost
 
 func get_current_energy() -> int:
-	return hero.energy
+	return hero.get("energy", 0)
 
 func get_max_energy() -> int:
 	return ENERGY_MAX

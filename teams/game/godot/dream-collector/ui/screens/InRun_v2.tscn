@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cwyglpn5q3lob"]
+[gd_scene load_steps=5 format=3 uid="uid://inrun_v2"]
 
 [ext_resource type="Script" path="res://ui/screens/InRun_v2.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://run_progress_bar" path="res://ui/components/RunProgressBar.tscn" id="2"]
@@ -26,59 +26,44 @@ color = Color(0.15, 0.15, 0.25, 1)
 [node name="RunProgressBar" parent="." instance=ExtResource("2")]
 layout_mode = 1
 offset_left = 0.0
-offset_top = 5.0
+offset_top = 10.0
 offset_right = 390.0
-offset_bottom = 40.0
+offset_bottom = 80.0
 
-[node name="CharacterDisplay" type="Control" parent="."]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 45.0
-offset_bottom = 467.0
-grow_horizontal = 2
-
-[node name="BackgroundScroll" type="ColorRect" parent="CharacterDisplay"]
-custom_minimum_size = Vector2(800, 422)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 410.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.2, 0.5, 0.3, 1)
-
-[node name="CharacterSprite" type="Label" parent="CharacterDisplay"]
-custom_minimum_size = Vector2(200, 200)
+[node name="CharacterDisplay" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
+offset_left = -150.0
 offset_top = -100.0
-offset_right = 100.0
+offset_right = 150.0
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="CharacterSprite" type="Label" parent="CharacterDisplay"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
 text = "👾"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SpeechBubble" parent="CharacterDisplay" instance=ExtResource("3")]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -100.0
-offset_top = -150.0
-offset_right = 100.0
-offset_bottom = -70.0
-grow_horizontal = 2
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 50.0
+offset_top = -80.0
+offset_right = 250.0
+offset_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="EventLog" parent="." instance=ExtResource("4")]
 layout_mode = 1
-offset_top = -377.0

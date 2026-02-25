@@ -5,21 +5,12 @@
 extends Control
 
 # ─── 자동 진행 설정 ─────────────────────────────────
-const TIME_PER_HOUR = 1.0  # 1시간 = 1초
-const EVENT_DELAY = 0.5    # 이벤트 발생 전 딜레이
-
-# ─── 애니메이션 설정 ─────────────────────────────────
-const BACKGROUND_SCROLL_SPEED = 50.0  # 배경 스크롤 속도 (px/s)
-const CHARACTER_WALK_SPEED = 3.0      # 캐릭터 걷기 속도 (rad/s)
-const CHARACTER_WALK_AMPLITUDE = 5.0  # 상하 흔들림 폭 (px)
+const TIME_PER_NODE = 3.0  # 각 노드까지 3초 (테스트용, 실제는 더 길게)
+const EVENT_DELAY = 1.0    # 이벤트 발생 전 딜레이
 
 # ─── UI 노드 참조 ────────────────────────────────────
 @onready var background: ColorRect = $Background
 @onready var run_progress_bar = $RunProgressBar
-
-# Character display with scrolling background
-@onready var character_container: Control = $CharacterDisplay
-@onready var background_scroll: ColorRect = $CharacterDisplay/BackgroundScroll
 @onready var character_sprite: Label = $CharacterDisplay/CharacterSprite
 @onready var speech_bubble = $CharacterDisplay/SpeechBubble
 @onready var event_log = $EventLog
@@ -29,8 +20,6 @@ var current_time: String = "PM 10:00"
 var current_node_index: int = 0
 var auto_progress_timer: float = 0.0
 var is_paused: bool = false
-var background_offset: float = 0.0
-var time_per_node: float = 0.0  # Will be calculated based on node count
 
 # 노드 데이터
 var nodes: Array = [
@@ -72,33 +61,28 @@ func _ready() -> void:
 func apply_styles() -> void:
 	background.color = Color(0.15, 0.15, 0.25)  # 어두운 보라
 	
-	# Background scroll (parallax effect)
-	background_scroll.color = Color(0.2, 0.5, 0.3)  # 초록 숲 배경
-	
 	# Character sprite
 	character_sprite.add_theme_font_size_override("font_size", 120)
 	character_sprite.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	character_sprite.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 
 func setup_initial_state() -> void:
-	# Calculate time per node (1 hour = 1 second)
-	# Each node represents 1 hour, so time_per_node = 1 second
-	time_per_node = TIME_PER_HOUR
-	
-	# Initialize all nodes with completed=false
-	for node in nodes:
-		node["completed"] = false
-		node["current"] = false
-	
 	# Initialize progress bar
-	# Start from first node (index 0)
-	current_node_index = 0
+	# Mark first 2 nodes as completed
+	for i in range(2):
+		nodes[i]["completed"] = true
+		nodes[i]["current"] = false
+	
+	# Current node is 3rd (index 2)
+	current_node_index = 2
 	nodes[current_node_index]["current"] = true
 	
 	run_progress_bar.set_nodes(nodes, current_node_index)
 	
-	# Initialize event log with first event
-	event_log.add_log(nodes[0]["time"], nodes[0]["event"], true)  # Current
+	# Initialize event log
+	event_log.add_log(nodes[0]["time"], nodes[0]["event"], false)
+	event_log.add_log(nodes[1]["time"], nodes[1]["event"], false)
+	event_log.add_log(nodes[2]["time"], nodes[2]["event"], true)  # Current
 	
 	# Show current character
 	update_character_display()
@@ -113,27 +97,15 @@ func _process(delta: float) -> void:
 	if is_paused:
 		return
 	
-	# Background scroll (오른쪽→왼쪽, 무한 루프)
-	background_offset += BACKGROUND_SCROLL_SPEED * delta
-	var bg_width = background_scroll.size.x
-	# Loop when scrolled past half width (for seamless loop)
-	if background_offset >= bg_width / 2:
-		background_offset -= bg_width / 2
-	background_scroll.position.x = -background_offset
-	
-	# Character walking animation (상하 흔들림)
-	var walk_offset = sin(Time.get_ticks_msec() * CHARACTER_WALK_SPEED * 0.001) * CHARACTER_WALK_AMPLITUDE
-	character_sprite.position.y = walk_offset
-	
 	# Auto progress timer
 	auto_progress_timer += delta
 	
-	# Update progress bar's yellow line smoothly
-	var progress_ratio = auto_progress_timer / time_per_node
-	run_progress_bar.update_progress_smooth(progress_ratio)
+	# Update progress line (visual feedback)
+	var progress = auto_progress_timer / TIME_PER_NODE
+	# TODO: Update progress bar's yellow line smoothly
 	
 	# Check if time to advance
-	if auto_progress_timer >= time_per_node:
+	if auto_progress_timer >= TIME_PER_NODE:
 		advance_to_next_node()
 
 # ─── 다음 노드로 진행 ────────────────────────────────
@@ -224,5 +196,5 @@ func _input(event: InputEvent) -> void:
 			KEY_N:
 				# Skip to next node
 				if not is_paused:
-					auto_progress_timer = time_per_node
+					auto_progress_timer = TIME_PER_NODE
 					print("[InRun] Skip to next node")

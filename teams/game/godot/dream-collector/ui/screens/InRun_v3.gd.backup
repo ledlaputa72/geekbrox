@@ -1,0 +1,558 @@
+# InRun_v3.gd
+# 통합 런 진행 화면 - 화면 전환 없이 영역별 컨텐츠만 전환
+# 상단: 연출 영역 (탐험/전투/상점/스토리)
+# 하단: 컨텐츠 영역 (로그/카드/물품/선택지)
+
+extends Control
+
+# ─── 화면 상태 ─────────────────────────────────────
+enum ScreenState {
+	EXPLORATION,  # 꿈 탐험 (배경 스크롤 + 캐릭터)
+	COMBAT,       # 전투 (몬스터 + 히어로)
+	SHOP,         # 상점 (상인 + 물품)
+	STORY         # 스토리 (NPC + 선택지)
+}
+
+var current_state: ScreenState = ScreenState.EXPLORATION
+
+# ─── 자동 진행 설정 ─────────────────────────────────
+const TIME_PER_HOUR = 1.0  # 1시간 = 1초
+
+# ─── 애니메이션 설정 ─────────────────────────────────
+const BACKGROUND_SCROLL_SPEED = 50.0
+const CHARACTER_WALK_SPEED = 3.0
+const CHARACTER_WALK_AMPLITUDE = 5.0
+
+# ─── UI 노드 참조 ────────────────────────────────────
+@onready var background: ColorRect = $Background
+@onready var run_progress_bar = $RunProgressBar
+
+# Top Area (연출 영역 - 4개 뷰)
+@onready var top_area: Control = $TopArea
+@onready var exploration_view: Control = $TopArea/ExplorationView
+@onready var combat_view: Control = $TopArea/CombatView
+@onready var shop_view: Control = $TopArea/ShopView
+@onready var story_view: Control = $TopArea/StoryView
+
+# Exploration View 요소
+@onready var exploration_bg: ColorRect = $TopArea/ExplorationView/BackgroundScroll
+@onready var exploration_character: Label = $TopArea/ExplorationView/CharacterSprite
+@onready var exploration_bubble = $TopArea/ExplorationView/SpeechBubble
+
+# Combat View 요소
+@onready var monsters_container: Control = $TopArea/CombatView/MonstersContainer
+@onready var monster1: Panel = $TopArea/CombatView/MonstersContainer/Monster1
+@onready var monster2: Panel = $TopArea/CombatView/MonstersContainer/Monster2
+@onready var combat_hero: Panel = $TopArea/CombatView/Hero
+
+# Shop View 요소
+@onready var shop_bg: ColorRect = $TopArea/ShopView/ForestBG
+@onready var merchant_sprite: Label = $TopArea/ShopView/MerchantSprite
+@onready var merchant_bubble = $TopArea/ShopView/MerchantBubble
+
+# Story View 요소 (나중에 추가)
+
+# Bottom Area (컨텐츠 영역 - 4개 UI)
+@onready var bottom_area: Control = $BottomArea
+@onready var event_log = $BottomArea/EventLog
+@onready var combat_ui: Control = $BottomArea/CombatUI
+@onready var shop_ui: Control = $BottomArea/ShopUI
+@onready var story_ui: Control = $BottomArea/StoryUI
+
+# ─── 런 상태 ─────────────────────────────────────────
+var current_node_index: int = 0
+var auto_progress_timer: float = 0.0
+var is_paused: bool = false
+var background_offset: float = 0.0
+var time_per_node: float = 0.0
+
+# 노드 데이터
+var nodes: Array = [
+	{"id": 1, "type": "Start", "icon": "💤", "time": "PM 10:00", "event": "슬립"},
+	{"id": 2, "type": "Memory", "icon": "💎", "time": "PM 11:00", "event": "꿈세계 진입"},
+	{"id": 3, "type": "Combat", "icon": "⚔️", "time": "AM 12:00", "event": "약탈 - 전투 발생"},
+	{"id": 4, "type": "Shop", "icon": "🛒", "time": "AM 1:00", "event": "상점 발견"},
+	{"id": 5, "type": "Event", "icon": "❓", "time": "AM 2:00", "event": "수상한 소리"},
+	{"id": 6, "type": "Combat", "icon": "⚔️", "time": "AM 3:00", "event": "전투 발생"},
+	{"id": 7, "type": "Boss", "icon": "👹", "time": "AM 4:00", "event": "보스 등장"}
+]
+
+# 이벤트별 캐릭터
+var character_sprites = {
+	"Start": "💤",
+	"Memory": "💎",
+	"Combat": "👾",
+	"Shop": "🧝",
+	"Event": "🧝",
+	"Boss": "👹"
+}
+
+var event_messages = {
+	"Start": "잠에 빠져든다...",
+	"Memory": "추억이 떠오른다",
+	"Combat": "전투 발생!",
+	"Shop": "무언가를 발견했다!",
+	"Event": "무슨 일이지?",
+	"Boss": "최종 보스다!"
+}
+
+# ─── 초기화 ──────────────────────────────────────────
+func _ready() -> void:
+	print("=" * 60)
+	print("⚠️ InRun_v3 LOADED (OLD VERSION)!")
+	print("=" * 60)
+	
+	apply_styles()
+	setup_initial_state()
+	switch_to_exploration()  # 시작은 탐험 모드
+	start_auto_progress()
+
+func apply_styles() -> void:
+	background.color = Color(0.15, 0.15, 0.25)
+	
+	# Exploration background
+	exploration_bg.color = Color(0.2, 0.5, 0.3)
+	
+	# Exploration character
+	exploration_character.add_theme_font_size_override("font_size", 120)
+	exploration_character.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	exploration_character.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	
+	# Combat hero sprite (크게)
+	var hero_sprite = combat_hero.get_node("VBox/HeroSprite")
+	hero_sprite.add_theme_font_size_override("font_size", 72)
+	
+	# Monster sprites (크게)
+	var monster1_sprite = monster1.get_node("VBox/MonsterSprite")
+	var monster2_sprite = monster2.get_node("VBox/MonsterSprite")
+	monster1_sprite.add_theme_font_size_override("font_size", 72)
+	monster2_sprite.add_theme_font_size_override("font_size", 72)
+	
+	# Merchant sprite (크게)
+	merchant_sprite.add_theme_font_size_override("font_size", 120)
+
+func setup_initial_state() -> void:
+	time_per_node = TIME_PER_HOUR
+	
+	# Initialize all nodes
+	for node in nodes:
+		node["completed"] = false
+		node["current"] = false
+	
+	# Start from first node
+	current_node_index = 0
+	nodes[current_node_index]["current"] = true
+	
+	run_progress_bar.set_nodes(nodes, current_node_index)
+	
+	# Initialize event log
+	event_log.add_log(nodes[0]["time"], nodes[0]["event"], true)
+
+func start_auto_progress() -> void:
+	is_paused = false
+	auto_progress_timer = 0.0
+
+# ─── 매 프레임 업데이트 ──────────────────────────────
+func _process(delta: float) -> void:
+	if is_paused:
+		return
+	
+	# Exploration mode animations
+	if current_state == ScreenState.EXPLORATION:
+		# Background scroll
+		background_offset += BACKGROUND_SCROLL_SPEED * delta
+		var bg_width = exploration_bg.size.x
+		if background_offset >= bg_width / 2:
+			background_offset -= bg_width / 2
+		exploration_bg.position.x = -background_offset
+		
+		# Character walking
+		var walk_offset = sin(Time.get_ticks_msec() * CHARACTER_WALK_SPEED * 0.001) * CHARACTER_WALK_AMPLITUDE
+		exploration_character.position.y = walk_offset
+	
+	# Auto progress timer
+	auto_progress_timer += delta
+	
+	# Update progress bar
+	var progress_ratio = auto_progress_timer / time_per_node
+	run_progress_bar.update_progress_smooth(progress_ratio)
+	
+	# Check if time to advance
+	if auto_progress_timer >= time_per_node:
+		advance_to_next_node()
+
+# ─── 화면 상태 전환 ──────────────────────────────────
+func switch_to_exploration() -> void:
+	current_state = ScreenState.EXPLORATION
+	
+	# Hide combat view (몬스터 슬라이드 아웃)
+	if combat_view.visible:
+		await slide_out_monsters()
+	
+	# Show exploration view
+	exploration_view.visible = true
+	combat_view.visible = false
+	shop_view.visible = false
+	story_view.visible = false
+	
+	# Show event log
+	event_log.visible = true
+	combat_ui.visible = false
+	shop_ui.visible = false
+	story_ui.visible = false
+	
+	# Update character
+	var node = nodes[current_node_index]
+	exploration_character.text = character_sprites.get(node["type"], "❓")
+	exploration_bubble.show_message(event_messages.get(node["type"], "..."), 2.0)
+
+func slide_out_monsters() -> void:
+	"""Monsters slide out to right (offscreen)"""
+	var tween1 = create_tween()
+	tween1.set_ease(Tween.EASE_IN)
+	tween1.set_trans(Tween.TRANS_CUBIC)
+	tween1.tween_property(monster1, "position:x", 500, 0.3)
+	
+	var tween2 = create_tween()
+	tween2.set_ease(Tween.EASE_IN)
+	tween2.set_trans(Tween.TRANS_CUBIC)
+	tween2.tween_property(monster2, "position:x", 500, 0.3).set_delay(0.1)
+	
+	await tween2.finished
+
+func switch_to_combat() -> void:
+	current_state = ScreenState.COMBAT
+	
+	# Show combat view (배경은 유지, 몬스터만 추가)
+	exploration_view.visible = true  # 배경 유지!
+	combat_view.visible = true
+	shop_view.visible = false
+	story_view.visible = false
+	
+	# Show combat UI
+	event_log.visible = false
+	combat_ui.visible = true
+	shop_ui.visible = false
+	story_ui.visible = false
+	
+	# Slide in monsters from right
+	slide_in_monsters()
+	
+	print("[InRun] Switched to Combat mode")
+
+func slide_in_monsters() -> void:
+	"""Monsters slide in from right to left"""
+	# Reset positions (off-screen right)
+	monster1.position.x = 500
+	monster2.position.x = 500
+	
+	# Animate slide in
+	var tween1 = create_tween()
+	tween1.set_ease(Tween.EASE_OUT)
+	tween1.set_trans(Tween.TRANS_CUBIC)
+	tween1.tween_property(monster1, "position:x", 250, 0.5)
+	
+	var tween2 = create_tween()
+	tween2.set_ease(Tween.EASE_OUT)
+	tween2.set_trans(Tween.TRANS_CUBIC)
+	tween2.tween_property(monster2, "position:x", 250, 0.5).set_delay(0.2)
+
+func switch_to_shop() -> void:
+	current_state = ScreenState.SHOP
+	
+	# Show shop view (배경 변경)
+	exploration_view.visible = false
+	combat_view.visible = false
+	shop_view.visible = true
+	story_view.visible = false
+	
+	# Show shop UI
+	event_log.visible = false
+	combat_ui.visible = false
+	shop_ui.visible = true
+	story_ui.visible = false
+	
+	# Show merchant message
+	merchant_bubble.show_message("어서오세요~", 0.0)
+	
+	print("[InRun] Switched to Shop mode")
+
+func switch_to_story() -> void:
+	current_state = ScreenState.STORY
+	
+	# Show story view
+	exploration_view.visible = false
+	combat_view.visible = false
+	shop_view.visible = false
+	story_view.visible = true
+	
+	# Show story UI
+	event_log.visible = false
+	combat_ui.visible = false
+	shop_ui.visible = false
+	story_ui.visible = true
+	
+	print("[InRun] Switched to Story mode")
+
+# ─── 다음 노드로 진행 ────────────────────────────────
+func advance_to_next_node() -> void:
+	auto_progress_timer = 0.0
+	
+	# Mark current as completed
+	nodes[current_node_index]["completed"] = true
+	nodes[current_node_index]["current"] = false
+	
+	# Move to next node
+	current_node_index += 1
+	
+	if current_node_index >= nodes.size():
+		print("[InRun] 런 완료!")
+		is_paused = true
+		return
+	
+	# Set new current node
+	nodes[current_node_index]["current"] = true
+	
+	# Update UI
+	run_progress_bar.set_current_node(current_node_index)
+	
+	var node = nodes[current_node_index]
+	event_log.add_log(node["time"], node["event"], true)
+	
+	# Trigger event
+	await get_tree().create_timer(0.5).timeout
+	trigger_event(node)
+
+# ─── 이벤트 트리거 ───────────────────────────────────
+func trigger_event(node: Dictionary) -> void:
+	match node["type"]:
+		"Combat", "Boss":
+			# Switch to combat mode (화면 전환 없음)
+			switch_to_combat()
+			is_paused = true  # Wait for combat to finish
+		
+		"Shop":
+			# Switch to shop mode (화면 전환 없음)
+			switch_to_shop()
+			is_paused = true  # Wait for player interaction
+		
+		"Event":
+			# Switch to story mode (화면 전환 없음)
+			switch_to_story()
+			is_paused = true  # Wait for player choice
+		
+		"Start", "Memory":
+			# Stay in exploration mode, auto progress
+			switch_to_exploration()
+		
+		_:
+			switch_to_exploration()
+
+# ─── 전투/상점/스토리 완료 후 호출 ────────────────────
+func resume_exploration() -> void:
+	"""Called after combat/shop/story is finished"""
+	switch_to_exploration()
+	is_paused = false
+	# Continue to next node
+
+# ═══════════════════════════════════════════════════════
+# 전투 애니메이션 시스템
+# ═══════════════════════════════════════════════════════
+
+# ─── 공격 애니메이션 ─────────────────────────────────
+func attack_animation(attacker: Node, target: Node, damage: int = 15) -> void:
+	"""
+	공격 애니메이션
+	- 공격자: 대상을 향해 앞으로 → 원위치
+	- 피격자: 뒤로 밀림 → 원위치
+	- 데미지 텍스트 표시
+	"""
+	var attacker_original_pos = attacker.position
+	var target_original_pos = target.position
+	
+	# Calculate attack direction
+	var direction = (target.position - attacker.position).normalized()
+	var attack_distance = 30  # 공격 시 전진 거리
+	var knockback_distance = 20  # 피격 시 밀림 거리
+	
+	# === 1단계: 공격자 전진 ===
+	var tween_attacker = create_tween()
+	tween_attacker.set_ease(Tween.EASE_OUT)
+	tween_attacker.set_trans(Tween.TRANS_QUAD)
+	tween_attacker.tween_property(
+		attacker,
+		"position",
+		attacker_original_pos + direction * attack_distance,
+		0.15
+	)
+	
+	await tween_attacker.finished
+	
+	# === 2단계: 타격! (피격자 밀림 + 데미지 표시 + 깜빡임) ===
+	# 피격자 밀림
+	var tween_target = create_tween()
+	tween_target.set_ease(Tween.EASE_OUT)
+	tween_target.set_trans(Tween.TRANS_QUAD)
+	tween_target.tween_property(
+		target,
+		"position",
+		target_original_pos + direction * knockback_distance,
+		0.1
+	)
+	
+	# 데미지 텍스트 표시
+	show_damage_text(target, damage)
+	
+	# 피격 깜빡임 효과 (빨간색 플래시)
+	hit_flash(target)
+	
+	await tween_target.finished
+	
+	# === 3단계: 원위치 복귀 (동시에) ===
+	var tween_return = create_tween()
+	tween_return.set_parallel(true)
+	tween_return.set_ease(Tween.EASE_IN_OUT)
+	tween_return.set_trans(Tween.TRANS_QUAD)
+	
+	# 공격자 복귀
+	tween_return.tween_property(
+		attacker,
+		"position",
+		attacker_original_pos,
+		0.2
+	)
+	
+	# 피격자 복귀
+	tween_return.tween_property(
+		target,
+		"position",
+		target_original_pos,
+		0.2
+	)
+	
+	await tween_return.finished
+
+# ─── 데미지 텍스트 표시 ──────────────────────────────
+func show_damage_text(target: Node, damage: int) -> void:
+	"""
+	머리 위에 데미지 숫자 표시
+	- 위로 떠오르며 사라짐
+	"""
+	var damage_label = Label.new()
+	damage_label.text = "-%d" % damage
+	damage_label.add_theme_font_size_override("font_size", 32)
+	damage_label.add_theme_color_override("font_color", Color(1.0, 0.3, 0.3))  # 빨간색
+	
+	# Position above target
+	var target_global_pos = target.global_position
+	damage_label.position = target_global_pos + Vector2(-20, -60)  # 머리 위
+	
+	# Add to scene
+	top_area.add_child(damage_label)
+	
+	# Animate: float up and fade out
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_CUBIC)
+	
+	# Move up
+	tween.tween_property(
+		damage_label,
+		"position:y",
+		damage_label.position.y - 40,
+		0.8
+	)
+	
+	# Fade out
+	tween.tween_property(
+		damage_label,
+		"modulate:a",
+		0.0,
+		0.8
+	)
+	
+	await tween.finished
+	damage_label.queue_free()
+
+# ─── 피격 깜빡임 효과 ────────────────────────────────
+func hit_flash(target: Node) -> void:
+	"""
+	피격 시 빨간색 플래시 효과
+	- 3회 깜빡임
+	"""
+	var original_modulate = target.modulate
+	
+	for i in range(3):
+		# 빨간색
+		target.modulate = Color(1.5, 0.5, 0.5)
+		await get_tree().create_timer(0.05).timeout
+		
+		# 원래 색
+		target.modulate = original_modulate
+		await get_tree().create_timer(0.05).timeout
+	
+	# 확실히 복원
+	target.modulate = original_modulate
+
+# ─── 테스트용 공격 함수 ──────────────────────────────
+func test_attack_animation(hero_attacks: bool, monster_target: Node) -> void:
+	"""
+	치트 키로 공격 테스트
+	- hero_attacks: true = 히어로가 공격, false = 몬스터가 공격
+	"""
+	# 전투 모드로 전환 (아직 안 했다면)
+	if current_state != ScreenState.COMBAT:
+		switch_to_combat()
+		await get_tree().create_timer(0.6).timeout  # 슬라이드 인 대기
+	
+	if hero_attacks:
+		# 히어로가 몬스터를 공격
+		await attack_animation(combat_hero, monster_target, randi_range(10, 30))
+	else:
+		# 몬스터가 히어로를 공격
+		await attack_animation(monster_target, combat_hero, randi_range(5, 15))
+
+# ─── 치트 코드 ───────────────────────────────────────
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		match event.keycode:
+			KEY_SPACE:
+				is_paused = !is_paused
+				print("[InRun] Pause: %s" % is_paused)
+			
+			KEY_N:
+				if not is_paused:
+					auto_progress_timer = time_per_node
+					print("[InRun] Skip to next node")
+			
+			KEY_1:
+				print("[치트] 탐험 모드")
+				switch_to_exploration()
+			KEY_2:
+				print("[치트] 전투 모드 (몬스터 슬라이드 인)")
+				switch_to_combat()
+			KEY_3:
+				print("[치트] 상점 모드")
+				switch_to_shop()
+			KEY_4:
+				print("[치트] 스토리 모드")
+				switch_to_story()
+			KEY_5:
+				print("[치트] 전투 완료 → 탐험 복귀")
+				resume_exploration()
+			
+			KEY_Q:
+				# Test: Hero attacks Monster1
+				print("[치트] 히어로 → 몬스터1 공격")
+				test_attack_animation(true, monster1)
+			
+			KEY_W:
+				# Test: Monster1 attacks Hero
+				print("[치트] 몬스터1 → 히어로 공격")
+				test_attack_animation(false, monster1)
+			
+			KEY_E:
+				# Test: Hero attacks Monster2
+				print("[치트] 히어로 → 몬스터2 공격")
+				test_attack_animation(true, monster2)

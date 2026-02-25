@@ -4,6 +4,10 @@
 
 extends Control
 
+# ─── CircleTransition ───────────────────────────────
+const CircleTransitionScene = preload("res://ui/transitions/CircleTransition.tscn")
+var circle_transition = null
+
 # ─── 타로 카드 상태 ─────────────────────────────────
 enum CardState { DECK, FLYING, PLACED, FLIPPED }
 
@@ -91,6 +95,10 @@ func _ready() -> void:
 	card_panels = [card1, card2, card3]
 	card_buttons = [card1_button, card2_button, card3_button]
 	tab_buttons = [home_tab, cards_tab, upgrade_tab, progress_tab, shop_tab]
+	
+	# Add CircleTransition
+	circle_transition = CircleTransitionScene.instantiate()
+	get_tree().root.add_child(circle_transition)
 	
 	apply_styles()
 	setup_signals()
@@ -342,7 +350,12 @@ func _on_back_pressed() -> void:
 
 func _on_explore_pressed() -> void:
 	print("[RunPrep] 꿈 탐험 시작!")
-	get_tree().change_scene_to_file("res://ui/screens/InRun.tscn")
+	
+	# Use circle transition to InRun_Combat (Combat 기반 통합)
+	if circle_transition:
+		await circle_transition.full_transition("res://ui/screens/InRun_v4.tscn")
+	else:
+		get_tree().change_scene_to_file("res://ui/screens/InRun_v4.tscn")
 
 func _on_nav_tab_pressed(tab_index: int) -> void:
 	set_active_nav_tab(tab_index)

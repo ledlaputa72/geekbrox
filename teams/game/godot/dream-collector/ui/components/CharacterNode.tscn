@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://it2h3i4j5k6l7"]
+
+[ext_resource type="Script" path="res://ui/components/CharacterNode.gd" id="1_character"]
+
+[node name="CharacterNode" type="Control"]
+custom_minimum_size = Vector2(60, 120)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 60.0
+offset_bottom = 120.0
+script = ExtResource("1_character")

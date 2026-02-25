@@ -8,7 +8,7 @@ extends Node
 const VERSION = "0.1.0"
 
 # ─── 핵심 자원 ───────────────────────────────────────
-var reveries: float = 0.0          # 기본 화폐 (꿈 조각) → 골드로 변경 예정
+var reveries: float = 1000.0       # 기본 화폐 (꿈 조각) → 골드로 변경 예정 (초기값 1000)
 var dream_shards: int = 0          # 프레스티지 화폐
 var gems: int = 0                  # 💎 보석 (유료 화폐)
 var energy: int = 100              # ⚡ 에너지 (게임 재화)
@@ -149,3 +149,23 @@ Reveries: %.1f
 		"예" if current_run_active else "아니오",
 		current_deck.size()
 	]
+
+# ─── Gold/Currency Functions ────────────────────────
+func get_gold() -> int:
+	"""Get current gold (reveries)"""
+	return int(reveries)
+
+func add_gold(amount: int):
+	"""Add gold (reveries)"""
+	reveries += amount
+	print("[GameManager] Gold +%d (Total: %d)" % [amount, int(reveries)])
+
+func spend_gold(amount: int) -> bool:
+	"""Spend gold if available"""
+	if reveries >= amount:
+		reveries -= amount
+		print("[GameManager] Gold -%d (Remaining: %d)" % [amount, int(reveries)])
+		return true
+	else:
+		print("[GameManager] Not enough gold! Need: %d, Have: %d" % [amount, int(reveries)])
+		return false

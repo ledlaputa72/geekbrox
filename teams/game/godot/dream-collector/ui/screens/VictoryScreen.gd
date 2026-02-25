@@ -74,7 +74,7 @@ func _apply_rewards():
 
 func _on_continue_pressed():
 	# Return to InRun to continue the run
-	get_tree().change_scene_to_file("res://ui/screens/InRun.tscn")
+	get_tree().change_scene_to_file("res://ui/screens/InRun_v4.tscn")
 
 # Cheat code for testing
 func _input(event):

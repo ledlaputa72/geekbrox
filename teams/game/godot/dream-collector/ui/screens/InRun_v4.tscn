@@ -1,0 +1,76 @@
+[gd_scene load_steps=3 format=3 uid="uid://ju1g2h3i4j5k6"]
+
+[ext_resource type="Script" path="res://ui/screens/InRun_v4.gd" id="1_inrun4"]
+[ext_resource type="PackedScene" uid="uid://hs3i4j5k6l7m8" path="res://ui/components/RewardModal.tscn" id="2_reward"]
+
+[node name="InRun_v4" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_inrun4")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0980392, 0.0980392, 0.180392, 1)
+
+[node name="TopArea" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 280.0
+grow_horizontal = 2
+
+[node name="BattleScene" type="Control" parent="TopArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BattleSceneBg" type="ColorRect" parent="TopArea/BattleScene"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.3, 1)
+
+[node name="HeroArea" type="Control" parent="TopArea/BattleScene"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CharacterArea" type="Control" parent="TopArea/BattleScene"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BottomArea" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -564.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="RewardModal" parent="." instance=ExtResource("2_reward")]
+visible = false
+

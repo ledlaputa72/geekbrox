@@ -12,8 +12,9 @@ signal reward_claimed(dream_id: int)
 var dream_id: int = 0
 var dream_title: String = ""
 var dream_rarity: String = "common"  # common, rare, epic
-var dream_story: Array[String] = []
+var dream_story: Array = []  # Plain Array for JSON compatibility
 var gold_reward: int = 50
+var gold_reward_claimed: bool = false  # NEW: gold reward claimed
 var extra_reward_claimed: bool = false
 var is_expanded: bool = false
 
@@ -33,10 +34,10 @@ var is_expanded: bool = false
 
 # ─── 초기화 ──────────────────────────────────────────
 func _ready() -> void:
-	apply_styles()
-	setup_signals()
 	story_container.visible = false
 	extra_reward_container.visible = false
+	apply_styles()
+	setup_signals()
 
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
@@ -50,6 +51,7 @@ func apply_styles() -> void:
 	panel_style.content_margin_right = 8
 	panel_style.content_margin_top = 8
 	panel_style.content_margin_bottom = 8
+	panel_style.bg_color = Color(0.7, 0.7, 0.75)  # Default: common
 	add_theme_stylebox_override("panel", panel_style)
 	
 	# Labels
@@ -64,9 +66,21 @@ func apply_styles() -> void:
 	UITheme.apply_button_style(reward_button, "warning")
 	UITheme.apply_button_style(extra_reward_button, "info")
 
+func update_rarity_color() -> void:
+	var panel_style = get_theme_stylebox("panel")
+	if panel_style is StyleBoxFlat:
+		match dream_rarity:
+			"common":
+				panel_style.bg_color = Color(0.7, 0.7, 0.75)  # 회색
+			"rare":
+				panel_style.bg_color = Color(0.5, 0.7, 0.9)   # 파랑
+			"epic":
+				panel_style.bg_color = Color(0.9, 0.6, 0.8)   # 분홍
+
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
-	header_container.gui_input.connect(_on_header_clicked)
+	# Use self (PanelContainer) for click detection
+	gui_input.connect(_on_header_clicked)
 	reward_button.pressed.connect(_on_reward_button_pressed)
 	extra_reward_button.pressed.connect(_on_extra_reward_button_pressed)
 
@@ -77,6 +91,7 @@ func set_dream_data(data: Dictionary) -> void:
 	dream_rarity = data.get("rarity", "common")
 	dream_story = data.get("story", ["꿈 이야기1.", "꿈 이야기2.", "꿈 이야기3.", "꿈 이야기4."])
 	gold_reward = data.get("gold_reward", 50)
+	gold_reward_claimed = data.get("gold_claimed", false)  # NEW
 	extra_reward_claimed = data.get("extra_claimed", false)
 	
 	update_display()
@@ -94,19 +109,16 @@ func update_display() -> void:
 	
 	title_label.text = "%s %s" % [rarity_prefix, dream_title]
 	
-	# Reward button
-	reward_button.text = "🪙%d" % gold_reward
+	# Gold reward button
+	if gold_reward_claimed:
+		reward_button.text = "✓ 수령완료"
+		reward_button.disabled = true
+	else:
+		reward_button.text = "🪙%d" % gold_reward
+		reward_button.disabled = false
 	
-	# Rarity color
-	var panel_style = get_theme_stylebox("panel")
-	if panel_style is StyleBoxFlat:
-		match dream_rarity:
-			"common":
-				panel_style.bg_color = Color(0.7, 0.7, 0.75)  # 회색
-			"rare":
-				panel_style.bg_color = Color(0.5, 0.7, 0.9)   # 파랑
-			"epic":
-				panel_style.bg_color = Color(0.9, 0.6, 0.8)   # 분홍
+	# Rarity color - update panel style
+	update_rarity_color()
 	
 	# Story labels
 	for i in range(min(4, dream_story.size())):
@@ -154,8 +166,9 @@ func _on_header_clicked(event: InputEvent) -> void:
 			item_clicked.emit(dream_id)
 
 func _on_reward_button_pressed() -> void:
-	print("[DreamItem] Main reward claimed: %d gold" % gold_reward)
-	# TODO: Add gold to player
+	gold_reward_claimed = true
+	update_display()
+	print("[DreamItem] Gold reward claimed: %d gold" % gold_reward)
 	reward_claimed.emit(dream_id)
 
 func _on_extra_reward_button_pressed() -> void:
