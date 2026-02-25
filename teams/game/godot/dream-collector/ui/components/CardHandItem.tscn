@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwq8x5m1n3r4d"]
+
+[ext_resource type="Script" path="res://ui/components/CardHandItem.gd" id="1_card_hand"]
+
+[node name="CardHandItem" type="Control"]
+custom_minimum_size = Vector2(70, 98)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_card_hand")
+
+[node name="CardBg" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.3, 1)
+
+[node name="CardPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CostLabel" type="Label" parent="VBox"]
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+
+[node name="NameLabel" type="Label" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Strike"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="TypeLabel" type="Label" parent="VBox"]
+layout_mode = 2
+text = "Attack"
+horizontal_alignment = 1
+
+[node name="DescLabel" type="Label" parent="VBox"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+text = "Deal 6 damage."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true

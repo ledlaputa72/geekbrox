@@ -104,6 +104,9 @@ func _initialize_combat():
 	# Store monster UI nodes (before combat starts)
 	monster_nodes = [monster1, monster2]
 	
+	# Add click detection to monsters
+	_setup_monster_clicks()
+	
 	# Initialize CombatManager (this will initialize deck and draw cards)
 	CombatManager.start_combat(monsters)
 	
@@ -111,12 +114,29 @@ func _initialize_combat():
 	_update_hero_ui()
 	_update_monsters_ui()
 	_update_deck_ui()
-	
-	# Store monster UI nodes
-	monster_nodes = [monster1, monster2]
-	
-	# Initial UI update
-	_update_hero_ui()
+
+func _setup_monster_clicks():
+	"""Add click detection to monster nodes"""
+	for i in range(monster_nodes.size()):
+		var monster_node = monster_nodes[i]
+		
+		# Add button overlay for click detection
+		var btn = Button.new()
+		btn.name = "ClickButton"
+		btn.set_anchors_preset(Control.PRESET_FULL_RECT)
+		btn.flat = true
+		btn.pressed.connect(_on_monster_clicked.bind(i))
+		monster_node.add_child(btn)
+
+func _on_monster_clicked(monster_index: int):
+	"""Handle monster click"""
+	if selecting_target:
+		_select_target(monster_index)
+	else:
+		# Show monster info
+		if monster_index < CombatManager.monsters.size():
+			var monster = CombatManager.monsters[monster_index]
+			add_combat_log("👾 %s - HP: %d/%d" % [monster.name, monster.hp, monster.max_hp])
 	_update_monsters_ui()
 	_update_deck_status()
 
@@ -261,7 +281,7 @@ func _update_deck_ui():
 		energy_label.text = "Energy: %s (%d/%d)" % [energy_icons, current, maximum]
 
 func _update_hand_ui():
-	"""Update hand display (simple labels for now)"""
+	"""Update hand display with fan layout"""
 	if not hand_container:
 		return
 	
@@ -269,19 +289,110 @@ func _update_hand_ui():
 	for child in hand_container.get_children():
 		child.queue_free()
 	
-	# Add card labels
+	# Get hand
 	var hand = DeckManager.get_hand_cards()
-	for i in range(hand.size()):
+	if hand.is_empty():
+		return
+	
+	# Create card items with fan layout
+	var card_scene = preload("res://ui/components/CardHandItem.tscn")
+	var num_cards = hand.size()
+	var current_energy = CombatManager.get_current_energy()
+	
+	# Fan layout parameters
+	var spread_angle = 40.0  # Total spread in degrees
+	var arc_radius = 200.0   # Arc radius
+	var base_y = 120.0       # Base Y position
+	
+	for i in range(num_cards):
 		var card = hand[i]
-		var btn = Button.new()
-		btn.text = "%s\n[%d]" % [card.name, card.cost]
-		btn.custom_minimum_size = Vector2(70, 100)
-		btn.pressed.connect(_on_card_pressed.bind(i))
-		hand_container.add_child(btn)
+		var card_item = card_scene.instantiate()
+		hand_container.add_child(card_item)
+		
+		# Set card data
+		card_item.set_card(card, i)
+		card_item.set_affordable(current_energy >= card.cost)
+		
+		# Calculate fan position
+		var t = float(i) / max(1, num_cards - 1) if num_cards > 1 else 0.5
+		var angle = lerp(-spread_angle / 2, spread_angle / 2, t)
+		var angle_rad = deg_to_rad(angle)
+		
+		# Position along arc
+		var x_offset = sin(angle_rad) * arc_radius
+		var y_offset = (1.0 - cos(angle_rad)) * arc_radius * 0.3
+		
+		card_item.position = Vector2(
+			hand_container.size.x / 2 + x_offset - card_item.size.x / 2,
+			base_y - y_offset
+		)
+		
+		# Rotate card
+		card_item.rotation_degrees = angle * 0.5
+		
+		# Connect signals
+		card_item.card_clicked.connect(_on_card_pressed)
+		card_item.card_hovered.connect(_on_card_hovered)
+		card_item.card_unhovered.connect(_on_card_unhovered)
 
 func _on_card_pressed(card_index: int):
 	"""Handle card click"""
-	CombatManager.play_card(card_index)
+	# Check if needs target
+	var hand = DeckManager.get_hand_cards()
+	if card_index < 0 or card_index >= hand.size():
+		return
+	
+	var card = hand[card_index]
+	
+	# If attack card, select target first
+	if card.type == "Attack":
+		_start_target_selection(card_index)
+	else:
+		# Play directly (no target)
+		CombatManager.play_card(card_index, -1)
+		_update_deck_ui()
+
+func _on_card_hovered(card_index: int):
+	"""Handle card hover"""
+	# TODO: Show card details panel
+	pass
+
+func _on_card_unhovered():
+	"""Handle card unhover"""
+	# TODO: Hide card details panel
+	pass
+
+var selecting_target: bool = false
+var selected_card_index: int = -1
+
+func _start_target_selection(card_index: int):
+	"""Start target selection mode"""
+	selecting_target = true
+	selected_card_index = card_index
+	add_combat_log("Select a target...")
+	
+	# Highlight monsters (visual feedback)
+	for i in range(monster_nodes.size()):
+		var monster_node = monster_nodes[i]
+		if i < CombatManager.monsters.size() and CombatManager.monsters[i].hp > 0:
+			monster_node.modulate = Color(1.5, 1.5, 1.5, 1)  # Brighten
+
+func _cancel_target_selection():
+	"""Cancel target selection"""
+	selecting_target = false
+	selected_card_index = -1
+	
+	# Reset monster visuals
+	for monster_node in monster_nodes:
+		monster_node.modulate = Color(1, 1, 1, 1)
+
+func _select_target(target_index: int):
+	"""Select target and play card"""
+	if not selecting_target:
+		return
+	
+	CombatManager.play_card(selected_card_index, target_index)
+	_cancel_target_selection()
 	_update_deck_ui()
 
 # Cheat codes for testing
