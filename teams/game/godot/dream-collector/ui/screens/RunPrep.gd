@@ -14,9 +14,9 @@ var current_animation: bool = false
 # 카드 위치
 const DECK_POS = Vector2(60, 100)
 const CARD_POSITIONS = [
-	Vector2(120, 240),  # 왼쪽: 꿈 시작
-	Vector2(220, 240),  # 중앙: 꿈 여정
-	Vector2(320, 240)   # 오른쪽: 꿈 종료
+	Vector2(55, 240),   # 왼쪽: 꿈 시작 (중앙 정렬)
+	Vector2(155, 240),  # 중앙: 꿈 여정
+	Vector2(255, 240)   # 오른쪽: 꿈 종료
 ]
 
 # 타로 텍스트
