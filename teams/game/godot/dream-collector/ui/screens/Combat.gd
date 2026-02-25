@@ -3,35 +3,46 @@ extends Control
 # ============================================
 # Combat System (ATB + Card Deck Hybrid)
 # Phase 1: ATB Basic Combat Implementation
+# Layout: Slay the Spire Style (1/3 각 영역)
 # ============================================
 
 # ─── Node References ──────────────────────
-@onready var turn_label: Label = $TopBar/HBox/TurnLabel
-@onready var auto_toggle: Button = $TopBar/HBox/AutoToggle
-@onready var end_turn_button: Button = $TopBar/HBox/EndTurnButton
+# Top Bar
+@onready var turn_label: Label = $VBox/InfoArea/VBoxContainer/TopBar/TurnLabel
+@onready var auto_toggle: Button = $VBox/InfoArea/VBoxContainer/TopBar/AutoToggle
+@onready var end_turn_button: Button = $VBox/InfoArea/VBoxContainer/TopBar/EndTurnButton
+@onready var menu_button: Button = $VBox/InfoArea/VBoxContainer/TopBar/MenuButton
 
-# Hero
-@onready var hero_sprite: Label = $BattleArea/HeroArea/HeroSprite
-@onready var hero_name: Label = $BattleArea/HeroArea/HeroName
-@onready var hero_hp_label: Label = $BattleArea/HeroArea/HeroHP/HPLabel
-@onready var hero_hp_bar: ProgressBar = $BattleArea/HeroArea/HeroHP/HPBar
-@onready var hero_energy: Label = $BattleArea/HeroArea/HeroStats/Energy
-@onready var hero_block: Label = $BattleArea/HeroArea/HeroStats/Block
-@onready var hero_atb_bar: ProgressBar = $BattleArea/HeroArea/HeroATB/ATBBar
+# Hero (Battle Area - Left)
+@onready var hero_sprite: Label = $VBox/BattleArea/MarginContainer/HBox/HeroArea/HeroSprite
+@onready var hero_name: Label = $VBox/BattleArea/MarginContainer/HBox/HeroArea/HeroName
+@onready var hero_hp_label: Label = $VBox/BattleArea/MarginContainer/HBox/HeroArea/HeroHP/HPLabel
+@onready var hero_hp_bar: ProgressBar = $VBox/BattleArea/MarginContainer/HBox/HeroArea/HeroHP/HPBar
+@onready var hero_energy: Label = $VBox/BattleArea/MarginContainer/HBox/HeroArea/HeroStats/Energy
+@onready var hero_block: Label = $VBox/BattleArea/MarginContainer/HBox/HeroArea/HeroStats/Block
+@onready var hero_atb_bar: ProgressBar = $VBox/BattleArea/MarginContainer/HBox/HeroArea/HeroATB/ATBBar
 
-# Enemies
+# Enemies (Battle Area - Right)
 @onready var enemy_nodes: Array = [
-	$BattleArea/EnemyArea/Enemy1,
-	$BattleArea/EnemyArea/Enemy2,
-	$BattleArea/EnemyArea/Enemy3
+	$VBox/BattleArea/MarginContainer/HBox/EnemyArea/Enemy1,
+	$VBox/BattleArea/MarginContainer/HBox/EnemyArea/Enemy2,
+	$VBox/BattleArea/MarginContainer/HBox/EnemyArea/Enemy3
 ]
 
-# Combat Log
-@onready var log_container: VBoxContainer = $CombatLog/ScrollContainer/LogContainer
+# Hand Area
+@onready var hand_container: HBoxContainer = $VBox/HandArea/VBoxContainer/HandScroll/HandContainer
 
-# Card Area (Phase 2)
-@onready var hand_container: HBoxContainer = $CardHandArea/VBox/HandScroll/HandContainer
-@onready var energy_label: Label = $CardHandArea/VBox/EnergyLabel
+# Info Area
+@onready var energy_label: Label = $VBox/InfoArea/VBoxContainer/EnergyBar/EnergyLabel
+@onready var deck_label: Label = $VBox/InfoArea/VBoxContainer/EnergyBar/DeckLabel
+@onready var discard_label: Label = $VBox/InfoArea/VBoxContainer/EnergyBar/DiscardLabel
+@onready var log_container: VBoxContainer = $VBox/InfoArea/VBoxContainer/CombatLog/ScrollContainer/LogContainer
+
+# Panel References (for styling)
+@onready var battle_area: Panel = $VBox/BattleArea
+@onready var hand_area: Panel = $VBox/HandArea
+@onready var info_area: Panel = $VBox/InfoArea
+@onready var combat_log: Panel = $VBox/InfoArea/VBoxContainer/CombatLog
 
 # ─── Combat State ─────────────────────────
 var turn_count: int = 1
@@ -99,32 +110,33 @@ func _ready():
 	add_combat_log("⚔️ Combat Start!")
 
 func _apply_theme_styles():
-	# TopBar
-	var top_style = StyleBoxFlat.new()
-	top_style.bg_color = UITheme.COLORS.panel
-	$TopBar.add_theme_stylebox_override("panel", top_style)
+	# Battle Area (상단 1/3)
+	var battle_style = StyleBoxFlat.new()
+	battle_style.bg_color = UITheme.COLORS.bg_light
+	battle_area.add_theme_stylebox_override("panel", battle_style)
+	
+	# Hand Area (중간 1/3)
+	var hand_style = StyleBoxFlat.new()
+	hand_style.bg_color = UITheme.COLORS.panel
+	hand_area.add_theme_stylebox_override("panel", hand_style)
+	
+	# Info Area (하단 1/3)
+	var info_style = StyleBoxFlat.new()
+	info_style.bg_color = UITheme.COLORS.panel
+	info_area.add_theme_stylebox_override("panel", info_style)
 	
 	# Combat Log
 	var log_style = StyleBoxFlat.new()
 	log_style.bg_color = UITheme.COLORS.bg_light
-	$CombatLog.add_theme_stylebox_override("panel", log_style)
-	
-	# Card Area
-	var card_style = StyleBoxFlat.new()
-	card_style.bg_color = UITheme.COLORS.panel
-	$CardHandArea.add_theme_stylebox_override("panel", card_style)
-	
-	# Deck Area
-	var deck_style = StyleBoxFlat.new()
-	deck_style.bg_color = UITheme.COLORS.panel
-	$DeckArea.add_theme_stylebox_override("panel", deck_style)
+	combat_log.add_theme_stylebox_override("panel", log_style)
 	
 	# Buttons
+	UITheme.apply_button_style(menu_button, "primary")
 	UITheme.apply_button_style(auto_toggle, "primary")
 	UITheme.apply_button_style(end_turn_button, "primary")
 
 func _initialize_combat():
-	# Load enemies (3 random enemies for testing)
+	# Load enemies (3 enemies for testing)
 	var enemy_types = ["Slime", "Goblin", "Bat"]
 	for i in range(3):
 		var template = ENEMY_TEMPLATES[enemy_types[i]]
@@ -310,6 +322,7 @@ func _update_all_ui():
 	_update_hero_ui()
 	for enemy in enemies:
 		_update_enemy_ui(enemy)
+	_update_energy_ui()
 
 func _update_hero_ui():
 	hero_hp_label.text = "HP: %d/%d" % [hero.hp, hero.max_hp]
@@ -338,8 +351,21 @@ func _update_enemy_ui(enemy: Dictionary):
 		enemy_node.modulate.a = 1.0
 	
 	# HP
-	var hp_label = enemy_node.get_node("HBox/Info/HP")
+	var hp_label = enemy_node.get_node("HP")
 	hp_label.text = "HP: %d/%d" % [enemy.hp, enemy.max_hp]
+
+func _update_energy_ui():
+	# Energy display with emojis
+	var energy_text = ""
+	for i in range(hero.max_energy):
+		if i < hero.energy:
+			energy_text += "⚡"
+		else:
+			energy_text += "◯"
+	
+	energy_label.text = "Energy: %s (%d/%d)" % [energy_text, hero.energy, hero.max_energy]
+	deck_label.text = "Deck: 12"  # TODO: Phase 2
+	discard_label.text = "Discard: 0"  # TODO: Phase 2
 
 # ─── Combat Log ────────────────────────────
 func add_combat_log(text: String, color: Color = Color.WHITE):
@@ -350,11 +376,11 @@ func add_combat_log(text: String, color: Color = Color.WHITE):
 	
 	# Auto-scroll to bottom
 	await get_tree().process_frame
-	var scroll = $CombatLog/ScrollContainer
+	var scroll = $VBox/InfoArea/VBoxContainer/CombatLog/ScrollContainer
 	scroll.scroll_vertical = int(scroll.get_v_scroll_bar().max_value)
 	
-	# Limit log entries (keep last 20)
-	if log_container.get_child_count() > 20:
+	# Limit log entries (keep last 15)
+	if log_container.get_child_count() > 15:
 		log_container.get_child(0).queue_free()
 
 # ─── Signal Handlers ───────────────────────
