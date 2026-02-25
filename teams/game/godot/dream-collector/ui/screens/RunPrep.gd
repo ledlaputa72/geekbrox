@@ -316,12 +316,6 @@ func _on_start_pressed() -> void:
 	
 	# 런 화면으로 이동 (c07-in-run)
 	get_tree().change_scene_to_file("res://ui/screens/InRun.tscn")
-	
-	# 임시: 메시지 표시
-	print("[RunPrep] TODO: InRun 화면으로 전환 (미구현)")
-	
-	# 임시: MainLobby로 복귀
-	get_tree().change_scene_to_file("res://scenes/MainLobby.tscn")
 
 # ─── 이벤트 핸들러 ───────────────────────────────────
 func _on_back_pressed() -> void:
