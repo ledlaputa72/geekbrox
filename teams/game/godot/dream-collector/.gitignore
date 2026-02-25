@@ -38,3 +38,4 @@ exports/
 
 ## 로그
 *.log
+*.bak
