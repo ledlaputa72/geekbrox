@@ -23,6 +23,7 @@ UITheme="*res://scripts/UITheme.gd"
 GameManager="*res://scripts/GameManager.gd"
 SaveSystem="*res://scripts/SaveSystem.gd"
 IdleSystem="*res://scripts/IdleSystem.gd"
+CombatManager="*res://autoload/CombatManager.gd"
 
 [display]
 

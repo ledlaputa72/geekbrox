@@ -1,1017 +1,718 @@
-# Dream Collector - Hybrid Combat System (ATB + Card Deck)
+# Combat System Design V2 - Real-time Hybrid System
 
-> ATB 실시간 전투 + Slay the Spire 카드 시스템 하이브리드
-
-**버전:** 2.0 (Hybrid System)  
-**작성일:** 2026-02-24  
-**작성자:** Atlas
+**Version:** 2.0  
+**Date:** 2026-02-24  
+**Status:** Design Document  
 
 ---
 
-## 📋 목차
+## 🎯 System Overview
 
-1. [시스템 개요](#1-시스템-개요)
-2. [전투 화면 UI 구성](#2-전투-화면-ui-구성)
-3. [ATB 기본 전투 시스템](#3-atb-기본-전투-시스템)
-4. [카드 덱 시스템](#4-카드-덱-시스템)
-5. [전투 진행 흐름](#5-전투-진행-흐름)
-6. [구현 세부사항](#6-구현-세부사항)
-7. [구현 우선순위](#7-구현-우선순위)
+Dream Collector의 전투 시스템은 **실시간 ATB 자동 전투**와 **실시간 카드 플레이**가 동시에 진행되는 혁신적인 하이브리드 시스템입니다.
 
----
-
-## 1. 시스템 개요
-
-### 1.1 핵심 컨셉
-
-```
-┌──────────────────────────────────────────────┐
-│  ATB 실시간 전투 (자동)                      │
-│  + 카드 덱 전략 (수동)                       │
-│  = 하이브리드 전투 시스템                     │
-└──────────────────────────────────────────────┘
-```
-
-**전투 흐름:**
-```
-ATB 진행 중... (자동)
-    ↓
-캐릭터 턴 도래
-    ↓
-자동 공격 실행
-    ↓
-[카드 타임!] ← 플레이어 개입 가능
-    ↓
-카드 플레이 (선택)
-    ↓
-ATB 계속...
-```
-
----
-
-### 1.2 두 시스템의 역할
-
-#### 🤖 ATB 기본 전투 (백그라운드)
-- **자동 진행:** 플레이어 개입 없이 자동
-- **일반 공격:** 기본 데미지만
-- **스탯 기반:** 공격력, 방어력, 회피율 적용
-- **리듬감:** 실시간으로 진행
-
-#### 🃏 카드 덱 시스템 (전략 레이어)
-- **수동 개입:** 플레이어가 선택
-- **특수 효과:** 강력한 스킬/버프/디버프
-- **에너지 관리:** 3 에너지 (Slay the Spire 방식)
-- **덱 관리:** 드로우 → 플레이 → 버림 → 셔플
-
----
-
-## 2. 전투 화면 UI 구성
-
-### 2.1 전체 레이아웃 (390×844px)
+### Core Concept
 
 ```
 ┌─────────────────────────────────────┐
-│  [☰] Turn: 3 [Auto ×2] [End Turn]  │  ← 50px: Top Bar
-├─────────────────────────────────────┤
-│                                     │
-│  👤 Hero        🎯 [🔴🔴🔴]        │  ← 280px: 전투 영역
-│  ████ 50/60     📊 ATB: ████░░     │      (캐릭터 + 몬스터)
-│  ⚡3  🛡5                           │
-│                                     │
-│                 👾 Slime   HP:15/20 │
-│                 👾 Goblin  HP:8/12  │
-│                 👾 Bat     HP:5/8   │
-│                                     │
-├─────────────────────────────────────┤
-│  💬 Combat Log (scrollable)         │  ← 80px: 로그
-│  • Hero attacks Slime for 6 dmg    │
-│  • Card: Fireball +10 dmg          │
-├─────────────────────────────────────┤
-│  [카드][카드][카드][카드][카드]    │  ← 180px: 카드 핸드
-│   1    2    0    3    1             │      (5장, 가로 스크롤)
-├─────────────────────────────────────┤
-│  Energy: ⚡⚡⚡  Deck:12  Grave:8  │  ← 50px: 상태바
-│                                     │
-├─────────────────────────────────────┤
-│  [Deck] ← → [Discard] [?Banish]    │  ← 54px: 덱 관리
-│   (12)         (8)       (0)        │      (클릭 시 목록)
+│  ATB 자동 전투 (백그라운드)         │
+│  ↓ 계속 진행                        │
+│  캐릭터/몬스터 자동 기본 공격       │
 └─────────────────────────────────────┘
-   Total: 694px (UI 영역)
+              +
+┌─────────────────────────────────────┐
+│  카드 시스템 (실시간)               │
+│  ↓ 타이머로 에너지 충전             │
+│  플레이어 언제든 카드 사용 가능     │
+└─────────────────────────────────────┘
 ```
+
+**Genre Mix:**
+- 🎮 **디펜스 게임** - 실시간 자원 관리 (에너지 타이머)
+- 🃏 **덱빌딩** - Slay the Spire 방식 (덱/무덤/셔플)
+- ⚔️ **ATB 전투** - Final Fantasy 방식 (실시간 게이지)
 
 ---
 
-### 2.2 상세 UI 요소
+## 🔄 ATB Auto-Battle System
 
-#### 🔝 Top Bar (50px)
+### ATB 게이지 메커니즘
 
 ```
-┌─────┬───────────────────────┬─────────┐
-│ ☰   │ Turn: 3  [🤖 Auto ×2] │ End Turn│
-└─────┴───────────────────────┴─────────┘
+Hero ATB:  ████████████░░░░ 75%  (2.5초 후 턴)
+Slime ATB: ██████░░░░░░░░░░ 40%  (6초 후 턴)
+Bat ATB:   ████████████████ 100% (지금 턴!)
 ```
 
-**구성:**
-- **☰ 메뉴:** 일시정지/항복/설정
-- **Turn 카운터:** 현재 턴 (참고용)
-- **Auto 토글:** 자동 전투 ON/OFF + 속도
-- **End Turn:** 카드 턴 종료 (ATB는 계속 진행)
+**충전 공식:**
+```
+ATB += (100 / Speed) per second
+ATB >= 100 → Trigger Turn → ATB = 0
+```
+
+**스탯:**
+- `Speed` - ATB 충전 속도 (기본: 10 = 10초마다 턴)
+- `ATK` - 공격력
+- `DEF` - 방어력
+- `EVA` - 회피율 (%)
+
+### ATB Turn Flow
+
+```
+1. ATB 게이지 100% 도달
+   ↓
+2. 자동 기본 공격 실행
+   - 타겟 선택 (첫 번째 살아있는 적)
+   - 데미지 계산 (ATK vs DEF)
+   - 회피 체크 (EVA%)
+   ↓
+3. 데미지 적용
+   ↓
+4. ATB 게이지 리셋 (0%)
+   ↓
+5. 다시 충전 시작
+```
+
+**중요:** ATB는 **항상 백그라운드에서 진행**. 플레이어가 카드를 쓰든 안 쓰든 계속 진행됩니다.
 
 ---
 
-#### ⚔️ 전투 영역 (280px)
+## ⚡ Energy & Card System
 
-##### 왼쪽: 캐릭터 (Hero)
+### Energy Timer
+
+**디펜스 게임 방식:**
+
 ```
-┌──────────────────┐
-│  👤 Hero         │  ← 캐릭터 스프라이트
-│  ████████░░      │  ← HP 바 (50/60)
-│  ⚡ 3  🛡 5      │  ← 에너지, 방어
-│  📊 ATB: ████░░  │  ← ATB 게이지
-└──────────────────┘
+Energy Timer: ████████░░░░ (4초 / 5초)
+   ↓
+Filled (5초 경과)
+   ↓
++1 Energy & +1 Card Draw
+   ↓
+Timer Reset
 ```
 
-**표시 정보:**
-- 캐릭터 스프라이트 (나중에 애니메이션)
-- HP 바 + 숫자
-- 현재 에너지 (카드용)
-- 현재 방어력 (블록)
-- ATB 게이지 (턴 진행도)
+**규칙:**
+- **시작**: 3 에너지 (가득 참) + 5 카드 드로우
+- **충전**: 5초마다 +1 에너지 & +1 카드
+- **최대**: 3 에너지 (더 안 참)
+- **핸드 최대**: 10 카드 (더 안 뽑힘)
+
+**에너지 소비:**
+- 카드 플레이 시 코스트만큼 소비
+- 남은 에너지는 소멸 안 함 (계속 누적 가능, 최대 3까지)
+
+### Card Draw & Deck Cycle
+
+```
+┌───────────┐
+│   Deck    │ (12장 시작)
+└─────┬─────┘
+      │ Energy 충전 시 +1 드로우
+      ↓
+┌───────────┐
+│   Hand    │ (5-10장)
+└─────┬─────┘
+      │ 플레이어가 사용
+      ↓
+┌───────────┐
+│   Play    │ (사용된 카드)
+└─────┬─────┘
+      │ 즉시 무덤으로
+      ↓
+┌───────────┐
+│  Discard  │ (무덤)
+└─────┬─────┘
+      │ Deck 소진 시
+      ↓
+┌───────────┐
+│  Shuffle  │ → Deck으로 재사용
+└───────────┘
+```
+
+**중요 차이점 (vs Slay the Spire):**
+
+| Feature | Slay the Spire | Dream Collector |
+|---------|----------------|-----------------|
+| 드로우 타이밍 | 턴 시작 시 5장 | 에너지 충전 시 1장 |
+| 에너지 리셋 | 턴마다 전체 리셋 | 타이머로 하나씩 충전 |
+| 남은 카드 | 턴 종료 시 무덤 | 핸드 유지 (버리기 없음) |
+| 플레이 타이밍 | 자기 턴에만 | 언제든 (실시간) |
 
 ---
 
-##### 오른쪽: 몬스터들 (최대 3개)
-```
-┌──────────────────┐
-│ 👾 Slime         │  ← 몬스터 1
-│ HP: 15/20        │
-│ ATB: ██░░        │
-├──────────────────┤
-│ 👾 Goblin        │  ← 몬스터 2
-│ HP: 8/12         │
-│ ATB: ███░        │
-├──────────────────┤
-│ 👾 Bat           │  ← 몬스터 3
-│ HP: 5/8          │
-│ ATB: █████       │
-└──────────────────┘
-```
+## 🎴 Card Hand UI
 
-**표시 정보:**
-- 몬스터 스프라이트
-- 이름 + HP
-- ATB 게이지 (턴 진행도)
-- 상태 효과 아이콘
+### Fan Layout (부채꼴 배치)
 
-**타겟팅:**
-- 카드 플레이 시 몬스터 탭 → 타겟 선택
-- 기본 공격은 자동 (첫 번째 살아있는 적)
-
----
-
-#### 💬 Combat Log (80px)
+**레퍼런스 게임:** 아이언 글로리 (제공된 이미지)
 
 ```
-┌──────────────────────────────────┐
-│ • Hero attacks Slime for 6 dmg  │
-│ • Slime attacks Hero for 3 dmg  │
-│ • Card: Fireball +10 dmg        │
-│ • Goblin attacks Hero for 4 dmg │
-└──────────────────────────────────┘
-```
-
-**기능:**
-- 최근 4-5개 액션 표시
-- 스크롤 가능 (위로 스크롤)
-- 색상 구분:
-  - 초록: 아군 공격/힐
-  - 빨강: 적 공격
-  - 파랑: 카드 효과
-
----
-
-#### 🃏 카드 핸드 영역 (180px)
-
-```
-┌─────┬─────┬─────┬─────┬─────┐
-│ ⚔️  │ 🛡  │ 🔥  │ ⚡  │ 💊  │  ← 카드 아이콘
-│  1  │  2  │  0  │  3  │  1  │  ← 에너지 코스트
-│     │     │     │     │     │
-│Strike│Guard│Fire│Thunder│Heal│  ← 카드 이름
-└─────┴─────┴─────┴─────┴─────┘
-     5장 핸드 (가로 스크롤)
-```
-
-**카드 UI:**
-- 크기: 70×120px
-- 레어리티별 테두리 색상
-- 코스트 배지 (우상단)
-- 플레이 불가 시 회색 처리
-
-**인터랙션:**
-- 탭: 선택 (금색 테두리)
-- 타겟 필요 시: 몬스터 탭
-- 롱 프레스: 상세 정보 모달
-
----
-
-#### ⚡ 에너지 & 상태 바 (50px)
-
-```
-┌──────────────────────────────────┐
-│ Energy: ⚡⚡⚡ (3/3)              │
-│ Deck: 12  Discard: 8  Banish: 0  │
-└──────────────────────────────────┘
-```
-
-**표시 정보:**
-- 현재/최대 에너지
-- 덱 카드 수
-- 버린 덱 카드 수
-- 제거된 카드 수
-
----
-
-#### 📚 덱 관리 영역 (54px)
-
-```
-┌──────────┬──────────┬──────────┐
-│  [Deck]  │ [Discard]│ [Banish] │
-│   (12)   │   (8)    │   (0)    │
-└──────────┴──────────┴──────────┘
-```
-
-**기능:**
-- 클릭 시 카드 목록 표시 (모달)
-- Deck: 남은 덱
-- Discard: 버린 덱 (자동 셔플)
-- Banish: 제거된 카드 (영구)
-
----
-
-## 3. ATB 기본 전투 시스템
-
-### 3.1 ATB (Active Time Battle) 개념
-
-```
-모든 전투 유닛은 ATB 게이지를 가짐
-  ↓
-게이지가 100%가 되면 턴 실행
-  ↓
-행동 후 게이지 0%로 리셋
-  ↓
-다시 충전 시작...
-```
-
-**ATB 게이지:**
-```
-┌──────────────────────────────────┐
-│ Hero  ATB: ████████████░░░░ 75% │
-│ Slime ATB: ██████░░░░░░░░░░ 40% │
-└──────────────────────────────────┘
-```
-
----
-
-### 3.2 ATB 속도 (Speed Stat)
-
-```gdscript
-# ATB 충전 속도
-ATB_charge_per_tick = base_speed × difficulty_modifier
-
-# 예시:
-Hero Speed: 10
-  → 1초마다 ATB +10
-  → 10초 후 ATB 100% → 턴 실행
-
-Slime Speed: 5
-  → 1초마다 ATB +5
-  → 20초 후 ATB 100% → 턴 실행
-```
-
-**속도 스탯 예시:**
-| 유닛 | Speed | 턴 간격 |
-|------|-------|---------|
-| Hero | 10 | 10초 |
-| Fast Bat | 15 | 6.7초 |
-| Goblin | 8 | 12.5초 |
-| Slow Tank | 5 | 20초 |
-
----
-
-### 3.3 자동 공격 (Basic Attack)
-
-**캐릭터 턴 도래 시:**
-```
-ATB 100%
-  ↓
-타겟 선택 (자동)
-  - 첫 번째 살아있는 적
-  ↓
-데미지 계산
-  Base Damage = Character ATK - Enemy DEF
-  Hit Chance = 100% - Enemy Evasion
+일반 상태 (겹침):
+  ┌──┬─┬─┬─┬──┐
+  │카│ │ │ │카│  ← 5-10장, 부채꼴로 겹쳐서 표시
+  └──┴─┴─┴─┴──┘
+     약 30-40° 각도로 펼침
+     
+선택 시 (확대):
+        ┌────────┐
+        │  카드  │  ← 위로 올라와서 전체 보임
+        │  전체  │  ← 설명 텍스트, 이펙트 등
+        └────────┘
+  ┌──┬─┬─┬─┬──┐
+  │  │ │ │ │  │
+  └──┴─┴─┴─┴──┘
   
-  IF random() > Hit Chance:
-    Miss! (회피)
-  ELSE:
-    Deal Damage
-  ↓
+사용 시 (애니메이션):
+        ┌────────┐
+        │ 카드   │  ↗️ 타겟으로 날아감
+        └────────┘
+```
+
+### Card UI Elements
+
+**각 카드:**
+- 코스트 (좌상단, 원형 배지)
+- 이름 (상단)
+- 일러스트 (중앙)
+- 타입 아이콘 (공격/방어/스킬)
+- 설명 텍스트 (하단)
+
+**상태:**
+- **Normal** - 기본 상태 (살짝 어둡게)
+- **Hovered** - 마우스 오버 (밝게 + 위로 lift)
+- **Selected** - 선택됨 (크게 확대)
+- **Disabled** - 에너지 부족 (회색 처리)
+
+### Card Play Interaction
+
+**모바일:**
+1. 카드 탭 → 선택 (확대)
+2. 다시 탭 → 사용 (타겟 자동)
+3. 또는 드래그 → 타겟으로 날리기
+
+**PC:**
+1. 카드 호버 → 확대
+2. 클릭 → 타겟 선택 모드
+3. 타겟 클릭 → 사용
+
+---
+
+## 🖥️ UI Layout (390×844px Portrait)
+
+### Screen Breakdown
+
+```
+┌─────────────────────────────────────┐ 0px
+│ ┌─────────────────────────────────┐ │
+│ │  🏷️ Top Bar (54px)              │ │ ← HP, Energy, Icons
+│ └─────────────────────────────────┘ │
+├─────────────────────────────────────┤ 54px
+│ ┌─────────────────────────────────┐ │
+│ │                                 │ │
+│ │  ⚔️ Battle Scene (280px)        │ │ ← 가로 액자 전투 뷰
+│ │  👤 Hero  vs  👾👾👾 Monsters  │ │
+│ │                                 │ │
+│ └─────────────────────────────────┘ │
+├─────────────────────────────────────┤ 334px
+│                                     │
+│  📊 Combat Log (60px)               │ ← 전투 로그 (스크롤)
+│  • Hero dealt 5 damage              │
+│  • Slime attacked (3 dmg)           │
+│                                     │
+├─────────────────────────────────────┤ 394px
+│                                     │
+│  🎴 Card Hand Area (220px)          │ ← 카드 핸드 (부채꼴)
+│                                     │
+│     ┌──┬─┬─┬─┬──┐                  │
+│     │카│ │ │ │카│                  │
+│     └──┴─┴─┴─┴──┘                  │
+│                                     │
+├─────────────────────────────────────┤ 614px
+│                                     │
+│  ⚡ Energy & Deck Info (120px)      │
+│                                     │
+│  ┌─────┐  Energy: ⚡⚡⚡ (3/3)      │
+│  │ 3/3 │  [Deck: 12] [Disc: 8]     │
+│  └─────┘  Timer: ████░░ (3/5s)     │
+│                                     │
+├─────────────────────────────────────┤ 734px
+│  🎮 Action Buttons (110px)          │
+│                                     │
+│  ┌──────────┬──────────┬─────────┐  │
+│  │End Turn  │  Auto    │  Menu   │  │
+│  │(Pass)    │  On/Off  │         │  │
+│  └──────────┴──────────┴─────────┘  │
+└─────────────────────────────────────┘ 844px
+```
+
+### Detailed Areas
+
+#### 1️⃣ Top Bar (54px)
+
+```
+┌─────────────────────────────────────┐
+│ Led          ❤️ 80/80  💰 111  ⚡3  │
+│ 아이언글로리                    ⚙️📊 │
+└─────────────────────────────────────┘
+```
+
+- Player Name (좌측)
+- HP (❤️ 80/80)
+- Gold (💰 111)
+- Energy (⚡3)
+- Settings/Stats (우측 아이콘들)
+
+#### 2️⃣ Battle Scene (280px) - 가로 액자
+
+```
+┌─────────────────────────────────────┐
+│                                     │
+│  👤 Hero (좌측)        👾👾👾 (우측)│
+│  ████ 80/80             15  8  5   │
+│  ⚡3 🛡5                /20 /12 /8  │
+│  ATB: ████████░░       ATB 게이지  │
+│                                     │
+│  [전투 애니메이션 영역]             │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**좌측 (Hero, 195px):**
+- 캐릭터 스프라이트 (큼, 120×120px)
+- HP Bar (길게)
+- 현재 에너지 표시
+- 현재 방어도 (Block)
+- ATB 게이지 (가로, 길게)
+
+**우측 (Monsters, 195px):**
+- 몬스터 3마리 (작게, 각 60×60px)
+- 각 몬스터:
+  - HP 숫자 (위)
+  - HP Bar (작게)
+  - ATB 게이지 (짧게)
+  - Intent 아이콘 (다음 행동)
+
+#### 3️⃣ Combat Log (60px)
+
+```
+┌─────────────────────────────────────┐
+│ • Slime dealt 3 damage to Hero      │
+│ • Hero played Strike (5 dmg)        │
+│ • Bat evaded!                       │
+└─────────────────────────────────────┘
+```
+
+- 스크롤 가능 (3-4줄)
+- 최신 로그 위로
+- 반투명 배경
+
+#### 4️⃣ Card Hand (220px)
+
+```
+┌─────────────────────────────────────┐
+│                                     │
+│         ┌──┬─┬─┬─┬──┐              │
+│         │ │ │▲│ │ │  ← 선택된 카드 │
+│         │카│ │ │ │카│              │
+│         └──┴─┴─┴─┴──┘              │
+│          5-10장 부채꼴              │
+└─────────────────────────────────────┘
+```
+
+- 중앙 정렬
+- 부채꼴 레이아웃 (30-40° 펼침)
+- 선택 시 위로 lift (50px)
+- 터치/클릭 인터랙션
+
+#### 5️⃣ Energy & Deck Info (120px)
+
+```
+┌─────────────────────────────────────┐
+│  ┌─────┐                            │
+│  │ 3/3 │  ⚡⚡⚡ Energy              │
+│  └─────┘                            │
+│  (좌측)                             │
+│                                     │
+│  📚 Deck: 12    🪦 Discard: 8      │
+│  ⏱️ Next Energy: ████░░ (3/5s)     │
+└─────────────────────────────────────┘
+```
+
+**좌측:**
+- 에너지 원형 표시 (큼, 80×80px)
+
+**우측:**
+- 에너지 게이지 (⚡⚡⚡)
+- 덱 카운터
+- 무덤 카운터
+- 에너지 타이머 (프로그레스 바)
+
+#### 6️⃣ Action Buttons (110px)
+
+```
+┌──────────┬──────────┬─────────┐
+│End Turn  │  Auto    │  Menu   │
+│(Pass)    │  On/Off  │         │
+└──────────┴──────────┴─────────┘
+```
+
+- **End Turn (Pass)** - 에너지 낭비 없이 대기
+- **Auto** - 자동 카드 사용 (AI)
+- **Menu** - 설정/도망가기
+
+---
+
+## ⚙️ Combat Flow
+
+### Real-time Concurrent Systems
+
+```
+┌─────────────────────────────────────┐
+│  ATB System (백그라운드)            │
+│  ↓ 계속 진행                        │
+│  Hero ATB 충전 중...                │
+│  Slime ATB 충전 중...               │
+│  Bat ATB 100% → 자동 공격!          │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│  Energy System (백그라운드)         │
+│  ↓ 계속 진행                        │
+│  Timer 충전 중... ████░░ (3/5s)     │
+│  Timer 100% → +1 Energy & Draw 1    │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│  Player Actions (언제든)            │
+│  ↓ 에너지 있으면                    │
+│  카드 선택 → 타겟 → 사용            │
+│  에너지 소비 → 카드 무덤으로        │
+└─────────────────────────────────────┘
+```
+
+**핵심:** 3개 시스템이 **독립적으로 동시에** 진행됩니다!
+
+### Combat Start
+
+```
+1. 전투 시작
+   ↓
+2. 초기화
+   - Hero HP/Energy (3/3)
+   - Monsters (1-3마리)
+   - Deck 섞기
+   - 5장 드로우
+   ↓
+3. 모든 시스템 시작
+   - ATB 게이지 충전 시작
+   - Energy Timer 시작
+   - Player input 대기
+```
+
+### During Combat
+
+**ATB Turn (자동):**
+```
+Entity ATB 100%
+   ↓
+자동 기본 공격
+   - 데미지 계산
+   - 회피 체크
+   - HP 감소
+   ↓
+Combat Log 업데이트
+   ↓
 ATB 리셋 (0%)
-  ↓
-[카드 타임!] ← 플레이어 개입 시점
 ```
+
+**Energy Charge (자동):**
+```
+Timer 100% (5초 경과)
+   ↓
++1 Energy (최대 3)
+   ↓
++1 Card Draw (최대 10 핸드)
+   - Deck에서 1장
+   - Deck 없으면 Discard 섞어서 Deck
+   ↓
+Timer 리셋 (0%)
+```
+
+**Card Play (플레이어):**
+```
+플레이어 카드 선택
+   ↓
+에너지 체크 (부족하면 불가)
+   ↓
+타겟 선택 (필요 시)
+   ↓
+카드 효과 발동
+   - 데미지/방어/버프 등
+   ↓
+에너지 소비
+   ↓
+카드 → Discard Pile
+   ↓
+Hand에서 제거
+```
+
+### Combat End
+
+**승리 조건:**
+- 모든 몬스터 HP 0
+
+**패배 조건:**
+- Hero HP 0
+
+**도망:**
+- Menu → Run Away (성공률 있음)
 
 ---
 
-### 3.4 스탯 시스템
+## 🎮 Implementation Phases
 
-#### 캐릭터 스탯
-```yaml
-HP: 60 (현재 HP / 최대 HP)
-ATK: 10 (공격력)
-DEF: 5 (방어력)
-SPD: 10 (ATB 속도)
-EVA: 5% (회피율)
-```
+### Phase 1: ATB Basic Combat (2-3 days) 🔴
 
-#### 몬스터 스탯
-```yaml
-Slime:
-  HP: 20
-  ATK: 8
-  DEF: 2
-  SPD: 5
-  EVA: 0%
+**Goal:** ATB 자동 전투 기본 구현
 
-Goblin:
-  HP: 12
-  ATK: 12
-  DEF: 1
-  SPD: 8
-  EVA: 10%
+**Tasks:**
+- [ ] Combat.tscn UI 레이아웃
+  - Battle Scene 영역 (가로 액자)
+  - Hero/Monster 스프라이트 (임시 플레이스홀더)
+  - HP Bar 컴포넌트
+  - ATB 게이지 컴포넌트
+- [ ] CombatManager.gd (Autoload)
+  - ATB 시스템 로직
+  - ATB 게이지 업데이트 (_process)
+  - 턴 트리거 (100% 시)
+- [ ] 기본 공격 로직
+  - 데미지 계산 (ATK vs DEF)
+  - 회피 체크 (EVA%)
+  - HP 감소
+- [ ] Combat Log 시스템
+  - 로그 메시지 추가
+  - 스크롤 처리
+- [ ] 승리/패배 조건
+  - 체크 로직
+  - 씬 전환 (임시)
 
-Bat:
-  HP: 8
-  ATK: 5
-  DEF: 0
-  SPD: 15
-  EVA: 20%
-```
+**Output:**
+- ATB 기반 자동 전투 작동
+- 캐릭터와 몬스터가 번갈아 공격
+- 전투 결과 확인 가능
 
 ---
 
-### 3.5 데미지 계산 (기본 공격)
+### Phase 2: Energy & Card System (2-3 days) 🟡
 
-```gdscript
-func calculate_basic_damage(attacker, defender) -> int:
-    var base_damage = attacker.atk - defender.def
-    base_damage = max(1, base_damage)  # 최소 1 데미지
-    
-    # 회피 체크
-    var hit_chance = 1.0 - (defender.evasion / 100.0)
-    if randf() > hit_chance:
-        return 0  # Miss!
-    
-    # 랜덤 편차 (±10%)
-    var variance = randf_range(0.9, 1.1)
-    var final_damage = int(base_damage * variance)
-    
-    return final_damage
-```
+**Goal:** 실시간 에너지 & 카드 드로우 시스템
 
-**예시:**
-```
-Hero (ATK:10) attacks Slime (DEF:2)
-  → Base: 10 - 2 = 8
-  → Evasion: 0% (Slime)
-  → Hit!
-  → Variance: ×0.95
-  → Final: 8 × 0.95 = 7 damage
+**Tasks:**
+- [ ] DeckManager.gd (Autoload)
+  - Deck/Hand/Discard Pile 관리
+  - 카드 드로우 로직
+  - 덱 섞기 (Discard → Deck)
+- [ ] EnergySystem.gd
+  - 에너지 타이머 (_process)
+  - 충전 로직 (5초마다)
+  - Max 3 제한
+  - 에너지 충전 시 카드 드로우 트리거
+- [ ] 카드 데이터 로드
+  - cards.json 읽기
+  - Card 리소스 생성
+- [ ] 에너지 & 덱 UI
+  - 에너지 원형 표시 (좌하단)
+  - 에너지 타이머 바
+  - Deck/Discard 카운터
+- [ ] Hand UI (기본)
+  - 카드 배치 (일단 일렬)
+  - 카드 표시 (CardItem 컴포넌트 재사용)
 
-Hero (ATK:10) attacks Bat (DEF:0, EVA:20%)
-  → Base: 10 - 0 = 10
-  → Evasion: 20%
-  → Random: 0.85 > 0.8 → Miss!
-```
+**Output:**
+- 에너지가 타이머로 충전됨
+- 충전 시 자동으로 카드 1장 드로우
+- 핸드에 카드 표시됨 (레이아웃은 Phase 3에서)
 
 ---
 
-## 4. 카드 덱 시스템
+### Phase 3: Card Hand UI & Play (2-3 days) 🟢
 
-### 4.1 Slay the Spire 방식
+**Goal:** 부채꼴 카드 UI + 카드 플레이 인터랙션
 
-```
-┌────────────────────────────────────┐
-│  Draw Pile (덱)                    │
-│  ↓                                 │
-│  Hand (핸드) - 5장                 │
-│  ↓                                 │
-│  Play (플레이)                     │
-│  ↓                                 │
-│  Discard Pile (무덤)               │
-│  ↓ (덱이 비면)                     │
-│  Shuffle & Reload (셔플 후 재사용) │
-└────────────────────────────────────┘
-```
-
----
-
-### 4.2 에너지 시스템
-
-```yaml
-Max Energy: 3 (기본)
-Starting Energy: 3 (매 카드 턴마다 리셋)
-Energy Cost Range: 0-5 (카드별 상이)
-Carry-over: No (남은 에너지는 소멸)
-```
-
-**에너지 흐름:**
-```
-카드 턴 시작
-  ↓
-에너지 3으로 리셋
-  ↓
-카드 플레이 (에너지 소비)
-  - 1 코스트 카드 → 에너지 -1
-  - 2 코스트 카드 → 에너지 -2
-  ↓
-에너지 0 또는 플레이 불가
-  ↓
-End Turn (남은 에너지 소멸)
-  ↓
-ATB 계속 진행...
-```
-
----
-
-### 4.3 드로우 시스템
-
-```gdscript
-class DeckManager:
-    var draw_pile: Array = []  # 덱
-    var hand: Array = []        # 핸드
-    var discard_pile: Array = []  # 무덤
-    var banished: Array = []    # 제거
-    
-    func start_combat():
-        # 전투 시작 시 덱 셔플
-        draw_pile = player_deck.duplicate()
-        draw_pile.shuffle()
-        
-        # 초기 핸드 5장 드로우
-        draw_cards(5)
-    
-    func draw_cards(count: int):
-        for i in range(count):
-            if draw_pile.is_empty():
-                # 덱이 비면 무덤 셔플
-                reshuffle_discard()
-            
-            if not draw_pile.is_empty():
-                var card = draw_pile.pop_front()
-                hand.append(card)
-    
-    func reshuffle_discard():
-        if discard_pile.is_empty():
-            return
-        
-        draw_pile = discard_pile.duplicate()
-        draw_pile.shuffle()
-        discard_pile.clear()
-        
-        add_combat_log("• Deck reshuffled!")
-    
-    func play_card(card: Card, target):
-        # 카드 효과 발동
-        resolve_card_effect(card, target)
-        
-        # 무덤으로 이동
-        hand.erase(card)
-        discard_pile.append(card)
-    
-    func on_card_turn_start():
-        # 매 카드 턴마다 5장 드로우
-        draw_cards(5)
-```
-
----
-
-### 4.4 카드 플레이 타이밍
-
-```
-ATB 진행 중...
-  ↓
-Hero ATB 100%
-  ↓
-자동 공격 실행
-  ↓
-[카드 타임!] ← 플레이어 개입 가능
-  ↓
-Option A: 카드 플레이
-  - 에너지 소비
+**Tasks:**
+- [ ] Fan Layout 알고리즘
+  - 카드 위치/회전 계산
+  - 5-10장 대응
+  - 동적 배치
+- [ ] Card Interaction
+  - Hover/Touch 감지
+  - 선택 시 확대 (50px lift)
+  - 드래그 or 탭 플레이
+- [ ] 카드 플레이 로직
+  - 에너지 체크
+  - 타겟 선택 (필요 시)
   - 효과 발동
-  - 무덤으로 이동
-  ↓
-Option B: Skip (아무것도 안 함)
-  ↓
-"End Turn" 클릭 또는 자동 종료
-  ↓
-ATB 계속...
-```
+- [ ] 카드 효과 시스템
+  - Attack 카드 (데미지)
+  - Defense 카드 (Block)
+  - Skill 카드 (버프/디버프)
+- [ ] 애니메이션
+  - 카드 플레이 (타겟으로 날아감)
+  - 이펙트 (데미지 숫자, 파티클)
 
-**중요:** 카드 타임은 ATB를 **일시 정지하지 않음**
-- ATB는 백그라운드에서 계속 충전
-- 카드 플레이 중에도 적 ATB가 100%되면 적 턴 실행
-- 긴박감 증가!
-
----
-
-### 4.5 카드 타입
-
-#### 공격 카드
-```yaml
-Strike:
-  Cost: 1
-  Effect: Deal 6 damage to target enemy
-  Type: Attack
-
-Fireball:
-  Cost: 2
-  Effect: Deal 10 damage to ALL enemies
-  Type: Attack
-
-Power Strike:
-  Cost: 3
-  Effect: Deal 15 damage to target enemy
-  Type: Attack
-```
-
-#### 방어 카드
-```yaml
-Defend:
-  Cost: 1
-  Effect: Gain 5 Block
-  Type: Defense
-
-Iron Wall:
-  Cost: 2
-  Effect: Gain 12 Block
-  Type: Defense
-```
-
-#### 스킬 카드
-```yaml
-Draw:
-  Cost: 0
-  Effect: Draw 2 cards
-  Type: Skill
-
-Energy Boost:
-  Cost: 0
-  Effect: Gain +2 Energy this turn
-  Type: Skill
-
-Weaken:
-  Cost: 1
-  Effect: Apply Weak (2 turns) to target enemy
-  Type: Skill
-```
+**Output:**
+- 카드가 부채꼴로 예쁘게 표시됨
+- 플레이어가 카드 선택 & 사용 가능
+- 카드 효과가 전투에 적용됨
 
 ---
 
-## 5. 전투 진행 흐름
+### Phase 4: Auto-Battle & Polish (1-2 days) ⚪
 
-### 5.1 전투 초기화
+**Goal:** 자동 전투 AI + 최종 다듬기
 
-```
-Load Enemy Data
-  - 3마리 슬라임 (예시)
-  - 각각 HP, ATK, DEF, SPD, EVA 설정
-  ↓
-Load Player Data
-  - HP from run
-  - Deck from DeckBuilder
-  ↓
-Shuffle Deck
-  ↓
-Draw 5 cards (초기 핸드)
-  ↓
-Set Energy to 3
-  ↓
-Initialize ATB Gauges
-  - Hero ATB: 0
-  - All Enemies ATB: 0
-  ↓
-Start ATB Update Loop
-```
+**Tasks:**
+- [ ] Auto-Battle AI
+  - 카드 선택 로직 (휴리스틱)
+  - HP < 30% → Defense 우선
+  - 그 외 → Damage/Cost 효율
+- [ ] Speed Control
+  - 1×/2×/3× 속도 조절
+  - ATB/Timer 배속 적용
+- [ ] UI/UX Polish
+  - 사운드 효과
+  - 화면 shake (피격 시)
+  - 승리/패배 애니메이션
+- [ ] 버그 수정 & 테스트
+  - 엣지 케이스 처리
+  - 모바일 터치 최적화
+
+**Output:**
+- Auto 버튼으로 자동 전투 가능
+- 속도 조절 가능
+- 완성도 높은 전투 경험
 
 ---
 
-### 5.2 ATB Update Loop
+## 📊 Key Differences vs Traditional Systems
 
+### vs Slay the Spire
+
+| Feature | Slay the Spire | Dream Collector |
+|---------|----------------|-----------------|
+| 전투 진행 | 턴제 (내 턴/적 턴) | 실시간 (동시 진행) |
+| 에너지 | 턴마다 리셋 | 타이머로 충전 |
+| 카드 드로우 | 턴 시작 시 5장 | 에너지 충전 시 1장 |
+| 카드 플레이 | 내 턴에만 | 언제든 |
+| 핸드 정리 | 턴 종료 시 무덤 | 유지 (버리기 없음) |
+| 속도감 | 느림 (전략적) | 빠름 (긴박함) |
+
+### vs Tower Defense
+
+| Feature | Tower Defense | Dream Collector |
+|---------|---------------|-----------------|
+| 자원 | 시간/킬로 충전 | 타이머로 충전 |
+| 유닛 배치 | 타워 설치 | 카드 플레이 |
+| 실시간성 | ✅ 높음 | ✅ 높음 |
+| 전략성 | 위치 중요 | 카드 선택 중요 |
+
+### vs Final Fantasy ATB
+
+| Feature | Final Fantasy | Dream Collector |
+|---------|---------------|-----------------|
+| ATB | ✅ 턴 순서 | ✅ 턴 순서 |
+| 명령 입력 | ATB 턴 시 선택 | 언제든 카드 사용 |
+| 자원 관리 | MP (제한적) | 에너지 (계속 충전) |
+| 깊이 | 중간 | 높음 (덱빌딩) |
+
+---
+
+## 🎯 Design Goals Achieved
+
+✅ **긴박감** - 실시간 ATB + 타이머로 항상 진행  
+✅ **전략성** - 카드 선택 & 타이밍 중요  
+✅ **접근성** - 언제든 플레이 가능 (디펜스 방식)  
+✅ **깊이** - 덱빌딩 + ATB 스탯 관리  
+✅ **독창성** - 기존 게임에 없는 혁신적 조합  
+
+---
+
+## 🔧 Technical Notes
+
+### Performance Considerations
+
+**_process() 함수 최적화:**
 ```gdscript
-func _process(delta):
-    if combat_ended:
-        return
-    
-    # 1. ATB 게이지 업데이트
-    update_atb_gauges(delta)
-    
-    # 2. ATB 100% 도달 시 턴 실행
-    check_atb_turns()
-    
-    # 3. 승리/패배 체크
-    check_win_loss()
+# 매 프레임 업데이트 필요
+- ATB 게이지 (모든 엔티티)
+- Energy Timer
+- UI 업데이트
 
-func update_atb_gauges(delta):
-    # Hero ATB
-    hero.atb += hero.speed * delta * atb_speed_multiplier
-    hero.atb = min(100, hero.atb)
-    
-    # Enemy ATB
-    for enemy in enemies:
-        if enemy.is_alive():
-            enemy.atb += enemy.speed * delta * atb_speed_multiplier
-            enemy.atb = min(100, enemy.atb)
+# 최적화 전략
+- Delta time 사용 (프레임 독립적)
+- Signal 기반 UI 업데이트 (불필요한 갱신 최소화)
+- 카드 효과는 즉시 실행 (지연 없음)
+```
 
-func check_atb_turns():
-    # Hero Turn
-    if hero.atb >= 100:
-        execute_hero_turn()
-    
-    # Enemy Turns
-    for enemy in enemies:
-        if enemy.is_alive() and enemy.atb >= 100:
-            execute_enemy_turn(enemy)
+### Mobile Optimization
+
+- **터치 인터랙션** - 탭/드래그 지원
+- **UI 크기** - 손가락으로 쉽게 탭 (최소 44×44px)
+- **햅틱 피드백** - 카드 플레이 시 진동
+- **배터리 효율** - _process 최적화
+
+### Save Data
+
+**전투 중 세이브:**
+```json
+{
+  "combat_state": {
+    "hero": {
+      "hp": 50,
+      "max_hp": 80,
+      "energy": 2,
+      "block": 5,
+      "atb": 75.5
+    },
+    "monsters": [...],
+    "deck": [...],
+    "hand": [...],
+    "discard": [...],
+    "energy_timer": 3.2,
+    "turn_count": 12
+  }
+}
 ```
 
 ---
 
-### 5.3 Hero Turn 실행
+## 📚 References
 
-```gdscript
-func execute_hero_turn():
-    # 1. 자동 공격
-    var target = select_target_auto()  # 첫 번째 살아있는 적
-    var damage = calculate_basic_damage(hero, target)
-    
-    if damage > 0:
-        target.take_damage(damage)
-        add_combat_log("• Hero attacks %s for %d damage" % [target.name, damage])
-    else:
-        add_combat_log("• Hero attacks %s but MISSED!" % target.name)
-    
-    # 2. ATB 리셋
-    hero.atb = 0
-    
-    # 3. [카드 타임!]
-    start_card_phase()
+### Visual Reference
+- **아이언 글로리** (Iron Glory) - 카드 핸드 UI, 부채꼴 레이아웃
+- **Slay the Spire** - 카드 효과, 덱 관리
+- **Final Fantasy** - ATB 게이지, 실시간 전투
 
-func start_card_phase():
-    # 에너지 리셋
-    current_energy = max_energy
-    
-    # 5장 드로우
-    deck_manager.draw_cards(5)
-    
-    # UI 업데이트
-    update_hand_ui()
-    update_energy_ui()
-    
-    # 플레이어 입력 대기
-    # (자동 전투 ON이면 Auto AI 실행)
-    if auto_mode:
-        auto_play_cards()
-    else:
-        enable_card_input()
-```
+### Similar Games
+- **Chrono Trigger** - ATB 시스템
+- **Random Dice** - 실시간 자원 관리 (디펜스)
+- **Monster Train** - 카드 + 실시간 요소
 
 ---
 
-### 5.4 Enemy Turn 실행
+## 🚀 Next Steps
 
-```gdscript
-func execute_enemy_turn(enemy: Enemy):
-    # 타겟 선택 (Hero만)
-    var target = hero
-    
-    # 데미지 계산
-    var damage = calculate_basic_damage(enemy, target)
-    
-    if damage > 0:
-        # 방어력 적용
-        var blocked = min(target.block, damage)
-        damage -= blocked
-        target.block -= blocked
-        
-        target.take_damage(damage)
-        add_combat_log("• %s attacks Hero for %d damage" % [enemy.name, damage])
-    else:
-        add_combat_log("• %s attacks Hero but MISSED!" % enemy.name)
-    
-    # ATB 리셋
-    enemy.atb = 0
-```
+1. ✅ **설계서 승인** (이 문서)
+2. 🔴 **Phase 1 시작** - ATB 기본 전투 구현
+3. 🟡 **Phase 2** - 에너지 & 카드 시스템
+4. 🟢 **Phase 3** - 카드 UI & 플레이
+5. ⚪ **Phase 4** - 자동 전투 & 마무리
+
+**예상 소요 시간:** 7-11일 (1주일 ~ 2주일)
 
 ---
 
-### 5.5 카드 플레이
-
-```gdscript
-func on_card_played(card: Card, target):
-    # 에너지 체크
-    if current_energy < card.cost:
-        show_feedback("Not enough energy!")
-        return
-    
-    # 에너지 소비
-    current_energy -= card.cost
-    
-    # 효과 발동
-    resolve_card_effect(card, target)
-    
-    # 무덤으로 이동
-    deck_manager.play_card(card, target)
-    
-    # UI 업데이트
-    update_hand_ui()
-    update_energy_ui()
-
-func resolve_card_effect(card: Card, target):
-    match card.type:
-        "attack":
-            var damage = card.damage
-            target.take_damage(damage)
-            add_combat_log("• Card: %s deals %d damage" % [card.name, damage])
-        
-        "defense":
-            hero.block += card.block_value
-            add_combat_log("• Card: %s gains %d block" % [card.name, card.block_value])
-        
-        "skill":
-            # 다양한 효과
-            if card.effect == "draw":
-                deck_manager.draw_cards(card.draw_amount)
-            elif card.effect == "energy":
-                current_energy += card.energy_gain
-            # ... 기타 효과
-```
-
----
-
-### 5.6 End Turn (카드 턴 종료)
-
-```gdscript
-func on_end_turn_pressed():
-    # 1. 남은 에너지 소멸
-    current_energy = 0
-    
-    # 2. 핸드 버리기
-    for card in hand:
-        deck_manager.discard_pile.append(card)
-    hand.clear()
-    
-    # 3. 카드 인풋 비활성화
-    disable_card_input()
-    
-    # 4. ATB 계속 진행
-    # (이미 백그라운드에서 진행 중)
-```
-
----
-
-## 6. 구현 세부사항
-
-### 6.1 ATB 속도 배율
-
-```gdscript
-# Auto 모드 속도 조절
-var atb_speed_multiplier: float = 1.0
-
-func set_auto_speed(speed: int):
-    match speed:
-        1:
-            atb_speed_multiplier = 1.0   # 보통
-        2:
-            atb_speed_multiplier = 2.0   # 2배속
-        3:
-            atb_speed_multiplier = 3.0   # 3배속
-```
-
----
-
-### 6.2 타겟팅 시스템
-
-```gdscript
-func select_target_auto() -> Enemy:
-    """
-    자동 타겟 선택: 첫 번째 살아있는 적
-    """
-    for enemy in enemies:
-        if enemy.is_alive():
-            return enemy
-    return null
-
-func select_target_manual(enemies: Array) -> Enemy:
-    """
-    수동 타겟 선택: 플레이어가 탭한 적
-    """
-    # UI에서 적 탭 시 호출
-    pass
-```
-
----
-
-### 6.3 Block (방어력) 시스템
-
-```gdscript
-class CombatUnit:
-    var hp: int
-    var max_hp: int
-    var block: int = 0  # 방어력 (임시)
-    
-    func take_damage(amount: int):
-        # 방어력 먼저 소진
-        var blocked = min(block, amount)
-        amount -= blocked
-        block -= blocked
-        
-        # 남은 데미지는 HP 감소
-        hp -= amount
-        hp = max(0, hp)
-        
-        if hp <= 0:
-            die()
-    
-    func reset_block():
-        """
-        매 턴 시작 시 방어력 초기화
-        (또는 턴 종료 시)
-        """
-        block = 0
-```
-
----
-
-### 6.4 승리/패배 조건
-
-```gdscript
-func check_win_loss():
-    # 승리: 모든 적 사망
-    var all_dead = true
-    for enemy in enemies:
-        if enemy.is_alive():
-            all_dead = false
-            break
-    
-    if all_dead:
-        win_combat()
-        return
-    
-    # 패배: Hero HP ≤ 0
-    if hero.hp <= 0:
-        lose_combat()
-        return
-
-func win_combat():
-    combat_ended = true
-    # Victory Screen으로 전환
-    get_tree().change_scene_to_file("res://ui/screens/VictoryScreen.tscn")
-
-func lose_combat():
-    combat_ended = true
-    # Defeat Screen으로 전환
-    get_tree().change_scene_to_file("res://ui/screens/DefeatScreen.tscn")
-```
-
----
-
-## 7. 구현 우선순위
-
-### Phase 1: 기본 ATB 전투 (2-3일) 🔴 최우선
-
-```
-목표: ATB 기본 전투 작동
-
-□ Combat UI 레이아웃
-  - 캐릭터 (왼쪽)
-  - 몬스터 3개 (오른쪽)
-  - ATB 게이지 표시
-
-□ ATB 시스템
-  - ATB 게이지 업데이트
-  - 턴 도래 감지
-  - 자동 공격 실행
-
-□ 기본 스탯 시스템
-  - HP, ATK, DEF, SPD, EVA
-  - 데미지 계산
-  - 회피 체크
-
-□ Combat Log
-
-테스트 데이터:
-  - Hero: HP 60, ATK 10, DEF 5, SPD 10
-  - 3× Slime: HP 20, ATK 8, DEF 2, SPD 5
-```
-
----
-
-### Phase 2: 카드 덱 시스템 (2-3일) 🟡 중요
-
-```
-목표: 카드 플레이 가능
-
-□ 덱 관리
-  - Draw Pile
-  - Hand (5장)
-  - Discard Pile
-  - Shuffle logic
-
-□ 에너지 시스템
-  - 3 에너지
-  - 카드 코스트
-  - 에너지 UI
-
-□ 카드 플레이
-  - 카드 탭 → 선택
-  - 타겟 선택
-  - 효과 발동
-
-□ 카드 UI
-  - 핸드 표시
-  - 덱/무덤 카운터
-
-테스트 카드 (10장):
-  - 5× Strike (1 코스트, 6 데미지)
-  - 3× Defend (1 코스트, 5 블록)
-  - 2× Power Strike (3 코스트, 15 데미지)
-```
-
----
-
-### Phase 3: 하이브리드 통합 (1-2일) 🟢 통합
-
-```
-목표: ATB + 카드 시스템 연동
-
-□ Hero 턴 시 카드 타임
-□ 카드 플레이 중 ATB 계속 진행
-□ End Turn 후 ATB 복귀
-□ 타이밍 조율
-```
-
----
-
-### Phase 4: 자동 전투 AI (1-2일) ⚪ 추가
-
-```
-목표: 자동 모드
-
-□ Auto 토글
-□ 카드 자동 선택 AI
-□ 속도 조절 (1×/2×/3×)
-```
-
----
-
-### Phase 5: 폴리싱 (1-2일) ⚪ 선택
-
-```
-□ 스프라이트 애니메이션
-□ 데미지 숫자 팝업
-□ 사운드 효과
-□ 카드 상세 모달
-```
-
----
-
-## 📊 최종 요약
-
-### 핵심 차별점
-```
-기존 (순수 턴제 덱빌딩)
-  vs
-신규 (ATB + 덱빌딩 하이브리드)
-
-✅ 더 다이나믹한 전투
-✅ 실시간 긴박감
-✅ 전략적 카드 타이밍
-✅ 독특한 게임플레이
-```
-
-### 구현 순서
-1. **ATB 기본 전투** (2-3일)
-2. **카드 덱 시스템** (2-3일)
-3. **하이브리드 통합** (1-2일)
-4. **자동 전투** (1-2일)
-5. **폴리싱** (1-2일)
-
-**총 예상 시간:** 7-12일
-
----
-
-**작성:** Atlas  
-**날짜:** 2026-02-24  
-**버전:** 2.0 (Hybrid System)
+**문서 작성:** Atlas  
+**마지막 업데이트:** 2026-02-24 18:45 PST  
+**버전:** 2.0 (Real-time Hybrid System)
