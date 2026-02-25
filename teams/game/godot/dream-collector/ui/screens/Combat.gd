@@ -17,9 +17,18 @@ extends Control
 
 var monster_nodes = []
 
+# Energy & Deck UI (created dynamically)
+var energy_label: Label
+var energy_timer_bar: ProgressBar
+var deck_label: Label
+var discard_label: Label
+var exile_label: Label
+var hand_container: HBoxContainer
+
 func _ready():
 	_apply_theme_styles()
 	_setup_buttons()
+	_create_energy_and_deck_ui()
 	_initialize_combat()
 	
 	# Connect to CombatManager signals
@@ -42,12 +51,66 @@ func _setup_buttons():
 	auto_button.pressed.connect(_on_auto_pressed)
 	menu_button.pressed.connect(_on_menu_pressed)
 
+func _create_energy_and_deck_ui():
+	"""Create energy and deck info UI dynamically"""
+	# Create energy info area (between log and buttons)
+	var energy_area = Control.new()
+	energy_area.name = "EnergyArea"
+	energy_area.position = Vector2(0, 434)
+	energy_area.size = Vector2(390, 300)
+	add_child(energy_area)
+	
+	# Energy label
+	energy_label = Label.new()
+	energy_label.position = Vector2(16, 16)
+	energy_label.text = "Energy: ⚡⚡⚡ (3/3)"
+	energy_label.add_theme_font_size_override("font_size", 16)
+	energy_area.add_child(energy_label)
+	
+	# Energy timer bar
+	energy_timer_bar = ProgressBar.new()
+	energy_timer_bar.position = Vector2(16, 48)
+	energy_timer_bar.size = Vector2(358, 20)
+	energy_timer_bar.max_value = 100
+	energy_timer_bar.value = 0
+	energy_area.add_child(energy_timer_bar)
+	
+	# Deck status labels
+	deck_label = Label.new()
+	deck_label.position = Vector2(16, 80)
+	deck_label.text = "📚 Deck: 12"
+	energy_area.add_child(deck_label)
+	
+	discard_label = Label.new()
+	discard_label.position = Vector2(150, 80)
+	discard_label.text = "🪦 Discard: 0"
+	energy_area.add_child(discard_label)
+	
+	exile_label = Label.new()
+	exile_label.position = Vector2(284, 80)
+	exile_label.text = "🚫 Exile: 0"
+	energy_area.add_child(exile_label)
+	
+	# Hand container (simple for now)
+	hand_container = HBoxContainer.new()
+	hand_container.position = Vector2(16, 120)
+	hand_container.size = Vector2(358, 150)
+	energy_area.add_child(hand_container)
+
 func _initialize_combat():
 	# Get monsters from InRun or use default test monsters
 	var monsters = _get_test_monsters()
 	
-	# Initialize CombatManager
+	# Store monster UI nodes (before combat starts)
+	monster_nodes = [monster1, monster2]
+	
+	# Initialize CombatManager (this will initialize deck and draw cards)
 	CombatManager.start_combat(monsters)
+	
+	# Initial UI update
+	_update_hero_ui()
+	_update_monsters_ui()
+	_update_deck_ui()
 	
 	# Store monster UI nodes
 	monster_nodes = [monster1, monster2]
@@ -171,20 +234,55 @@ func _on_energy_changed(current: int, max: int):
 	hero_energy_label.text = "⚡ %d" % current
 
 func _on_energy_timer_updated(progress: float):
-	# TODO: Update energy timer bar UI
-	pass
+	if energy_timer_bar:
+		energy_timer_bar.value = progress * 100
 
 func _on_hand_changed():
-	# TODO: Update hand UI
-	_update_deck_status()
+	_update_deck_ui()
+	_update_hand_ui()
 
-func _update_deck_status():
-	"""Update deck status in combat log"""
-	var deck_size = DeckManager.get_deck_size()
-	var hand_size = DeckManager.get_hand_size()
-	var discard_size = DeckManager.get_discard_size()
+func _update_deck_ui():
+	"""Update deck status labels"""
+	if deck_label:
+		deck_label.text = "📚 Deck: %d" % DeckManager.get_deck_size()
+	if discard_label:
+		discard_label.text = "🪦 Discard: %d" % DeckManager.get_discard_size()
+	if exile_label:
+		exile_label.text = "🚫 Exile: %d" % DeckManager.get_exile_size()
+	if energy_label:
+		var current = CombatManager.get_current_energy()
+		var maximum = CombatManager.get_max_energy()
+		var energy_icons = ""
+		for i in range(maximum):
+			if i < current:
+				energy_icons += "⚡"
+			else:
+				energy_icons += "⚪"
+		energy_label.text = "Energy: %s (%d/%d)" % [energy_icons, current, maximum]
+
+func _update_hand_ui():
+	"""Update hand display (simple labels for now)"""
+	if not hand_container:
+		return
 	
-	add_combat_log("📚 Deck: %d | ✋ Hand: %d | 🪦 Discard: %d" % [deck_size, hand_size, discard_size])
+	# Clear existing
+	for child in hand_container.get_children():
+		child.queue_free()
+	
+	# Add card labels
+	var hand = DeckManager.get_hand_cards()
+	for i in range(hand.size()):
+		var card = hand[i]
+		var btn = Button.new()
+		btn.text = "%s\n[%d]" % [card.name, card.cost]
+		btn.custom_minimum_size = Vector2(70, 100)
+		btn.pressed.connect(_on_card_pressed.bind(i))
+		hand_container.add_child(btn)
+
+func _on_card_pressed(card_index: int):
+	"""Handle card click"""
+	CombatManager.play_card(card_index)
+	_update_deck_ui()
 
 # Cheat codes for testing
 func _input(event):
@@ -192,13 +290,13 @@ func _input(event):
 		match event.keycode:
 			KEY_D:  # Draw card
 				DeckManager.draw_card()
-				_update_deck_status()
+				_update_deck_ui()
 			KEY_P:  # Play first card
 				if DeckManager.get_hand_size() > 0:
 					CombatManager.play_card(0)
-					_update_deck_status()
+					_update_deck_ui()
 			KEY_S:  # Print deck state
 				DeckManager.print_state()
 			KEY_1:  # Draw 5 cards
 				DeckManager.draw_cards(5)
-				_update_deck_status()
+				_update_deck_ui()
