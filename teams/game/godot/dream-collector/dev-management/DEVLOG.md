@@ -94,10 +94,48 @@ H 키: 보석 +1,000
   - `difficulty_data: Dictionary`
 - **통합:** MainLobby "꿈 런 시작" 버튼 → RunPrep 이동
 
+#### 10. **c07-in-run 화면 구현** ✅
+- **파일:** InRun.tscn (5.4 KB), InRun.gd (8.8 KB)
+- **기능:**
+  - **상단 스탯 바:**
+    - HP 바 (진행률 표시, 색상 변화: 초록/노랑/빨강)
+    - Energy 표시 (진행률 바)
+    - Reveries 골드 표시
+  - **노드 맵 시스템:**
+    - 10개 노드 표시 (Memory, Combat, Event, Shop, Upgrade, Boss)
+    - 완료/현재/미완료 상태 표시 (초록/파랑/회색)
+    - 노드 간 연결선 표시
+    - 현재 노드 하이라이트 (흰색 테두리)
+    - 가로 스크롤 지원
+  - **메인 뷰:**
+    - 현재 노드 아이콘 크게 표시 (96px)
+    - 중앙 배치
+  - **노드 정보 패널 (하단):**
+    - 현재 노드 타입 + 설명
+    - 노드별 선택지 UI:
+      - Event: 2개 선택지 (안전/위험)
+      - Memory: 수집 버튼
+      - Combat: 전투 시작
+      - Shop: 상점 입장
+      - Upgrade: 업그레이드 선택
+      - Boss: 보스 전투
+  - **액션 바:**
+    - Skip, Auto, Menu 버튼
+    - Menu 버튼으로 MainLobby 복귀
+  - **치트 코드:**
+    - H/J 키: HP 증감
+    - K/L 키: Energy 증감
+    - Space: 노드 진행
+- **통합:** RunPrep "런 시작" 버튼 → InRun 전환
+
 ### 📊 진행 상황
-- **완료된 화면:** 5/12 (42%)
+- **완료된 화면:** 6/12 (50%)
   - ✅ c01-main-lobby
   - ✅ c02-card-library
+  - ✅ c03-deck-builder
+  - ✅ c05-shop
+  - ✅ c06-run-prep
+  - ✅ c07-in-run (NEW!)
   - ✅ c03-deck-builder
   - ✅ c05-shop
   - ✅ c06-run-prep (NEW!)

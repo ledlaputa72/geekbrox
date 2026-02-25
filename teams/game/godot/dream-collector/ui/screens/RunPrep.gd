@@ -314,8 +314,8 @@ func _on_start_pressed() -> void:
 	
 	print("[RunPrep] 런 시작! 난이도: %s, 덱: %d장" % [current_difficulty, current_deck.size()])
 	
-	# TODO: 실제 런 화면으로 이동 (c07-in-run)
-	# get_tree().change_scene_to_file("res://ui/screens/InRun.tscn")
+	# 런 화면으로 이동 (c07-in-run)
+	get_tree().change_scene_to_file("res://ui/screens/InRun.tscn")
 	
 	# 임시: 메시지 표시
 	print("[RunPrep] TODO: InRun 화면으로 전환 (미구현)")
