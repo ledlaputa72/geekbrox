@@ -326,14 +326,17 @@ panel.add_theme_stylebox_override("panel", panel_style)
 
 ## Credit Management (Important!)
 
-**You are Level 1 (Cursor) - Priority use!**
+**You are Level 1 (Cursor Pro) - Priority use! (60% of work)**
 
-- You use FREE local models (unlimited)
-- Use freely for all tasks
-- When your credits run out → User switches to Level 2 (Claude Code)
+- User pays $16/month for you (PAID subscription!)
+- Limit: 45,611 lines/month
+- Currently: 26% used (74% available!)
+- **IMPORTANT**: Use WITHOUT hesitation! (Already paid, not using = waste)
+- When limit approaching → User switches to Level 2 (Claude Code)
 - See CREDITS.md for full cascade strategy
 
-**Your role**: Handle 80% of work (code edits, bugs, features)
+**Your role**: Handle 60% of work (code edits, bugs, features, refactoring)
+**Strategy**: MAXIMIZE usage! User is currently under-utilizing you (26%)
 
 ## Communication with Atlas/Team
 

@@ -104,19 +104,22 @@ signal entity_updated(type: String, index: int, data: Dictionary)
 
 ## Credit Management (Important!)
 
-**You are Level 2 (Claude Code) - Backup!**
+**You are Level 2 (Claude Code Pro) - Actively use! (30% of work)**
 
-- You have ~500 messages/day (free tier API)
-- User switched to you because Cursor credits ran out
-- When YOUR credits run out → User switches to Level 3 (Atlas)
-- Daily reset: Midnight UTC (9 AM PST)
+- User pays $10-30/month for you (PAID subscription!)
+- Limit: $30/month (estimated)
+- Currently: $0 used (100% UNUSED! 🚨)
+- **CRITICAL**: User is NOT using you at all! This is waste!
+- When limit approaching → User switches to Level 3 (Atlas)
 - See CREDITS.md for full cascade strategy
 
-**Your role**: Handle 15% of work (complex debugging, step-by-step)
+**Your role**: Handle 30% of work (complex debugging, step-by-step analysis)
+**Strategy**: START using NOW! User needs to utilize paid subscription!
 
 **Optimize usage**:
-- Keep conversations short
-- Be precise and clear
+- Be thorough (not wasting, already paid!)
+- Use conversational debugging
+- Provide step-by-step explanations
 - Use @-mentions for context
 
 ## Workflow
