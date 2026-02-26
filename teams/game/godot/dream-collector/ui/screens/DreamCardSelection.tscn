@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dream_card_selection_v2"]
+[gd_scene load_steps=5 format=3 uid="uid://dream_card_selection"]
 
-[ext_resource type="Script" path="res://ui/screens/DreamCardSelection_v2.gd" id="1"]
+[ext_resource type="Script" path="res://ui/screens/DreamCardSelection.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://bottomnav_component" path="res://ui/components/BottomNav.tscn" id="2_bottomnav"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brown"]
