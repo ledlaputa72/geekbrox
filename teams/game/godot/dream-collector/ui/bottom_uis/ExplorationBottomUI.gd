@@ -24,19 +24,20 @@ var current_log_index: int = 0
 var auto_progress_timer: float = 0.0
 var auto_progress_interval: float = 2.0
 var is_paused: bool = false
+var _last_shown_was_event: bool = false  # 연속 이벤트 감지용
 
-# ─── 타입별 색상 팔레트 ───
+# ─── 타입별 색상 팔레트 (이미지 기준) ───
 const LOG_COLORS = {
-	"travel":    {"bg": Color(0.55, 0.45, 0.12, 1), "circle": Color(0.72, 0.60, 0.18, 1)},
-	"combat":    {"bg": Color(0.68, 0.18, 0.14, 1), "circle": Color(0.85, 0.28, 0.22, 1)},
-	"shop":      {"bg": Color(0.18, 0.38, 0.70, 1), "circle": Color(0.28, 0.52, 0.88, 1)},
-	"npc":       {"bg": Color(0.18, 0.52, 0.28, 1), "circle": Color(0.28, 0.68, 0.38, 1)},
-	"boss":      {"bg": Color(0.42, 0.14, 0.62, 1), "circle": Color(0.55, 0.22, 0.78, 1)},
-	"narration": {"bg": Color(0.28, 0.38, 0.58, 1), "circle": Color(0.38, 0.50, 0.72, 1)},
-	"victory":   {"bg": Color(0.65, 0.44, 0.05, 1), "circle": Color(0.85, 0.60, 0.10, 1)},
-	"start":     {"bg": Color(0.25, 0.32, 0.50, 1), "circle": Color(0.35, 0.45, 0.65, 1)},
+	"travel":    {"bg": Color(0.353, 0.333, 0.506, 1), "circle": Color(0.45, 0.42, 0.60, 1)},
+	"combat":    {"bg": Color(0.898, 0.224, 0.208, 1), "circle": Color(0.95, 0.35, 0.32, 1)},
+	"shop":      {"bg": Color(0.259, 0.647, 0.961, 1), "circle": Color(0.40, 0.72, 1.0, 1)},
+	"npc":       {"bg": Color(0.4, 0.733, 0.416, 1), "circle": Color(0.50, 0.82, 0.52, 1)},
+	"boss":      {"bg": Color(0.671, 0.278, 0.737, 1), "circle": Color(0.78, 0.40, 0.82, 1)},
+	"narration": {"bg": Color(0.4, 0.733, 0.416, 1), "circle": Color(0.50, 0.82, 0.52, 1)},
+	"victory":   {"bg": Color(1.0, 0.655, 0.149, 1), "circle": Color(1.0, 0.78, 0.35, 1)},
+	"start":     {"bg": Color(0.353, 0.333, 0.506, 1), "circle": Color(0.45, 0.42, 0.60, 1)},
 }
-const DEFAULT_COLORS = {"bg": Color(0.55, 0.45, 0.12, 1), "circle": Color(0.72, 0.60, 0.18, 1)}
+const DEFAULT_COLORS = {"bg": Color(0.353, 0.333, 0.506, 1), "circle": Color(0.45, 0.42, 0.60, 1)}
 
 # ─── 이벤트 타입별 기본 아이콘 ───
 const EVENT_ICONS = {
@@ -96,8 +97,24 @@ func _show_next_log():
 	if current_log_index >= time_logs.size():
 		return
 	var log_data = time_logs[current_log_index]
+	
+	# 이벤트 로그는 노드 도달 시 show_pending_event()로 표시 (자동 진행 X)
+	if log_data.get("type") == "event":
+		is_paused = true
+		return
+	
 	_add_log_box(log_data)
 	current_log_index += 1
+
+
+func show_pending_event():
+	"""노드 도달 시 호출 — 남은 이동 로그를 빠르게 표시한 뒤 이벤트 로그를 표시"""
+	while current_log_index < time_logs.size():
+		var log_data = time_logs[current_log_index]
+		_add_log_box(log_data)
+		current_log_index += 1
+		if log_data.get("type") == "event":
+			return
 
 
 # ─── 타임라인 로그 박스 ───
@@ -177,7 +194,7 @@ func _build_log_row(
 	ps.corner_radius_top_right = 10
 	ps.corner_radius_bottom_left = 10
 	ps.corner_radius_bottom_right = 10
-	ps.content_margin_left = 12
+	ps.content_margin_left = 5
 	ps.content_margin_right = 12
 	ps.content_margin_top = 8
 	ps.content_margin_bottom = 8
@@ -189,28 +206,16 @@ func _build_log_row(
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(content)
 
-	# 시간 컬럼 (time_str이 있을 때만)
-	if time_str != "":
-		var time_lbl = Label.new()
-		time_lbl.text = time_str
-		time_lbl.add_theme_font_size_override("font_size", 13)
-		time_lbl.add_theme_color_override("font_color", Color(1, 1, 1, 0.85))
-		time_lbl.custom_minimum_size = Vector2(72, 0)
-		time_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		time_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		content.add_child(time_lbl)
+	# 왼쪽 5px 여유
+	var spacer = Control.new()
+	spacer.custom_minimum_size = Vector2(5, 0)
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	content.add_child(spacer)
 
-		var sep = Label.new()
-		sep.text = "│"
-		sep.add_theme_font_size_override("font_size", 13)
-		sep.add_theme_color_override("font_color", Color(1, 1, 1, 0.35))
-		sep.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		sep.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		content.add_child(sep)
-
-	# 내용 레이블
+	# 내용 레이블 — "AM 10:00 - 내용" 형식
+	var display_text = (time_str + " - " + text) if time_str != "" else text
 	var text_lbl = Label.new()
-	text_lbl.text = text
+	text_lbl.text = display_text
 	text_lbl.add_theme_font_size_override("font_size", 14)
 	text_lbl.add_theme_color_override("font_color", Color.WHITE)
 	text_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -228,19 +233,114 @@ func _build_log_row(
 	scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)
 
 
+const NORMAL_ROW_HEIGHT = 48
+const VICTORY_EXPANDED_HEIGHT = 72  # 1.5 * 48
+
+func _build_victory_row(icon: String, text: String, colors: Dictionary):
+	"""전투 승리 로그 — 펼침(기본, 1.5배 높이) / 클릭 시 축소"""
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.custom_minimum_size.y = VICTORY_EXPANDED_HEIGHT
+
+	var circle_wrap = Control.new()
+	circle_wrap.custom_minimum_size = Vector2(38, VICTORY_EXPANDED_HEIGHT)
+	circle_wrap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var circle = Panel.new()
+	circle.position = Vector2(3, (VICTORY_EXPANDED_HEIGHT - 32) / 2)
+	circle.size = Vector2(32, 32)
+	circle.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var cs = StyleBoxFlat.new()
+	cs.bg_color = colors.circle
+	cs.corner_radius_top_left = 16
+	cs.corner_radius_top_right = 16
+	cs.corner_radius_bottom_left = 16
+	cs.corner_radius_bottom_right = 16
+	circle.add_theme_stylebox_override("panel", cs)
+	var icon_lbl = Label.new()
+	icon_lbl.text = icon
+	icon_lbl.add_theme_font_size_override("font_size", 14)
+	icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	icon_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	icon_lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	icon_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	circle.add_child(icon_lbl)
+	circle_wrap.add_child(circle)
+	row.add_child(circle_wrap)
+
+	var panel = Panel.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.custom_minimum_size.y = VICTORY_EXPANDED_HEIGHT
+	var ps = StyleBoxFlat.new()
+	ps.bg_color = colors.bg
+	ps.corner_radius_top_left = 10
+	ps.corner_radius_top_right = 10
+	ps.corner_radius_bottom_left = 10
+	ps.corner_radius_bottom_right = 10
+	ps.content_margin_left = 5
+	ps.content_margin_right = 12
+	ps.content_margin_top = 8
+	ps.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", ps)
+
+	var content = HBoxContainer.new()
+	content.set_anchors_preset(Control.PRESET_FULL_RECT)
+	content.add_theme_constant_override("separation", 8)
+	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(content)
+
+	var spacer = Control.new()
+	spacer.custom_minimum_size = Vector2(5, 0)
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	content.add_child(spacer)
+
+	var text_lbl = Label.new()
+	text_lbl.text = text
+	text_lbl.add_theme_font_size_override("font_size", 14)
+	text_lbl.add_theme_color_override("font_color", Color.WHITE)
+	text_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	text_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	content.add_child(text_lbl)
+
+	row.add_child(panel)
+	event_log.add_child(row)
+
+	var expanded = true
+	var btn = Button.new()
+	btn.flat = true
+	btn.modulate.a = 0.0
+	btn.set_anchors_preset(Control.PRESET_FULL_RECT)
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	panel.add_child(btn)
+
+	btn.pressed.connect(func():
+		expanded = not expanded
+		var target_h = VICTORY_EXPANDED_HEIGHT if expanded else NORMAL_ROW_HEIGHT
+		row.custom_minimum_size.y = target_h
+		circle_wrap.custom_minimum_size.y = target_h
+		circle.position.y = (target_h - 32) / 2
+		panel.custom_minimum_size.y = target_h
+	)
+
+	await get_tree().process_frame
+	scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)
+
+
 func add_log(message: String, highlight: bool = false, event_type: String = ""):
-	"""이벤트 서브 메시지 — 모두 타임라인 박스 형식으로 표시
-	  highlight=true  + event_type="victory" → 🏆 전투 승리 배너 (황금, 가운데 정렬)
-	  highlight=false + event_type=...       → 이벤트 진입 알림 박스 (타입별 색상, 시간 없음)"""
+	"""이벤트 서브 메시지 — 타임라인 박스 형식
+	  highlight=true + event_type="victory" → 전투 승리 (펼침/축소, 1.5배 높이)
+	  그 외 → 일반 로그 박스"""
 	var type_key = event_type if event_type != "" else "travel"
 	var colors = _get_colors(type_key)
 	var icon = EVENT_ICONS.get(type_key, "📌")
 
-	if highlight:
-		# 전투 승리 등 특별 배너 — 가운데 정렬, 시간 없음
-		await _build_log_row(icon, message, "", colors, true)
+	if highlight and event_type == "victory":
+		await _build_victory_row(icon, message, colors)
 	else:
-		# 이벤트 진입 알림 — 타임라인 박스 (시간 없음)
 		await _build_log_row(icon, message, "", colors, false)
 
 	print("[ExplorationBottomUI] add_log (%s): %s" % [type_key, message])

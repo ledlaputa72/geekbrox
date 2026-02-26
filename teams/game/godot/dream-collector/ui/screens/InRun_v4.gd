@@ -404,18 +404,25 @@ func _return_to_exploration():
 # === RunProgressBar Handlers ===
 
 func _on_node_reached(node_index: int, node_data: Dictionary):
-	"""Handle node arrival - auto process based on node type"""
+	"""Handle node arrival - 즉시 탐험 UI 정지 후 이벤트 로그 표시 → 이벤트 처리"""
 	print("[InRun_v4] Node reached: ", node_index, " - ", node_data)
 	
 	var node_type = node_data.get("type", "narration")
 	
-	# Handle event nodes
-	# ※ add_log는 각 핸들러 내부에서 화면 전환 직전에 호출 (즉시 호출 시 딜레이 동안 오해 발생)
+	if node_type == "start":
+		return
+	
+	# 즉시 탐험 UI 일시정지 & 대기 중인 이벤트 로그 표시
+	if exploration_ui:
+		exploration_ui.set_paused(true)
+		exploration_ui.show_pending_event()
+	
 	match node_type:
-		"start":
-			print("[InRun_v4] Journey started!")
 		"narration":
-			print("[InRun_v4] Narration node - continue")
+			await get_tree().create_timer(1.0).timeout
+			if exploration_ui:
+				exploration_ui.auto_progress_timer = 0.0
+				exploration_ui.set_paused(false)
 		"combat":
 			_handle_combat_event()
 		"shop":

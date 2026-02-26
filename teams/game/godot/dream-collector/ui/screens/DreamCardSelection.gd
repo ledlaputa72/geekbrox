@@ -699,13 +699,15 @@ func _complete_selection():
 		s.position = sg  # root가 (0,0)이므로 global == local
 		anim_cards.append(s)
 
-	# 2) 카드를 절대 y=50으로 이동 (TopArea 중앙) — 레이아웃/영역 변경 없음
+	# 2) 카드를 y=50으로 위로 이동 — 왼쪽에서부터 순차 (선택 카드 내려오는 모션의 반대)
 	var tween = create_tween()
 	tween.set_parallel(true)
 
-	for acard in anim_cards:
+	for i in range(anim_cards.size()):
+		var acard = anim_cards[i]
+		var delay = i * 0.12  # 선택 카드와 동일 간격 (왼쪽→오른쪽)
 		tween.tween_property(acard, "position:y", 50.0, 0.5) \
-			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+			.set_delay(delay).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 
 	await tween.finished
 

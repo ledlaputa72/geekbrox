@@ -111,16 +111,15 @@ func set_dream_cards(cards: Array) -> void:
 	
 	print("[GameManager] Dream cards set: %d cards" % dream_cards.size())
 	
-	# Calculate total hours
-	for card in dream_cards:
-		total_dream_hours += card.hours
+	# 노드만 유지, 시간(hours)은 사용하지 않음
+	total_dream_hours = 0
 	
 	# Generate nodes from cards
 	for i in range(dream_cards.size()):
 		var card = dream_cards[i]
 		var stage_name = ["시작", "여정", "종료"][i]
 		
-		print("  [%s] %s: %d nodes, %d hours" % [stage_name, card.name, card.node_count, card.hours])
+		print("  [%s] %s: %d nodes" % [stage_name, card.name, card.node_count])
 		
 		for node in card.nodes:
 			var node_data = {
@@ -136,13 +135,11 @@ func set_dream_cards(cards: Array) -> void:
 	_generate_time_logs()
 	
 	print("[GameManager] Total dream nodes: %d" % dream_nodes.size())
-	print("[GameManager] Total dream hours: %d" % total_dream_hours)
-	print("[GameManager] Total time logs: %d (Event: %d, Travel: %d)" % [dream_time_logs.size(), dream_nodes.size(), total_dream_hours - dream_nodes.size()])
+	print("[GameManager] Total time logs: %d (Event: %d, Travel: %d)" % [dream_time_logs.size(), dream_nodes.size(), dream_nodes.size()])
 
 func _generate_time_logs() -> void:
-	"""Generate time-based logs (event logs + travel logs)"""
-	var start_hour = 22  # PM 10:00 시작
-	var event_logs_placed = 0
+	"""노드만 유지. 무조건 노드와 노드 사이에는 걷기 1개씩 배치.
+	순서: 걷기 → 이벤트1 → 걷기 → 이벤트2 → ... 시간은 PM 10:00부터 1시간씩 증가."""
 	var travel_log_templates = [
 		"길을 따라 걷고 있다...",
 		"주변을 살피며 천천히 이동한다.",
@@ -152,97 +149,51 @@ func _generate_time_logs() -> void:
 		"발소리만이 고요함을 깬다.",
 		"공기가 점점 무거워지는 느낌이다."
 	]
+	var start_hour = 22  # PM 10:00
 	
-	# Create log distribution based on card structure
-	var card_log_slots = []  # [{card_index, hour_index, node_index or -1}]
-	
-	for i in range(dream_cards.size()):
-		var card = dream_cards[i]
-		var nodes_in_card = []
+	for i in range(dream_nodes.size()):
+		var hour = start_hour + (dream_time_logs.size())
+		# 노드 앞에 항상 걷기 1개
+		dream_time_logs.append({
+			"time": _format_hour(hour),
+			"hour_index": dream_time_logs.size(),
+			"type": "travel",
+			"text": travel_log_templates[i % travel_log_templates.size()],
+			"icon": "🚶"
+		})
 		
-		# Find nodes belonging to this card
-		var card_name = card.name
-		for j in range(dream_nodes.size()):
-			if dream_nodes[j].card_name == card_name:
-				nodes_in_card.append(j)
+		hour = start_hour + dream_time_logs.size()
+		var node = dream_nodes[i]
+		var event_text = ""
+		match node.type:
+			"combat":
+				event_text = "전투 - 적 발견!"
+			"shop":
+				event_text = "상점 발견"
+			"npc":
+				event_text = "누군가와 만남"
+			"narration":
+				event_text = "이야기가 펼쳐진다"
+			"boss":
+				event_text = "보스 등장!"
 		
-		# Distribute card's hours (event nodes + travel logs)
-		var hours_for_card = card.hours
-		var nodes_for_card = nodes_in_card.size()
-		
-		# 이벤트를 각 구간의 끝에 배치 (이동 로그 → 이벤트 로그 순서 보장)
-		# 예: 4시간/2이벤트 → [이동, 이벤트, 이동, 이벤트]
-		for h in range(hours_for_card):
-			var slot = {"card_index": i, "hour_index": h}
-			
-			if nodes_for_card > 0 and event_logs_placed < nodes_for_card:
-				var interval = float(hours_for_card) / float(nodes_for_card)
-				# 현재 구간의 마지막 시간 인덱스 계산
-				var interval_end = min(
-					int(float(event_logs_placed + 1) * interval) - 1,
-					hours_for_card - 1
-				)
-				
-				if h == interval_end:
-					slot["node_index"] = nodes_in_card[event_logs_placed]
-					event_logs_placed += 1
-				else:
-					slot["node_index"] = -1  # 이동 로그
-			else:
-				slot["node_index"] = -1
-			
-			card_log_slots.append(slot)
-		
-		# Reset counter for next card
-		event_logs_placed = 0
-	
-	# Generate actual logs
-	var current_hour = start_hour
-	var travel_log_index = 0
-	var global_node_index = 0
-	
-	for slot_index in range(card_log_slots.size()):
-		var slot = card_log_slots[slot_index]
-		var log_data = {}
-		
-		# Format time
-		var hour_24 = current_hour % 24
-		var is_pm = hour_24 >= 12
-		var hour_12 = hour_24 % 12
-		if hour_12 == 0:
-			hour_12 = 12
-		var time_str = "%s %d:00" % ["PM" if is_pm else "AM", hour_12]
-		
-		log_data["time"] = time_str
-		log_data["hour_index"] = slot_index
-		
-		if slot["node_index"] >= 0:
-			# Event log
-			var node = dream_nodes[slot["node_index"]]
-			log_data["type"] = "event"
-			log_data["event_type"] = node.type
-			log_data["icon"] = node.icon
-			
-			match node.type:
-				"combat":
-					log_data["text"] = "전투 - 적 발견!"
-				"shop":
-					log_data["text"] = "상점 발견"
-				"npc":
-					log_data["text"] = "누군가와 만남"
-				"narration":
-					log_data["text"] = "이야기가 펼쳐진다"
-				"boss":
-					log_data["text"] = "보스 등장!"
-		else:
-			# Travel log
-			log_data["type"] = "travel"
-			log_data["text"] = travel_log_templates[travel_log_index % travel_log_templates.size()]
-			log_data["icon"] = "🚶"
-			travel_log_index += 1
-		
-		dream_time_logs.append(log_data)
-		current_hour += 1
+		dream_time_logs.append({
+			"time": _format_hour(hour),
+			"hour_index": dream_time_logs.size(),
+			"type": "event",
+			"event_type": node.type,
+			"icon": node.icon,
+			"text": event_text
+		})
+
+
+func _format_hour(hour: int) -> String:
+	var hour_24 = hour % 24
+	var is_pm = hour_24 >= 12
+	var hour_12 = hour_24 % 12
+	if hour_12 == 0:
+		hour_12 = 12
+	return "%s %d:00" % ["PM" if is_pm else "AM", hour_12]
 
 func get_dream_cards() -> Array:
 	"""Get selected dream cards"""
