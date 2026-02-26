@@ -13,9 +13,9 @@ Layout (564px):
 └─ LeaveButton (64px)
 """
 
-@onready var dialog_text = $DialogScroll/DialogText
-@onready var choice_container = $ChoiceContainer
-@onready var leave_button = $ActionButtons/LeaveButton
+@onready var dialog_text = $MainVBox/DialogScroll/DialogText
+@onready var choice_container = $MainVBox/ChoiceContainer
+@onready var leave_button = $MainVBox/ActionButtons/LeaveButton
 
 var test_dialog = {
 	"text": "안녕하세요, 여행자님! 저는 이 꿈 세계를 안내하는 가이드입니다. 무엇을 도와드릴까요?",

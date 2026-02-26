@@ -16,7 +16,7 @@ const CURRENT_NODE_SIZE = 28
 const PIN_SIZE = 12
 
 # Auto-progress settings
-const TIME_PER_NODE = 3.0  # 노드당 3초
+const TIME_PER_NODE = 6.0  # 노드당 6초 (이전: 3.0초 → 2배 증가)
 
 # ─── 노드 데이터 ─────────────────────────────────────
 var nodes: Array = []
@@ -71,9 +71,10 @@ func update_display() -> void:
 	if nodes.is_empty():
 		return
 	
-	# Clear existing nodes
+	# Clear existing nodes (즉시 삭제 — queue_free는 다음 프레임까지 지연되어 노드 표시 불일치 발생)
 	for child in nodes_container.get_children():
-		child.queue_free()
+		nodes_container.remove_child(child)
+		child.free()
 	
 	# Calculate positions
 	var bar_width = size.x - (CAPSULE_MARGIN * 2)
@@ -222,13 +223,16 @@ func _advance_to_next_node() -> void:
 		run_completed.emit()
 		return
 	
-	# Update display
+	# 노드 상태 업데이트
 	for i in range(nodes.size()):
 		nodes[i]["current"] = (i == current_node_index)
 		nodes[i]["completed"] = (i < current_node_index)
 	
 	update_display()
 	_update_progress_line()
+	
+	# 1프레임 대기: 노드 표시가 화면에 완전히 반영된 뒤 이벤트 시그널 발생
+	await get_tree().process_frame
 	
 	# Emit signal
 	var node_data = nodes[current_node_index]

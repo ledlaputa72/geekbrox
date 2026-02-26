@@ -39,6 +39,7 @@ enum ScreenState {
 
 var current_state: ScreenState = ScreenState.EXPLORATION
 var current_bottom_ui: BaseBottomUI = null
+var exploration_ui: BaseBottomUI = null  # 영구 유지 탐험 UI (로그 보존)
 
 # Characters
 var hero_node: CharacterNode = null  # 영구 유지
@@ -70,9 +71,23 @@ func _ready():
 	_create_hero_permanent()
 	_apply_theme_styles()
 	_setup_reward_modal()
+	_create_exploration_ui_permanent()  # 탐험 UI 한 번만 생성 (로그 영구 보존)
 	
 	# Start with exploration mode
 	switch_to_exploration()
+
+func _create_exploration_ui_permanent():
+	"""ExplorationBottomUI를 한 번만 생성 — 이후 hide/show로 로그 보존"""
+	var scene = load(BOTTOM_UI_PATHS[ScreenState.EXPLORATION])
+	if not scene:
+		push_error("[InRun_v4] ❌ Failed to load ExplorationBottomUI scene")
+		return
+	exploration_ui = scene.instantiate()
+	exploration_ui.visible = false  # switch_to_exploration에서 표시
+	bottom_area.add_child(exploration_ui)
+	exploration_ui.ui_action_requested.connect(_on_bottom_ui_action)
+	exploration_ui.ui_closed.connect(_on_bottom_ui_closed)
+	print("[InRun_v4] ✅ Persistent ExplorationBottomUI created")
 
 func _setup_top_bar():
 	"""Setup TopBar with Settings + Progress Bar"""
@@ -272,43 +287,32 @@ func _despawn_all_characters():
 # === BottomArea Dynamic UI Management ===
 
 func _switch_bottom_ui(scene_path: String):
-	"""Switch BottomArea UI (iframe pattern)"""
+	"""탐험 UI 제외한 다른 BottomUI 전환 (탐험 UI는 숨기기만 — 로그 보존)"""
 	print("[InRun_v4] Switching BottomUI to: %s" % scene_path)
 	
-	# Exit previous UI
-	if current_bottom_ui:
-		print("[InRun_v4] Exiting previous UI")
+	# 탐험 UI 숨기기 (queue_free 하지 않음 — 로그 내용 보존)
+	if exploration_ui and exploration_ui.visible:
+		exploration_ui.visible = false
+		exploration_ui.set_paused(true)
+		print("[InRun_v4] ExplorationUI hidden (log preserved, index=%d)" \
+			% exploration_ui.current_log_index)
+	
+	# 이전 비-탐험 UI 제거
+	if current_bottom_ui and current_bottom_ui != exploration_ui:
 		current_bottom_ui._on_exit()
 		current_bottom_ui.queue_free()
 		current_bottom_ui = null
 	
-	# Load new UI
-	print("[InRun_v4] Loading scene...")
+	# 새 UI 로드
 	var scene = load(scene_path)
 	if not scene:
 		push_error("[InRun_v4] ❌ FAILED to load BottomUI: %s" % scene_path)
-		print("[InRun_v4] ❌ Scene is null!")
 		return
 	
-	print("[InRun_v4] ✅ Scene loaded successfully")
-	print("[InRun_v4] Instantiating scene...")
 	current_bottom_ui = scene.instantiate()
-	
-	if not current_bottom_ui:
-		push_error("[InRun_v4] ❌ FAILED to instantiate BottomUI")
-		return
-	
-	print("[InRun_v4] ✅ Scene instantiated")
-	print("[InRun_v4] Adding to BottomArea...")
 	bottom_area.add_child(current_bottom_ui)
-	
-	print("[InRun_v4] ✅ BottomUI added to scene tree")
-	
-	# Connect signals
 	current_bottom_ui.ui_action_requested.connect(_on_bottom_ui_action)
 	current_bottom_ui.ui_closed.connect(_on_bottom_ui_closed)
-	
-	# Enter new UI
 	current_bottom_ui._on_enter()
 	current_bottom_ui.ui_ready.emit()
 	
@@ -392,18 +396,10 @@ func _handle_npc_choice(choice_index: int):
 	# TODO: Implement choice logic
 
 func _return_to_exploration():
-	"""Return to exploration mode"""
+	"""Return to exploration mode (캐릭터 퇴장 → 탐험 UI 복귀)"""
 	_despawn_all_characters()
-	await get_tree().create_timer(0.4).timeout  # Wait for fly-out animation
+	await get_tree().create_timer(0.4).timeout
 	switch_to_exploration()
-	
-	# Resume log progression
-	if current_bottom_ui and current_bottom_ui.has_method("resume"):
-		current_bottom_ui.resume()
-	
-	# Resume auto-progress
-	if run_progress_bar:
-		run_progress_bar.resume_progress()
 
 # === RunProgressBar Handlers ===
 
@@ -412,16 +408,9 @@ func _on_node_reached(node_index: int, node_data: Dictionary):
 	print("[InRun_v4] Node reached: ", node_index, " - ", node_data)
 	
 	var node_type = node_data.get("type", "narration")
-	var node_text = node_data.get("text", "")
-	var node_icon = node_data.get("icon", "📖")
-	
-	# Add log to ExplorationBottomUI
-	if current_bottom_ui and current_bottom_ui.has_method("add_log"):
-		var log_message = node_icon + " " + node_text
-		var is_event = (node_type != "narration" and node_type != "start")
-		current_bottom_ui.add_log(log_message, is_event)
 	
 	# Handle event nodes
+	# ※ add_log는 각 핸들러 내부에서 화면 전환 직전에 호출 (즉시 호출 시 딜레이 동안 오해 발생)
 	match node_type:
 		"start":
 			print("[InRun_v4] Journey started!")
@@ -447,7 +436,7 @@ func _handle_combat_event():
 	"""Handle combat event node"""
 	print("[InRun_v4] Combat event triggered!")
 	run_progress_bar.pause_progress()
-	await get_tree().create_timer(1.0).timeout  # Brief pause for log display
+	await get_tree().create_timer(1.0).timeout
 	switch_to_combat()
 
 func _handle_shop_event():
@@ -468,32 +457,52 @@ func _handle_boss_event():
 	"""Handle boss event node"""
 	print("[InRun_v4] Boss event triggered!")
 	run_progress_bar.pause_progress()
-	await get_tree().create_timer(1.5).timeout  # Longer pause for dramatic effect
-	switch_to_combat()  # Use same combat system with boss flag
+	await get_tree().create_timer(1.0).timeout
+	switch_to_combat()
 
 # === State Switching Functions ===
 
 func switch_to_exploration():
-	"""Switch to exploration mode"""
+	"""Switch to exploration mode — 탐험 UI는 영구 보존, 숨기기/보이기만"""
 	print("\n[InRun_v4] ===== SWITCHING TO EXPLORATION =====")
 	current_state = ScreenState.EXPLORATION
-	is_scrolling = true  # Start background scrolling
+	is_scrolling = true
 	
-	# Disconnect combat signals
+	# 전투 시그널 해제
 	if CombatManager.entity_updated.is_connected(_on_entity_updated):
 		CombatManager.entity_updated.disconnect(_on_entity_updated)
 	if CombatManager.damage_dealt.is_connected(_on_damage_dealt):
 		CombatManager.damage_dealt.disconnect(_on_damage_dealt)
 	
-	# Clear all characters
 	_despawn_all_characters()
 	
-	_switch_bottom_ui(BOTTOM_UI_PATHS[ScreenState.EXPLORATION])
+	# 비-탐험 UI 제거
+	if current_bottom_ui and current_bottom_ui != exploration_ui:
+		current_bottom_ui._on_exit()
+		current_bottom_ui.queue_free()
+		current_bottom_ui = null
 	
-	# Start auto-progress on first entry
-	if run_progress_bar and run_progress_bar.current_node_index == 0 and not run_progress_bar.is_auto_progressing:
-		print("[InRun_v4] Starting auto-progress...")
-		run_progress_bar.start_auto_progress()
+	# 탐험 UI 표시 (영구 보존 — 로그 유지)
+	exploration_ui.visible = true
+	current_bottom_ui = exploration_ui
+	
+	# 탐험 로그 이어가기
+	if exploration_ui.time_logs.is_empty():
+		# 최초 진입: time_logs 로드 (첫 로그는 auto_progress_interval 후 자동 표시)
+		exploration_ui._on_enter()
+	else:
+		# 이벤트 복귀: 타이머 리셋 후 auto_progress_interval 후 다음 로그 표시
+		# (즉시 표시 시 아직 도달 안 한 이벤트가 먼저 보이는 문제 방지)
+		exploration_ui.auto_progress_timer = 0.0
+		exploration_ui.set_paused(false)
+	
+	# 프로그레스바 재개
+	if run_progress_bar:
+		if not run_progress_bar.is_auto_progressing:
+			print("[InRun_v4] Starting auto-progress...")
+			run_progress_bar.start_auto_progress()
+		else:
+			run_progress_bar.resume_progress()
 	
 	print("[InRun_v4] ===== EXPLORATION SWITCH COMPLETE =====\n")
 
@@ -627,6 +636,9 @@ func _show_defeat_screen():
 func _on_reward_claimed():
 	"""Reward modal closed - return to exploration"""
 	print("[InRun_v4] Reward claimed, returning to exploration")
+	# 탐험 UI에 전투 승리 배너 추가
+	if exploration_ui and exploration_ui.has_method("add_log"):
+		exploration_ui.add_log("🏆 전투 승리!", true, "victory")
 	_return_to_exploration()
 
 # === Character Click Handlers ===

@@ -170,20 +170,24 @@ func _generate_time_logs() -> void:
 		var hours_for_card = card.hours
 		var nodes_for_card = nodes_in_card.size()
 		
-		# Place event nodes at intervals
+		# 이벤트를 각 구간의 끝에 배치 (이동 로그 → 이벤트 로그 순서 보장)
+		# 예: 4시간/2이벤트 → [이동, 이벤트, 이동, 이벤트]
 		for h in range(hours_for_card):
 			var slot = {"card_index": i, "hour_index": h}
 			
-			# Check if this hour should have an event node
-			if nodes_for_card > 0:
+			if nodes_for_card > 0 and event_logs_placed < nodes_for_card:
 				var interval = float(hours_for_card) / float(nodes_for_card)
-				var next_event_hour = int(float(event_logs_placed) * interval)
+				# 현재 구간의 마지막 시간 인덱스 계산
+				var interval_end = min(
+					int(float(event_logs_placed + 1) * interval) - 1,
+					hours_for_card - 1
+				)
 				
-				if h >= next_event_hour and event_logs_placed < nodes_for_card:
+				if h == interval_end:
 					slot["node_index"] = nodes_in_card[event_logs_placed]
 					event_logs_placed += 1
 				else:
-					slot["node_index"] = -1  # Travel log
+					slot["node_index"] = -1  # 이동 로그
 			else:
 				slot["node_index"] = -1
 			

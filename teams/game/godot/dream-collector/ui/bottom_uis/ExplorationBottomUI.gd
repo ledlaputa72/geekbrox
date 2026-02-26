@@ -1,165 +1,252 @@
 extends BaseBottomUI
 
 """
-ExplorationBottomUI - 탐험 시간별 로그 UI
-GameManager의 dream_time_logs에 따라 매 시간마다 로그 박스를 표시
+ExplorationBottomUI - 탐험 타임라인 로그 UI
 
-Layout (564px):
-└─ ScrollContainer (full)
-   └─ EventLog (VBoxContainer)
-      ├─ LogBox: "PM 10:00 출발"
-      ├─ LogBox: "PM 11:00 공세계 진입"
-      └─ LogBox: "AM 12:00 악몽 - 전투 발생!" (event, orange highlight)
+Layout:
+└─ ScrollContainer (스크롤바 숨김)
+   └─ EventLog (VBoxContainer, 콘텐츠 높이에 따라 확장)
+      └─ 각 행: [HBox] 원형 아이콘 | 색상 패널 (시간? + 내용)
+
+타입별 색상:
+  travel   → 황금색   combat   → 빨간색
+  shop     → 파란색   npc      → 초록색
+  boss     → 보라색   narration→ 청회색
+  victory  → 황금 주황 (전투 승리 배너)
+  start    → 회청색 (여정 시작)
 """
 
 @onready var scroll_container = $ScrollContainer
 @onready var event_log = $ScrollContainer/EventLog
 
-# Time log progression
 var time_logs: Array = []
 var current_log_index: int = 0
 var auto_progress_timer: float = 0.0
-var auto_progress_interval: float = 2.0  # 2 seconds per log
-var is_paused: bool = false  # Pause log progression during events
+var auto_progress_interval: float = 2.0
+var is_paused: bool = false
+
+# ─── 타입별 색상 팔레트 ───
+const LOG_COLORS = {
+	"travel":    {"bg": Color(0.55, 0.45, 0.12, 1), "circle": Color(0.72, 0.60, 0.18, 1)},
+	"combat":    {"bg": Color(0.68, 0.18, 0.14, 1), "circle": Color(0.85, 0.28, 0.22, 1)},
+	"shop":      {"bg": Color(0.18, 0.38, 0.70, 1), "circle": Color(0.28, 0.52, 0.88, 1)},
+	"npc":       {"bg": Color(0.18, 0.52, 0.28, 1), "circle": Color(0.28, 0.68, 0.38, 1)},
+	"boss":      {"bg": Color(0.42, 0.14, 0.62, 1), "circle": Color(0.55, 0.22, 0.78, 1)},
+	"narration": {"bg": Color(0.28, 0.38, 0.58, 1), "circle": Color(0.38, 0.50, 0.72, 1)},
+	"victory":   {"bg": Color(0.65, 0.44, 0.05, 1), "circle": Color(0.85, 0.60, 0.10, 1)},
+	"start":     {"bg": Color(0.25, 0.32, 0.50, 1), "circle": Color(0.35, 0.45, 0.65, 1)},
+}
+const DEFAULT_COLORS = {"bg": Color(0.55, 0.45, 0.12, 1), "circle": Color(0.72, 0.60, 0.18, 1)}
+
+# ─── 이벤트 타입별 기본 아이콘 ───
+const EVENT_ICONS = {
+	"travel":    "🚶", "combat":    "⚔️",
+	"shop":      "🛒", "npc":       "🧝",
+	"boss":      "💀", "narration": "📖",
+	"victory":   "🏆", "start":     "🚩",
+}
+
 
 func _ready():
+	# 스크롤바 숨기기 (스크롤 기능은 유지, 바만 비표시)
+	var vbar = scroll_container.get_v_scroll_bar()
+	vbar.custom_minimum_size = Vector2.ZERO
+	vbar.modulate.a = 0.0
 	ui_ready.emit()
 
+
 func _on_enter():
-	"""UI 활성화 시"""
-	# Load time logs from GameManager
+	"""UI 활성화 시 — 최초 1회만 호출 (영구 보존 UI)
+	첫 로그는 auto_progress_interval 후 자동 표시 (즉시 X — 미진행 이벤트 오표시 방지)"""
 	time_logs = GameManager.get_dream_time_logs()
-	current_log_index = 0
 	auto_progress_timer = 0.0
-	
-	print("[ExplorationBottomUI] Loaded %d time logs from GameManager" % time_logs.size())
-	
-	# Show first log immediately
-	if time_logs.size() > 0:
-		_show_next_log()
+	# 첫 로그를 auto_progress_interval(2초) 후에 표시 — 즉시 표시 시
+	# 아직 도달하지 않은 이벤트(전투 등)가 먼저 보이는 혼란 방지
+	print("[ExplorationBottomUI] Loaded %d time logs, will show first after %.1fs" \
+		% [time_logs.size(), auto_progress_interval])
+
+
+func resume_from_index(idx: int):
+	"""복귀 시 로그 인덱스를 이어받음"""
+	current_log_index = idx
+
 
 func _on_exit():
-	"""UI 비활성화 시"""
 	pass
 
+
 func _process(delta: float):
-	"""Auto-progress through time logs"""
 	if is_paused or current_log_index >= time_logs.size():
-		return  # Paused or all logs shown
-	
+		return
 	auto_progress_timer += delta
-	
 	if auto_progress_timer >= auto_progress_interval:
 		auto_progress_timer = 0.0
 		_show_next_log()
 
+
 func set_paused(paused: bool):
-	"""Pause/resume log progression"""
 	is_paused = paused
-	print("[ExplorationBottomUI] Log progression %s" % ("paused" if paused else "resumed"))
+
 
 func resume():
-	"""Resume log progression (convenience method)"""
 	set_paused(false)
 
+
 func _show_next_log():
-	"""Show next time log"""
 	if current_log_index >= time_logs.size():
-		print("[ExplorationBottomUI] All logs shown")
 		return
-	
 	var log_data = time_logs[current_log_index]
 	_add_log_box(log_data)
-	
 	current_log_index += 1
 
+
+# ─── 타임라인 로그 박스 ───
+
+func _get_colors(type_key: String) -> Dictionary:
+	return LOG_COLORS.get(type_key, DEFAULT_COLORS)
+
+
 func _add_log_box(log_data: Dictionary):
-	"""Add time-based log box (similar to DreamCardSelection)"""
-	var log_box = Panel.new()
-	log_box.custom_minimum_size = Vector2(0, 50)
-	
-	# Style based on log type
-	var box_style = StyleBoxFlat.new()
-	if log_data.type == "event":
-		# Event log (orange highlight)
-		box_style.bg_color = Color(0.8, 0.4, 0.2, 1)  # Orange
-	else:
-		# Travel log (beige)
-		box_style.bg_color = Color(0.7, 0.6, 0.4, 1)  # Beige
-	
-	box_style.corner_radius_top_left = 8
-	box_style.corner_radius_top_right = 8
-	box_style.corner_radius_bottom_left = 8
-	box_style.corner_radius_bottom_right = 8
-	box_style.content_margin_left = 12
-	box_style.content_margin_right = 12
-	box_style.content_margin_top = 8
-	box_style.content_margin_bottom = 8
-	log_box.add_theme_stylebox_override("panel", box_style)
-	
-	# HBox for time + text
-	var hbox = HBoxContainer.new()
-	hbox.set_anchors_preset(Control.PRESET_FULL_RECT)
-	log_box.add_child(hbox)
-	
-	# Time label (left)
-	var time_label = Label.new()
-	time_label.text = log_data.time
-	time_label.add_theme_font_size_override("font_size", 14)
-	time_label.add_theme_color_override("font_color", Color.WHITE)
-	time_label.custom_minimum_size = Vector2(80, 0)
-	hbox.add_child(time_label)
-	
-	# Text label (right, expandable)
-	var text_label = Label.new()
-	if log_data.has("icon"):
-		text_label.text = "%s %s" % [log_data.icon, log_data.text]
-	else:
-		text_label.text = log_data.text
-	text_label.add_theme_font_size_override("font_size", 14)
-	text_label.add_theme_color_override("font_color", Color.WHITE)
-	text_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	hbox.add_child(text_label)
-	
-	# Add to log
-	event_log.add_child(log_box)
-	
-	# Auto-scroll to bottom
+	"""타임라인 스타일 로그 행 추가 (time_logs용 — 시간 컬럼 포함)"""
+	var log_type = log_data.get("type", "travel")
+	var type_key = log_data.get("event_type", log_type) if log_type == "event" else log_type
+	var colors = _get_colors(type_key)
+	var time_str: String = log_data.get("time", "")
+
+	_build_log_row(
+		log_data.get("icon", EVENT_ICONS.get(type_key, "📍")),
+		log_data.get("text", ""),
+		time_str,
+		colors,
+		false
+	)
+
+	print("[ExplorationBottomUI] Log: %s - %s" % [time_str, log_data.get("text", "")])
+
+
+func _build_log_row(
+		icon: String,
+		text: String,
+		time_str: String,
+		colors: Dictionary,
+		centered: bool = false):
+	"""공용 행 빌더 — time_str이 비면 시간 컬럼 생략, centered이면 가운데 정렬"""
+
+	# 전체 행 HBox
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+	# ── 왼쪽: 원형 아이콘 ──
+	var circle_wrap = Control.new()
+	circle_wrap.custom_minimum_size = Vector2(38, 48)
+	circle_wrap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var circle = Panel.new()
+	circle.position = Vector2(3, 8)
+	circle.size = Vector2(32, 32)
+	circle.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var cs = StyleBoxFlat.new()
+	cs.bg_color = colors.circle
+	cs.corner_radius_top_left = 16
+	cs.corner_radius_top_right = 16
+	cs.corner_radius_bottom_left = 16
+	cs.corner_radius_bottom_right = 16
+	circle.add_theme_stylebox_override("panel", cs)
+
+	var icon_lbl = Label.new()
+	icon_lbl.text = icon
+	icon_lbl.add_theme_font_size_override("font_size", 14)
+	icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	icon_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	icon_lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	icon_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	circle.add_child(icon_lbl)
+	circle_wrap.add_child(circle)
+	row.add_child(circle_wrap)
+
+	# ── 오른쪽: 색상 패널 ──
+	var panel = Panel.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var ps = StyleBoxFlat.new()
+	ps.bg_color = colors.bg
+	ps.corner_radius_top_left = 10
+	ps.corner_radius_top_right = 10
+	ps.corner_radius_bottom_left = 10
+	ps.corner_radius_bottom_right = 10
+	ps.content_margin_left = 12
+	ps.content_margin_right = 12
+	ps.content_margin_top = 8
+	ps.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", ps)
+
+	var content = HBoxContainer.new()
+	content.set_anchors_preset(Control.PRESET_FULL_RECT)
+	content.add_theme_constant_override("separation", 8)
+	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(content)
+
+	# 시간 컬럼 (time_str이 있을 때만)
+	if time_str != "":
+		var time_lbl = Label.new()
+		time_lbl.text = time_str
+		time_lbl.add_theme_font_size_override("font_size", 13)
+		time_lbl.add_theme_color_override("font_color", Color(1, 1, 1, 0.85))
+		time_lbl.custom_minimum_size = Vector2(72, 0)
+		time_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		time_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		content.add_child(time_lbl)
+
+		var sep = Label.new()
+		sep.text = "│"
+		sep.add_theme_font_size_override("font_size", 13)
+		sep.add_theme_color_override("font_color", Color(1, 1, 1, 0.35))
+		sep.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		sep.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		content.add_child(sep)
+
+	# 내용 레이블
+	var text_lbl = Label.new()
+	text_lbl.text = text
+	text_lbl.add_theme_font_size_override("font_size", 14)
+	text_lbl.add_theme_color_override("font_color", Color.WHITE)
+	text_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	text_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if centered:
+		text_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	content.add_child(text_lbl)
+
+	row.add_child(panel)
+	event_log.add_child(row)
+
 	await get_tree().process_frame
 	scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)
-	
-	print("[ExplorationBottomUI] Time log added: %s - %s" % [log_data.time, log_data.text])
-	
-	# Trigger event if this is an event log
-	if log_data.type == "event":
-		_trigger_event(log_data)
 
-func _trigger_event(log_data: Dictionary):
-	"""Trigger event when event log appears"""
-	# Notify parent screen that an event should happen
-	print("[ExplorationBottomUI] Event triggered: %s" % log_data.event_type)
-	
-	# Emit signal for InRun_v4 to handle
-	ui_action_requested.emit("event_triggered", log_data)
 
-func add_log(message: String, highlight: bool = false):
-	"""Legacy method - add simple log entry"""
-	var label = Label.new()
-	label.text = "• " + message
-	label.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.body)
-	label.add_theme_color_override("font_color", UITheme.COLORS.warning if highlight else UITheme.COLORS.text)
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	event_log.add_child(label)
-	
-	# Auto-scroll to bottom
-	await get_tree().process_frame
-	scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)
-	
-	print("[ExplorationBottomUI] Log added: ", message)
+func add_log(message: String, highlight: bool = false, event_type: String = ""):
+	"""이벤트 서브 메시지 — 모두 타임라인 박스 형식으로 표시
+	  highlight=true  + event_type="victory" → 🏆 전투 승리 배너 (황금, 가운데 정렬)
+	  highlight=false + event_type=...       → 이벤트 진입 알림 박스 (타입별 색상, 시간 없음)"""
+	var type_key = event_type if event_type != "" else "travel"
+	var colors = _get_colors(type_key)
+	var icon = EVENT_ICONS.get(type_key, "📌")
+
+	if highlight:
+		# 전투 승리 등 특별 배너 — 가운데 정렬, 시간 없음
+		await _build_log_row(icon, message, "", colors, true)
+	else:
+		# 이벤트 진입 알림 — 타임라인 박스 (시간 없음)
+		await _build_log_row(icon, message, "", colors, false)
+
+	print("[ExplorationBottomUI] add_log (%s): %s" % [type_key, message])
+
 
 func clear_log():
-	"""Clear all log entries"""
 	for child in event_log.get_children():
 		child.queue_free()
 	current_log_index = 0
