@@ -226,8 +226,8 @@ func _on_gems_changed(new_amount: int) -> void:
 
 # ─── 이벤트 핸들러 ───────────────────────────────────
 func _on_start_pressed() -> void:
-	print("[MainLobbyUI] Run Prep으로 이동")
-	get_tree().change_scene_to_file("res://ui/screens/RunPrep.tscn")
+	print("[MainLobbyUI] Dream Card Selection으로 이동")
+	get_tree().change_scene_to_file("res://ui/screens/DreamCardSelection.tscn")
 
 func _on_deck_pressed() -> void:
 	print("[MainLobbyUI] Deck Builder로 이동")

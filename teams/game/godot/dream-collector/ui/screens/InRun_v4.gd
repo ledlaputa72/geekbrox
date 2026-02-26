@@ -88,24 +88,64 @@ func _setup_top_bar():
 	settings_button.pressed.connect(_on_settings_pressed)
 
 func _setup_progress_bar():
-	"""Setup RunProgressBar with mock node data"""
-	# Node types: "narration", "combat", "shop", "npc", "boss"
-	var mock_nodes = [
-		{"type": "start", "icon": "🚩", "text": "꿈 속으로 들어섰다...", "current": true, "completed": false},
-		{"type": "narration", "icon": "📖", "text": "이상한 숲을 지나간다...", "current": false, "completed": false},
-		{"type": "combat", "icon": "⚔️", "text": "슬림 무리 발견!", "current": false, "completed": false},
-		{"type": "narration", "icon": "📖", "text": "안개가 짙어진다...", "current": false, "completed": false},
-		{"type": "shop", "icon": "🛒", "text": "신비한 상점 발견!", "current": false, "completed": false},
-		{"type": "narration", "icon": "📖", "text": "어두운 동굴에 다다랐다...", "current": false, "completed": false},
-		{"type": "boss", "icon": "💀", "text": "악몽의 주인 등장!", "current": false, "completed": false}
-	]
-	run_progress_bar.set_nodes(mock_nodes, 0)  # Start at first node
+	"""Setup RunProgressBar with dream nodes from GameManager"""
+	var nodes = []
+	
+	# Check if dream nodes exist in GameManager
+	if GameManager.get_total_node_count() > 0:
+		# Use dream nodes from card selection
+		var dream_nodes = GameManager.get_dream_nodes()
+		
+		# Add start node
+		nodes.append({
+			"type": "start",
+			"icon": "🚩",
+			"text": "꿈 속으로 들어섰다...",
+			"current": true,
+			"completed": false
+		})
+		
+		# Convert dream nodes to progress bar format
+		for node_data in dream_nodes:
+			var text = ""
+			match node_data.type:
+				"combat":
+					text = "전투가 시작된다!"
+				"shop":
+					text = "상점을 발견했다!"
+				"npc":
+					text = "누군가와 마주쳤다..."
+				"narration":
+					text = "이야기가 펼쳐진다..."
+				"boss":
+					text = "보스가 나타났다!"
+			
+			nodes.append({
+				"type": node_data.type,
+				"icon": node_data.icon,
+				"text": text,
+				"current": false,
+				"completed": false
+			})
+		
+		print("[InRun_v4] Loaded %d dream nodes from GameManager" % dream_nodes.size())
+	else:
+		# Fallback to mock nodes if no dream cards selected
+		print("[InRun_v4] No dream cards found, using mock nodes")
+		nodes = [
+			{"type": "start", "icon": "🚩", "text": "꿈 속으로 들어섰다...", "current": true, "completed": false},
+			{"type": "combat", "icon": "⚔️", "text": "슬림 무리 발견!", "current": false, "completed": false},
+			{"type": "shop", "icon": "🛒", "text": "신비한 상점 발견!", "current": false, "completed": false},
+			{"type": "boss", "icon": "💀", "text": "악몽의 주인 등장!", "current": false, "completed": false}
+		]
+	
+	run_progress_bar.set_nodes(nodes, 0)  # Start at first node
 	
 	# Connect signals
 	run_progress_bar.node_reached.connect(_on_node_reached)
 	run_progress_bar.run_completed.connect(_on_run_completed)
 	
-	print("[InRun_v4] RunProgressBar initialized with ", mock_nodes.size(), " nodes")
+	print("[InRun_v4] RunProgressBar initialized with %d nodes" % nodes.size())
 
 func _process(delta):
 	# Background scrolling (Exploration mode)
@@ -279,6 +319,10 @@ func _on_bottom_ui_action(action_type: String, data: Dictionary):
 	print("[InRun_v4] UI Action: %s | Data: %s" % [action_type, data])
 	
 	match action_type:
+		# Exploration event triggered (from time log)
+		"event_triggered":
+			_handle_time_log_event(data)
+		
 		# Combat actions
 		"card_played":
 			CombatManager.play_card(data.get("card_index", -1), data.get("target", -1))
@@ -311,6 +355,37 @@ func _on_bottom_ui_closed():
 	"""Handle BottomUI close request"""
 	_return_to_exploration()
 
+func _handle_time_log_event(event_data: Dictionary):
+	"""Handle event triggered from time log"""
+	print("[InRun_v4] Time log event: %s" % event_data.event_type)
+	
+	# Pause exploration log progression
+	if current_bottom_ui and current_bottom_ui.has_method("set_paused"):
+		current_bottom_ui.set_paused(true)
+	
+	# Trigger appropriate event based on type
+	match event_data.event_type:
+		"combat":
+			run_progress_bar.pause_progress()
+			await get_tree().create_timer(0.5).timeout
+			switch_to_combat()
+		"shop":
+			run_progress_bar.pause_progress()
+			await get_tree().create_timer(0.5).timeout
+			switch_to_shop()
+		"npc":
+			run_progress_bar.pause_progress()
+			await get_tree().create_timer(0.5).timeout
+			switch_to_npc_dialog()
+		"narration":
+			run_progress_bar.pause_progress()
+			await get_tree().create_timer(0.5).timeout
+			switch_to_story()
+		"boss":
+			run_progress_bar.pause_progress()
+			await get_tree().create_timer(1.0).timeout  # Longer for drama
+			switch_to_combat()  # Boss combat
+
 func _handle_npc_choice(choice_index: int):
 	"""Handle NPC dialog choice"""
 	print("NPC choice selected: %d" % choice_index)
@@ -321,6 +396,10 @@ func _return_to_exploration():
 	_despawn_all_characters()
 	await get_tree().create_timer(0.4).timeout  # Wait for fly-out animation
 	switch_to_exploration()
+	
+	# Resume log progression
+	if current_bottom_ui and current_bottom_ui.has_method("resume"):
+		current_bottom_ui.resume()
 	
 	# Resume auto-progress
 	if run_progress_bar:
@@ -400,6 +479,12 @@ func switch_to_exploration():
 	current_state = ScreenState.EXPLORATION
 	is_scrolling = true  # Start background scrolling
 	
+	# Disconnect combat signals
+	if CombatManager.entity_updated.is_connected(_on_entity_updated):
+		CombatManager.entity_updated.disconnect(_on_entity_updated)
+	if CombatManager.damage_dealt.is_connected(_on_damage_dealt):
+		CombatManager.damage_dealt.disconnect(_on_damage_dealt)
+	
 	# Clear all characters
 	_despawn_all_characters()
 	
@@ -432,9 +517,13 @@ func switch_to_combat():
 	var monsters = _get_test_monsters()
 	CombatManager.start_combat(monsters)
 	
-	# Connect combat end signal
+	# Connect combat signals
 	if not CombatManager.combat_ended.is_connected(_on_combat_ended):
 		CombatManager.combat_ended.connect(_on_combat_ended)
+	if not CombatManager.entity_updated.is_connected(_on_entity_updated):
+		CombatManager.entity_updated.connect(_on_entity_updated)
+	if not CombatManager.damage_dealt.is_connected(_on_damage_dealt):
+		CombatManager.damage_dealt.connect(_on_damage_dealt)
 	
 	print("[InRun_v4] ===== COMBAT SWITCH COMPLETE =====\n")
 
@@ -618,6 +707,38 @@ func _on_settings_pressed():
 	"""Handle settings button press - Open Settings"""
 	print("[InRun_v4] Settings button pressed")
 	get_tree().change_scene_to_file("res://ui/screens/Settings.tscn")
+
+# === Combat Entity Update Handlers ===
+
+func _on_entity_updated(entity_type: String, index: int):
+	"""Handle entity update from CombatManager"""
+	if entity_type == "hero":
+		# Update hero HP
+		if hero_node:
+			var hero_data = CombatManager.hero
+			hero_node.update_hp(hero_data.hp)
+	
+	elif entity_type == "monster":
+		# Update monster HP
+		if index >= 0 and index < character_nodes.size():
+			var monster_node = character_nodes[index]
+			if monster_node.visible and index < CombatManager.monsters.size():
+				var monster_data = CombatManager.monsters[index]
+				monster_node.update_hp(monster_data.hp)
+
+func _on_damage_dealt(entity_type: String, index: int, damage: int, is_healing: bool):
+	"""Handle damage dealt signal - show damage number"""
+	if entity_type == "hero":
+		# Show damage on hero
+		if hero_node:
+			hero_node.show_damage_number(damage, is_healing)
+	
+	elif entity_type == "monster":
+		# Show damage on monster
+		if index >= 0 and index < character_nodes.size():
+			var monster_node = character_nodes[index]
+			if monster_node.visible:
+				monster_node.show_damage_number(damage, is_healing)
 
 # === Public API ===
 

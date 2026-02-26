@@ -16,7 +16,6 @@ var current_tab: int = 0  # 0=뽑기, 1=보석 구매, 2=재화 교환
 # ─── UI 노드 참조 ────────────────────────────────────
 @onready var background: ColorRect = $Background
 @onready var top_bar: Panel = $TopBar
-@onready var back_button: Button = $TopBar/HBox/BackButton
 @onready var title_label: Label = $TopBar/HBox/TitleLabel
 
 # 재화 카운터
@@ -82,9 +81,6 @@ func apply_styles() -> void:
 	gems_count_label.add_theme_color_override("font_color", UITheme.COLORS.primary)
 	reveries_count_label.add_theme_color_override("font_color", UITheme.COLORS.warning)
 	
-	# Buttons
-	UITheme.apply_button_style(back_button, "primary")
-	
 	# Tab buttons
 	tab_buttons = [gacha_tab_button, gems_tab_button, exchange_tab_button]
 	for button in tab_buttons:
@@ -92,8 +88,6 @@ func apply_styles() -> void:
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
-	back_button.pressed.connect(_on_back_pressed)
-	
 	# Tab buttons
 	gacha_tab_button.pressed.connect(_on_tab_button_pressed.bind(0))
 	gems_tab_button.pressed.connect(_on_tab_button_pressed.bind(1))
@@ -519,10 +513,6 @@ func _on_reveries_changed(new_amount: float) -> void:
 	update_currency_display()
 
 # ─── 이벤트 핸들러 ───────────────────────────────────
-func _on_back_pressed() -> void:
-	print("[Shop] 뒤로 가기")
-	get_tree().change_scene_to_file("res://scenes/MainLobby.tscn")
-
 func _on_tab_button_pressed(tab_index: int) -> void:
 	switch_tab(tab_index)
 

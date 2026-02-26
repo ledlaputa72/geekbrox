@@ -2,7 +2,6 @@ extends Control
 
 # UpgradeTree - 캐릭터/스킬/패시브 업그레이드 화면
 
-@onready var back_button = $TopBar/BackButton
 @onready var title_label = $TopBar/TitleLabel
 @onready var settings_button = $TopBar/SettingsButton
 @onready var tab_bar = $TabBar
@@ -13,9 +12,7 @@ extends Control
 var current_tab: int = 0 # 0: Character, 1: Skills, 2: Passive
 
 func _ready():
-	UITheme.apply_button_style(back_button, "primary")
 	UITheme.apply_button_style(settings_button, "primary")
-	back_button.pressed.connect(_on_back_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
 	
 	# Setup tabs
@@ -166,10 +163,6 @@ func _on_upgrade_pressed(upgrade: Dictionary):
 		_load_upgrades(current_tab) # Reload
 	else:
 		print("[UpgradeTree] Not enough gold!")
-
-func _on_back_pressed():
-	"""Go back to MainLobby"""
-	get_tree().change_scene_to_file("res://scenes/MainLobby.tscn")
 
 func _on_settings_pressed():
 	"""Open Settings"""

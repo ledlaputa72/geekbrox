@@ -29,11 +29,6 @@ offset_bottom = 60.0
 grow_horizontal = 2
 theme_override_constants/separation = 10
 
-[node name="BackButton" type="Button" parent="TopBar"]
-layout_mode = 2
-text = "← 뒤로"
-custom_minimum_size = Vector2(80, 50)
-
 [node name="TitleLabel" type="Label" parent="TopBar"]
 layout_mode = 2
 size_flags_horizontal = 3

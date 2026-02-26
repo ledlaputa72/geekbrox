@@ -3,6 +3,7 @@ extends Node
 # Signals
 signal combat_log_updated(message: String)
 signal entity_updated(entity_type: String, index: int)
+signal damage_dealt(entity_type: String, index: int, damage: int, is_healing: bool)
 signal combat_ended(victory: bool)
 signal energy_changed(current: int, max: int)
 signal energy_timer_updated(progress: float)
@@ -142,6 +143,8 @@ func _execute_hero_turn():
 	if damage > 0:
 		_apply_damage(target, damage)
 		add_log("%s attacked %s for %d damage" % [hero.name, target.name, damage])
+		# Emit damage signal for visual feedback
+		damage_dealt.emit("monster", target_index, damage, false)
 	else:
 		add_log("%s attacked %s but missed!" % [hero.name, target.name])
 	
@@ -162,6 +165,8 @@ func _execute_monster_turn(monster_index: int):
 	if damage > 0:
 		_apply_damage(hero, damage)
 		add_log("%s attacked %s for %d damage" % [monster.name, hero.name, damage])
+		# Emit damage signal for visual feedback
+		damage_dealt.emit("hero", 0, damage, false)
 	else:
 		add_log("%s attacked %s but missed!" % [monster.name, hero.name])
 	
@@ -333,6 +338,8 @@ func _apply_card_effects(card: Dictionary, target_index: int):
 			var damage = card.damage
 			_apply_damage(target, damage)
 			add_log("→ %s dealt %d damage to %s" % [card.name, damage, target.name])
+			# Emit damage signal for visual feedback
+			damage_dealt.emit("monster", target_index, damage, false)
 			entity_updated.emit("monster", target_index)
 			_check_combat_end()
 	

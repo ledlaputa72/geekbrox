@@ -12,7 +12,6 @@ var current_filter: String = "all"  # all, attack, defense, skill, power
 # ─── UI 노드 참조 ────────────────────────────────────
 @onready var background: ColorRect = $Background
 @onready var top_bar: Panel = $TopBar
-@onready var back_button: Button = $TopBar/HBox/BackButton
 @onready var title_label: Label = $TopBar/HBox/TitleLabel
 @onready var deck_button: Button = $TopBar/HBox/DeckButton
 
@@ -58,7 +57,6 @@ func apply_styles() -> void:
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 	
 	# Buttons
-	UITheme.apply_button_style(back_button, "primary")
 	UITheme.apply_button_style(deck_button, "info")
 	
 	# Filter buttons
@@ -69,7 +67,6 @@ func apply_styles() -> void:
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
 	# Top bar buttons
-	back_button.pressed.connect(_on_back_pressed)
 	deck_button.pressed.connect(_on_deck_pressed)
 	
 	# Filter buttons
@@ -178,10 +175,6 @@ func update_card_grid() -> void:
 		card_item.card_clicked.connect(_on_card_clicked)
 
 # ─── 이벤트 핸들러 ───────────────────────────────────
-func _on_back_pressed() -> void:
-	print("[CardLibrary] 뒤로 가기")
-	get_tree().change_scene_to_file("res://scenes/MainLobby.tscn")
-
 func _on_deck_pressed() -> void:
 	print("[CardLibrary] Deck Builder로 이동")
 	get_tree().change_scene_to_file("res://ui/screens/DeckBuilder.tscn")
