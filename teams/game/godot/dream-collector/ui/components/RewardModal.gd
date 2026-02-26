@@ -22,9 +22,15 @@ func _ready():
 	layer = 100  # Top layer
 	visible = false
 	
+	# Setup title label
+	if title_label:
+		title_label.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.header)
+		title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
+	
 	# Setup continue button
 	if continue_button:
 		UITheme.apply_button_style(continue_button, "primary")
+		continue_button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
 		continue_button.pressed.connect(_on_continue_pressed)
 	
 	# Click background to close
@@ -74,12 +80,14 @@ func _populate_rewards(rewards: Array):
 			no_reward.text = "No rewards"
 			no_reward.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			no_reward.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
+			no_reward.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
 			reward_list.add_child(no_reward)
 		else:
 			for reward in rewards:
 				var reward_label = Label.new()
 				reward_label.text = "• %s" % reward
-				reward_label.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.normal)
+				reward_label.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.body)
+				reward_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 				reward_list.add_child(reward_label)
 
 func _animate_show():

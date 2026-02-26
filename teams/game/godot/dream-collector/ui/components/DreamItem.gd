@@ -166,13 +166,29 @@ func _on_header_clicked(event: InputEvent) -> void:
 			item_clicked.emit(dream_id)
 
 func _on_reward_button_pressed() -> void:
+	if gold_reward_claimed:
+		print("[DreamItem] Reward already claimed!")
+		return
+	
 	gold_reward_claimed = true
 	update_display()
-	print("[DreamItem] Gold reward claimed: %d gold" % gold_reward)
+	
+	# Add gold to GameManager
+	GameManager.add_gold(gold_reward)
+	print("[DreamItem] Gold reward claimed: %d gold (Total: %d)" % [gold_reward, GameManager.get_gold()])
+	
 	reward_claimed.emit(dream_id)
 
 func _on_extra_reward_button_pressed() -> void:
+	if extra_reward_claimed:
+		print("[DreamItem] Extra reward already claimed!")
+		return
+	
 	extra_reward_claimed = true
 	update_display()
-	print("[DreamItem] Extra reward claimed")
-	# TODO: Give extra reward
+	
+	# Add extra reward (e.g., card pack)
+	print("[DreamItem] Extra reward claimed: Card Pack x1")
+	# TODO: Add card pack to inventory
+	
+	reward_claimed.emit(dream_id)

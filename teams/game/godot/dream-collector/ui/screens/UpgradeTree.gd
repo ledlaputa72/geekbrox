@@ -4,21 +4,29 @@ extends Control
 
 @onready var back_button = $TopBar/BackButton
 @onready var title_label = $TopBar/TitleLabel
+@onready var settings_button = $TopBar/SettingsButton
 @onready var tab_bar = $TabBar
 @onready var scroll_container = $ScrollContainer
 @onready var upgrade_list = $ScrollContainer/UpgradeList
+@onready var bottom_nav = $BottomNav
 
 var current_tab: int = 0 # 0: Character, 1: Skills, 2: Passive
 
 func _ready():
-	UITheme.apply_button_style(back_button, "secondary")
+	UITheme.apply_button_style(back_button, "primary")
+	UITheme.apply_button_style(settings_button, "primary")
 	back_button.pressed.connect(_on_back_pressed)
+	settings_button.pressed.connect(_on_settings_pressed)
 	
 	# Setup tabs
 	_setup_tabs()
 	
 	# Load initial upgrades
 	_load_upgrades(current_tab)
+	
+	# Setup BottomNav
+	bottom_nav.set_active_tab(2)  # Upgrade 탭 활성화
+	bottom_nav.tab_pressed.connect(_on_bottom_nav_pressed)
 	
 	print("[UpgradeTree] Ready")
 
@@ -30,8 +38,28 @@ func _setup_tabs():
 		var tab_button = tab_bar.get_child(i) as Button
 		if tab_button:
 			tab_button.text = tab_names[i]
-			UITheme.apply_button_style(tab_button, "primary" if i == current_tab else "secondary")
+			_apply_tab_style(tab_button, i == current_tab)
 			tab_button.pressed.connect(_on_tab_pressed.bind(i))
+
+func _apply_tab_style(button: Button, is_active: bool):
+	"""Apply tab button style"""
+	var style = StyleBoxFlat.new()
+	if is_active:
+		style.bg_color = UITheme.COLORS.primary
+		button.add_theme_color_override("font_color", UITheme.COLORS.text)
+	else:
+		style.bg_color = UITheme.COLORS.panel
+		button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
+	
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+	
+	button.add_theme_stylebox_override("normal", style)
+	button.add_theme_stylebox_override("hover", style)
+	button.add_theme_stylebox_override("pressed", style)
+	button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
 
 func _on_tab_pressed(tab_index: int):
 	"""Handle tab change"""
@@ -44,7 +72,7 @@ func _on_tab_pressed(tab_index: int):
 	for i in range(3):
 		var tab_button = tab_bar.get_child(i) as Button
 		if tab_button:
-			UITheme.apply_button_style(tab_button, "primary" if i == current_tab else "secondary")
+			_apply_tab_style(tab_button, i == current_tab)
 	
 	# Reload upgrades
 	_load_upgrades(current_tab)
@@ -142,3 +170,24 @@ func _on_upgrade_pressed(upgrade: Dictionary):
 func _on_back_pressed():
 	"""Go back to MainLobby"""
 	get_tree().change_scene_to_file("res://scenes/MainLobby.tscn")
+
+func _on_settings_pressed():
+	"""Open Settings"""
+	print("[UpgradeTree] Settings로 이동")
+	get_tree().change_scene_to_file("res://ui/screens/Settings.tscn")
+
+func _on_bottom_nav_pressed(tab_index: int):
+	"""Handle BottomNav tab press"""
+	bottom_nav.set_active_tab(tab_index)
+	
+	match tab_index:
+		0:  # Home
+			get_tree().change_scene_to_file("res://scenes/MainLobby.tscn")
+		1:  # Cards
+			get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
+		2:  # Upgrade (현재 화면)
+			pass
+		3:  # Progress (미구현)
+			print("[UpgradeTree] Progress (미구현)")
+		4:  # Shop
+			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")

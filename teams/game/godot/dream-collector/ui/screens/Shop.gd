@@ -40,14 +40,8 @@ var tab_buttons: Array = []
 @onready var gems_grid: GridContainer = $ContentContainer/GemsTab/CenterContainer/MarginContainer/GemsGrid
 @onready var exchange_grid: VBoxContainer = $ContentContainer/ExchangeTab/CenterContainer/MarginContainer/ExchangeGrid
 
-# BottomNav
-@onready var home_tab: Button = $BottomNav/HomeTab
-@onready var cards_nav_tab: Button = $BottomNav/CardsTab
-@onready var upgrade_nav_tab: Button = $BottomNav/UpgradeTab
-@onready var progress_nav_tab: Button = $BottomNav/ProgressTab
-@onready var shop_nav_tab: Button = $BottomNav/ShopTab
-
-var nav_buttons: Array = []
+# BottomNav component
+@onready var bottom_nav = $BottomNav
 
 # AlertModal
 @onready var alert_modal = $AlertModal
@@ -59,7 +53,7 @@ func _ready() -> void:
 	load_shop_data()
 	switch_tab(0)  # 뽑기 탭으로 시작
 	update_currency_display()
-	set_active_nav_tab(4)  # Shop 탭 활성화
+	bottom_nav.set_active_tab(4)  # Shop 탭 활성화
 	
 	# GameManager 시그널 연결
 	GameManager.energy_changed.connect(_on_energy_changed)
@@ -95,23 +89,6 @@ func apply_styles() -> void:
 	tab_buttons = [gacha_tab_button, gems_tab_button, exchange_tab_button]
 	for button in tab_buttons:
 		UITheme.apply_button_style(button, "panel_light")
-	
-	# Nav buttons
-	nav_buttons = [home_tab, cards_nav_tab, upgrade_nav_tab, progress_nav_tab, shop_nav_tab]
-	for button in nav_buttons:
-		_apply_nav_button_style(button)
-
-func _apply_nav_button_style(button: Button) -> void:
-	var normal_style = StyleBoxFlat.new()
-	normal_style.bg_color = UITheme.COLORS.panel
-	button.add_theme_stylebox_override("normal", normal_style)
-	
-	var hover_style = StyleBoxFlat.new()
-	hover_style.bg_color = UITheme.COLORS.panel_light
-	button.add_theme_stylebox_override("hover", hover_style)
-	
-	button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
-	button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
@@ -122,12 +99,8 @@ func setup_signals() -> void:
 	gems_tab_button.pressed.connect(_on_tab_button_pressed.bind(1))
 	exchange_tab_button.pressed.connect(_on_tab_button_pressed.bind(2))
 	
-	# Nav buttons
-	home_tab.pressed.connect(_on_nav_tab_pressed.bind(0))
-	cards_nav_tab.pressed.connect(_on_nav_tab_pressed.bind(1))
-	upgrade_nav_tab.pressed.connect(_on_nav_tab_pressed.bind(2))
-	progress_nav_tab.pressed.connect(_on_nav_tab_pressed.bind(3))
-	shop_nav_tab.pressed.connect(_on_nav_tab_pressed.bind(4))
+	# BottomNav
+	bottom_nav.tab_pressed.connect(_on_nav_tab_pressed)
 
 # ─── 상점 데이터 로드 ────────────────────────────────
 func load_shop_data() -> void:
@@ -554,7 +527,7 @@ func _on_tab_button_pressed(tab_index: int) -> void:
 	switch_tab(tab_index)
 
 func _on_nav_tab_pressed(tab_index: int) -> void:
-	set_active_nav_tab(tab_index)
+	bottom_nav.set_active_tab(tab_index)
 	
 	match tab_index:
 		0:  # Home
@@ -562,19 +535,14 @@ func _on_nav_tab_pressed(tab_index: int) -> void:
 		1:  # Cards
 			get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
 		2:  # Upgrade
-			print("[Shop] Upgrade Tree로 이동 (미구현)")
-		3:  # Progress
+			print("[Shop] Upgrade Tree로 이동")
+			get_tree().change_scene_to_file("res://ui/screens/UpgradeTree.tscn")
+		3:  # Progress (미구현)
 			print("[Shop] Progress (미구현)")
 		4:  # Shop (현재 화면)
 			pass
 
-func set_active_nav_tab(tab_index: int) -> void:
-	for i in range(nav_buttons.size()):
-		var button = nav_buttons[i]
-		if i == tab_index:
-			button.add_theme_color_override("font_color", UITheme.COLORS.text)
-		else:
-			button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
+
 
 # ─── AlertModal 버튼 핸들러 ──────────────────────────
 func _on_alert_button1_pressed() -> void:

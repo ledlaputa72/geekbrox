@@ -1,19 +1,29 @@
 # RunProgressBar.gd
 # 런 진행 바 - 캡슐 형태 with 노드 아이콘들
 # 노란 라인으로 진행도 표시, 빨간 핀으로 현재 위치 표시
+# 자동 진행: 시간 경과로 화살표가 이동하고 노드 도착 시 시그널 발생
 
 extends Control
 
+signal node_reached(node_index: int, node_data: Dictionary)
+signal run_completed()
+
 # ─── 설정 ───────────────────────────────────────────
-const BAR_HEIGHT = 25  # 50 → 25 (절반)
-const CAPSULE_MARGIN = 4  # 8 → 4 (절반)
-const NODE_SIZE = 20  # 40 → 20 (절반)
-const CURRENT_NODE_SIZE = 28  # 56 → 28 (절반)
-const PIN_SIZE = 12   # 24 → 12 (절반)
+const BAR_HEIGHT = 25
+const CAPSULE_MARGIN = 4
+const NODE_SIZE = 20
+const CURRENT_NODE_SIZE = 28
+const PIN_SIZE = 12
+
+# Auto-progress settings
+const TIME_PER_NODE = 3.0  # 노드당 3초
 
 # ─── 노드 데이터 ─────────────────────────────────────
 var nodes: Array = []
 var current_node_index: int = 0
+var progress_to_next: float = 0.0  # 0.0 ~ 1.0 (다음 노드까지 진행도)
+var is_auto_progressing: bool = false
+var paused: bool = false
 
 # ─── UI 노드 참조 ────────────────────────────────────
 @onready var capsule_bg: Panel = $CapsuleBG
@@ -30,10 +40,11 @@ func apply_styles() -> void:
 	# Capsule background (black rounded)
 	var capsule_style = StyleBoxFlat.new()
 	capsule_style.bg_color = Color(0.1, 0.1, 0.15)  # 검은색
-	capsule_style.corner_radius_top_left = BAR_HEIGHT / 2
-	capsule_style.corner_radius_top_right = BAR_HEIGHT / 2
-	capsule_style.corner_radius_bottom_left = BAR_HEIGHT / 2
-	capsule_style.corner_radius_bottom_right = BAR_HEIGHT / 2
+	var corner_radius = int(BAR_HEIGHT / 2.0)
+	capsule_style.corner_radius_top_left = corner_radius
+	capsule_style.corner_radius_top_right = corner_radius
+	capsule_style.corner_radius_bottom_left = corner_radius
+	capsule_style.corner_radius_bottom_right = corner_radius
 	capsule_style.border_width_left = 1  # 2 → 1 (절반)
 	capsule_style.border_width_top = 1
 	capsule_style.border_width_right = 1
@@ -178,3 +189,70 @@ func _update_progress_line() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
 		update_display()
+
+# ─── 자동 진행 시스템 ─────────────────────────────────
+func _process(delta: float) -> void:
+	if not is_auto_progressing or paused or nodes.is_empty():
+		return
+	
+	# 마지막 노드 도착 시 정지
+	if current_node_index >= nodes.size() - 1:
+		is_auto_progressing = false
+		run_completed.emit()
+		print("[RunProgressBar] Run completed!")
+		return
+	
+	# 진행도 업데이트
+	progress_to_next += delta / TIME_PER_NODE
+	
+	# 부드러운 진행선 업데이트
+	update_progress_smooth(progress_to_next)
+	
+	# 다음 노드 도착
+	if progress_to_next >= 1.0:
+		progress_to_next = 0.0
+		_advance_to_next_node()
+
+func _advance_to_next_node() -> void:
+	"""다음 노드로 이동하고 시그널 발생"""
+	current_node_index += 1
+	
+	if current_node_index >= nodes.size():
+		is_auto_progressing = false
+		run_completed.emit()
+		return
+	
+	# Update display
+	for i in range(nodes.size()):
+		nodes[i]["current"] = (i == current_node_index)
+		nodes[i]["completed"] = (i < current_node_index)
+	
+	update_display()
+	_update_progress_line()
+	
+	# Emit signal
+	var node_data = nodes[current_node_index]
+	node_reached.emit(current_node_index, node_data)
+	print("[RunProgressBar] Node reached: ", current_node_index, " - ", node_data)
+
+func start_auto_progress() -> void:
+	"""자동 진행 시작"""
+	is_auto_progressing = true
+	paused = false
+	progress_to_next = 0.0
+	print("[RunProgressBar] Auto-progress started")
+
+func stop_auto_progress() -> void:
+	"""자동 진행 정지"""
+	is_auto_progressing = false
+	print("[RunProgressBar] Auto-progress stopped")
+
+func pause_progress() -> void:
+	"""일시 정지 (이벤트 발생 시)"""
+	paused = true
+	print("[RunProgressBar] Progress paused")
+
+func resume_progress() -> void:
+	"""재개 (이벤트 종료 후)"""
+	paused = false
+	print("[RunProgressBar] Progress resumed")

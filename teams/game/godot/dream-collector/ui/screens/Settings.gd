@@ -7,7 +7,7 @@ extends Control
 @onready var settings_list = $ScrollContainer/SettingsList
 
 func _ready():
-	UITheme.apply_button_style(back_button, "secondary")
+	UITheme.apply_button_style(back_button, "primary")
 	back_button.pressed.connect(_on_back_pressed)
 	
 	# Build settings UI

@@ -42,7 +42,24 @@ func _on_exit():
 
 func _setup_buttons():
 	"""Setup button connections"""
-	UITheme.apply_button_style(leave_button, "secondary")
+	# Apply custom style to leave button
+	var style = StyleBoxFlat.new()
+	style.bg_color = UITheme.COLORS.panel
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+	style.content_margin_left = 16
+	style.content_margin_right = 16
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
+	
+	leave_button.add_theme_stylebox_override("normal", style)
+	leave_button.add_theme_stylebox_override("hover", style)
+	leave_button.add_theme_stylebox_override("pressed", style)
+	leave_button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
+	leave_button.add_theme_color_override("font_color", UITheme.COLORS.text)
+	
 	leave_button.pressed.connect(_on_leave_pressed)
 
 func _load_dialog(dialog_data: Dictionary):
@@ -60,8 +77,27 @@ func _load_dialog(dialog_data: Dictionary):
 		var choice_text = choices[i]
 		var btn = Button.new()
 		btn.text = choice_text
+		btn.custom_minimum_size = Vector2(0, 50)
+		
+		# Apply custom style
+		var btn_style = StyleBoxFlat.new()
+		btn_style.bg_color = UITheme.COLORS.primary
+		btn_style.corner_radius_top_left = 8
+		btn_style.corner_radius_top_right = 8
+		btn_style.corner_radius_bottom_left = 8
+		btn_style.corner_radius_bottom_right = 8
+		btn_style.content_margin_left = 16
+		btn_style.content_margin_right = 16
+		btn_style.content_margin_top = 12
+		btn_style.content_margin_bottom = 12
+		
+		btn.add_theme_stylebox_override("normal", btn_style)
+		btn.add_theme_stylebox_override("hover", btn_style)
+		btn.add_theme_stylebox_override("pressed", btn_style)
+		btn.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
+		btn.add_theme_color_override("font_color", UITheme.COLORS.text)
+		
 		btn.pressed.connect(_on_choice_pressed.bind(i))
-		UITheme.apply_button_style(btn, "primary")
 		choice_container.add_child(btn)
 
 func _on_choice_pressed(choice_index: int):

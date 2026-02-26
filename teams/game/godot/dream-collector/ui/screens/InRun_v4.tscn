@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ju1g2h3i4j5k6"]
+[gd_scene load_steps=4 format=3 uid="uid://ju1g2h3i4j5k6"]
 
 [ext_resource type="Script" path="res://ui/screens/InRun_v4.gd" id="1_inrun4"]
 [ext_resource type="PackedScene" uid="uid://hs3i4j5k6l7m8" path="res://ui/components/RewardModal.tscn" id="2_reward"]
+[ext_resource type="PackedScene" uid="uid://run_progress_bar" path="res://ui/components/RunProgressBar.tscn" id="3_progress"]
 
 [node name="InRun_v4" type="Control"]
 layout_mode = 3
@@ -21,11 +22,54 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0980392, 0.0980392, 0.180392, 1)
 
+[node name="TopBar" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+
+[node name="HBox" type="HBoxContainer" parent="TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+
+[node name="LeftPanel" type="HBoxContainer" parent="TopBar/HBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(70, 0)
+alignment = 1
+
+[node name="SettingsButton" type="Button" parent="TopBar/HBox/LeftPanel"]
+layout_mode = 2
+text = "⚙️"
+custom_minimum_size = Vector2(50, 50)
+
+[node name="RightPanel" type="Control" parent="TopBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RunProgressBar" parent="TopBar/HBox/RightPanel" instance=ExtResource("3_progress")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 10.0
+offset_right = -5.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="TopArea" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 280.0
+offset_top = 60.0
+offset_bottom = 340.0
 grow_horizontal = 2
 
 [node name="BattleScene" type="Control" parent="TopArea"]
@@ -67,7 +111,7 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -564.0
+offset_top = -504.0
 grow_horizontal = 2
 grow_vertical = 0
 

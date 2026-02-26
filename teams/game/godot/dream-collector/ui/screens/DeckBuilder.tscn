@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://deck_builder"]
+[gd_scene load_steps=3 format=3 uid="uid://deck_builder"]
 
 [ext_resource type="Script" path="res://ui/screens/DeckBuilder.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://bottomnav_component" path="res://ui/components/BottomNav.tscn" id="2_bottomnav"]
 
 [node name="DeckBuilder" type="Control"]
 layout_mode = 3
@@ -166,42 +167,5 @@ theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
 columns = 3
 
-[node name="BottomNav" type="HBoxContainer" parent="."]
+[node name="BottomNav" parent="." instance=ExtResource("2_bottomnav")]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -60.0
-alignment = 1
-theme_override_constants/separation = 0
-
-[node name="HomeTab" type="Button" parent="BottomNav"]
-custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
-text = "🏠
-Home"
-
-[node name="CardsTab" type="Button" parent="BottomNav"]
-custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
-text = "🎴
-Cards"
-
-[node name="UpgradeTab" type="Button" parent="BottomNav"]
-custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
-text = "⬆️
-Upgrade"
-
-[node name="ProgressTab" type="Button" parent="BottomNav"]
-custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
-text = "📊
-Progress"
-
-[node name="ShopTab" type="Button" parent="BottomNav"]
-custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
-text = "🛒
-Shop"

@@ -62,29 +62,37 @@ func spend_reveries(amount: float) -> bool:
 # ─── Gems 추가 ───────────────────────────────────────
 func add_gems(amount: int) -> void:
 	gems += amount
-	emit_signal("gems_changed", gems)
+	gems_changed.emit(gems)
+	SaveSystem.save_game()  # Auto-save on currency change
 	print("[GameManager] Gems +%d (현재: %d)" % [amount, gems])
 
 # ─── Gems 소비 ───────────────────────────────────────
 func spend_gems(amount: int) -> bool:
 	if gems >= amount:
 		gems -= amount
-		emit_signal("gems_changed", gems)
+		gems_changed.emit(gems)
+		SaveSystem.save_game()  # Auto-save on currency change
+		print("[GameManager] Gems -%d (Remaining: %d)" % [amount, gems])
 		return true
+	print("[GameManager] Not enough gems! Need: %d, Have: %d" % [amount, gems])
 	return false
 
 # ─── Energy 추가 ─────────────────────────────────────
 func add_energy(amount: int) -> void:
 	energy += amount
-	emit_signal("energy_changed", energy)
+	energy_changed.emit(energy)
+	SaveSystem.save_game()  # Auto-save on currency change
 	print("[GameManager] Energy +%d (현재: %d)" % [amount, energy])
 
 # ─── Energy 소비 ─────────────────────────────────────
 func spend_energy(amount: int) -> bool:
 	if energy >= amount:
 		energy -= amount
-		emit_signal("energy_changed", energy)
+		energy_changed.emit(energy)
+		SaveSystem.save_game()  # Auto-save on currency change
+		print("[GameManager] Energy -%d (Remaining: %d)" % [amount, energy])
 		return true
+	print("[GameManager] Not enough energy! Need: %d, Have: %d" % [amount, energy])
 	return false
 
 # ─── 런 시작 ─────────────────────────────────────────
@@ -158,14 +166,26 @@ func get_gold() -> int:
 func add_gold(amount: int):
 	"""Add gold (reveries)"""
 	reveries += amount
+	reveries_changed.emit(reveries)
+	SaveSystem.save_game()  # Auto-save on currency change
 	print("[GameManager] Gold +%d (Total: %d)" % [amount, int(reveries)])
 
 func spend_gold(amount: int) -> bool:
 	"""Spend gold if available"""
 	if reveries >= amount:
 		reveries -= amount
+		reveries_changed.emit(reveries)
+		SaveSystem.save_game()  # Auto-save on currency change
 		print("[GameManager] Gold -%d (Remaining: %d)" % [amount, int(reveries)])
 		return true
 	else:
 		print("[GameManager] Not enough gold! Need: %d, Have: %d" % [amount, int(reveries)])
 		return false
+
+func get_gems() -> int:
+	"""Get current gems"""
+	return gems
+
+func get_energy() -> int:
+	"""Get current energy"""
+	return energy

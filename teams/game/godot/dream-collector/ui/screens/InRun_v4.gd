@@ -17,6 +17,9 @@ Key Features:
 """
 
 # UI References
+@onready var top_bar = $TopBar
+@onready var settings_button = $TopBar/HBox/LeftPanel/SettingsButton
+@onready var run_progress_bar = $TopBar/HBox/RightPanel/RunProgressBar
 @onready var top_area = $TopArea
 @onready var battle_scene = $TopArea/BattleScene
 @onready var background = $TopArea/BattleScene/BattleSceneBg
@@ -62,12 +65,47 @@ func _ready():
 	print("=".repeat(60))
 	print("\n")
 	
+	_setup_top_bar()
+	_setup_progress_bar()
 	_create_hero_permanent()
 	_apply_theme_styles()
 	_setup_reward_modal()
 	
 	# Start with exploration mode
 	switch_to_exploration()
+
+func _setup_top_bar():
+	"""Setup TopBar with Settings + Progress Bar"""
+	# TopBar background style (dark)
+	var top_bar_style = StyleBoxFlat.new()
+	top_bar_style.bg_color = Color(0.15, 0.15, 0.25, 1)  # Dark purple
+	top_bar_style.border_width_bottom = 2
+	top_bar_style.border_color = UITheme.COLORS.primary
+	top_bar.add_theme_stylebox_override("panel", top_bar_style)
+	
+	# Settings button
+	UITheme.apply_button_style(settings_button, "primary")
+	settings_button.pressed.connect(_on_settings_pressed)
+
+func _setup_progress_bar():
+	"""Setup RunProgressBar with mock node data"""
+	# Node types: "narration", "combat", "shop", "npc", "boss"
+	var mock_nodes = [
+		{"type": "start", "icon": "🚩", "text": "꿈 속으로 들어섰다...", "current": true, "completed": false},
+		{"type": "narration", "icon": "📖", "text": "이상한 숲을 지나간다...", "current": false, "completed": false},
+		{"type": "combat", "icon": "⚔️", "text": "슬림 무리 발견!", "current": false, "completed": false},
+		{"type": "narration", "icon": "📖", "text": "안개가 짙어진다...", "current": false, "completed": false},
+		{"type": "shop", "icon": "🛒", "text": "신비한 상점 발견!", "current": false, "completed": false},
+		{"type": "narration", "icon": "📖", "text": "어두운 동굴에 다다랐다...", "current": false, "completed": false},
+		{"type": "boss", "icon": "💀", "text": "악몽의 주인 등장!", "current": false, "completed": false}
+	]
+	run_progress_bar.set_nodes(mock_nodes, 0)  # Start at first node
+	
+	# Connect signals
+	run_progress_bar.node_reached.connect(_on_node_reached)
+	run_progress_bar.run_completed.connect(_on_run_completed)
+	
+	print("[InRun_v4] RunProgressBar initialized with ", mock_nodes.size(), " nodes")
 
 func _process(delta):
 	# Background scrolling (Exploration mode)
@@ -283,6 +321,76 @@ func _return_to_exploration():
 	_despawn_all_characters()
 	await get_tree().create_timer(0.4).timeout  # Wait for fly-out animation
 	switch_to_exploration()
+	
+	# Resume auto-progress
+	if run_progress_bar:
+		run_progress_bar.resume_progress()
+
+# === RunProgressBar Handlers ===
+
+func _on_node_reached(node_index: int, node_data: Dictionary):
+	"""Handle node arrival - auto process based on node type"""
+	print("[InRun_v4] Node reached: ", node_index, " - ", node_data)
+	
+	var node_type = node_data.get("type", "narration")
+	var node_text = node_data.get("text", "")
+	var node_icon = node_data.get("icon", "📖")
+	
+	# Add log to ExplorationBottomUI
+	if current_bottom_ui and current_bottom_ui.has_method("add_log"):
+		var log_message = node_icon + " " + node_text
+		var is_event = (node_type != "narration" and node_type != "start")
+		current_bottom_ui.add_log(log_message, is_event)
+	
+	# Handle event nodes
+	match node_type:
+		"start":
+			print("[InRun_v4] Journey started!")
+		"narration":
+			print("[InRun_v4] Narration node - continue")
+		"combat":
+			_handle_combat_event()
+		"shop":
+			_handle_shop_event()
+		"npc":
+			_handle_npc_event()
+		"boss":
+			_handle_boss_event()
+
+func _on_run_completed():
+	"""Handle run completion"""
+	print("[InRun_v4] Run completed! Returning to MainLobby...")
+	# TODO: Show run completion screen
+	await get_tree().create_timer(1.0).timeout
+	get_tree().change_scene_to_file("res://scenes/MainLobby.tscn")
+
+func _handle_combat_event():
+	"""Handle combat event node"""
+	print("[InRun_v4] Combat event triggered!")
+	run_progress_bar.pause_progress()
+	await get_tree().create_timer(1.0).timeout  # Brief pause for log display
+	switch_to_combat()
+
+func _handle_shop_event():
+	"""Handle shop event node"""
+	print("[InRun_v4] Shop event triggered!")
+	run_progress_bar.pause_progress()
+	await get_tree().create_timer(1.0).timeout
+	switch_to_shop()
+
+func _handle_npc_event():
+	"""Handle NPC event node"""
+	print("[InRun_v4] NPC event triggered!")
+	run_progress_bar.pause_progress()
+	await get_tree().create_timer(1.0).timeout
+	switch_to_npc_dialog()
+
+func _handle_boss_event():
+	"""Handle boss event node"""
+	print("[InRun_v4] Boss event triggered!")
+	run_progress_bar.pause_progress()
+	await get_tree().create_timer(1.5).timeout  # Longer pause for dramatic effect
+	switch_to_combat()  # Use same combat system with boss flag
 
 # === State Switching Functions ===
 
@@ -296,6 +404,12 @@ func switch_to_exploration():
 	_despawn_all_characters()
 	
 	_switch_bottom_ui(BOTTOM_UI_PATHS[ScreenState.EXPLORATION])
+	
+	# Start auto-progress on first entry
+	if run_progress_bar and run_progress_bar.current_node_index == 0 and not run_progress_bar.is_auto_progressing:
+		print("[InRun_v4] Starting auto-progress...")
+		run_progress_bar.start_auto_progress()
+	
 	print("[InRun_v4] ===== EXPLORATION SWITCH COMPLETE =====\n")
 
 func switch_to_combat():
@@ -390,16 +504,36 @@ func _on_combat_ended(victory: bool):
 	# Wait for animation
 	await get_tree().create_timer(0.4).timeout
 	
-	# Show reward modal
+	# Show reward/defeat screen
 	if victory:
-		var rewards = [
-			"🪙 Gold: +50",
-			"⚡ Energy Restored",
-			"🎴 New Card: Flame Strike"
-		]
-		reward_modal.show_victory(rewards)
+		_show_reward_modal()
 	else:
-		reward_modal.show_defeat()
+		_show_defeat_screen()
+
+func _show_reward_modal():
+	"""Show victory reward modal and apply rewards"""
+	# Calculate rewards based on combat
+	var gold_reward = 50  # TODO: Calculate based on monsters defeated
+	var energy_reward = 10
+	
+	# Apply rewards to GameManager
+	GameManager.add_gold(gold_reward)
+	GameManager.add_energy(energy_reward)
+	print("[InRun_v4] Rewards applied: Gold +%d, Energy +%d" % [gold_reward, energy_reward])
+	
+	# Show reward modal with display strings
+	var reward_strings = [
+		"🪙 Gold: +%d" % gold_reward,
+		"⚡ Energy: +%d" % energy_reward,
+		"🎴 New Card: Flame Strike"
+	]
+	reward_modal.show_victory(reward_strings)
+	print("[InRun_v4] Reward modal shown")
+
+func _show_defeat_screen():
+	"""Show defeat screen (no rewards)"""
+	reward_modal.show_defeat()
+	print("[InRun_v4] Defeat screen shown")
 
 func _on_reward_claimed():
 	"""Reward modal closed - return to exploration"""
@@ -420,6 +554,15 @@ func _on_character_clicked(character_node: CharacterNode):
 		character_node.current_hp,
 		character_node.max_hp
 	])
+	
+	# If in combat and CombatBottomUI is selecting target, forward click
+	if current_state == ScreenState.COMBAT and current_bottom_ui:
+		if current_bottom_ui.has_method("on_monster_clicked"):
+			# Find monster index in character_nodes array
+			var monster_index = character_nodes.find(character_node)
+			if monster_index >= 0:
+				current_bottom_ui.on_monster_clicked(monster_index)
+				print("[InRun_v4] Monster click forwarded to CombatBottomUI: index %d" % monster_index)
 
 # === Test Data ===
 
@@ -447,3 +590,35 @@ func _input(event):
 				switch_to_npc_dialog()
 			KEY_5:
 				switch_to_story()
+			KEY_0:
+				# Cheat: Toggle auto-progress pause/resume
+				if run_progress_bar:
+					if run_progress_bar.paused:
+						print("[InRun_v4] CHEAT: Resume auto-progress")
+						run_progress_bar.resume_progress()
+					else:
+						print("[InRun_v4] CHEAT: Pause auto-progress")
+						run_progress_bar.pause_progress()
+			KEY_9:
+				# Cheat: Instant win combat
+				if current_state == ScreenState.COMBAT and CombatManager.in_combat:
+					print("[InRun_v4] CHEAT: Instant win!")
+					for monster in CombatManager.monsters:
+						monster.hp = 0
+					CombatManager._check_combat_end()
+			KEY_MINUS:
+				# Cheat: Skip to next node
+				if run_progress_bar:
+					print("[InRun_v4] CHEAT: Skip to next node")
+					run_progress_bar.progress_to_next = 1.0
+
+# === Button Handlers ===
+
+func _on_settings_pressed():
+	"""Handle settings button press - Open Settings"""
+	print("[InRun_v4] Settings button pressed")
+	get_tree().change_scene_to_file("res://ui/screens/Settings.tscn")
+
+# === Public API ===
+
+# Note: advance_to_next_node() removed - RunProgressBar handles auto-progression

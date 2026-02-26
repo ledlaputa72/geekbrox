@@ -36,8 +36,14 @@ func _ready():
 	if energy_orb:
 		var EnergyOrbScript = load("res://ui/components/EnergyOrb.gd")
 		energy_orb.set_script(EnergyOrbScript)
+		# Call _ready() manually after setting script
+		energy_orb._ready()
+		# Set initial energy
 		energy_orb.set_energy(3, 3)
 		energy_orb.set_timer_progress(0.0)
+		print("[CombatBottomUI] EnergyOrb initialized: 3/3")
+	else:
+		print("[CombatBottomUI] ERROR: energy_orb node not found!")
 	
 	_setup_buttons()
 	ui_ready.emit()
@@ -65,6 +71,12 @@ func _on_enter():
 	# Initial update (safe - will be updated again after combat starts)
 	_update_deck_ui()
 	
+	# Sync initial energy from CombatManager
+	if CombatManager.hero and "energy" in CombatManager.hero:
+		var current_energy = CombatManager.hero.get("energy", 0)
+		_on_energy_changed(current_energy, CombatManager.ENERGY_MAX)
+		print("[CombatBottomUI] Initial energy synced: %d" % current_energy)
+	
 	# Don't update hand yet - wait for combat to start
 	# _update_hand_ui()
 	
@@ -91,13 +103,38 @@ func _on_exit():
 
 func _setup_buttons():
 	"""Setup button connections"""
-	UITheme.apply_button_style(pass_button, "secondary")
-	UITheme.apply_button_style(auto_button, "primary")
-	UITheme.apply_button_style(speed_button, "secondary")
+	# Apply custom styles to buttons
+	_apply_button_style(pass_button, UITheme.COLORS.panel)  # Secondary
+	
+	# Auto button style depends on state
+	var auto_color = UITheme.COLORS.primary if CombatManager.auto_battle_enabled else UITheme.COLORS.panel
+	_apply_button_style(auto_button, auto_color)
+	auto_button.text = "Auto: ON" if CombatManager.auto_battle_enabled else "Auto"
+	
+	_apply_button_style(speed_button, UITheme.COLORS.panel)  # Secondary
 	
 	pass_button.pressed.connect(_on_pass_pressed)
 	auto_button.pressed.connect(_on_auto_pressed)
 	speed_button.pressed.connect(_on_speed_pressed)
+
+func _apply_button_style(button: Button, bg_color: Color):
+	"""Apply custom style to button"""
+	var style = StyleBoxFlat.new()
+	style.bg_color = bg_color
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+	style.content_margin_left = 12
+	style.content_margin_right = 12
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	
+	button.add_theme_stylebox_override("normal", style)
+	button.add_theme_stylebox_override("hover", style)
+	button.add_theme_stylebox_override("pressed", style)
+	button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
+	button.add_theme_color_override("font_color", UITheme.COLORS.text)
 
 # === Combat Log ===
 
@@ -269,6 +306,7 @@ func _on_card_pressed(card_index: int):
 	
 	# STAGE 2: Usage
 	if card.type != "Attack":
+		# Non-attack card: use immediately (no target needed)
 		currently_selected_card_item.set_selected(false)
 		_restore_card_position(currently_selected_card_item)
 		_reset_card_positions()
@@ -277,6 +315,8 @@ func _on_card_pressed(card_index: int):
 		
 		request_action("card_played", {"card_index": card_index, "target": -1})
 	else:
+		# Attack card: enter target selection mode
+		_enter_target_selection_mode()
 		add_combat_log("Drag to target")
 
 func _on_card_hovered(card_index: int, card_item: Control):
@@ -301,6 +341,60 @@ func _on_card_unhovered(card_item: Control):
 
 # === Targeting ===
 
+func _enter_target_selection_mode():
+	"""Enter target selection mode for attack cards"""
+	selecting_target = true
+	selected_card_index = currently_selected_card_index
+	add_combat_log("Click a monster to attack")
+	print("[CombatBottomUI] Target selection mode entered - Click a monster or press ESC to cancel")
+
+func on_monster_clicked(monster_index: int):
+	"""Handle monster click from InRun_v4 (public method)"""
+	print("[CombatBottomUI] Monster clicked: index %d, selecting_target=%s" % [monster_index, selecting_target])
+	
+	if not selecting_target:
+		print("[CombatBottomUI] Not in target selection mode, ignoring click")
+		return
+	
+	# Check if monster is alive
+	var monsters = CombatManager.monsters
+	if monster_index < 0 or monster_index >= monsters.size():
+		print("[CombatBottomUI] Invalid monster index: %d" % monster_index)
+		return
+	
+	if monsters[monster_index].hp <= 0:
+		add_combat_log("Target already dead!")
+		print("[CombatBottomUI] Monster %d is already dead" % monster_index)
+		return
+	
+	# Play card with selected target
+	_play_card_with_target(currently_selected_card_index, monster_index)
+
+func _get_first_alive_monster() -> int:
+	"""Get index of first alive monster"""
+	var monsters = CombatManager.monsters
+	for i in range(monsters.size()):
+		if monsters[i].hp > 0:
+			return i
+	return -1
+
+func _play_card_with_target(card_index: int, target_index: int):
+	"""Play selected attack card with target"""
+	# Reset selection state
+	if currently_selected_card_item:
+		currently_selected_card_item.set_selected(false)
+		_restore_card_position(currently_selected_card_item)
+		_reset_card_positions()
+	
+	currently_selected_card_index = -1
+	currently_selected_card_item = null
+	selecting_target = false
+	selected_card_index = -1
+	
+	# Play card
+	request_action("card_played", {"card_index": card_index, "target": target_index})
+	add_combat_log("Attacked target #%d" % (target_index + 1))
+
 func _cancel_target_selection():
 	"""Cancel targeting"""
 	selecting_target = false
@@ -324,8 +418,10 @@ func _on_auto_pressed():
 	
 	if CombatManager.auto_battle_enabled:
 		auto_button.text = "Auto: ON"
+		_apply_button_style(auto_button, UITheme.COLORS.primary)  # Blue when ON
 	else:
 		auto_button.text = "Auto"
+		_apply_button_style(auto_button, UITheme.COLORS.panel)  # Gray when OFF
 
 func _on_speed_pressed():
 	"""Speed button"""
@@ -354,19 +450,30 @@ func _on_combat_log_updated(message: String):
 	add_combat_log(message)
 
 func _on_combat_ended(victory: bool):
-	"""Combat ended"""
+	"""Combat ended - log result"""
 	if victory:
 		add_combat_log("=== VICTORY ===")
+		print("[CombatBottomUI] Combat ended - VICTORY")
 	else:
 		add_combat_log("=== DEFEAT ===")
+		print("[CombatBottomUI] Combat ended - DEFEAT")
+	
+	# Note: InRun_v4 handles reward modal via CombatManager.combat_ended signal
 
 func _on_energy_changed(current: int, max_val: int):
 	"""Energy changed"""
-	energy_orb.set_energy(current, max_val)
+	if energy_orb:
+		energy_orb.set_energy(current, max_val)
+		print("[CombatBottomUI] Energy updated: %d/%d" % [current, max_val])
+	else:
+		print("[CombatBottomUI] ERROR: energy_orb is null!")
 
 func _on_energy_timer_updated(progress: float):
 	"""Energy timer updated"""
-	energy_orb.set_timer_progress(progress)
+	if energy_orb:
+		energy_orb.set_timer_progress(progress)
+	else:
+		print("[CombatBottomUI] ERROR: energy_orb is null for timer!")
 
 func _on_hand_changed():
 	"""Hand changed"""

@@ -21,7 +21,7 @@ var background_offset: float = 0.0
 # ViewportFrame
 @onready var viewport_frame: Panel = $ViewportFrame
 @onready var viewport_bg: ColorRect = $ViewportFrame/ViewportContent/Background
-@onready var character_sprite: Label = $ViewportFrame/ViewportContent/Character
+@onready var hero_character = $ViewportFrame/ViewportContent/Character  # CharacterNode
 
 # Dreams section
 @onready var dreams_header: Label = $DreamsHeader
@@ -54,12 +54,26 @@ func _ready() -> void:
 	tab_buttons = [home_tab, cards_tab, upgrade_tab, progress_tab, shop_tab]
 	
 	apply_styles()
+	setup_hero_character()
 	setup_signals()
 	load_past_dreams()
 	update_display()
 	set_active_tab(0)
 	
 	print("[MainLobbyUI] 메인 로비 준비 완료")
+
+func setup_hero_character():
+	"""Setup hero character in viewport"""
+	if hero_character:
+		hero_character.setup({
+			"type": "hero",
+			"name": "Hero",
+			"hp": 80,
+			"max_hp": 80,
+			"emoji": "👤",
+			"color": Color(0.48, 0.62, 0.94, 1)  # Blue
+		})
+		print("[MainLobbyUI] Hero character initialized")
 
 # ─── 매 프레임 업데이트 ──────────────────────────────
 func _process(delta: float) -> void:
@@ -69,9 +83,10 @@ func _process(delta: float) -> void:
 		background_offset = 0.0
 	viewport_bg.position.x = -background_offset
 	
-	# 캐릭터 걷기
-	var walk_offset = sin(Time.get_ticks_msec() * CHARACTER_WALK_SPEED * 0.001) * 5.0
-	character_sprite.position.x = 190 + walk_offset
+	# 캐릭터 걷기 애니메이션
+	if hero_character:
+		var walk_offset = sin(Time.get_ticks_msec() * CHARACTER_WALK_SPEED * 0.001) * 5.0
+		hero_character.position.x = 190 + walk_offset
 
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
@@ -92,7 +107,7 @@ func apply_styles() -> void:
 	viewport_frame.add_theme_stylebox_override("panel", frame_style)
 	
 	viewport_bg.color = Color(0.3, 0.5, 0.3)
-	character_sprite.add_theme_font_size_override("font_size", 36)
+	# Character uses CharacterNode component (no style override needed)
 	
 	# Dreams header
 	dreams_header.add_theme_font_size_override("font_size", 16)
@@ -253,9 +268,8 @@ func _on_tab_pressed(tab_index: int) -> void:
 		2:  # Upgrade
 			print("[MainLobbyUI] Upgrade Tree로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/UpgradeTree.tscn")
-		3:  # Settings
-			print("[MainLobbyUI] Settings로 이동")
-			get_tree().change_scene_to_file("res://ui/screens/Settings.tscn")
+		3:  # Progress
+			print("[MainLobbyUI] Progress (미구현)")
 		4:  # Shop
 			print("[MainLobbyUI] Shop으로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")

@@ -25,14 +25,9 @@ var current_filter: String = "all"  # all, attack, defense, skill, power
 
 @onready var card_grid: GridContainer = $ScrollContainer/CenterContainer/MarginContainer/CardGrid
 
-# BottomNav tabs
-@onready var home_tab: Button = $BottomNav/HomeTab
-@onready var cards_tab: Button = $BottomNav/CardsTab
-@onready var upgrade_tab: Button = $BottomNav/UpgradeTab
-@onready var progress_tab: Button = $BottomNav/ProgressTab
-@onready var shop_tab: Button = $BottomNav/ShopTab
+# BottomNav component
+@onready var bottom_nav = $BottomNav
 
-var tab_buttons: Array[Button] = []
 var filter_buttons: Array[Button] = []
 
 # ─── CardItem 씬 로드 ─────────────────────────────────
@@ -44,7 +39,7 @@ func _ready() -> void:
 	setup_signals()
 	load_card_data()
 	apply_filter("all")
-	set_active_tab(1)  # Cards 탭 활성화
+	bottom_nav.set_active_tab(1)  # Cards 탭 활성화
 	
 	print("[CardLibrary] 카드 라이브러리 준비 완료 - %d장 로드됨" % all_cards.size())
 
@@ -70,23 +65,6 @@ func apply_styles() -> void:
 	filter_buttons = [all_button, attack_button, defense_button, skill_button, power_button]
 	for button in filter_buttons:
 		UITheme.apply_button_style(button, "panel_light")
-	
-	# Tab buttons
-	tab_buttons = [home_tab, cards_tab, upgrade_tab, progress_tab, shop_tab]
-	for button in tab_buttons:
-		_apply_tab_button_style(button)
-
-func _apply_tab_button_style(button: Button) -> void:
-	var normal_style = StyleBoxFlat.new()
-	normal_style.bg_color = UITheme.COLORS.panel
-	button.add_theme_stylebox_override("normal", normal_style)
-	
-	var hover_style = StyleBoxFlat.new()
-	hover_style.bg_color = UITheme.COLORS.panel_light
-	button.add_theme_stylebox_override("hover", hover_style)
-	
-	button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
-	button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
@@ -101,12 +79,8 @@ func setup_signals() -> void:
 	skill_button.pressed.connect(_on_filter_pressed.bind("skill"))
 	power_button.pressed.connect(_on_filter_pressed.bind("power"))
 	
-	# Tab buttons
-	home_tab.pressed.connect(_on_tab_pressed.bind(0))
-	cards_tab.pressed.connect(_on_tab_pressed.bind(1))
-	upgrade_tab.pressed.connect(_on_tab_pressed.bind(2))
-	progress_tab.pressed.connect(_on_tab_pressed.bind(3))
-	shop_tab.pressed.connect(_on_tab_pressed.bind(4))
+	# BottomNav
+	bottom_nav.tab_pressed.connect(_on_tab_pressed)
 
 # ─── 카드 데이터 로드 ────────────────────────────────
 func load_card_data() -> void:
@@ -220,7 +194,7 @@ func _on_card_clicked(card_data: Dictionary) -> void:
 	# TODO: 카드 상세 모달 열기
 
 func _on_tab_pressed(tab_index: int) -> void:
-	set_active_tab(tab_index)
+	bottom_nav.set_active_tab(tab_index)
 	
 	match tab_index:
 		0:  # Home
@@ -228,17 +202,12 @@ func _on_tab_pressed(tab_index: int) -> void:
 		1:  # Cards (현재 화면)
 			pass
 		2:  # Upgrade
-			print("[CardLibrary] Upgrade Tree로 이동 (미구현)")
-		3:  # Progress
+			print("[CardLibrary] Upgrade Tree로 이동")
+			get_tree().change_scene_to_file("res://ui/screens/UpgradeTree.tscn")
+		3:  # Progress (미구현)
 			print("[CardLibrary] Progress (미구현)")
 		4:  # Shop
 			print("[CardLibrary] Shop으로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")
 
-func set_active_tab(tab_index: int) -> void:
-	for i in range(tab_buttons.size()):
-		var button = tab_buttons[i]
-		if i == tab_index:
-			button.add_theme_color_override("font_color", UITheme.COLORS.text)
-		else:
-			button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
+
