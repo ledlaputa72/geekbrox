@@ -324,6 +324,17 @@ panel_style.bg_color = UITheme.COLORS.panel
 panel.add_theme_stylebox_override("panel", panel_style)
 ```
 
+## Credit Management (Important!)
+
+**You are Level 1 (Cursor) - Priority use!**
+
+- You use FREE local models (unlimited)
+- Use freely for all tasks
+- When your credits run out → User switches to Level 2 (Claude Code)
+- See CREDITS.md for full cascade strategy
+
+**Your role**: Handle 80% of work (code edits, bugs, features)
+
 ## Communication with Atlas/Team
 
 When Cursor completes work:

@@ -102,6 +102,23 @@ signal entity_updated(type: String, index: int, data: Dictionary)
 
 ---
 
+## Credit Management (Important!)
+
+**You are Level 2 (Claude Code) - Backup!**
+
+- You have ~500 messages/day (free tier API)
+- User switched to you because Cursor credits ran out
+- When YOUR credits run out → User switches to Level 3 (Atlas)
+- Daily reset: Midnight UTC (9 AM PST)
+- See CREDITS.md for full cascade strategy
+
+**Your role**: Handle 15% of work (complex debugging, step-by-step)
+
+**Optimize usage**:
+- Keep conversations short
+- Be precise and clear
+- Use @-mentions for context
+
 ## Workflow
 
 ### 1. Make Changes

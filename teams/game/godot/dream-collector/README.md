@@ -39,6 +39,8 @@
 |------|------|----------|
 | **CHANGELOG.md** | 변경 이력 | 작업 완료 후 즉시 |
 | **WORKFLOW_INTEGRATION.md** | 통합 워크플로우 | 프로세스 변경 시 |
+| **CREDITS.md** | 크레딧 관리 & Cascade 전략 | 크레딧 변동 시 |
+| **CREDITS_QUICK.md** | 빠른 참조 카드 | - |
 
 ---
 
