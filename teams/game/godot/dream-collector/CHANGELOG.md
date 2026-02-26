@@ -9,6 +9,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+- DreamCardSelection: Redesigned to show selected cards progressively (2026-02-25 PM)
+  - Top: 3 cards (back-facing, always visible)
+  - Middle: 3 slots showing selected cards as user chooses
+  - Bottom: 1-line prompt + start button
+  - No longer: cards disappear / fly away
+  - New: accumulative display (slots fill up)
+
 ### Planned
 - Combat gameplay logic implementation
 - Card database (JSON)
