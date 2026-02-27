@@ -2,15 +2,18 @@ extends Control
 
 """
 InRun_v4 - Unified In-Run Screen with Dynamic BottomArea
-통합 인런 화면 (Portrait 390×844)
+통합 인런 화면 (Portrait 390x844)
 
 Architecture:
 - TopArea (280px): Hero (영구 유지) + Characters (Monster/NPC, 등장 애니메이션)
+  - BattleSceneBg: home_bg.png 스크롤 배경
+  - Hero: PlayerSpriteAnimator 기반 실제 캐릭터 스프라이트
 - BottomArea (564px): 동적 UI 컨테이너 (iframe 패턴)
 
 Key Features:
 - Hero: 모든 모드에서 동일 오브젝트 유지 (삭제 안 함)
-- Background: Exploration 시 자동 스크롤
+- Hero 애니메이션 상태: WALK(탐험), IDLE(전투/상점/NPC 대기), ATTACK/HIT/DIE(전투)
+- Background: home_bg.png 수평 스크롤 (탐험 시)
 - Characters: 화면 오른쪽 밖에서 fly-in 애니메이션
 - Reward Modal: 전투 보상을 모달로 표시 (전체 화면 전환 X)
 - CharacterNode: 공용 컴포넌트 (Hero/Monster/NPC 모두 동일)
@@ -62,17 +65,17 @@ const BOTTOM_UI_PATHS = {
 func _ready():
 	print("\n\n")
 	print("=".repeat(60))
-	print("🚀🚀🚀 InRun_v4 LOADED - VERSION 2.0 🚀🚀🚀")
+	print("InRun_v4 LOADED - VERSION 3.0 (Sprite + BG)")
 	print("=".repeat(60))
 	print("\n")
-	
+
 	_setup_top_bar()
 	_setup_progress_bar()
 	_create_hero_permanent()
 	_apply_theme_styles()
 	_setup_reward_modal()
 	_create_exploration_ui_permanent()  # 탐험 UI 한 번만 생성 (로그 영구 보존)
-	
+
 	# Start with exploration mode
 	switch_to_exploration()
 
@@ -80,14 +83,14 @@ func _create_exploration_ui_permanent():
 	"""ExplorationBottomUI를 한 번만 생성 — 이후 hide/show로 로그 보존"""
 	var scene = load(BOTTOM_UI_PATHS[ScreenState.EXPLORATION])
 	if not scene:
-		push_error("[InRun_v4] ❌ Failed to load ExplorationBottomUI scene")
+		push_error("[InRun_v4] Failed to load ExplorationBottomUI scene")
 		return
 	exploration_ui = scene.instantiate()
 	exploration_ui.visible = false  # switch_to_exploration에서 표시
 	bottom_area.add_child(exploration_ui)
 	exploration_ui.ui_action_requested.connect(_on_bottom_ui_action)
 	exploration_ui.ui_closed.connect(_on_bottom_ui_closed)
-	print("[InRun_v4] ✅ Persistent ExplorationBottomUI created")
+	print("[InRun_v4] Persistent ExplorationBottomUI created")
 
 func _setup_top_bar():
 	"""Setup TopBar with Settings + Progress Bar"""
@@ -97,7 +100,7 @@ func _setup_top_bar():
 	top_bar_style.border_width_bottom = 2
 	top_bar_style.border_color = UITheme.COLORS.primary
 	top_bar.add_theme_stylebox_override("panel", top_bar_style)
-	
+
 	# Settings button
 	UITheme.apply_button_style(settings_button, "primary")
 	settings_button.pressed.connect(_on_settings_pressed)
@@ -105,21 +108,21 @@ func _setup_top_bar():
 func _setup_progress_bar():
 	"""Setup RunProgressBar with dream nodes from GameManager"""
 	var nodes = []
-	
+
 	# Check if dream nodes exist in GameManager
 	if GameManager.get_total_node_count() > 0:
 		# Use dream nodes from card selection
 		var dream_nodes = GameManager.get_dream_nodes()
-		
+
 		# Add start node
 		nodes.append({
 			"type": "start",
-			"icon": "🚩",
+			"icon": "",
 			"text": "꿈 속으로 들어섰다...",
 			"current": true,
 			"completed": false
 		})
-		
+
 		# Convert dream nodes to progress bar format
 		for node_data in dream_nodes:
 			var text = ""
@@ -134,7 +137,7 @@ func _setup_progress_bar():
 					text = "이야기가 펼쳐진다..."
 				"boss":
 					text = "보스가 나타났다!"
-			
+
 			nodes.append({
 				"type": node_data.type,
 				"icon": node_data.icon,
@@ -142,37 +145,38 @@ func _setup_progress_bar():
 				"current": false,
 				"completed": false
 			})
-		
+
 		print("[InRun_v4] Loaded %d dream nodes from GameManager" % dream_nodes.size())
 	else:
 		# Fallback to mock nodes if no dream cards selected
 		print("[InRun_v4] No dream cards found, using mock nodes")
 		nodes = [
-			{"type": "start", "icon": "🚩", "text": "꿈 속으로 들어섰다...", "current": true, "completed": false},
-			{"type": "combat", "icon": "⚔️", "text": "슬림 무리 발견!", "current": false, "completed": false},
-			{"type": "shop", "icon": "🛒", "text": "신비한 상점 발견!", "current": false, "completed": false},
-			{"type": "boss", "icon": "💀", "text": "악몽의 주인 등장!", "current": false, "completed": false}
+			{"type": "start", "icon": "", "text": "꿈 속으로 들어섰다...", "current": true, "completed": false},
+			{"type": "combat", "icon": "", "text": "슬림 무리 발견!", "current": false, "completed": false},
+			{"type": "shop", "icon": "", "text": "신비한 상점 발견!", "current": false, "completed": false},
+			{"type": "boss", "icon": "", "text": "악몽의 주인 등장!", "current": false, "completed": false}
 		]
-	
+
 	run_progress_bar.set_nodes(nodes, 0)  # Start at first node
-	
+
 	# Connect signals
 	run_progress_bar.node_reached.connect(_on_node_reached)
 	run_progress_bar.run_completed.connect(_on_run_completed)
-	
+
 	print("[InRun_v4] RunProgressBar initialized with %d nodes" % nodes.size())
+
+
+# ─── 매 프레임 업데이트 (배경 스크롤) ─────────────────
 
 func _process(delta):
 	# Background scrolling (Exploration mode)
-	if is_scrolling:
+	if is_scrolling and background:
 		background_scroll_offset += background_scroll_speed * delta
-		# Wrap around every 390px (screen width)
-		if background_scroll_offset >= 390:
-			background_scroll_offset -= 390
-		
-		# Update background position (shader or material offset if available)
-		# For now, just use modulate flicker as placeholder
-		# TODO: Replace with actual texture scroll
+		# 배경 이미지 너비(800px) 초과 시 리셋
+		if background_scroll_offset > background.size.x:
+			background_scroll_offset = 0.0
+		background.position.x = -background_scroll_offset
+
 
 func _apply_theme_styles():
 	"""Apply UITheme styles"""
@@ -183,11 +187,12 @@ func _setup_reward_modal():
 	if reward_modal:
 		reward_modal.reward_claimed.connect(_on_reward_claimed)
 
+
 # === TopArea Character Management ===
 
 func _create_hero_permanent():
-	"""Create hero once (영구 유지)"""
-	print("[InRun_v4] Creating permanent hero...")
+	"""Create hero once (영구 유지) — PlayerSpriteAnimator 기반"""
+	print("[InRun_v4] Creating permanent hero with sprite animator...")
 	var CharacterNodeScene = preload("res://ui/components/CharacterNode.tscn")
 	hero_node = CharacterNodeScene.instantiate()
 	hero_node.setup({
@@ -195,14 +200,19 @@ func _create_hero_permanent():
 		"name": "Hero",
 		"hp": 80,
 		"max_hp": 80,
-		"emoji": "👤",
-		"color": Color(0.48, 0.62, 0.94, 1)  # Blue
 	})
-	hero_node.position = Vector2(10, 80)  # Left side, centered
+	hero_node.position = Vector2(5, 150)
 	hero_area.add_child(hero_node)
-	
+
 	hero_node.character_clicked.connect(_on_hero_clicked)
-	print("[InRun_v4] ✅ Hero created at position: %s" % hero_node.position)
+
+	# Hero 애니메이션 완료 시그널 연결
+	var animator = hero_node.get_sprite_animator()
+	if animator:
+		animator.animation_finished.connect(_on_hero_animation_finished)
+		print("[InRun_v4] Hero sprite animator connected")
+
+	print("[InRun_v4] Hero created at position: %s, size: %s" % [hero_node.position, hero_node.size])
 
 func _get_or_create_character_node() -> CharacterNode:
 	"""Get available character node from pool or create new"""
@@ -210,7 +220,7 @@ func _get_or_create_character_node() -> CharacterNode:
 	for node in character_nodes:
 		if not node.visible:
 			return node
-	
+
 	# Create new node
 	var CharacterNodeScene = preload("res://ui/components/CharacterNode.tscn")
 	var node = CharacterNodeScene.instantiate()
@@ -220,49 +230,53 @@ func _get_or_create_character_node() -> CharacterNode:
 	return node
 
 func _spawn_monsters(monster_count: int = 4):
-	"""Spawn monsters with fly-in animation"""
-	# Monster positions (2x2 grid with depth offset)
+	"""Spawn monsters with fly-in animation — 스프라이트 애니메이션 포함"""
+	# Monster positions (2x2 grid) — 스프라이트 크기(80x120) 고려
 	var positions = [
-		Vector2(200, 120),  # Front-left
-		Vector2(250, 60),   # Back-left
-		Vector2(280, 120),  # Front-right
-		Vector2(330, 60)    # Back-right
+		Vector2(190, 110),  # Front-left
+		Vector2(240, 50),   # Back-left
+		Vector2(275, 110),  # Front-right
+		Vector2(320, 50)    # Back-right
 	]
 	var z_indices = [10, 5, 10, 5]
-	var emojis = ["👾", "👹", "👾", "👹"]
-	var colors = [
-		Color(0.8, 0.3, 0.3),
-		Color(0.3, 0.8, 0.3),
-		Color(0.8, 0.3, 0.3),
-		Color(0.3, 0.8, 0.3)
-	]
-	
+
 	var test_monsters = _get_test_monsters()
-	
+
 	for i in range(min(monster_count, 4)):
 		var node = _get_or_create_character_node()
 		var monster_data = test_monsters[i] if i < test_monsters.size() else {}
-		
+
 		node.setup({
 			"type": "monster",
 			"id": "monster_%d" % i,
 			"name": monster_data.get("name", "Monster%d" % (i + 1)),
 			"hp": monster_data.get("hp", 20),
 			"max_hp": monster_data.get("max_hp", 20),
-			"emoji": emojis[i],
-			"color": colors[i]
+			"sprite": "res://assets/sprite/monster1_ani.png",
+			"sprite_flip": true,  # 몬스터: 플레이어 반대 방향
 		})
 		node.z_index = z_indices[i]
 		node.set_hp_bar_visible(true)
-		
-		# Fly-in animation (staggered)
+
+		# 몬스터 애니메이션 완료 시그널 연결 (HIT/ATTACK → IDLE 복귀)
+		var m_animator = node.get_sprite_animator()
+		if m_animator and not m_animator.animation_finished.is_connected(_on_monster_animation_finished.bind(node)):
+			m_animator.animation_finished.connect(_on_monster_animation_finished.bind(node))
+
+		# Fly-in animation (staggered) — WALK → IDLE 전환은 CharacterNode에서 처리
 		await get_tree().create_timer(i * 0.1).timeout
 		node.fly_in_from_right(positions[i], 0.5)
 
-func _spawn_npc(npc_name: String = "NPC", emoji_icon: String = "🧙"):
-	"""Spawn single NPC with fly-in animation"""
+const NPC_SPRITE_DEFAULT = "res://assets/sprite/NPC1_ani.png"   # 일반 NPC
+const NPC_SPRITE_MERCHANT = "res://assets/sprite/NPC2_ani.png"  # 상인 NPC
+
+func _spawn_npc(npc_name: String = "NPC", emoji_icon: String = "", npc_sprite: String = ""):
+	"""Spawn single NPC with fly-in animation — 스프라이트 애니메이션 포함"""
 	var node = _get_or_create_character_node()
-	
+
+	# 스프라이트 경로 결정: 명시적 지정 > 기본 NPC1
+	var sprite = npc_sprite if npc_sprite != "" else NPC_SPRITE_DEFAULT
+
 	node.setup({
 		"type": "npc",
 		"id": "npc_main",
@@ -270,12 +284,13 @@ func _spawn_npc(npc_name: String = "NPC", emoji_icon: String = "🧙"):
 		"hp": 100,
 		"max_hp": 100,
 		"emoji": emoji_icon,
-		"color": Color(0.7, 0.5, 0.9)  # Purple
+		"sprite": sprite,
+		"sprite_flip": true,  # NPC: 플레이어를 바라보는 방향 (좌우 반전)
 	})
 	node.z_index = 10
 	node.set_hp_bar_visible(false)  # NPCs don't show HP
-	
-	# Fly-in animation
+
+	# Fly-in animation (WALK → IDLE 전환은 CharacterNode.fly_in_from_right에서 처리)
 	node.fly_in_from_right(Vector2(255, 80), 0.5)
 
 func _despawn_all_characters():
@@ -284,49 +299,101 @@ func _despawn_all_characters():
 		if node.visible:
 			node.fly_out_to_right(0.3)
 
+
+# === Hero 애니메이션 상태 관리 ===
+
+func _play_hero_animation(state: PlayerSpriteAnimator.AnimState) -> void:
+	"""Hero 애니메이션 재생 (우선순위 처리)"""
+	_play_character_animation(hero_node, state)
+
+
+func _play_character_animation(node: CharacterNode, state: PlayerSpriteAnimator.AnimState) -> void:
+	"""캐릭터 애니메이션 재생 (우선순위 처리 — Hero/Monster 공용)"""
+	if not node:
+		return
+	var animator = node.get_sprite_animator()
+	if not animator:
+		return
+
+	var current = animator.get_current_state()
+
+	# DIE 상태에서는 다른 애니메이션으로 전환 불가
+	if current == PlayerSpriteAnimator.AnimState.DIE:
+		return
+
+	# HIT 재생 중에는 ATTACK으로 덮어쓰지 않음 (HIT > ATTACK)
+	if current == PlayerSpriteAnimator.AnimState.HIT and animator.is_animation_playing():
+		if state == PlayerSpriteAnimator.AnimState.ATTACK:
+			return
+
+	node.play_animation(state)
+
+
+func _on_hero_animation_finished(state: int) -> void:
+	"""Hero 원샷 애니메이션 완료 후 기본 상태로 복귀"""
+	if state == PlayerSpriteAnimator.AnimState.DIE:
+		return
+
+	match current_state:
+		ScreenState.EXPLORATION:
+			_play_hero_animation(PlayerSpriteAnimator.AnimState.WALK)
+		ScreenState.COMBAT:
+			_play_hero_animation(PlayerSpriteAnimator.AnimState.IDLE)
+		_:
+			_play_hero_animation(PlayerSpriteAnimator.AnimState.IDLE)
+
+
+func _on_monster_animation_finished(state: int, monster_node: CharacterNode) -> void:
+	"""Monster 원샷 애니메이션 완료 후 IDLE 복귀"""
+	if state == PlayerSpriteAnimator.AnimState.DIE:
+		return
+	if monster_node and monster_node.visible and monster_node.current_hp > 0:
+		_play_character_animation(monster_node, PlayerSpriteAnimator.AnimState.IDLE)
+
+
 # === BottomArea Dynamic UI Management ===
 
 func _switch_bottom_ui(scene_path: String):
 	"""탐험 UI 제외한 다른 BottomUI 전환 (탐험 UI는 숨기기만 — 로그 보존)"""
 	print("[InRun_v4] Switching BottomUI to: %s" % scene_path)
-	
+
 	# 탐험 UI 숨기기 (queue_free 하지 않음 — 로그 내용 보존)
 	if exploration_ui and exploration_ui.visible:
 		exploration_ui.visible = false
 		exploration_ui.set_paused(true)
 		print("[InRun_v4] ExplorationUI hidden (log preserved, index=%d)" \
 			% exploration_ui.current_log_index)
-	
+
 	# 이전 비-탐험 UI 제거
 	if current_bottom_ui and current_bottom_ui != exploration_ui:
 		current_bottom_ui._on_exit()
 		current_bottom_ui.queue_free()
 		current_bottom_ui = null
-	
+
 	# 새 UI 로드
 	var scene = load(scene_path)
 	if not scene:
-		push_error("[InRun_v4] ❌ FAILED to load BottomUI: %s" % scene_path)
+		push_error("[InRun_v4] FAILED to load BottomUI: %s" % scene_path)
 		return
-	
+
 	current_bottom_ui = scene.instantiate()
 	bottom_area.add_child(current_bottom_ui)
 	current_bottom_ui.ui_action_requested.connect(_on_bottom_ui_action)
 	current_bottom_ui.ui_closed.connect(_on_bottom_ui_closed)
 	current_bottom_ui._on_enter()
 	current_bottom_ui.ui_ready.emit()
-	
-	print("[InRun_v4] ✅ BottomUI switch complete!")
+
+	print("[InRun_v4] BottomUI switch complete!")
 
 func _on_bottom_ui_action(action_type: String, data: Dictionary):
 	"""Handle action from BottomUI"""
 	print("[InRun_v4] UI Action: %s | Data: %s" % [action_type, data])
-	
+
 	match action_type:
 		# Exploration event triggered (from time log)
 		"event_triggered":
 			_handle_time_log_event(data)
-		
+
 		# Combat actions
 		"card_played":
 			CombatManager.play_card(data.get("card_index", -1), data.get("target", -1))
@@ -336,21 +403,20 @@ func _on_bottom_ui_action(action_type: String, data: Dictionary):
 			CombatManager.toggle_auto_battle()
 		"speed_change":
 			CombatManager.set_speed_multiplier(data.get("speed", 1.0))
-		
+
 		# Shop actions
 		"shop_purchase":
 			var item_id = data.get("item_id", "")
 			var price = data.get("price", 0)
 			if GameManager.spend_gold(price):
-				print("[InRun_v4] Purchased: %s for 🪙%d" % [item_id, price])
-				# TODO: Add item to inventory
+				print("[InRun_v4] Purchased: %s for %d gold" % [item_id, price])
 			else:
 				print("[InRun_v4] Purchase failed: Not enough gold!")
-		
+
 		# NPC actions
 		"npc_choice":
 			_handle_npc_choice(data.get("choice_index", -1))
-		
+
 		# Navigation
 		"leave":
 			_return_to_exploration()
@@ -362,11 +428,11 @@ func _on_bottom_ui_closed():
 func _handle_time_log_event(event_data: Dictionary):
 	"""Handle event triggered from time log"""
 	print("[InRun_v4] Time log event: %s" % event_data.event_type)
-	
+
 	# Pause exploration log progression
 	if current_bottom_ui and current_bottom_ui.has_method("set_paused"):
 		current_bottom_ui.set_paused(true)
-	
+
 	# Trigger appropriate event based on type
 	match event_data.event_type:
 		"combat":
@@ -406,17 +472,17 @@ func _return_to_exploration():
 func _on_node_reached(node_index: int, node_data: Dictionary):
 	"""Handle node arrival - 즉시 탐험 UI 정지 후 이벤트 로그 표시 → 이벤트 처리"""
 	print("[InRun_v4] Node reached: ", node_index, " - ", node_data)
-	
+
 	var node_type = node_data.get("type", "narration")
-	
+
 	if node_type == "start":
 		return
-	
+
 	# 즉시 탐험 UI 일시정지 & 대기 중인 이벤트 로그 표시
 	if exploration_ui:
 		exploration_ui.set_paused(true)
 		exploration_ui.show_pending_event()
-	
+
 	match node_type:
 		"narration":
 			await get_tree().create_timer(1.0).timeout
@@ -467,42 +533,45 @@ func _handle_boss_event():
 	await get_tree().create_timer(1.0).timeout
 	switch_to_combat()
 
+
 # === State Switching Functions ===
 
 func switch_to_exploration():
-	"""Switch to exploration mode — 탐험 UI는 영구 보존, 숨기기/보이기만"""
+	"""Switch to exploration mode — 배경 스크롤 + WALK 애니메이션"""
 	print("\n[InRun_v4] ===== SWITCHING TO EXPLORATION =====")
 	current_state = ScreenState.EXPLORATION
 	is_scrolling = true
-	
+
+	# Hero → WALK 애니메이션
+	_play_hero_animation(PlayerSpriteAnimator.AnimState.WALK)
+
 	# 전투 시그널 해제
 	if CombatManager.entity_updated.is_connected(_on_entity_updated):
 		CombatManager.entity_updated.disconnect(_on_entity_updated)
 	if CombatManager.damage_dealt.is_connected(_on_damage_dealt):
 		CombatManager.damage_dealt.disconnect(_on_damage_dealt)
-	
+
 	_despawn_all_characters()
-	
+
 	# 비-탐험 UI 제거
 	if current_bottom_ui and current_bottom_ui != exploration_ui:
 		current_bottom_ui._on_exit()
 		current_bottom_ui.queue_free()
 		current_bottom_ui = null
-	
+
 	# 탐험 UI 표시 (영구 보존 — 로그 유지)
 	exploration_ui.visible = true
 	current_bottom_ui = exploration_ui
-	
+
 	# 탐험 로그 이어가기
 	if exploration_ui.time_logs.is_empty():
 		# 최초 진입: time_logs 로드 (첫 로그는 auto_progress_interval 후 자동 표시)
 		exploration_ui._on_enter()
 	else:
 		# 이벤트 복귀: 타이머 리셋 후 auto_progress_interval 후 다음 로그 표시
-		# (즉시 표시 시 아직 도달 안 한 이벤트가 먼저 보이는 문제 방지)
 		exploration_ui.auto_progress_timer = 0.0
 		exploration_ui.set_paused(false)
-	
+
 	# 프로그레스바 재개
 	if run_progress_bar:
 		if not run_progress_bar.is_auto_progressing:
@@ -510,29 +579,32 @@ func switch_to_exploration():
 			run_progress_bar.start_auto_progress()
 		else:
 			run_progress_bar.resume_progress()
-	
+
 	print("[InRun_v4] ===== EXPLORATION SWITCH COMPLETE =====\n")
 
 func switch_to_combat():
-	"""Switch to combat mode"""
+	"""Switch to combat mode — 배경 정지 + IDLE → ATTACK/HIT/DIE"""
 	print("\n[InRun_v4] ===== SWITCHING TO COMBAT =====")
 	current_state = ScreenState.COMBAT
-	is_scrolling = false  # Stop background scrolling
-	
+	is_scrolling = false  # 배경 스크롤 정지
+
+	# Hero → IDLE (전투 대기)
+	_play_hero_animation(PlayerSpriteAnimator.AnimState.IDLE)
+
 	print("[InRun_v4] Loading CombatBottomUI...")
 	_switch_bottom_ui(BOTTOM_UI_PATHS[ScreenState.COMBAT])
-	
+
 	# Wait a frame for BottomUI to be ready
 	await get_tree().process_frame
-	
+
 	print("[InRun_v4] Spawning monsters...")
 	# Spawn monsters with animation (await to wait for all animations)
 	await _spawn_monsters(4)
-	
+
 	print("[InRun_v4] Starting combat...")
 	var monsters = _get_test_monsters()
 	CombatManager.start_combat(monsters)
-	
+
 	# Connect combat signals
 	if not CombatManager.combat_ended.is_connected(_on_combat_ended):
 		CombatManager.combat_ended.connect(_on_combat_ended)
@@ -540,75 +612,85 @@ func switch_to_combat():
 		CombatManager.entity_updated.connect(_on_entity_updated)
 	if not CombatManager.damage_dealt.is_connected(_on_damage_dealt):
 		CombatManager.damage_dealt.connect(_on_damage_dealt)
-	
+
 	print("[InRun_v4] ===== COMBAT SWITCH COMPLETE =====\n")
 
 func switch_to_shop():
-	"""Switch to shop mode"""
+	"""Switch to shop mode — 배경 정지 + IDLE"""
 	print("\n[InRun_v4] ===== SWITCHING TO SHOP =====")
 	current_state = ScreenState.SHOP
 	is_scrolling = false
-	
+
+	# Hero → IDLE
+	_play_hero_animation(PlayerSpriteAnimator.AnimState.IDLE)
+
 	# Clear monsters first
 	print("[InRun_v4] Despawning monsters...")
 	_despawn_all_characters()
-	
+
 	_switch_bottom_ui(BOTTOM_UI_PATHS[ScreenState.SHOP])
-	
+
 	# Wait a frame
 	await get_tree().process_frame
-	
-	# Spawn merchant NPC
+
+	# Spawn merchant NPC (NPC2 — 상인 스프라이트)
 	print("[InRun_v4] Spawning merchant...")
-	_spawn_npc("Merchant", "🧙")
-	
+	_spawn_npc("Merchant", "", NPC_SPRITE_MERCHANT)
+
 	print("[InRun_v4] ===== SHOP SWITCH COMPLETE =====\n")
 
-func switch_to_npc_dialog(npc_name: String = "NPC", emoji: String = "🧝"):
-	"""Switch to NPC dialog mode"""
+func switch_to_npc_dialog(npc_name: String = "NPC", emoji: String = ""):
+	"""Switch to NPC dialog mode — 배경 정지 + IDLE"""
 	print("\n[InRun_v4] ===== SWITCHING TO NPC_DIALOG =====")
 	current_state = ScreenState.NPC_DIALOG
 	is_scrolling = false
-	
+
+	# Hero → IDLE
+	_play_hero_animation(PlayerSpriteAnimator.AnimState.IDLE)
+
 	# Clear previous characters
 	_despawn_all_characters()
-	
+
 	_switch_bottom_ui(BOTTOM_UI_PATHS[ScreenState.NPC_DIALOG])
-	
+
 	# Wait a frame
 	await get_tree().process_frame
-	
-	# Spawn NPC
+
+	# Spawn NPC (NPC1 — 일반 NPC 스프라이트)
 	print("[InRun_v4] Spawning NPC...")
-	_spawn_npc(npc_name, emoji)
-	
+	_spawn_npc(npc_name, emoji, NPC_SPRITE_DEFAULT)
+
 	print("[InRun_v4] ===== NPC_DIALOG SWITCH COMPLETE =====\n")
 
 func switch_to_story():
-	"""Switch to story mode"""
+	"""Switch to story mode — 배경 정지 + IDLE"""
 	print("\n[InRun_v4] ===== SWITCHING TO STORY =====")
 	current_state = ScreenState.STORY
 	is_scrolling = false
-	
+
+	# Hero → IDLE
+	_play_hero_animation(PlayerSpriteAnimator.AnimState.IDLE)
+
 	# Clear all characters (Story mode has no characters)
 	_despawn_all_characters()
-	
+
 	_switch_bottom_ui(BOTTOM_UI_PATHS[ScreenState.STORY])
-	
+
 	print("[InRun_v4] ===== STORY SWITCH COMPLETE =====\n")
+
 
 # === Combat End Handler ===
 
 func _on_combat_ended(victory: bool):
 	"""Handle combat end - show reward modal instead of full screen"""
 	print("[InRun_v4] Combat ended: %s" % ("Victory" if victory else "Defeat"))
-	
+
 	# Despawn monsters with fly-out
 	_despawn_all_characters()
-	
+
 	# Wait for animation
 	await get_tree().create_timer(0.4).timeout
-	
+
 	# Show reward/defeat screen
 	if victory:
 		_show_reward_modal()
@@ -620,17 +702,17 @@ func _show_reward_modal():
 	# Calculate rewards based on combat
 	var gold_reward = 50  # TODO: Calculate based on monsters defeated
 	var energy_reward = 10
-	
+
 	# Apply rewards to GameManager
 	GameManager.add_gold(gold_reward)
 	GameManager.add_energy(energy_reward)
 	print("[InRun_v4] Rewards applied: Gold +%d, Energy +%d" % [gold_reward, energy_reward])
-	
+
 	# Show reward modal with display strings
 	var reward_strings = [
-		"🪙 Gold: +%d" % gold_reward,
-		"⚡ Energy: +%d" % energy_reward,
-		"🎴 New Card: Flame Strike"
+		"Gold: +%d" % gold_reward,
+		"Energy: +%d" % energy_reward,
+		"New Card: Flame Strike"
 	]
 	reward_modal.show_victory(reward_strings)
 	print("[InRun_v4] Reward modal shown")
@@ -645,8 +727,9 @@ func _on_reward_claimed():
 	print("[InRun_v4] Reward claimed, returning to exploration")
 	# 탐험 UI에 전투 승리 배너 추가
 	if exploration_ui and exploration_ui.has_method("add_log"):
-		exploration_ui.add_log("🏆 전투 승리!", true, "victory")
+		exploration_ui.add_log("전투 승리!", true, "victory")
 	_return_to_exploration()
+
 
 # === Character Click Handlers ===
 
@@ -662,7 +745,7 @@ func _on_character_clicked(character_node: CharacterNode):
 		character_node.current_hp,
 		character_node.max_hp
 	])
-	
+
 	# If in combat and CombatBottomUI is selecting target, forward click
 	if current_state == ScreenState.COMBAT and current_bottom_ui:
 		if current_bottom_ui.has_method("on_monster_clicked"):
@@ -671,6 +754,52 @@ func _on_character_clicked(character_node: CharacterNode):
 			if monster_index >= 0:
 				current_bottom_ui.on_monster_clicked(monster_index)
 				print("[InRun_v4] Monster click forwarded to CombatBottomUI: index %d" % monster_index)
+
+
+# === Combat Entity Update Handlers ===
+
+func _on_entity_updated(entity_type: String, index: int):
+	"""Handle entity update from CombatManager"""
+	if entity_type == "hero":
+		# Update hero HP (DIE 애니메이션은 CharacterNode.update_hp에서 자동 처리)
+		if hero_node:
+			var hero_data = CombatManager.hero
+			hero_node.update_hp(hero_data.hp)
+
+	elif entity_type == "monster":
+		# Update monster HP
+		if index >= 0 and index < character_nodes.size():
+			var monster_node = character_nodes[index]
+			if monster_node.visible and index < CombatManager.monsters.size():
+				var monster_data = CombatManager.monsters[index]
+				monster_node.update_hp(monster_data.hp)
+
+func _on_damage_dealt(entity_type: String, index: int, damage: int, is_healing: bool):
+	"""Handle damage dealt signal - show damage number + trigger animation"""
+	if entity_type == "hero":
+		# Hero가 데미지 받음 → Hero HIT + 공격한 몬스터 ATTACK
+		if hero_node:
+			hero_node.show_damage_number(damage, is_healing)
+			if not is_healing:
+				_play_hero_animation(PlayerSpriteAnimator.AnimState.HIT)
+				# 첫 번째 살아있는 몬스터가 공격 애니메이션
+				for node in character_nodes:
+					if node.visible and node.current_hp > 0:
+						_play_character_animation(node, PlayerSpriteAnimator.AnimState.ATTACK)
+						break
+
+	elif entity_type == "monster":
+		# Monster가 데미지 받음 → Hero ATTACK + Monster HIT
+		if not is_healing:
+			_play_hero_animation(PlayerSpriteAnimator.AnimState.ATTACK)
+
+		if index >= 0 and index < character_nodes.size():
+			var monster_node = character_nodes[index]
+			if monster_node.visible:
+				monster_node.show_damage_number(damage, is_healing)
+				if not is_healing:
+					_play_character_animation(monster_node, PlayerSpriteAnimator.AnimState.HIT)
+
 
 # === Test Data ===
 
@@ -682,6 +811,7 @@ func _get_test_monsters() -> Array:
 		{"name": "Goblin1", "hp": 12, "max_hp": 12, "atk": 4, "def": 0, "spd": 15, "eva": 15},
 		{"name": "Goblin2", "hp": 18, "max_hp": 18, "atk": 6, "def": 2, "spd": 10, "eva": 8}
 	]
+
 
 # === Input Handling (Cheat Keys) ===
 
@@ -720,44 +850,13 @@ func _input(event):
 					print("[InRun_v4] CHEAT: Skip to next node")
 					run_progress_bar.progress_to_next = 1.0
 
+
 # === Button Handlers ===
 
 func _on_settings_pressed():
 	"""Handle settings button press - Open Settings"""
 	print("[InRun_v4] Settings button pressed")
 	get_tree().change_scene_to_file("res://ui/screens/Settings.tscn")
-
-# === Combat Entity Update Handlers ===
-
-func _on_entity_updated(entity_type: String, index: int):
-	"""Handle entity update from CombatManager"""
-	if entity_type == "hero":
-		# Update hero HP
-		if hero_node:
-			var hero_data = CombatManager.hero
-			hero_node.update_hp(hero_data.hp)
-	
-	elif entity_type == "monster":
-		# Update monster HP
-		if index >= 0 and index < character_nodes.size():
-			var monster_node = character_nodes[index]
-			if monster_node.visible and index < CombatManager.monsters.size():
-				var monster_data = CombatManager.monsters[index]
-				monster_node.update_hp(monster_data.hp)
-
-func _on_damage_dealt(entity_type: String, index: int, damage: int, is_healing: bool):
-	"""Handle damage dealt signal - show damage number"""
-	if entity_type == "hero":
-		# Show damage on hero
-		if hero_node:
-			hero_node.show_damage_number(damage, is_healing)
-	
-	elif entity_type == "monster":
-		# Show damage on monster
-		if index >= 0 and index < character_nodes.size():
-			var monster_node = character_nodes[index]
-			if monster_node.visible:
-				monster_node.show_damage_number(damage, is_healing)
 
 # === Public API ===
 

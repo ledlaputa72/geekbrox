@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ju1g2h3i4j5k6"]
+[gd_scene load_steps=5 format=3 uid="uid://ju1g2h3i4j5k6"]
 
 [ext_resource type="Script" path="res://ui/screens/InRun_v4.gd" id="1_inrun4"]
 [ext_resource type="PackedScene" uid="uid://hs3i4j5k6l7m8" path="res://ui/components/RewardModal.tscn" id="2_reward"]
 [ext_resource type="PackedScene" uid="uid://run_progress_bar" path="res://ui/components/RunProgressBar.tscn" id="3_progress"]
+[ext_resource type="Texture2D" uid="uid://cimes50epwch7" path="res://assets/bg/home_bg.png" id="4_bg"]
 
 [node name="InRun_v4" type="Control"]
 layout_mode = 3
@@ -73,6 +74,7 @@ offset_bottom = 340.0
 grow_horizontal = 2
 
 [node name="BattleScene" type="Control" parent="TopArea"]
+clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -80,14 +82,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BattleSceneBg" type="ColorRect" parent="TopArea/BattleScene"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.2, 0.2, 0.3, 1)
+[node name="BattleSceneBg" type="TextureRect" parent="TopArea/BattleScene"]
+layout_mode = 0
+custom_minimum_size = Vector2(800, 280)
+offset_right = 800.0
+offset_bottom = 280.0
+texture = ExtResource("4_bg")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="HeroArea" type="Control" parent="TopArea/BattleScene"]
 layout_mode = 1
@@ -117,4 +119,3 @@ grow_vertical = 0
 
 [node name="RewardModal" parent="." instance=ExtResource("2_reward")]
 visible = false
-

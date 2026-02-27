@@ -20,8 +20,8 @@ var background_offset: float = 0.0
 
 # ViewportFrame
 @onready var viewport_frame: Panel = $ViewportFrame
-@onready var viewport_bg: ColorRect = $ViewportFrame/ViewportContent/Background
-@onready var hero_character = $ViewportFrame/ViewportContent/Character  # CharacterNode
+@onready var viewport_bg: TextureRect = $ViewportFrame/ViewportContent/Background
+@onready var hero_sprite = $ViewportFrame/ViewportContent/HeroSprite  # HomeHeroSprite
 
 # Dreams section
 @onready var dreams_header: Label = $DreamsHeader
@@ -63,17 +63,9 @@ func _ready() -> void:
 	print("[MainLobbyUI] 메인 로비 준비 완료")
 
 func setup_hero_character():
-	"""Setup hero character in viewport"""
-	if hero_character:
-		hero_character.setup({
-			"type": "hero",
-			"name": "Hero",
-			"hp": 80,
-			"max_hp": 80,
-			"emoji": "👤",
-			"color": Color(0.48, 0.62, 0.94, 1)  # Blue
-		})
-		print("[MainLobbyUI] Hero character initialized")
+	"""Setup hero sprite in viewport (HomeHeroSprite — 걷기 애니메이션)"""
+	if hero_sprite:
+		print("[MainLobbyUI] Hero walk sprite initialized")
 
 # ─── 매 프레임 업데이트 ──────────────────────────────
 func _process(delta: float) -> void:
@@ -83,10 +75,11 @@ func _process(delta: float) -> void:
 		background_offset = 0.0
 	viewport_bg.position.x = -background_offset
 	
-	# 캐릭터 걷기 애니메이션
-	if hero_character:
+	# 캐릭터 위치 미세 흔들림 (걷는 느낌)
+	if hero_sprite:
 		var walk_offset = sin(Time.get_ticks_msec() * CHARACTER_WALK_SPEED * 0.001) * 5.0
-		hero_character.position.x = 190 + walk_offset
+		hero_sprite.offset_left = 163 + walk_offset
+		hero_sprite.offset_right = 227 + walk_offset
 
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
@@ -106,8 +99,7 @@ func apply_styles() -> void:
 	frame_style.border_color = UITheme.COLORS.primary
 	viewport_frame.add_theme_stylebox_override("panel", frame_style)
 	
-	viewport_bg.color = Color(0.3, 0.5, 0.3)
-	# Character uses CharacterNode component (no style override needed)
+	# viewport_bg uses home_bg.png (TextureRect in scene)
 	
 	# Dreams header
 	dreams_header.add_theme_font_size_override("font_size", 16)
