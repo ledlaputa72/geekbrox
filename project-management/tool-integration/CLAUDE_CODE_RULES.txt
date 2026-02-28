@@ -1,0 +1,315 @@
+GEEKBROX CLAUDE CODE RULES
+==========================
+
+# Project Context
+Project: GeekBrox Automation
+Primary Tasks: Python scripts, Bash automation, Data generation
+Paths: ~/Projects/geekbrox/frameworks/blog_automation/
+       ~/Projects/geekbrox/teams/game/
+
+Version Control: GitHub (all scripts)
+Teams Using: All teams (Game, Content, Ops)
+
+# Workflow
+1. Receive instruction from Team Lead via Telegram
+   Format: "Claude Code: [script description]
+            - Requirement: [what it does]
+            - Output: [where files go]
+            - Test: [how to verify]"
+
+2. Write script with clear documentation
+   - File header with purpose
+   - Comments for each section
+   - Error handling (try-except or set -e)
+   - Logging/print statements
+
+3. Use templates below (Python or Bash)
+
+4. Test locally before submitting
+   Python: python3 script.py
+   Bash: bash script.sh
+
+5. Commit with clear message
+   Format: "feat(game): [description]"
+
+6. Create PR on GitHub
+
+7. Report on Telegram
+   "✅ Script complete: [PR Link]"
+
+# Python Script Template
+
+#!/usr/bin/env python3
+"""
+script_name.py: Brief one-line description
+
+Longer explanation of what this script does:
+- Task 1
+- Task 2
+- Task 3
+
+Usage:
+    python3 script_name.py [args]
+    
+    Example:
+    python3 generate_cards.py 85 ~/output/
+"""
+
+import os
+import json
+from pathlib import Path
+from typing import Dict, List
+
+class ScriptTask:
+    """Main task class"""
+    
+    def __init__(self, output_path: str = None):
+        """Initialize with configuration"""
+        self.base_path = os.path.expanduser(output_path or "~/Projects/geekbrox/")
+        self.output_path = Path(self.base_path)
+    
+    def run(self) -> bool:
+        """Execute main task"""
+        try:
+            print("Starting task...")
+            self.main_logic()
+            print("✅ Task completed successfully")
+            return True
+        except Exception as e:
+            print(f"❌ Error: {e}")
+            return False
+    
+    def main_logic(self) -> None:
+        """Main logic goes here"""
+        # Your code
+        pass
+
+if __name__ == "__main__":
+    task = ScriptTask()
+    success = task.run()
+    exit(0 if success else 1)
+
+# Python Style Guide
+- Use type hints: def process(data: List[Dict]) -> str:
+- Use f-strings: print(f"Processing {count} items")
+- Use pathlib: Path(file_path) instead of os.path
+- Use abs_path: os.path.expanduser("~/Projects/...")
+- Error handling: try-except with clear messages
+
+# Python Examples
+
+# Example 1: Data Generation
+def generate_cards(count: int = 85) -> List[Dict]:
+    """Generate card data"""
+    cards = []
+    for i in range(1, count + 1):
+        card = {
+            "id": i,
+            "name_ko": f"카드_{i:03d}",
+            "name_en": f"Card_{i:03d}",
+            "cost": (i % 5) + 1,
+            "type": ["Attack", "Defend", "Magic"][i % 3],
+            "description": f"Card {i} description"
+        }
+        cards.append(card)
+    return cards
+
+# Example 2: File Processing
+def save_to_json(data: Dict, file_path: str) -> bool:
+    """Save data to JSON file with error handling"""
+    try:
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        return True
+    except IOError as e:
+        print(f"Error writing file: {e}")
+        return False
+
+# Bash Script Template
+
+#!/bin/bash
+# script.sh: Brief one-line description
+#
+# Longer explanation:
+# - Does task 1
+# - Does task 2
+#
+# Usage:
+#   bash script.sh [args]
+#   bash script.sh godot-project-path output-dir
+
+set -e  # Exit on error
+set -u  # Exit on undefined variable
+
+# ============================================================================
+# Configuration
+# ============================================================================
+PROJECT_PATH="${1:-~/Projects/geekbrox/teams/game/godot/dream-collector}"
+OUTPUT_DIR="${2:-./output}"
+REPORT_FILE="$OUTPUT_DIR/report.txt"
+
+# ============================================================================
+# Functions
+# ============================================================================
+
+log_info() {
+    echo "[INFO] $*"
+}
+
+log_error() {
+    echo "[ERROR] $*" >&2
+}
+
+log_success() {
+    echo "✅ $*"
+}
+
+main() {
+    log_info "Starting process..."
+    
+    # Step 1
+    log_info "Step 1: Initializing..."
+    mkdir -p "$OUTPUT_DIR"
+    
+    # Step 2
+    log_info "Step 2: Processing..."
+    # Your code here
+    
+    # Step 3
+    log_info "Step 3: Saving results..."
+    echo "Results saved" > "$REPORT_FILE"
+    
+    log_success "Process completed"
+    log_success "Output: $OUTPUT_DIR"
+}
+
+# ============================================================================
+# Main
+# ============================================================================
+if [ -z "${BASH_SOURCE[0]}" ] || [ "${BASH_SOURCE[0]}" = "$0" ]; then
+    main "$@"
+fi
+
+# Bash Style Guide
+- Use meaningful variable names: PROJECT_PATH not P
+- Use functions for reusability
+- Always quote variables: "$VAR" not $VAR
+- Use set -e and set -u for safety
+- Use log functions for clarity
+
+# Bash Examples
+
+# Example 1: Build Test
+measure_build_time() {
+    local start=$(date +%s%N)
+    
+    # Build command
+    godot-build.sh
+    
+    local end=$(date +%s%N)
+    local duration=$(( ($end - $start) / 1000000 ))
+    echo "Build time: ${duration}ms"
+}
+
+# Example 2: File Operations
+process_files() {
+    local input_dir="$1"
+    local output_dir="$2"
+    
+    for file in "$input_dir"/*.json; do
+        [ -f "$file" ] || continue
+        log_info "Processing $(basename "$file")"
+        # Process file
+        cp "$file" "$output_dir/"
+    done
+}
+
+# Commit Message Format
+
+feat(game): Add build-performance-test.sh
+- Measures Godot build time, file size, memory usage
+- Outputs results to build-report.txt
+- Tested on local machine ✅
+
+feat(content): Add blog-automation-bot.py
+- Implements topic → research → post workflow
+- Integrates with Claude API for content generation
+- Posts to Tistory blog platform
+
+fix(game): Correct relative path in generate-cards.py
+- Use absolute path with os.path.expanduser()
+- Fixes 'file not found' error
+- Tests pass ✅
+
+# File Paths
+
+# Absolute paths (always use expanduser)
+path = os.path.expanduser("~/Projects/geekbrox/teams/game/")
+
+# Bash paths
+PROJECT_PATH="${1:-~/Projects/geekbrox/teams/game/}"
+
+# Relative paths in output
+OUTPUT_DIR="./output"
+mkdir -p "$OUTPUT_DIR"
+
+# Pre-Commit Checklist
+
+☐ Script has clear header/docstring
+☐ Comments explain each section
+☐ Error handling implemented (try-except or set -e)
+☐ Paths use absolute or expanduser
+☐ Logging/print shows progress
+☐ Script tested locally
+☐ chmod +x on Bash scripts
+☐ Commit message clear and descriptive
+☐ Create PR with description
+☐ Report on Telegram
+
+# Common Issues & Solutions
+
+Q: Module not found (Python)?
+A: Install dependencies: pip install -r requirements.txt
+   Or install specific: pip install requests
+
+Q: Permission denied (Bash)?
+A: chmod +x script.sh
+   Or run: bash script.sh (don't use ./script.sh)
+
+Q: Path not found?
+A: Use absolute path: ~/Projects/geekbrox/...
+   Use expanduser: os.path.expanduser("~/...")
+
+Q: Script hangs?
+A: Add timeouts or check for infinite loops
+   Use set -u to catch undefined variables
+
+Q: How to test?
+A: Python: python3 script.py
+   Bash: bash script.sh /path/to/input
+   Check: ls -la output/
+
+# Communication Standards
+
+RECEIVE FROM TELEGRAM:
+[Claude Code: Build performance test script
+ - Requirement: Measure Godot build metrics
+ - Output: build-report.txt in output/
+ - Test: Run locally before PR]
+
+REPORT TO TELEGRAM:
+✅ build-perf-test.sh: [PR #123 Link]
+OR
+🔄 blog-bot.py: Testing, 80% complete
+OR
+🛑 Generate-cards: Need path clarification
+
+# Resources
+Main Guide: ~/Projects/geekbrox/TOOL_GUIDELINES.md (Claude Code section)
+Quick Sheet: ~/Projects/geekbrox/TOOL_CHEATSHEETS.md (Claude Code section)
+Workflow: ~/Projects/geekbrox/WORKFLOW_INTEGRATION.md (Step 2)
+
+Last Updated: 2026-02-28
+Status: ✅ Ready to Use

@@ -1,0 +1,489 @@
+GEEKBROX CLAUDE CORE (DEEP THINKING) RULES
+==========================================
+
+# When to Use Claude Core
+
+Use Claude Core for:
+✅ Complex system design decisions
+✅ Strategic analysis with deep trade-offs
+✅ Multi-factor business decisions
+✅ Long-term planning & roadmapping
+✅ Architecture design with constraints
+✅ Risk assessment across options
+✅ Scenario analysis & predictions
+
+Do NOT use for:
+❌ Quick feedback (use Chat instead)
+❌ Simple brainstorming (use Chat)
+❌ Specific code help (use Code)
+❌ Code writing (use Code)
+❌ Immediate answers needed (too slow)
+
+# Project Context
+
+Project: GeekBrox
+Team: Steve (PM) + 3 Lead Agents (Kim.G, Lee.C, Park.O)
+Focus Areas:
+- Game Development (Dream Collector)
+- Content Automation (Blog)
+- Operations & Analytics
+
+Constraints:
+- Monthly Budget: $200
+- Team Size: 1-2 people per team
+- Development Cycle: Weekly sprints
+- Timeline: Phase 3 (8 weeks target)
+
+Key Decisions Needed:
+1. Combat System: ATB vs Turn-Based (Due: 2026-03-03)
+2. Monetization Model: How to generate revenue?
+3. Content Strategy: Blog automation effectiveness
+4. Resource Allocation: How to best use $200/month
+
+# Analysis Request Types
+
+## Type 1: Complex System Design Decision
+
+STRUCTURE:
+Background (big picture)
+Current Options (2-4 choices)
+Constraints (technical, time, budget, organizational)
+Decision Criteria (what matters most)
+Request (deep trade-off analysis)
+
+EXAMPLE:
+"Dream Collector Combat System Decision (Due: 2026-03-03)
+
+Background:
+We're building a Roguelike Deckbuilding RPG. Combat system
+choice affects gameplay depth, implementation time, and player
+experience. This decision locks us in for 2-3 months.
+
+Options:
+A. ATB (Active Time Battle)
+   - Real-time gauge-based
+   - Faster gameplay
+   - Higher complexity (difficulty: 8/10)
+
+B. Turn-Based
+   - Strategic depth
+   - Simpler to implement (difficulty: 4/10)
+   - Slower gameplay
+
+C. Hybrid (Half-speed ATB)
+   - Middle ground
+   - Moderate complexity (difficulty: 6/10)
+
+Constraints:
+- Dev time: 8 weeks (1 developer)
+- Team: 1 game developer
+- Player base: Hardcore roguelike fans
+- Platform: Mobile target
+- Future: Must support difficulty scaling
+
+Decision Criteria (importance):
+1. Player engagement (most important)
+2. Implementation feasibility
+3. Replayability
+4. Balance difficulty
+5. Extensibility for future phases
+
+For each option, analyze:
+1. Technical complexity (lines of code, estimated hours)
+2. Player experience (pacing, strategic depth, engagement)
+3. Balance implications (how hard to balance well?)
+4. Extensibility (how hard to add new mechanics?)
+5. Risk (what could go wrong?)
+6. Player perception (what do roguelike fans expect?)
+7. Long-term viability (will this age well?)
+
+Then recommend with reasoning."
+
+CLAUDE CORE'S ROLE:
+- Analyze each option deeply
+- Identify hidden complexity
+- Consider downstream effects
+- Assess risks for each choice
+- Provide decision framework
+- Make recommendation with confidence level
+
+## Type 2: Architecture & Organization Design
+
+STRUCTURE:
+Current state (how it works now)
+Problems (what's not working)
+Requirements (must-haves)
+Constraints (technical, organizational, time)
+Analysis request (how to improve?)
+
+EXAMPLE:
+"Game Team Folder Architecture Optimization
+
+Current State:
+teams/game/godot/dream-collector/
+├── scripts/          (all GDScript files mixed)
+├── scenes/           (all .tscn files)
+├── assets/           (images, audio mixed)
+└── data/             (card, monster, balance data)
+
+Problems:
+1. Data files (cards, monsters) scattered
+2. New developer struggles to find things
+3. Adding new project would duplicate structure
+4. Git conflicts when multiple developers edit
+5. Scaling issues (what if 3 developers join?)
+
+Current Team: 1 developer
+Future: 3 developers + new projects
+
+Requirements:
+- Clear organization (developers find files easily)
+- Scalable (supports multiple projects)
+- Git-friendly (minimizes conflicts)
+- Godot-compatible (follows engine conventions)
+- Wiki-friendly (documentation attached to folders)
+- Maintainable (easy to onboard new people)
+
+Constraints:
+- Can't break existing Godot project structure
+- Must preserve all current files
+- Can't change project.godot significantly
+- Migration must not take >4 hours
+- Team is busy (minimal disruption)
+
+Design Considerations:
+- Separate by function? (scripts, assets, data)
+- Separate by feature? (combat, UI, inventory)
+- Nested vs flat?
+- How to handle shared utilities?
+- How to handle different data types?
+
+For each architectural approach:
+1. Structure overview
+2. Pros (clarity, scalability, git-friendly)
+3. Cons (complexity, migration effort)
+4. Maintenance burden
+5. Onboarding time for new dev
+6. Conflict resolution (git)
+7. Extensibility (adding new features)
+
+Recommend optimal structure with rationale."
+
+CLAUDE CORE'S ROLE:
+- Consider all architectural implications
+- Predict future scaling issues
+- Analyze git workflow impact
+- Assess onboarding burden
+- Provide detailed structure
+- Explain rationale
+
+## Type 3: Budget & Resource Allocation
+
+STRUCTURE:
+Current situation (budget, allocation)
+Problems (bottlenecks, inefficiencies)
+Options (ways to reallocate)
+Constraints (cannot change)
+Analysis request (ROI, effectiveness)
+
+EXAMPLE:
+"GeekBrox Budget Optimization (Monthly: $200)
+
+Current Allocation:
+- Atlas (AI PM): $35
+- Kim.G (Game Lead): $35
+- Lee.C (Content Lead): $35
+- Park.O (Ops Lead): $25
+- Emergency reserve: $70 (unused)
+
+Performance Metrics:
+- Game Team: Phase 3 at 30%, target 50% (SLOW)
+- Content Team: 12 posts/month, target 50 (BOTTLENECK)
+- Ops Team: 5 bugs fixed/month (GOOD)
+
+Problems:
+1. Game development is slow (too many blocking issues)
+2. Content team is major bottleneck (1 person can't write 50/month)
+3. Tools are inadequate (blog automation needs improvement)
+4. Budget is underutilized ($70 sitting idle)
+
+Reallocation Options:
+A. Boost Game (game_lead +$30)
+   - More compute for faster iteration
+   - Better testing tools
+   - Cost: Less emergency buffer
+
+B. Boost Content (+$30 for Claude)
+   - Better AI for blog writing
+   - Can scale to 50+ posts/month
+   - Cost: Less emergency buffer
+
+C. New Tools (+$40 for Claude Code)
+   - Automation for both game & content
+   - Build/test script automation
+   - Blog post automation
+   - Cost: Moderate risk if doesn't work
+
+D. Balanced (+$15 game, +$15 content)
+   - Modest improvements both teams
+   - Preserves emergency buffer
+   - Cost: Might not solve bottlenecks
+
+Constraints:
+- Total cannot exceed $200
+- Emergency buffer should stay >$30
+- Model costs can't increase dramatically
+- Decision needed this week
+
+For each option, calculate:
+1. Expected output increase (quantified)
+2. ROI (cost vs benefit)
+3. Risk (what could go wrong?)
+4. Timeline (when will we see results?)
+5. Bottleneck impact (does it solve the problem?)
+6. Flexibility (can we adjust later?)
+7. Sustainability (can we maintain?)
+
+Then recommend optimal allocation with:
+- Rationale (why this option)
+- Expected outcomes
+- Success metrics
+- Adjustment triggers"
+
+CLAUDE CORE'S ROLE:
+- Analyze ROI for each option
+- Quantify expected improvements
+- Identify hidden costs
+- Assess risk for each choice
+- Provide financial framework
+- Recommend with confidence level
+- Define success metrics
+
+## Type 4: Strategic Planning & Roadmapping
+
+STRUCTURE:
+Long-term goal (where are we headed?)
+Current state (where are we now?)
+Gaps (what's missing?)
+Constraints (time, resources, team)
+Request (what should we do?)
+
+EXAMPLE:
+"Dream Collector Phase 3-4 Strategic Planning
+
+Long-term Goal (1 year):
+Launch Dream Collector Beta publicly, establish player base,
+begin monetization, evaluate for Phase 5 expansion.
+
+Current State (Now - end Phase 3):
+- Core game loop: ~80% done
+- Combat system: TBD (decision due 2026-03-03)
+- Content: 30 cards, 10 monsters (Phase 3 target)
+- Monetization: Not started
+- Community: 0 players
+
+Phase 4 Goals (12 weeks):
+- Beta testing (500+ players)
+- Balance & polish
+- Monetization implementation
+- Community building
+- Performance optimization
+
+Resource Reality:
+- 1 game developer
+- 1 content creator
+- 1 ops person
+- $200/month budget
+- No additional hiring planned
+
+Key Questions:
+1. Is Phase 4 timeline realistic with 1 developer?
+2. What's the minimum viable scope for Phase 4?
+3. Should we delay Phase 4? When?
+4. What risks threaten success?
+5. Where should we invest resources?
+6. How to prepare for monetization?
+
+For this planning:
+1. Assess Phase 4 feasibility
+2. Identify bottlenecks
+3. Create realistic timeline
+4. Recommend scope cuts if needed
+5. Suggest resource reallocation
+6. Define success metrics
+7. Create contingency plans"
+
+CLAUDE CORE'S ROLE:
+- Assess realistic timelines
+- Identify scalability limits
+- Recommend scope adjustments
+- Create contingency plans
+- Define success metrics
+- Provide strategic direction
+
+# Analysis Structure
+
+GOOD CORE REQUEST FORMAT:
+
+Context:
+[Background + current situation]
+
+Options to Analyze:
+A. [Option 1 with key details]
+B. [Option 2 with key details]
+C. [Option 3 with key details]
+
+Constraints:
+[Technical, organizational, time, budget]
+
+Decision Criteria:
+[List factors in priority order]
+
+Analysis Needed:
+1. [What to analyze for each option]
+2. [What to analyze for each option]
+3. [What to analyze for each option]
+
+Timeline: [When decision needed]
+
+Request: [Deep analysis + recommendation]
+
+# What Claude Core Should Provide
+
+✅ SHOULD INCLUDE:
+- Deep analysis of each option
+- Quantified comparisons where possible
+- Risk assessment for each
+- Hidden complexities identified
+- Long-term implications
+- Clear recommendation
+- Confidence level
+- Alternative scenarios
+- Decision framework
+
+❌ SHOULD NOT:
+- Rush to answer (take time)
+- Oversimplify (show complexity)
+- Ignore constraints (acknowledge all)
+- Skip risks (surface them all)
+- Make decision for you (guide you)
+
+# GeekBrox-Specific Context
+
+REMEMBER FOR ANALYSIS:
+
+Team Capacity:
+- 1 game developer (full-time)
+- 1 content person (full-time)
+- 1 ops person (full-time)
+- Can't hire more (budget constraint)
+
+Budget Reality:
+- $200/month is tight
+- No spare budget for experimentation
+- Decisions should maximize ROI
+- Plan for worst-case financially
+
+Market Reality:
+- Indie game market is crowded
+- Roguelike deckbuilders competitive
+- Need differentiation
+- Community important
+
+Timeline:
+- Phase 3: Due 2026-03-03 (combat decision)
+- Phase 4: 12 weeks estimated
+- Full launch: Q3 2026 target
+- Every week delay is expensive
+
+# Communication Template
+
+WHEN READY FOR CORE ANALYSIS:
+
+SEND TO CORE (with thinking enabled):
+
+---
+PROJECT: Dream Collector
+
+DECISION NEEDED: [Combat System Choice]
+
+CONTEXT: [1-2 paragraphs describing situation]
+
+OPTIONS:
+A. ATB (details)
+B. Turn-Based (details)
+C. Hybrid (details)
+
+CONSTRAINTS:
+- Dev time: 8 weeks
+- Team: 1 developer
+- Platform: Mobile
+- Target: Hardcore players
+
+CRITERIA (priority order):
+1. Player engagement
+2. Implementation feasibility
+3. Balance difficulty
+4. Extensibility
+5. Replayability
+
+ANALYSIS REQUEST:
+For each option analyze:
+1. Technical complexity
+2. Player experience
+3. Balance implications
+4. Risk assessment
+5. Long-term viability
+
+RECOMMENDATION: Which option and why?
+
+TIMELINE: Decision needed by 2026-03-03
+---
+
+# Resources for Core Discussions
+
+Key Documents:
+- ~/Projects/geekbrox/QUICK_START.md
+- ~/Projects/geekbrox/WORKFLOW_INTEGRATION.md
+- ~/Projects/geekbrox/teams/game/workspace/planning/PHASE3_NEXT_TASKS.md
+- ~/Projects/geekbrox/teams/game/workspace/roadmap/
+
+Team Documents:
+- teams/game/README.md (game team)
+- teams/content/README.md (content team)
+- teams/ops/README.md (ops team)
+
+# Process After Core Analysis
+
+1. UNDERSTAND
+   - Read the analysis thoroughly
+   - Note the recommendation
+   - Understand the rationale
+   - Flag any assumptions you disagree with
+
+2. DISCUSS
+   - Share analysis with Team Leads
+   - Get their input
+   - Adjust for organizational factors
+   - Make final decision
+
+3. COMMUNICATE
+   - Announce decision to team
+   - Explain reasoning
+   - Assign implementation tasks
+   - Set success metrics
+
+4. IMPLEMENT
+   - Use Cursor/Claude Code for development
+   - Report progress via Telegram
+   - Adjust if needed
+   - Document lessons learned
+
+5. RETROSPECT
+   - After implementation, evaluate outcome
+   - Compare to Core's prediction
+   - Learn for next decision
+   - Update your thinking
+
+Last Updated: 2026-02-28
+Status: ✅ Ready for Deep Analysis

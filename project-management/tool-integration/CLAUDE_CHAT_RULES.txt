@@ -1,0 +1,361 @@
+GEEKBROX CLAUDE CHAT RULES
+==========================
+
+# Project Context
+
+Project Name: GeekBrox
+Description: Indie game development (Dream Collector) + Content automation (Blog)
+
+Team Structure:
+- Steve (PM): Decision maker
+- Atlas (AI PM): OpenClaw-based project management
+- Kim.G (Game Lead): Gemini 2.5 Pro - Game Team
+- Lee.C (Content Lead): Gemini 2.5 Pro - Content Team
+- Park.O (Ops Lead): Gemini 2.5 Pro - Ops Team
+
+Current Project: Dream Collector
+Type: Roguelike Deckbuilding RPG
+Engine: Godot 4.x
+Language: GDScript
+Phase: 3 (Combat System, Card System)
+
+Development Approach:
+- Telegram for communication
+- Cursor IDE for game code
+- Claude Code for automation scripts
+- GitHub for version control
+- OpenClaw for AI orchestration
+
+# Use Cases
+
+## Type 1: Design Review & Feedback
+
+WHEN TO USE:
+- Reviewing ATB vs Turn-Based combat system
+- Evaluating card balancing strategies
+- Assessing difficulty curve design
+- Reviewing level/content structure
+
+GOOD REQUEST STRUCTURE:
+"[Topic]: [Current Design]
+
+Current Design:
+- Mechanic 1
+- Mechanic 2
+- Mechanic 3
+
+Problem:
+- Issue 1
+- Issue 2
+
+Question: [Specific feedback request]"
+
+EXAMPLE:
+"Dream Collector ATB Combat Design Review
+
+Current Design:
+- ATB Gauge: Increases 5 per second
+- Card Cost: 1-10 (gauge consumed)
+- Enemy AI: Random action + learning
+
+Problems:
+- Is 5 per second too fast?
+- Is cost range too wide?
+- How to balance difficulty dynamically?
+
+Can you evaluate these mechanics and suggest improvements?"
+
+CLAUDE'S ROLE:
+- Critique design from game design perspective
+- Identify balance issues
+- Suggest improvements
+- Provide pros/cons of each approach
+
+## Type 2: System Ideation
+
+WHEN TO USE:
+- Generating new system ideas
+- Improving existing mechanics
+- Exploring design variations
+- Creating new features
+
+GOOD REQUEST STRUCTURE:
+"[System Name]: [Current Problem]
+
+Current Issue:
+- Problem description
+- Why it matters
+- Impact on gameplay
+
+Ideas to Consider:
+1. Idea 1
+2. Idea 2
+3. Idea 3
+
+Questions:
+- Which is best?
+- How to implement?
+- What are trade-offs?"
+
+EXAMPLE:
+"Deckbuilding Diversity Problem
+
+Current Issue:
+Players always choose highest-power cards, reducing variety.
+All decks feel similar → boring → less replayability
+
+Ideas to Improve:
+1. Weekly Rotation: Recommended cards change weekly
+2. Constraints: Max 5 cards per type in deck
+3. Incentives: Weak card bonus (using gets +50% XP)
+4. Hybrid: Combine some above
+
+Which would work best for Dream Collector?
+How hard is each to implement?
+What's the gameplay impact?"
+
+CLAUDE'S ROLE:
+- Evaluate each idea
+- Identify pros/cons
+- Assess implementation complexity
+- Recommend best approach
+- Consider game balance
+
+## Type 3: Technical Problem Solving
+
+WHEN TO USE:
+- Code logic issues
+- Architecture questions
+- Framework/tool questions
+- Performance problems
+
+GOOD REQUEST STRUCTURE:
+"[Component]: [Problem Description]
+
+Code/Setup:
+[Show current approach]
+
+Problem:
+- What's wrong
+- Why it's wrong
+- What breaks
+
+Context:
+- Game requirements
+- Constraints
+- Existing code patterns
+
+Question: [Specific help request]"
+
+EXAMPLE:
+"GDScript Card Damage Calculation
+
+Current Code:
+var damage = card.attack - enemy.defense
+
+Problems:
+- Negative damage possible (defense too high)
+- Critical hits not applied
+- Status effects (poison, weakness) ignored
+
+Game Requirements:
+- Minimum damage: 1
+- Critical: 50% chance × 1.5 multiplier
+- Status: Apply after base calc
+- Enemy has 5-30 defense (player 10-20 attack)
+
+How should I restructure this?"
+
+CLAUDE'S ROLE:
+- Identify logic errors
+- Suggest architectural changes
+- Provide code examples
+- Consider performance
+- Ensure requirements met
+
+# Good Question Structure
+
+PATTERN:
+Background (1-2 sentences)
+Current State (specific, detailed)
+Goal/Target (clear outcome)
+Constraints (technical, time, budget)
+Question (specific ask)
+
+EXAMPLE:
+"Dream Collector Difficulty Balancing
+
+Background:
+We're designing Dynamic Difficulty for Dream Collector to
+make it challenging but not frustrating.
+
+Current State:
+Fixed difficulty (player spawns vs stats never change)
+Result: Easy for experienced players, hard for new players
+
+Goal:
+Auto-adjust difficulty based on player performance
+
+Constraints:
+- Keep implementation simple (limited dev time)
+- Avoid "rubber banding" feel
+- Don't change mid-combat (feels cheap)
+- Easy to disable/adjust via config
+
+Question:
+What approaches exist for dynamic difficulty?
+What are pros/cons of each?
+What would you recommend for Dream Collector?"
+
+# What Makes Good Questions
+
+✅ GOOD:
+- Provides context (background, constraints)
+- Describes current situation clearly
+- Explains the problem with specifics
+- Lists relevant factors
+- Asks specific questions
+- Gives room for analysis
+
+❌ POOR:
+- "How do I balance the game?" (too vague)
+- No context about design
+- Just asking for feature ideas
+- "What should I do?" (no constraints)
+- Dumping whole game design
+- No specific problem identified
+
+# Communication Tips
+
+1. CONTEXT IS KEY
+   Always provide:
+   - What's the project context?
+   - What are constraints?
+   - What have you tried?
+   - What's the goal?
+
+2. BE SPECIFIC
+   Instead of: "How to improve combat?"
+   Try: "ATB gauge feels too fast (5/sec). How to fix?"
+
+3. SHOW YOUR THINKING
+   Instead of: "Is this good?"
+   Try: "I think X is better because Y. What do you think?"
+
+4. FRAME DECISIONS
+   Instead of: "What should I do?"
+   Try: "Option A: [pro/con]. Option B: [pro/con]. Which fits better?"
+
+5. CONCRETE EXAMPLES
+   Instead of: "Difficulty is hard"
+   Try: "Expert player beats game in 30min, new player in 3 hours"
+
+# Key Topics for Claude Chat
+
+DESIGN REVIEWS:
+- Mechanic balance (card costs, enemy stats)
+- Game progression (difficulty curve, content pacing)
+- Systems (economy, resource management)
+- Player experience (feedback, UI clarity)
+
+IDEATION:
+- New mechanics (how to expand?)
+- Features (what's next?)
+- Systems (how to improve?)
+- Content (what's missing?)
+
+TECHNICAL:
+- Code logic (how to implement?)
+- Architecture (how to structure?)
+- Performance (how to optimize?)
+- Integration (how to combine?)
+
+# Topics to AVOID in Chat
+(Use Claude Core instead for these)
+
+- Deep strategic analysis (→ use Core)
+- Complex system design (→ use Core)
+- Long-term planning (→ use Core)
+- Business decisions (→ use Core)
+- Multi-factor trade-offs (→ use Core)
+
+Chat is for:
+- Quick feedback
+- Brainstorming
+- Specific technical questions
+- Design reviews
+
+# Effective Follow-ups
+
+AFTER RECEIVING ADVICE:
+
+1. Ask for clarification
+   "When you say 'balance via constraints', what do you mean specifically?"
+
+2. Ask for implementation tips
+   "How would I implement this in GDScript?"
+
+3. Ask for examples
+   "Can you show a simple example of this approach?"
+
+4. Ask for trade-offs
+   "What are downsides of this approach?"
+
+5. Ask for next steps
+   "Should I implement this first or Y first?"
+
+# Chat Tips for GeekBrox
+
+REMEMBER:
+- Dream Collector is indie project (small team)
+- Keep implementation feasible
+- Balance is critical (too hard = no fun)
+- Content variety important (players want diversity)
+- Mobile target (be mindful of performance)
+
+MENTION IF RELEVANT:
+"GeekBrox has small team (1 game dev), so implementation
+must be relatively simple"
+
+or
+
+"We're targeting hardcore roguelike fans, so they expect
+deep strategy and high difficulty"
+
+or
+
+"Content team (Lee.C) handles all blog posts, so automation
+is critical for our schedule"
+
+# Resources
+
+Main Guide: ~/Projects/geekbrox/TOOL_GUIDELINES.md (Claude Chat section)
+Quick Sheet: ~/Projects/geekbrox/TOOL_CHEATSHEETS.md (Claude Chat section)
+Project Info: ~/Projects/geekbrox/QUICK_START.md
+Workflow: ~/Projects/geekbrox/WORKFLOW_INTEGRATION.md
+
+# Next Steps After Chat
+
+After discussing with Claude Chat:
+
+1. DOCUMENT
+   Save key points to project notes
+   Example: teams/game/workspace/planning/
+
+2. IMPLEMENT
+   Use Cursor IDE for game code
+   Use Claude Code for automation
+   Follow TOOL_GUIDELINES.md
+
+3. ITERATE
+   Get feedback from Team Lead
+   Report progress via Telegram
+   Return to Chat if needed
+
+4. COMMIT
+   Push changes to GitHub
+   Create PR with clear description
+   Notify Team Lead
+
+Last Updated: 2026-02-28
+Status: ✅ Ready to Use

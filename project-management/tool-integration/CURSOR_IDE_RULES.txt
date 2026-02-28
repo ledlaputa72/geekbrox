@@ -1,0 +1,157 @@
+GEEKBROX CURSOR IDE RULES
+=========================
+
+# Project Context
+Project: Dream Collector (Roguelike Deckbuilding RPG)
+Engine: Godot 4.x
+Language: GDScript
+Root Path: ~/Projects/geekbrox/teams/game/godot/dream-collector/
+
+Team Lead: Kim.G (Gemini 2.5 Pro)
+Current Phase: 3 (Combat System Implementation)
+
+# Important Documents
+CODE_REVIEW.md: teams/game/workspace/guides/CODE_REVIEW.md
+TAROT_SYSTEM_GUIDE.md: teams/game/workspace/design/dream-collector/02_core_design/TAROT_SYSTEM_GUIDE.md
+PHASE3_TASKS.md: teams/game/workspace/planning/PHASE3_NEXT_TASKS.md
+
+# Workflow
+1. Receive instruction from Team Lead via Telegram
+   Format: "Cursor IDE: [task]
+            - Requirement: [spec]
+            - Reference: [doc]
+            - ETA: [deadline]"
+
+2. Read requirement document first
+   Example: teams/game/workspace/design/dream-collector/02_core_design/TAROT_SYSTEM_GUIDE.md
+
+3. Check CODE_REVIEW.md for code style
+   - Variable naming: snake_case
+   - Function naming: verb_noun (get_card_data)
+   - Comments: Clear English or Korean
+
+4. Write code in Godot project
+   Path: teams/game/godot/dream-collector/scripts/[filename]
+
+5. Test in Godot (F5 or Play button)
+
+6. Commit with clear message
+   Format: "feat(game): [description]
+            - Point 1
+            - Point 2"
+
+7. Create PR on GitHub
+   Include: Title, Description, Checklist
+
+8. Report on Telegram
+   "✅ [Task Name]: [PR Link]"
+
+# Code Style Quick Reference
+
+## Functions
+func calculate_damage(card: Card, target: Enemy) -> int:
+    """Calculate total damage with enemy defense modifier."""
+    var base_damage = card.attack_power
+    var defense_reduction = target.defense * 0.1
+    return max(0, base_damage - int(defense_reduction))
+
+## Variables
+var player_health: int = 100
+var current_atb_gauge: float = 0.0
+var card_list: Array[Card] = []
+
+## Comments
+# Section header comment
+func _ready() -> void:
+    # Initialize game systems
+    setup_player()
+    setup_enemies()
+
+## Class Definition
+class Card:
+    var id: int
+    var name: String
+    var cost: int
+    var card_type: String
+    var description: String
+
+# Commit Message Format
+feat(game): Add 30 cards to CardDatabase
+- Implements TAROT_SYSTEM_GUIDE.md specification
+- Adds all required fields (id, name, cost, type, description)
+- Tests in Godot editor pass ✅
+
+fix(game): Fix ATB gauge initialization
+- Gauge now resets to 0 at battle start
+- Fixes gauge carryover bug from previous battle
+
+refactor(game): Reorganize CardDatabase structure
+- Move card data to separate categories
+- Improve code readability and maintenance
+
+# File Paths
+Core Scripts: teams/game/godot/dream-collector/scripts/
+Godot Scenes: teams/game/godot/dream-collector/scenes/
+Assets: teams/game/godot/dream-collector/assets/
+Game Data: teams/game/godot/dream-collector/data/
+
+# Pre-Commit Checklist
+☐ Read requirement document
+☐ Check CODE_REVIEW.md for style
+☐ Write code following GDScript style
+☐ Add comments for complex logic
+☐ Test in Godot editor
+☐ Git commit with clear message format
+☐ Create PR with description
+☐ Report completion on Telegram
+
+# Common Issues & Solutions
+
+Q: File not found when opening?
+A: Always open from ~/Projects/geekbrox/teams/game/godot/dream-collector/ root
+   Use relative paths like ./scripts/CardDatabase.gd
+
+Q: Code style issues?
+A: Read teams/game/workspace/guides/CODE_REVIEW.md for:
+   - Naming conventions
+   - Function structure
+   - Comment style
+
+Q: How to test?
+A: Press F5 in Godot or click Play button
+   Check Game tab at bottom for output
+   Look for error messages
+
+Q: PR creation help?
+A: Use template:
+   Title: feat(game): [description]
+   Body: List 3-5 changes
+   Checklist: Mark completed items
+
+Q: What's my next task?
+A: Wait for Telegram message from Kim.G
+   Or check teams/game/workspace/planning/PHASE3_NEXT_TASKS.md
+
+# Communication Standards
+
+RECEIVE FROM TELEGRAM:
+[Cursor IDE: CardDatabase.gd writing
+ - Requirement: TAROT_SYSTEM_GUIDE.md, 30 cards
+ - Reference: teams/game/workspace/guides/CODE_REVIEW.md
+ - Complete after: Create PR
+ - ETA: Tomorrow 5 PM]
+
+REPORT TO TELEGRAM:
+✅ CardDatabase.gd: [PR #123 Link]
+OR
+🔄 ATB Implementation: 70% complete, finishing tomorrow
+OR
+🛑 Rendering issue: Need help with performance
+
+# Resources
+Main Guide: ~/Projects/geekbrox/TOOL_GUIDELINES.md (Cursor IDE section)
+Quick Sheet: ~/Projects/geekbrox/TOOL_CHEATSHEETS.md (Cursor IDE section)
+Workflow: ~/Projects/geekbrox/WORKFLOW_INTEGRATION.md (Step 2-3)
+
+Last Updated: 2026-02-28
+Status: ✅ Ready to Use
