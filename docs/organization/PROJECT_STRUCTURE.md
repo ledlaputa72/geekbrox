@@ -121,6 +121,10 @@ frameworks/
 ├─ README.md                    # 프레임워크 개요
 ├─ blog_automation/             # 블로그 자동화 (현재)
 │  ├─ MANUAL.md                # 사용 설명서
+│  ├─ output/                  # 자동화 결과물 (Git 제외)
+│  │  ├─ images/               # 생성된 이미지들
+│  │  ├─ posts/                # 생성된 블로그 글 (Markdown)
+│  │  └─ shared_state.json     # 상태 추적 파일
 │  ├─ scripts/                 # Python 자동화 스크립트들
 │  │  ├─ fetch_anime.py        # 애니 정보 수집
 │  │  ├─ generate_post.py      # 글 자동 생성
@@ -704,8 +708,6 @@ geekbrox/                              # 프로젝트 루트
 │  ├─ sprints/ (주간 목표)
 │  ├─ tasks/ (태스크 추적)
 │  └─ reports/ (성과 리포트)
-│
-├─ [빌드] build/output/               # 게임 빌드 결과물 (Git 제외)
 │
 └─ [설정] .config/                    # 환경변수, IDE 설정 (Git 제외)
    ├─ .env (API 키, 민감정보)

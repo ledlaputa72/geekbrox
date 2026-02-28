@@ -378,7 +378,7 @@ git push
 ❌ .env (API 키!)
 ❌ __pycache__/
 ❌ .venv/
-❌ build/output/
+❌ frameworks/blog_automation/output/ (자동화 결과물)
 ❌ IDE 설정들 (.cursor/settings.json)
 ```
 

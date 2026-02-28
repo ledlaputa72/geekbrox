@@ -305,14 +305,14 @@ Game Team Lead → Cursor IDE:
  수정 후: PR + 테스트 결과 첨부"
 ```
 
-#### 형식 3: 자동화 요청
+#### 형식 3: 자동화 요청 (향후)
 ```
 Game Team Lead → Claude Code:
-"build.sh 스크립트 작성 필요.
+"게임 빌드 스크립트 작성 필요 (향후).
  요구사항:
   1. Godot 프로젝트 빌드
   2. 성능 벤치마크 실행
-  3. 결과를 build/output/에 저장
+  3. 결과를 frameworks/game_automation/output/에 저장
  완료 후: PR"
 ```
 

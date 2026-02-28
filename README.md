@@ -237,19 +237,6 @@ geekbrox/
 │
 │
 ├─ 🔨 BUILD/ (빌드 산출물, Git 제외)
-│  │
-│  └─ output/                       # 최종 빌드 결과
-│     ├─ dream-collector.apk       # 게임 APK 빌드
-│     └─ dream-collector.ipa       # 게임 iOS 빌드
-│
-│  💡 목적: 게임 빌드 결과물 보관 (Git에서 제외)
-│  📌 특징:
-│     - .gitignore에 등록됨 (큰 파일이므로)
-│     - 필요시 CI/CD로 자동 생성
-│  🎯 사용법:
-│     - ./scripts/build-game.sh (빌드 실행)
-│     - build/output/ 에 결과 저장
-│
 │
 └─ ⚙️  .CONFIG/ (개발 환경 설정, Git 제외)
    │
