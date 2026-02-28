@@ -2,7 +2,7 @@
 
 **소유자:** Steve PM  
 **PM 에이전트:** Atlas  
-**최종 업데이트:** 2026-02-20
+**최종 업데이트:** 2026-02-28
 
 ---
 
@@ -11,19 +11,39 @@
 ```
 project-management/
 ├── README.md                           # 이 파일
+│
+├─ 📋 [조직 & 구조]
+├── PROJECT_STRUCTURE.md                # 전체 폴더 구조 가이드
+├── ORGANIZATION_SUMMARY.md             # 조직 계층 및 팀 구조
+├── WORKSPACE_CONVENTIONS.md            # 파일 명명 규칙 & 컨벤션
+├── TEAM_WORKFLOWS.md                   # 모든 매니저의 역할 & 워크플로우
+├── ONBOARDING.md                       # 새 팀원 3시간 온보딩
+│
+├─ 📂 [팀 가이드]
+├── guides/                             # 기술 가이드 & 개발 프로세스
+│   ├── CODE_REVIEW.md                 # 코드 리뷰 기준
+│   └── BLOG_POSTING_UPDATE.md         # 블로그 포스팅 가이드
+├── manuals/                            # 문제 해결 & 트러블슈팅
+│   └── OPENCLAW_REPAIR.md             # OpenClaw 트러블슈팅
+│
+├─ 📊 [로드맵 & 계획]
 ├── MASTER_ROADMAP.md                   # 전체 프로젝트 마스터 로드맵
 ├── roadmap/                            # 세부 로드맵
 │   ├── game-development-roadmap.md    # 게임 개발 로드맵
 │   └── content-operations-roadmap.md  # 콘텐츠 운영 로드맵
+│
+├─ 🎯 [스프린트 & 태스크]
 ├── sprints/                            # 스프린트 계획
 │   ├── 2026-W08-sprint.md             # 주간 스프린트
 │   └── archive/                       # 지난 스프린트 아카이브
 ├── tasks/                              # 태스크 관리
 │   ├── BACKLOG.md                     # 전체 백로그
 │   ├── IN_PROGRESS.md                 # 진행 중 작업
-│   └── DONE.md                        # 완료 작업 (주간 아카이브)
-└── reports/                            # 주간/월간 보고서
-    └── 2026-02-weekly-report.md       # 주간 보고
+│   └── DONE.md                        # 완료 작업
+│
+└─ 📈 [리포트]
+    └── reports/                        # 주간/월간 보고서
+        └── 2026-02-weekly-report.md   # 주간 보고
 ```
 
 ---

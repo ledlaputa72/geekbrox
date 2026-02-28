@@ -70,31 +70,39 @@ geekbrox/
 │     ./scripts/run_atlas.sh        # 실행
 │
 │
-├─ 📚 DOCS/ (기술 문서 & 가이드)
+├─ 📊 PROJECT-MANAGEMENT/ (프로젝트 관리 & 문서)
 │  │
-│  ├─ guides/                       # 기술 가이드 & 개발 프로세스
-│  │  ├─ CODE_REVIEW.md            # 코드 리뷰 기준 & 프로세스
-│  │  └─ BLOG_POSTING_UPDATE.md   # 블로그 포스팅 업데이트 가이드
+│  ├─ MASTER_ROADMAP.md              # 전체 프로젝트 로드맵
+│  ├─ TEAM_WORKFLOWS.md              # 모든 매니저의 역할 & 워크플로우
+│  ├─ PROJECT_STRUCTURE.md           # 전체 폴더 구조 가이드
+│  ├─ ORGANIZATION_SUMMARY.md        # 조직 계층 & 팀 구조
+│  ├─ WORKSPACE_CONVENTIONS.md       # 파일 명명 규칙 & 팀 컨벤션
+│  ├─ ONBOARDING.md                  # 새 팀원 3시간 온보딩 경로
 │  │
-│  ├─ manuals/                      # 도구 & 서비스 매뉴얼
-│  │  └─ OPENCLAW_REPAIR.md        # OpenClaw 트러블슈팅 가이드
+│  ├─ guides/                        # 기술 가이드 & 개발 프로세스
+│  │  ├─ CODE_REVIEW.md             # 코드 리뷰 기준 & 프로세스
+│  │  └─ BLOG_POSTING_UPDATE.md    # 블로그 포스팅 업데이트 가이드
 │  │
-│  ├─ references/                   # 외부 참고 자료 (폴더)
+│  ├─ manuals/                       # 도구 & 서비스 매뉴얼
+│  │  └─ OPENCLAW_REPAIR.md         # OpenClaw 트러블슈팅 가이드
 │  │
-│  ├─ game_planning/                # 초기 게임 기획 아이디어
+│  ├─ sprints/                       # 스프린트 계획 & 관리
+│  ├─ tasks/                         # 태스크 추적 (BACKLOG, IN_PROGRESS, DONE)
+│  ├─ roadmap/                       # 세부 로드맵 (게임, 콘텐츠)
+│  ├─ reports/                       # 주간/월간 보고서
 │  │
-│  ├─ README.md                     # 문서 색인 & 구조 설명
-│  └─ (향후) API_DOCS/, ARCHITECTURE/ 등
+│  └─ README.md                      # 프로젝트 관리 구조 가이드
 │
-│  💡 목적: 프로젝트 전체의 기술 문서 및 레퍼런스 관리
-│  📌 특징:
+│  💡 목적: 전체 프로젝트 관리 및 팀 워크플로우
+│  📌 구성:
+│     - 상단: 조직 & 구조 문서 (프로젝트 전체 이해)
 │     - guides/: "어떻게 하는가?" (프로세스)
 │     - manuals/: "뭐가 잘못됐을 때?" (트러블슈팅)
-│     - references/: "참고할 자료는?" (레퍼런스)
+│     - sprints/: "이번 주/달 목표는?" (기획)
 │  🎯 사용법:
-│     - 기술 결정: docs/guides/ 참고
-│     - 문제 해결: docs/manuals/ 참고
-│     - 아이디어: docs/game_planning/ 참고
+│     - 처음인가? project-management/ONBOARDING.md 읽기
+│     - 구조가 궁금한가? project-management/PROJECT_STRUCTURE.md 참고
+│     - 역할이 궁금한가? project-management/TEAM_WORKFLOWS.md 참고
 │
 │
 ├─ 📦 RESOURCES/ (공유 자산 & 벤치마킹 자료)
@@ -351,10 +359,11 @@ pip install -r requirements.txt
 
 ### 프로젝트 문서 탐색
 
-- **게임 개발**: `teams/game/dream-collector/workspace/design/`
-- **프로젝트 관리**: `project-management/MASTER_ROADMAP.md`
-- **기술 가이드**: `docs/guides/`
+- **게임 개발**: `teams/game/workspace/`
+- **프로젝트 관리**: `project-management/`
+- **기술 가이드**: `project-management/guides/`
 - **에이전트 매뉴얼**: `agents/atlas/ATLAS_MANUAL.md`
+- **조직 구조**: `agents/AI_AGENTS_AND_WORKFLOW.md`
 
 ---
 
@@ -407,17 +416,21 @@ pip install -r requirements.txt
 
 ## 🔄 최근 업데이트
 
-**2026-02-27 - 폴더 구조 대정리** 🎯
-- ✅ 모든 파일을 목적별로 분류
+**2026-02-28 - 문서 폴더 재정렬** 🎯
+- ✅ docs/ 폴더 제거 및 파일 재배치
+  - `agents/` - AI 에이전트 설정 & 조직 문서
+  - `project-management/` - 프로젝트 관리 & 팀 워크플로우
+  - `teams/[game|content|ops]/workspace/` - 각 팀 개발 문서
+  - `frameworks/blog_automation/output/` - 자동화 결과물
+- ✅ build/ 폴더 제거 (빈 폴더, 자동화 결과는 frameworks에 통합)
+- ✅ 프로젝트 구조 정규화
   - `agents/` - AI 에이전트 설정
   - `frameworks/` - 자동화 프레임워크
-  - `docs/` - 기술 문서
+  - `project-management/` - 프로젝트 관리 & 기술 문서
   - `scripts/` - 유틸리티 스크립트
   - `resources/` - 공유 자산
-  - `.config/` - 개발 환경 설정 (숨김)
-  - `build/` - 빌드 산출물
-- ✅ Dream Collector 개발 추적 통합
-  - `teams/game/workspace/design/dream-collector/05_development_tracking/`
+  - `teams/` - 팀별 개발 프로젝트
+  - `.config/` - 개발 환경 설정 (Git 제외)
 - ✅ 폴더별 README 작성
 - ✅ .gitignore 업데이트
 
