@@ -1,32 +1,120 @@
-# 🎨 Dream Weave - 아트 스타일 가이드 및 레퍼런스 보드 v1.0
+# 🎨 Dream Weave - 아트 스타일 레퍼런스 가이드 v1.0
 
 ## 1. 핵심 방향성: "정교한 동화 (Sophisticated Fairy Tale)"
-- **캐릭터**: 3~4등신 SD, 귀여움, 신비로움
-- **배경**: 몽환적, 서정적, 수채화/파스텔 톤
-- **UI & FX**: 미니멀, 직관적, 부드러운 애니메이션
-- **무드**: 따뜻함, 평온함, 치유(Healing)
+- **캐릭터**: 3~4등신 SD, 귀여움, 신비로움, 풍부한 감정 표현
+- **배경**: 몽환적, 서정적, 수채화/파스텔 톤, 부드러운 빛, 비현실적인 구조물
+- **UI & FX**: 미니멀, 직관적, 부드러운 애니메이션, 파티클 효과
+- **무드**: 따뜻함, 평온함, 때로는 약간의 쓸쓸함, 치유(Healing)
 
 ---
-## 2. 카테고리별 레퍼런스 분석
+
+## 2. 레퍼런스 게임 & 아트 스타일
+
 ### **📁 01_characters/** - 캐릭터 원화
 
-| 레퍼런스 게임/스타일 | 분석 및 적용 포인트 | Reference Link |
-| :--- | :--- | :--- |
-| **Genshin Impact (치비)** | 모델링, 디자인 균형 | [이미지 검색](https://www.google.com/search?q=genshin+impact+official+chibi+art&tbm=isch)<br>[이미지](https://img.game8.jp/4044955/b2ac2193424564a2364c1f54050d276b.jpeg) |
-| **Sky: Children of the Light** | 실루엣, 감정 표현 | [이미지 검색](https://www.google.com/search?q=sky+children+of+the+light+character+art&tbm=isch)<br>[이미지](https://www.thatskygame.com/images/news-articles/sky-celebrates-its-second-anniversary/Anniversary-Infographic-1920x3408.jpg) |
-| **AFK Arena (초기 영웅)** | 일러스트, 동화적 분위기 | [이미지 검색](https://www.google.com/search?q=AFK+Arena+character+illustration+art+style&tbm=isch)<br>[이미지](https://static.wikia.nocookie.net/afk-arena/images/d/d4/Tarnos.png) |
+#### 1️⃣ Genshin Impact (치비 스타일)
+**링크**: https://www.hoyoverse.com/en-us/genshin
+- **특징**: 정교한 3D 카툰 렌더링, 부드러운 재질 표현, 높은 퀄리티
+- **참고 포인트**: 
+  - 의상의 디테일이 살아있으면서도 SD 캐릭터의 귀여움을 잃지 않는 균형
+  - 캐릭터의 개성과 감정을 표현하는 정교한 모션 애니메이션
+  - 게임 내 치비 캐릭터들의 귀여운 동작과 이모션
+- **적용**: '녹스'와 핵심 NPC들의 고품질 모델링 및 의상 디자인에 참고
+
+#### 2️⃣ Sky: Children of the Light
+**링크**: https://thatskygame.com/
+- **특징**: 신비로운 분위기, 심플하면서도 감정 표현이 풍부한 캐릭터 디자인
+- **참고 포인트**:
+  - 망토와 후드를 활용한 단순하고 상징적인 실루엣
+  - 마스크와 제스처만으로 풍부한 감정을 전달하는 애니메이션
+  - 신비로운 분위기 조성을 위한 발광 효과와 파티클
+  - 따뜻하면서도 몽환적인 색감 톤
+- **적용**: 플레이어 캐릭터 '녹스'의 신비로운 분위기와 커스터마이징 아이템 디자인
+
+#### 3️⃣ AFK Arena
+**링크**: https://www.afkarena.com/
+- **특징**: 수채화 느낌의 채색과 동화적인 분위기, 고품질 2D 일러스트
+- **참고 포인트**:
+  - 수채화 느낌의 따뜻한 채색으로 인한 감성적 분위기
+  - 안정적인 3~4등신 비율과 과장되지 않은 동세
+  - 캐릭터 개성을 잘 표현하는 디자인과 색감
+  - 2D 일러스트의 우아함과 세밀함
+- **적용**: 2D 일러스트나 로딩 화면에서 따뜻하고 감성적인 느낌을 전달
+
+---
 
 ### **📁 02_environments/** - 배경/환경 원화
 
-| 레퍼런스 게임/스타일 | 분석 및 적용 포인트 | Reference Link |
-| :--- | :--- | :--- |
-| **Gris** | 색채, 컴포지션, 질감 | [이미지 검색](https://www.google.com/search?q=Gris+game+environment+art&tbm=isch)<br>[이미지](https://nomada.studio/pub/gris/screens/gris-screenshot-02.jpg) |
-| **Monument Valley** | 비현실적 건축, 시점 | [이미지 검색](https://www.google.com/search?q=Monument+Valley+impossible+architecture+art&tbm=isch)<br>[이미지](https://cdn.dribbble.com/users/329433/screenshots/1739348/monument-valley.jpg) |
-| **Ori and the Blind Forest** | 빛과 파티클, 레이어링 | [이미지 검색](https://www.google.com/search?q=Ori+and+the+Blind+Forest+environment+art&tbm=isch)<br>[이미지](https://www.iamag.co/wp-content/uploads/2015/09/ori-and-the-blind-forest-concept-art-25.jpg) |
+#### 1️⃣ Gris
+**링크**: https://nomada.studio/work/gris/
+- **특징**: 감정선에 따라 변하는 색상, 수채화 스타일의 미니멀한 배경
+- **참고 포인트**:
+  - 감정 상태에 따라 변화하는 과감하고 아름다운 색상 팔레트
+  - 여백의 미를 살린 미니멀하고 예술적인 화면 구성
+  - 수채화 물감이 번지는 듯한 텍스처와 부드러운 배경
+  - 게임 내 스토리 진행에 따른 색감 변화의 표현
+- **적용**: 각 막(Act)의 스토리 테마에 따라 배경의 전체적인 색감과 분위기를 바꾸는 핵심 레퍼런스
+
+#### 2️⃣ Monument Valley
+**링크**: https://www.monumentvalleygame.com/
+- **특징**: 비현실적이고 기하학적인 건축물, 불가능한 구조의 아름다움
+- **참고 포인트**:
+  - 현실의 물리 법칙을 무시하는 비현실적이고 기하학적인 건축물
+  - 아이소메트릭 뷰를 활용한 독특하고 아름다운 레벨 디자인
+  - 최소한의 색상으로 신비로운 분위기 조성
+  - 시각적 착각을 활용한 퍼즐 디자인과 내러티브
+- **적용**: 꿈의 세계의 비논리적이고 신비로운 특성을 표현하는 맵과 노드 디자인
+
+#### 3️⃣ Ori and the Blind Forest
+**링크**: https://www.orithegame.com/
+- **특징**: 부드러운 빛 효과, 깊이감 있는 배경 레이어링, 생명감 있는 환경
+- **참고 포인트**:
+  - 배경의 깊이감과 몽환적인 분위기를 극대화하는 부드러운 빛 효과와 반짝이는 파티클
+  - 여러 개의 배경 레이어를 겹쳐 시차 스크롤 효과로 깊이감과 생동감 부여
+  - 자연 친화적이면서도 신비로운 생물과 환경 디자인
+  - 감정을 담은 색감과 라이팅으로 스토리 분위기 표현
+- **적용**: 배경에 생명력을 불어넣는 라이팅 및 VFX의 핵심 레퍼런스
+
+---
 
 ### **📁 03_ui_and_fx/** - UI 및 효과 원화
 
-| 레퍼런스 게임/스타일 | 분석 및 적용 포인트 | Reference Link |
-| :--- | :--- | :--- |
-| **Alto's Adventure**| UI, 부드러운 애니메이션 | [이미지 검색](https://www.google.com/search?q=Alto%27s+Adventure+minimalist+UI&tbm=isch)<br>[이미지](https://cdn.dribbble.com/users/83499/screenshots/1854291/media/e485f26941548171052822a10d9326e6.png) |
-| **Journey** | 상징적 정보 전달, 서정적 이펙트 | [이미지 검색](https://www.google.com/search?q=Journey+game+scarf+fx&tbm=isch)<br>[이미지](https://static.wikia.nocookie.net/dat-game-journey/images/b/b3/Journey-scarf.jpg) |
+#### 1️⃣ Alto's Adventure / Alto's Odyssey
+**링크**: https://www.altosadventure.com/
+- **특징**: 미니멀하면서도 직관적인 UI, 부드러운 애니메이션, 배경과의 조화
+- **참고 포인트**:
+  - 배경에 자연스럽게 녹아드는 반투명하고 미니멀한 아이콘과 버튼
+  - 부드럽고 직관적인 UI 전환 및 피드백 애니메이션
+  - 게임의 전체 분위기를 방해하지 않는 캐주얼한 UI 디자인
+  - 터치 피드백과 시각적 반응의 완벽한 조화
+- **적용**: 전투 화면의 카드 UI, 메뉴 화면에서 군더더기 없는 깔끔한 디자인을 구현
+
+#### 2️⃣ Journey
+**링크**: https://www.journeygame.com/
+- **특징**: 텍스트를 최소화한 상징적 표현, 서정적인 시각 효과
+- **참고 포인트**:
+  - 텍스트를 최소화하고 직관적인 상징과 빛으로 정보를 전달하는 방식
+  - 모래가 바람에 흩날리거나 천이 부드럽게 휘날리는 등의 서정적인 시각 효과
+  - 플레이어의 감정과 여정을 함께하는 UI와 이펙트 디자인
+  - 미니멀하면서도 강렬한 감정 표현
+- **적용**: 카드 효과, 버프/디버프 표시 등을 과하지 않고 아름답게 표현하는 VFX 아이디어
+
+---
+
+### **📁 04_mood_and_color/** - 무드 & 색상 팔레트
+
+#### 참고 색상 팔레트 및 감정 표현
+- **파스텔 톤**: 부드럽고 따뜻한 느낌을 주는 연한 색상 조합
+- **몽환적 라이팅**: 부드러운 그래디언트와 글로우 효과로 신비로운 분위기 조성
+- **감성적 색감 변화**: 상황과 감정에 따라 변하는 색상으로 스토리텔링 지원
+- **대비와 강조**: 최소한의 색상으로 중요한 요소를 강조
+
+---
+
+## 3. 개발 팀 가이드라인
+
+**Art Team**: 위 레퍼런스들을 직접 플레이/감상하고, 각 게임의 특징을 Dream Collector에 맞게 재해석하세요.
+
+**Design Team**: 레퍼런스 게임들의 UI/UX 패턴과 정보 표현 방식을 분석하여 Dream Collector의 인터페이스에 적용하세요.
+
+**Development Team**: 레퍼런스 게임들의 기술적 구현 방식(라이팅, 파티클, 애니메이션 등)을 참고하여 Godot 엔진에서의 구현 방향을 설정하세요.
