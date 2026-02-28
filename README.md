@@ -64,39 +64,39 @@ geekbrox/
 │     - teams/content/workspace/ 과 연동
 │
 │
-├─ 📊 PROJECT-MANAGEMENT/ (프로젝트 관리 & 문서)
+├─ 📊 PROJECT-MANAGEMENT/ (전체 프로젝트 관리)
 │  │
+│  ├─ [핵심 문서]
 │  ├─ MASTER_ROADMAP.md              # 전체 프로젝트 로드맵
-│  ├─ TEAM_WORKFLOWS.md              # 모든 매니저의 역할 & 워크플로우
-│  ├─ PROJECT_STRUCTURE.md           # 전체 폴더 구조 가이드
+│  ├─ TEAM_WORKFLOWS.md              # 모든 팀의 역할 & 워크플로우
 │  ├─ ORGANIZATION_SUMMARY.md        # 조직 계층 & 팀 구조
+│  ├─ PROJECT_STRUCTURE.md           # 전체 폴더 구조 가이드
 │  ├─ WORKSPACE_CONVENTIONS.md       # 파일 명명 규칙 & 팀 컨벤션
 │  ├─ ONBOARDING.md                  # 새 팀원 3시간 온보딩 경로
 │  │
-│  ├─ guides/                        # 기술 가이드 & 개발 프로세스
-│  │  ├─ CODE_REVIEW.md             # 코드 리뷰 기준 & 프로세스
-│  │  └─ BLOG_POSTING_UPDATE.md    # 블로그 포스팅 업데이트 가이드
-│  │
-│  ├─ manuals/                       # 도구 & 서비스 매뉴얼
+│  ├─ [공용 자산]
+│  ├─ manuals/                       # 공용 기술 매뉴얼
 │  │  └─ OPENCLAW_REPAIR.md         # OpenClaw 트러블슈팅 가이드
+│  ├─ references/                    # 공용 참고자료
+│  │  ├─ Game System.pdf            # 게임 시스템 레퍼런스
+│  │  └─ game test.pdf              # 게임 테스트 매뉴얼
 │  │
-│  ├─ sprints/                       # 스프린트 계획 & 관리
-│  ├─ tasks/                         # 태스크 추적 (BACKLOG, IN_PROGRESS, DONE)
-│  ├─ roadmap/                       # 세부 로드맵 (게임, 콘텐츠)
-│  ├─ reports/                       # 주간/월간 보고서
-│  │
-│  └─ README.md                      # 프로젝트 관리 구조 가이드
+│  ├─ [전체 추적]
+│  ├─ tasks/                         # 전체 태스크 추적 (BACKLOG, IN_PROGRESS, DONE)
+│  └─ reports/                       # 월간 전체 리포트
 │
-│  💡 목적: 전체 프로젝트 관리 및 팀 워크플로우
+│  💡 목적: 전체 프로젝트 관리 & 조직 구조
 │  📌 구성:
-│     - 상단: 조직 & 구조 문서 (프로젝트 전체 이해)
-│     - guides/: "어떻게 하는가?" (프로세스)
-│     - manuals/: "뭐가 잘못됐을 때?" (트러블슈팅)
-│     - sprints/: "이번 주/달 목표는?" (기획)
+│     - 핵심 문서: 조직 & 전체 전략 (프로젝트 전체 이해)
+│     - 공용 자산: 모든 팀이 공유하는 가이드 & 참고자료
+│     - 전체 추적: 전체 프로젝트의 진행 상황 (Cross-team)
+│     - 팀별 문서: teams/ 폴더 아래 각 팀별 관리
 │  🎯 사용법:
 │     - 처음인가? project-management/ONBOARDING.md 읽기
 │     - 구조가 궁금한가? project-management/PROJECT_STRUCTURE.md 참고
 │     - 역할이 궁금한가? project-management/TEAM_WORKFLOWS.md 참고
+│     - 게임팀 스프린트? teams/game/workspace/sprints/ 참고
+│     - 콘텐츠팀 가이드? teams/content/workspace/guides/ 참고
 │
 │
 │
