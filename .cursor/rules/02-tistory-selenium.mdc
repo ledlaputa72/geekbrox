@@ -101,4 +101,4 @@ Select(driver.find_element(By.ID, "category")).select_by_visible_text("애니소
 - [ ] `dismiss_alert_if_present()` 주요 단계마다 호출 (이어서 작성 팝업 처리)
 - [ ] 이미지 파일 경로: `output/images/<stem>.jpg` (md 파일명과 동일 stem)
 - [ ] 완료 md 파일: `output/posts/done/`으로 자동 이동
-- [ ] `atlas_bot.py` 절대 실행 금지 (OpenClaw 봇과 충돌)
+- [ ] 텔레그램 봇 실행: `content_team_bot.py` 사용 (OpenClaw 봇과 포트 충돌 방지)

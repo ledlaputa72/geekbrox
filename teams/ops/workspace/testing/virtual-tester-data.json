@@ -1,0 +1,2109 @@
+{
+  "meta": {
+    "test_date": "2026-02-23",
+    "prototype_version": "1.0",
+    "total_testers": 50,
+    "simulation_method": "profile_based",
+    "test_coordinator": "OPS Team",
+    "balance_targets": {
+      "battle_length_turns": "3-5",
+      "hp_loss_percent": "30-50",
+      "fun_rating": "≥3.5",
+      "replay_intent": "≥4.0"
+    }
+  },
+  "testers": [
+    {
+      "id": "T001",
+      "name": "김민준",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 24,
+        "gaming_experience": "모바일 게임 위주, 카드게임 경험 적음",
+        "favorite_genres": ["캐주얼", "퍼즐"],
+        "play_style": "안전한 플레이, 방어 우선"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "방어형",
+        "deck_cards": ["기억 파편 x3", "꿈의 방패 x4", "기본 공격 x3", "레버리 수집 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 7,
+        "max_hp": 10,
+        "hp_loss_percent": 30,
+        "total_reverie": 245,
+        "run_time_minutes": 32,
+        "battles_fought": 3,
+        "avg_battle_turns": 5.0,
+        "cards_acquired": 2,
+        "nodes_completed": 8
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 3,
+        "replay_intent": 3,
+        "best_moment": "꿈의 방패로 적 공격을 완전히 막았을 때",
+        "worst_moment": "노드 6에서 공격 카드가 부족해서 전투가 너무 길어짐",
+        "op_cards": [],
+        "weak_cards": ["메모리 가디언 - 효과가 약해서 사용 안 함"],
+        "difficulty_assessment": "적절함",
+        "other_comments": "전투가 조금 길었지만 안전하게 이길 수 있어서 만족. 공격 카드를 조금 더 넣을 걸 그랬음."
+      }
+    },
+    {
+      "id": "T002",
+      "name": "이서윤",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 28,
+        "gaming_experience": "로그라이크 경험 많음 (Slay the Spire, Hades)",
+        "favorite_genres": ["로그라이크", "액션"],
+        "play_style": "균형잡힌 플레이, 시너지 탐색"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "시너지형",
+        "deck_cards": ["공포 정수 x3", "악몽의 수호 x2", "나이트메어 블레이드 x3", "드림 위버 x2", "기억 파편 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 3,
+        "max_hp": 8,
+        "hp_loss_percent": 62.5,
+        "total_reverie": 310,
+        "run_time_minutes": 24,
+        "battles_fought": 4,
+        "avg_battle_turns": 3.5,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 4,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "공포 정수 + 악몽의 수호 콤보로 20 피해 막기 성공! 완전 짜릿함",
+        "worst_moment": "노드 7 보스전에서 방어 카드가 안 나와서 거의 죽을 뻔",
+        "op_cards": ["나이트메어 블레이드 - 악몽 카드 많으면 피해량 미쳤음"],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "시너지 덱이 너무 재밌음! 콤보 맞추는 맛이 있어서 계속 하고 싶어짐. 다만 초반에 콤보 안 맞으면 좀 불안함."
+      }
+    },
+    {
+      "id": "T003",
+      "name": "박지호",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 19,
+        "gaming_experience": "모바일 RPG 위주, 카드게임 처음",
+        "favorite_genres": ["RPG", "전략"],
+        "play_style": "실험적, 호기심 많음"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "균형형",
+        "deck_cards": ["기본 공격 x3", "꿈의 방패 x3", "기억 파편 x3", "레버리 폭발 x3"]
+      },
+      "run_results": {
+        "result": "패배",
+        "final_hp": 0,
+        "max_hp": 10,
+        "hp_loss_percent": 100,
+        "total_reverie": 180,
+        "run_time_minutes": 22,
+        "battles_fought": 3,
+        "avg_battle_turns": 4.3,
+        "cards_acquired": 2,
+        "nodes_completed": 7
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 3,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "처음으로 레버리 200개 넘게 모았을 때",
+        "worst_moment": "노드 7에서 갑자기 적이 너무 강해서 방어를 못하고 죽음. 너무 허무함",
+        "op_cards": [],
+        "weak_cards": ["레버리 폭발 - 전투에서 도움 안 됨"],
+        "difficulty_assessment": "후반이 너무 어려움",
+        "other_comments": "룰은 이해했는데 어떤 카드를 언제 써야 할지 헷갈림. 튜토리얼이 있으면 좋겠음. 다시 도전하고 싶음!"
+      }
+    },
+    {
+      "id": "T004",
+      "name": "최수진",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 32,
+        "gaming_experience": "덱빌더 전문가 (MTG, Dominion, Griftlands)",
+        "favorite_genres": ["덱빌딩", "전략"],
+        "play_style": "최적화 추구, 효율 중시"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "공격형",
+        "deck_cards": ["루시드 스트라이크 x3", "오블리비언 스트라이크 x2", "헤비 블로우 x2", "체인 라이트닝 x2", "퀵 슬래시 x3"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 2,
+        "max_hp": 6,
+        "hp_loss_percent": 66.7,
+        "total_reverie": 380,
+        "run_time_minutes": 18,
+        "battles_fought": 5,
+        "avg_battle_turns": 2.8,
+        "cards_acquired": 4,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "오블리비언 스트라이크로 보스를 2턴 만에 격파!",
+        "worst_moment": "노드 8에서 방어 카드가 전혀 없어서 HP 4를 잃음. 위험했음",
+        "op_cards": ["오블리비언 스트라이크 - 비용 3에 20 피해는 너무 강함. 5 비용 정도가 적당할 듯"],
+        "weak_cards": ["헤비 블로우 - 카드 버리기 페널티가 너무 큼. 피해 15로 올려야 쓸 만함"],
+        "difficulty_assessment": "적절함 (고난이도라 긴장감 있었음)",
+        "other_comments": "공격 덱이 매우 효율적. 적을 빨리 죽이면 피해를 덜 받음. 다만 밸런스가 약간 문제. 오블리비언 스트라이크가 너무 OP라 다른 공격 카드가 무의미함."
+      }
+    },
+    {
+      "id": "T005",
+      "name": "정현우",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 21,
+        "gaming_experience": "FPS 위주, 카드게임 거의 처음",
+        "favorite_genres": ["FPS", "액션"],
+        "play_style": "공격적, 빠른 진행 선호"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "공격형",
+        "deck_cards": ["기본 공격 x5", "더블 탭 x3", "퀵 슬래시 x4"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 5,
+        "max_hp": 10,
+        "hp_loss_percent": 50,
+        "total_reverie": 260,
+        "run_time_minutes": 19,
+        "battles_fought": 4,
+        "avg_battle_turns": 3.5,
+        "cards_acquired": 2,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 4,
+        "strategy_rating": 3,
+        "replay_intent": 4,
+        "best_moment": "적을 빠르게 죽이는 게 재밌음. 공격 카드만으로도 충분함",
+        "worst_moment": "방어를 못해서 HP가 계속 깎임. 좀 불안했음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "생각보다 재밌음. 카드게임인데 액션 느낌이 나서 좋음. 방어 카드 없이도 이길 수 있어서 만족."
+      }
+    },
+    {
+      "id": "T006",
+      "name": "강민서",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 26,
+        "gaming_experience": "모바일 로그라이크 (Dungeon Maker, Pixel Dungeon)",
+        "favorite_genres": ["로그라이크", "퍼즐"],
+        "play_style": "신중한 플레이, 계획적"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "경제형",
+        "deck_cards": ["기억 파편 x4", "레버리 수집 x3", "레버리 폭발 x2", "꿈의 방패 x3"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 6,
+        "max_hp": 8,
+        "hp_loss_percent": 25,
+        "total_reverie": 450,
+        "run_time_minutes": 35,
+        "battles_fought": 2,
+        "avg_battle_turns": 6.0,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 4,
+        "replay_intent": 3,
+        "best_moment": "기억 노드에서 레버리를 엄청 많이 모았을 때 (450개!)",
+        "worst_moment": "전투가 너무 길어서 지루했음. 공격 카드가 부족해서 적이 안 죽음",
+        "op_cards": ["기억 파편 - 레버리 모으기는 좋은데 전투에서 쓸모없음"],
+        "weak_cards": ["레버리 폭발 - 전투 중에 레버리 모으는 게 의미가 없음"],
+        "difficulty_assessment": "쉬움 (전투를 많이 회피해서)",
+        "other_comments": "레버리 모으는 건 재밌는데 전투가 너무 느려서 답답함. 경제 덱은 공격력이 부족해서 전투가 길어짐. 밸런스 조정 필요."
+      }
+    },
+    {
+      "id": "T007",
+      "name": "윤서준",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 29,
+        "gaming_experience": "TCG 프로 플레이어 (Hearthstone Legend)",
+        "favorite_genres": ["TCG", "전략"],
+        "play_style": "분석적, 메타 이해 깊음"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "시너지형",
+        "deck_cards": ["드림 엔더 x2", "나이트메어 블레이드 x3", "공포 정수 x2", "악몽의 수호 x2", "루시드 드림 x3"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 1,
+        "max_hp": 6,
+        "hp_loss_percent": 83.3,
+        "total_reverie": 420,
+        "run_time_minutes": 21,
+        "battles_fought": 5,
+        "avg_battle_turns": 3.0,
+        "cards_acquired": 4,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "드림 엔더 조건 맞춰서 30 피해 한 방에! 완전 사기",
+        "worst_moment": "HP 1 남고 거의 죽을 뻔. 너무 아슬아슬했음",
+        "op_cards": ["드림 엔더 - HP 5 이하일 때 30 피해는 게임 브레이커. 조건이 너무 쉬움. 20 피해 정도로 너프 필요"],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "시너지 덱의 파워 실링이 너무 높음. 드림 엔더 덱은 거의 무적. 밸런스 패치 시급. 다른 덱은 약해 보임."
+      }
+    },
+    {
+      "id": "T008",
+      "name": "한지우",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 23,
+        "gaming_experience": "모바일 캐주얼 게임 위주",
+        "favorite_genres": ["캐주얼", "시뮬레이션"],
+        "play_style": "편안한 플레이, 스트레스 싫어함"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "방어형",
+        "deck_cards": ["꿈의 방패 x5", "메모리 가디언 x2", "기본 공격 x3", "기억 파편 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 9,
+        "max_hp": 10,
+        "hp_loss_percent": 10,
+        "total_reverie": 220,
+        "run_time_minutes": 38,
+        "battles_fought": 3,
+        "avg_battle_turns": 7.0,
+        "cards_acquired": 1,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 2,
+        "replay_intent": 2,
+        "best_moment": "HP를 거의 잃지 않고 승리한 게 뿌듯함",
+        "worst_moment": "전투가 너무 길어서 지루했음. 적이 안 죽어서 답답함",
+        "op_cards": [],
+        "weak_cards": ["메모리 가디언 - 효과가 약해서 쓸모없음"],
+        "difficulty_assessment": "너무 쉬움 (지루함)",
+        "other_comments": "방어 카드만 넣으니까 안전하긴 한데 재미가 없음. 전투가 너무 길어서 지루함. 다음엔 공격 카드를 더 넣어야겠음."
+      }
+    },
+    {
+      "id": "T009",
+      "name": "임도윤",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 27,
+        "gaming_experience": "인디 게임 애호가 (Into the Breach, FTL)",
+        "favorite_genres": ["로그라이크", "전략"],
+        "play_style": "창의적, 새로운 조합 시도"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "균형형",
+        "deck_cards": ["루시드 스트라이크 x2", "꿈의 방패 x2", "기억 파편 x2", "드림 위버 x2", "체인 라이트닝 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 4,
+        "max_hp": 8,
+        "hp_loss_percent": 50,
+        "total_reverie": 295,
+        "run_time_minutes": 26,
+        "battles_fought": 4,
+        "avg_battle_turns": 4.0,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 4,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "체인 라이트닝으로 적 처치 후 에너지 회복해서 연속 공격!",
+        "worst_moment": "노드 6에서 카드 운이 나빠서 방어 카드가 안 나옴",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "균형 잡힌 덱이 안정적이고 재밌음. 다양한 상황에 대응할 수 있어서 좋음. 카드 드로우 운이 중요한 것 같음."
+      }
+    },
+    {
+      "id": "T010",
+      "name": "송하은",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 20,
+        "gaming_experience": "모바일 퍼즐 게임 위주",
+        "favorite_genres": ["퍼즐", "캐주얼"],
+        "play_style": "탐색적, 천천히 배움"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "방어형",
+        "deck_cards": ["꿈의 방패 x4", "기본 공격 x4", "기억 파편 x2", "레버리 수집 x2"]
+      },
+      "run_results": {
+        "result": "패배",
+        "final_hp": 0,
+        "max_hp": 10,
+        "hp_loss_percent": 100,
+        "total_reverie": 160,
+        "run_time_minutes": 28,
+        "battles_fought": 3,
+        "avg_battle_turns": 5.7,
+        "cards_acquired": 1,
+        "nodes_completed": 6
+      },
+      "feedback": {
+        "fun_rating": 2,
+        "clarity_rating": 2,
+        "strategy_rating": 3,
+        "replay_intent": 3,
+        "best_moment": "처음에는 재밌었음",
+        "worst_moment": "노드 6에서 갑자기 죽어서 당황스러웠음. 뭘 잘못했는지 모르겠음",
+        "op_cards": [],
+        "weak_cards": ["레버리 수집 - 전투에서 도움 안 됨"],
+        "difficulty_assessment": "혼란스러움",
+        "other_comments": "룰이 복잡해서 이해하기 어려웠음. 언제 어떤 카드를 써야 할지 모르겠음. 튜토리얼이나 가이드가 필요함."
+      }
+    },
+    {
+      "id": "T011",
+      "name": "오준혁",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 30,
+        "gaming_experience": "턴제 RPG 팬 (Final Fantasy Tactics, XCOM)",
+        "favorite_genres": ["전략", "RPG"],
+        "play_style": "계산적, 위험 최소화"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "방어형",
+        "deck_cards": ["꿈의 방패 x3", "메모리 가디언 x2", "루시드 스트라이크 x2", "기억 파편 x2", "더블 탭 x3"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 5,
+        "max_hp": 8,
+        "hp_loss_percent": 37.5,
+        "total_reverie": 270,
+        "run_time_minutes": 29,
+        "battles_fought": 4,
+        "avg_battle_turns": 4.5,
+        "cards_acquired": 2,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 5,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "전투 전에 계획을 세워서 피해를 최소화한 게 만족스러움",
+        "worst_moment": "메모리 가디언이 기대만큼 효과적이지 않았음",
+        "op_cards": [],
+        "weak_cards": ["메모리 가디언 - HP 회복 효과가 너무 약함. 5 HP 회복 정도로 버프 필요"],
+        "difficulty_assessment": "적절함",
+        "other_comments": "전략적으로 플레이할 수 있어서 재밌음. 방어와 공격의 균형을 맞추는 게 중요한 것 같음."
+      }
+    },
+    {
+      "id": "T012",
+      "name": "신예진",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 31,
+        "gaming_experience": "스피드러너 (Celeste, Hollow Knight)",
+        "favorite_genres": ["플랫포머", "로그라이크"],
+        "play_style": "공격적, 최단시간 클리어 추구"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "공격형",
+        "deck_cards": ["루시드 스트라이크 x4", "더블 탭 x3", "퀵 슬래시 x4", "헤비 블로우 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 1,
+        "max_hp": 6,
+        "hp_loss_percent": 83.3,
+        "total_reverie": 350,
+        "run_time_minutes": 16,
+        "battles_fought": 5,
+        "avg_battle_turns": 2.6,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "보스를 3턴 만에 격파! 스피드런 성공!",
+        "worst_moment": "HP 1 남았을 때 너무 아슬아슬했음",
+        "op_cards": ["루시드 스트라이크 - 비용 대비 효율 최고"],
+        "weak_cards": ["헤비 블로우 - 페널티가 너무 큼"],
+        "difficulty_assessment": "적절함 (도전적)",
+        "other_comments": "공격 덱이 진짜 재밌음! 빠르게 클리어하는 쾌감이 있음. 스피드런 리더보드 있으면 좋겠음."
+      }
+    },
+    {
+      "id": "T013",
+      "name": "배성민",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 22,
+        "gaming_experience": "MOBA 게임 위주 (LOL, Dota 2)",
+        "favorite_genres": ["MOBA", "전략"],
+        "play_style": "팀플레이 중심, 솔로 게임 경험 적음"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "균형형",
+        "deck_cards": ["기본 공격 x3", "꿈의 방패 x3", "기억 파편 x2", "레버리 폭발 x2", "더블 탭 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 6,
+        "max_hp": 10,
+        "hp_loss_percent": 40,
+        "total_reverie": 250,
+        "run_time_minutes": 27,
+        "battles_fought": 3,
+        "avg_battle_turns": 4.0,
+        "cards_acquired": 2,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 3,
+        "replay_intent": 3,
+        "best_moment": "전투에서 이겼을 때",
+        "worst_moment": "혼자 하는 게 좀 심심함",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "솔로 게임이라 좀 외로움. 협동 모드나 PVP 모드가 있으면 재밌을 것 같음."
+      }
+    },
+    {
+      "id": "T014",
+      "name": "황수아",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 25,
+        "gaming_experience": "보드게임 애호가 (Dominion, Wingspan)",
+        "favorite_genres": ["보드게임", "전략"],
+        "play_style": "분석적, 효율 추구"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "경제형",
+        "deck_cards": ["기억 파편 x5", "레버리 수집 x3", "꿈의 방패 x2", "기본 공격 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 7,
+        "max_hp": 8,
+        "hp_loss_percent": 12.5,
+        "total_reverie": 480,
+        "run_time_minutes": 36,
+        "battles_fought": 2,
+        "avg_battle_turns": 6.5,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 5,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "레버리를 480개나 모았을 때! 최고 기록인 것 같음",
+        "worst_moment": "전투가 너무 길어서 지루했음",
+        "op_cards": ["기억 파편 - 레버리 모으기에는 최고"],
+        "weak_cards": [],
+        "difficulty_assessment": "쉬움 (전투 회피 전략)",
+        "other_comments": "경제 덱이 안정적이지만 전투가 느림. 레버리가 많으면 뭔가 보상이 있으면 좋겠음."
+      }
+    },
+    {
+      "id": "T015",
+      "name": "서진우",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 33,
+        "gaming_experience": "게임 디자이너 (인디 개발자)",
+        "favorite_genres": ["모든 장르"],
+        "play_style": "시스템 분석, 익스플로잇 탐색"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "시너지형",
+        "deck_cards": ["드림 엔더 x3", "루시드 드림 x2", "공포 정수 x2", "나이트메어 블레이드 x2", "악몽의 수호 x3"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 0.5,
+        "max_hp": 6,
+        "hp_loss_percent": 91.7,
+        "total_reverie": 410,
+        "run_time_minutes": 20,
+        "battles_fought": 5,
+        "avg_battle_turns": 2.8,
+        "cards_acquired": 4,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 4,
+        "best_moment": "드림 엔더 트리플 콤보로 보스 원킬!",
+        "worst_moment": "HP 관리 실패로 거의 죽을 뻔",
+        "op_cards": ["드림 엔더 - 완전 게임 브레이커. 비용 5로 올리고 피해 20으로 너프 필요"],
+        "weak_cards": ["악몽의 수호 - 시너지 없으면 약함"],
+        "difficulty_assessment": "적절함",
+        "other_comments": "밸런스 이슈: 드림 엔더가 너무 강함. HP 낮을수록 강해지는 메커니즘은 좋은데 수치가 과함. 다른 시너지 카드는 괜찮음."
+      }
+    },
+    {
+      "id": "T016",
+      "name": "조민지",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 24,
+        "gaming_experience": "모바일 방치형 게임 팬",
+        "favorite_genres": ["방치형", "시뮬레이션"],
+        "play_style": "편안한 플레이, 자동화 선호"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "경제형",
+        "deck_cards": ["기억 파편 x4", "레버리 수집 x4", "꿈의 방패 x2", "기본 공격 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 8,
+        "max_hp": 10,
+        "hp_loss_percent": 20,
+        "total_reverie": 380,
+        "run_time_minutes": 40,
+        "battles_fought": 2,
+        "avg_battle_turns": 7.0,
+        "cards_acquired": 2,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 2,
+        "replay_intent": 2,
+        "best_moment": "레버리를 많이 모은 게 뿌듯함",
+        "worst_moment": "전투가 너무 길어서 지루했음. 자동 전투 기능 있으면 좋겠음",
+        "op_cards": [],
+        "weak_cards": ["레버리 수집 - 전투에서 쓸모없음"],
+        "difficulty_assessment": "쉬움",
+        "other_comments": "방치형 게임처럼 자동으로 진행되면 좋겠음. 전투를 일일이 하는 게 번거로움."
+      }
+    },
+    {
+      "id": "T017",
+      "name": "이채원",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 28,
+        "gaming_experience": "액션 RPG 팬 (Dark Souls, Elden Ring)",
+        "favorite_genres": ["액션 RPG", "로그라이크"],
+        "play_style": "도전적, 고난이도 선호"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "균형형",
+        "deck_cards": ["루시드 스트라이크 x3", "꿈의 방패 x3", "기억 파편 x2", "더블 탭 x2", "체인 라이트닝 x2"]
+      },
+      "run_results": {
+        "result": "패배",
+        "final_hp": 0,
+        "max_hp": 6,
+        "hp_loss_percent": 100,
+        "total_reverie": 280,
+        "run_time_minutes": 23,
+        "battles_fought": 4,
+        "avg_battle_turns": 4.0,
+        "cards_acquired": 3,
+        "nodes_completed": 9
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "보스 직전까지 살아남았을 때 긴장감 미침",
+        "worst_moment": "보스한테 죽었는데 아쉬움. 한 번 더 도전하고 싶음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함 (도전적)",
+        "other_comments": "피어 난이도가 진짜 어려움. 다크소울 느낌 나서 좋음. 다시 도전해서 보스 잡고 싶음!"
+      }
+    },
+    {
+      "id": "T018",
+      "name": "박시현",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 20,
+        "gaming_experience": "리듬 게임 위주",
+        "favorite_genres": ["리듬", "캐주얼"],
+        "play_style": "직관적, 복잡한 거 싫어함"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "공격형",
+        "deck_cards": ["기본 공격 x6", "더블 탭 x4", "퀵 슬래시 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 4,
+        "max_hp": 10,
+        "hp_loss_percent": 60,
+        "total_reverie": 240,
+        "run_time_minutes": 21,
+        "battles_fought": 4,
+        "avg_battle_turns": 3.5,
+        "cards_acquired": 1,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 4,
+        "strategy_rating": 3,
+        "replay_intent": 4,
+        "best_moment": "공격 카드로 적을 빠르게 죽이는 게 상쾌함",
+        "worst_moment": "HP가 많이 깎여서 불안했음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "단순하게 공격만 하면 돼서 쉬웠음. 복잡한 콤보 없이도 이길 수 있어서 좋음."
+      }
+    },
+    {
+      "id": "T019",
+      "name": "김나영",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 26,
+        "gaming_experience": "시뮬레이션 게임 팬 (Stardew Valley, Animal Crossing)",
+        "favorite_genres": ["시뮬레이션", "경영"],
+        "play_style": "자원 관리 중시, 장기 계획"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "경제형",
+        "deck_cards": ["기억 파편 x3", "레버리 수집 x3", "레버리 폭발 x2", "꿈의 방패 x2", "기본 공격 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 6,
+        "max_hp": 8,
+        "hp_loss_percent": 25,
+        "total_reverie": 410,
+        "run_time_minutes": 33,
+        "battles_fought": 3,
+        "avg_battle_turns": 5.7,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 5,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "레버리를 효율적으로 모으면서 안전하게 클리어한 게 만족스러움",
+        "worst_moment": "전투가 좀 길었지만 견딜 만함",
+        "op_cards": [],
+        "weak_cards": ["레버리 폭발 - 전투 중에 쓸모없음"],
+        "difficulty_assessment": "적절함",
+        "other_comments": "자원 관리가 중요한 게임이라 재밌음. 레버리를 어디에 쓸 수 있으면 더 재밌을 듯."
+      }
+    },
+    {
+      "id": "T020",
+      "name": "정태양",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 34,
+        "gaming_experience": "전략 게임 마스터 (Civilization, StarCraft)",
+        "favorite_genres": ["전략", "RTS"],
+        "play_style": "장기 전략, 완벽주의"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "균형형",
+        "deck_cards": ["루시드 스트라이크 x2", "꿈의 방패 x3", "기억 파편 x2", "드림 위버 x2", "나이트메어 블레이드 x2", "체인 라이트닝 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 3,
+        "max_hp": 6,
+        "hp_loss_percent": 50,
+        "total_reverie": 360,
+        "run_time_minutes": 25,
+        "battles_fought": 5,
+        "avg_battle_turns": 3.8,
+        "cards_acquired": 4,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "완벽한 덱 밸런스로 모든 상황에 대응한 게 만족스러움",
+        "worst_moment": "노드 8에서 카드 운이 나빴지만 극복함",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "전략적 깊이가 있어서 재밌음. 덱 구성과 자원 관리가 중요함. 다양한 전략이 가능해서 재플레이성이 높음."
+      }
+    },
+    {
+      "id": "T021",
+      "name": "한유진",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 21,
+        "gaming_experience": "소셜 게임 위주 (Among Us, Fall Guys)",
+        "favorite_genres": ["소셜", "파티"],
+        "play_style": "친구와 함께, 경쟁보다 재미"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "균형형",
+        "deck_cards": ["기본 공격 x3", "꿈의 방패 x3", "기억 파편 x3", "더블 탭 x3"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 7,
+        "max_hp": 10,
+        "hp_loss_percent": 30,
+        "total_reverie": 255,
+        "run_time_minutes": 26,
+        "battles_fought": 3,
+        "avg_battle_turns": 4.0,
+        "cards_acquired": 2,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 3,
+        "replay_intent": 3,
+        "best_moment": "보스를 이긴 게 뿌듯함",
+        "worst_moment": "혼자 하는 게 좀 심심함",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "친구랑 같이 하면 재밌을 것 같음. 협동 모드나 대전 모드 있으면 좋겠음."
+      }
+    },
+    {
+      "id": "T022",
+      "name": "최서연",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 29,
+        "gaming_experience": "어드벤처 게임 팬 (Life is Strange, Telltale Games)",
+        "favorite_genres": ["어드벤처", "스토리"],
+        "play_style": "스토리 중심, 선택 중시"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "균형형",
+        "deck_cards": ["루시드 스트라이크 x2", "꿈의 방패 x2", "기억 파편 x2", "드림 위버 x2", "더블 탭 x2", "레버리 수집 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 5,
+        "max_hp": 8,
+        "hp_loss_percent": 37.5,
+        "total_reverie": 285,
+        "run_time_minutes": 28,
+        "battles_fought": 4,
+        "avg_battle_turns": 4.3,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 4,
+        "replay_intent": 3,
+        "best_moment": "이벤트 노드에서 선택하는 게 재밌었음",
+        "worst_moment": "스토리가 부족해서 아쉬움",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "게임 메커니즘은 괜찮은데 스토리나 세계관이 더 풍부하면 좋겠음. 카드에 스토리가 있으면 더 몰입될 듯."
+      }
+    },
+    {
+      "id": "T023",
+      "name": "강동현",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 30,
+        "gaming_experience": "컴페티티브 게이머 (Overwatch, Valorant)",
+        "favorite_genres": ["FPS", "경쟁"],
+        "play_style": "공격적, 최적 빌드 추구"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "공격형",
+        "deck_cards": ["오블리비언 스트라이크 x3", "루시드 스트라이크 x3", "체인 라이트닝 x2", "더블 탭 x2", "퀵 슬래시 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 2,
+        "max_hp": 6,
+        "hp_loss_percent": 66.7,
+        "total_reverie": 390,
+        "run_time_minutes": 17,
+        "battles_fought": 5,
+        "avg_battle_turns": 2.6,
+        "cards_acquired": 4,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "오블리비언 스트라이크 3장으로 보스 순삭!",
+        "worst_moment": "HP 관리 실패로 아슬아슬했음",
+        "op_cards": ["오블리비언 스트라이크 - 완전 사기. 3장만 있으면 게임 끝남"],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "메타 덱이 확실함. 오블리비언 스트라이크 덱이 최강. 밸런스 패치 필요. PVP 모드 있으면 재밌을 듯."
+      }
+    },
+    {
+      "id": "T024",
+      "name": "윤하린",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 23,
+        "gaming_experience": "모바일 캐주얼 게임",
+        "favorite_genres": ["캐주얼", "매치3"],
+        "play_style": "편안한 플레이, 복잡한 거 싫어함"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "방어형",
+        "deck_cards": ["꿈의 방패 x4", "기본 공격 x4", "기억 파편 x2", "레버리 수집 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 8,
+        "max_hp": 10,
+        "hp_loss_percent": 20,
+        "total_reverie": 230,
+        "run_time_minutes": 34,
+        "battles_fought": 3,
+        "avg_battle_turns": 5.7,
+        "cards_acquired": 1,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 2,
+        "replay_intent": 2,
+        "best_moment": "HP를 많이 남기고 승리한 게 뿌듯함",
+        "worst_moment": "전투가 너무 길어서 지루했음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "쉬움",
+        "other_comments": "안전하게 이기긴 했는데 재미는 별로. 전투가 빨리 끝나면 좋겠음."
+      }
+    },
+    {
+      "id": "T025",
+      "name": "이준호",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 27,
+        "gaming_experience": "샌드박스 게임 팬 (Minecraft, Terraria)",
+        "favorite_genres": ["샌드박스", "탐험"],
+        "play_style": "탐험적, 실험 좋아함"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "시너지형",
+        "deck_cards": ["드림 위버 x3", "루시드 드림 x2", "공포 정수 x2", "악몽의 수호 x2", "기억 파편 x3"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 4,
+        "max_hp": 8,
+        "hp_loss_percent": 50,
+        "total_reverie": 305,
+        "run_time_minutes": 26,
+        "battles_fought": 4,
+        "avg_battle_turns": 3.8,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 4,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "드림 위버 + 루시드 드림 콤보로 연속 공격 성공!",
+        "worst_moment": "초반에 콤보가 안 맞아서 불안했음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "시너지 덱이 재밌음. 다양한 조합을 실험하고 싶음. 카드가 더 많으면 좋겠음."
+      }
+    },
+    {
+      "id": "T026",
+      "name": "박은지",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 22,
+        "gaming_experience": "모바일 방치형 게임",
+        "favorite_genres": ["방치형", "클리커"],
+        "play_style": "편안한 플레이, 자동화 선호"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "경제형",
+        "deck_cards": ["기억 파편 x4", "레버리 수집 x3", "꿈의 방패 x3", "기본 공격 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 9,
+        "max_hp": 10,
+        "hp_loss_percent": 10,
+        "total_reverie": 420,
+        "run_time_minutes": 38,
+        "battles_fought": 2,
+        "avg_battle_turns": 6.5,
+        "cards_acquired": 2,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 2,
+        "clarity_rating": 4,
+        "strategy_rating": 2,
+        "replay_intent": 2,
+        "best_moment": "레버리를 많이 모은 게 뿌듯함",
+        "worst_moment": "전투를 일일이 해야 해서 번거로움",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "쉬움",
+        "other_comments": "자동 전투 기능이 있으면 좋겠음. 방치형 게임처럼 자동으로 진행되면 편할 듯."
+      }
+    },
+    {
+      "id": "T027",
+      "name": "김도훈",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 28,
+        "gaming_experience": "호러 게임 팬 (Resident Evil, Silent Hill)",
+        "favorite_genres": ["호러", "어드벤처"],
+        "play_style": "긴장감 즐김, 분위기 중시"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "균형형",
+        "deck_cards": ["루시드 스트라이크 x2", "꿈의 방패 x2", "기억 파편 x2", "공포 정수 x2", "나이트메어 블레이드 x2", "악몽의 수호 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 3,
+        "max_hp": 8,
+        "hp_loss_percent": 62.5,
+        "total_reverie": 290,
+        "run_time_minutes": 27,
+        "battles_fought": 4,
+        "avg_battle_turns": 4.0,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 4,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "HP가 낮아졌을 때 긴장감이 있어서 재밌었음",
+        "worst_moment": "악몽 카드 테마가 좋은데 스토리나 분위기가 부족함",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "악몽 테마가 좋음. 스토리나 분위기를 더 살리면 호러 팬들이 좋아할 듯."
+      }
+    },
+    {
+      "id": "T028",
+      "name": "정수빈",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 31,
+        "gaming_experience": "매직 더 개더링 프로 플레이어",
+        "favorite_genres": ["TCG", "전략"],
+        "play_style": "분석적, 메타 이해 깊음"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "시너지형",
+        "deck_cards": ["나이트메어 블레이드 x4", "공포 정수 x3", "악몽의 수호 x2", "드림 엔더 x2", "루시드 드림 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 1,
+        "max_hp": 6,
+        "hp_loss_percent": 83.3,
+        "total_reverie": 400,
+        "run_time_minutes": 22,
+        "battles_fought": 5,
+        "avg_battle_turns": 3.2,
+        "cards_acquired": 4,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "악몽 시너지 덱이 완벽하게 작동함",
+        "worst_moment": "드림 엔더가 너무 강해서 밸런스 걱정됨",
+        "op_cards": ["드림 엔더 - HP 5 이하 조건 너무 쉬움. 3 이하로 변경 또는 피해 20으로 너프"],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "전반적으로 잘 디자인된 게임. 다만 드림 엔더와 오블리비언 스트라이크가 메타를 지배함. 다른 카드도 버프해서 다양성 확보 필요."
+      }
+    },
+    {
+      "id": "T029",
+      "name": "조아라",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 20,
+        "gaming_experience": "모바일 캐주얼 게임",
+        "favorite_genres": ["캐주얼", "퍼즐"],
+        "play_style": "편안한 플레이, 스트레스 싫어함"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "방어형",
+        "deck_cards": ["꿈의 방패 x5", "메모리 가디언 x2", "기본 공격 x3", "기억 파편 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 10,
+        "max_hp": 10,
+        "hp_loss_percent": 0,
+        "total_reverie": 210,
+        "run_time_minutes": 42,
+        "battles_fought": 3,
+        "avg_battle_turns": 8.0,
+        "cards_acquired": 1,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 2,
+        "clarity_rating": 4,
+        "strategy_rating": 2,
+        "replay_intent": 1,
+        "best_moment": "HP를 전혀 잃지 않고 승리!",
+        "worst_moment": "전투가 너무 길어서 지루했음. 거의 잠들 뻔",
+        "op_cards": [],
+        "weak_cards": ["메모리 가디언 - 쓸모없음"],
+        "difficulty_assessment": "너무 쉬움",
+        "other_comments": "방어 카드만 넣으니까 완전 안전한데 재미가 하나도 없음. 절대 다시 안 할 듯."
+      }
+    },
+    {
+      "id": "T030",
+      "name": "최현수",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 26,
+        "gaming_experience": "JRPG 팬 (Persona, Dragon Quest)",
+        "favorite_genres": ["JRPG", "RPG"],
+        "play_style": "스토리 중심, 캐릭터 성장"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "균형형",
+        "deck_cards": ["루시드 스트라이크 x2", "꿈의 방패 x2", "기억 파편 x2", "드림 위버 x2", "더블 탭 x2", "레버리 수집 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 5,
+        "max_hp": 8,
+        "hp_loss_percent": 37.5,
+        "total_reverie": 280,
+        "run_time_minutes": 29,
+        "battles_fought": 4,
+        "avg_battle_turns": 4.3,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 4,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "보스 전투가 긴장감 있어서 좋았음",
+        "worst_moment": "카드 성장이나 업그레이드 시스템이 없어서 아쉬움",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "카드를 강화하거나 업그레이드할 수 있으면 더 재밌을 듯. 메타 진행 시스템이 있으면 좋겠음."
+      }
+    },
+    {
+      "id": "T031",
+      "name": "강예은",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 32,
+        "gaming_experience": "TCG 유튜버 (컨텐츠 크리에이터)",
+        "favorite_genres": ["TCG", "전략"],
+        "play_style": "컨텐츠 제작, 빌드 실험"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "공격형",
+        "deck_cards": ["오블리비언 스트라이크 x4", "루시드 스트라이크 x3", "헤비 블로우 x2", "체인 라이트닝 x2", "더블 탭 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 2,
+        "max_hp": 6,
+        "hp_loss_percent": 66.7,
+        "total_reverie": 410,
+        "run_time_minutes": 16,
+        "battles_fought": 5,
+        "avg_battle_turns": 2.4,
+        "cards_acquired": 4,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 5,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "오블리비언 스트라이크 4장 덱이 완전 개사기!",
+        "worst_moment": "밸런스가 깨져서 다른 빌드가 의미 없음",
+        "op_cards": ["오블리비언 스트라이크 - 메타 지배. 이거 4장이면 게임 끝. 비용 5로 올려야 함"],
+        "weak_cards": ["헤비 블로우 - 페널티 대비 효율 최악"],
+        "difficulty_assessment": "쉬움 (오블리비언 덱이라)",
+        "other_comments": "오블리비언 스트라이크 덱 영상 찍으면 조회수 나올 듯. 밸런스는 문제지만 재밌긴 함."
+      }
+    },
+    {
+      "id": "T032",
+      "name": "이서진",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 24,
+        "gaming_experience": "모바일 게임 초보",
+        "favorite_genres": ["캐주얼"],
+        "play_style": "느긋한 플레이"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "균형형",
+        "deck_cards": ["기본 공격 x3", "꿈의 방패 x3", "기억 파편 x3", "레버리 폭발 x3"]
+      },
+      "run_results": {
+        "result": "패배",
+        "final_hp": 0,
+        "max_hp": 10,
+        "hp_loss_percent": 100,
+        "total_reverie": 140,
+        "run_time_minutes": 20,
+        "battles_fought": 2,
+        "avg_battle_turns": 4.5,
+        "cards_acquired": 1,
+        "nodes_completed": 5
+      },
+      "feedback": {
+        "fun_rating": 2,
+        "clarity_rating": 2,
+        "strategy_rating": 2,
+        "replay_intent": 2,
+        "best_moment": "처음에는 재밌었음",
+        "worst_moment": "갑자기 죽어서 당황스러웠음",
+        "op_cards": [],
+        "weak_cards": ["레버리 폭발 - 전투에서 쓸모없음"],
+        "difficulty_assessment": "어려움",
+        "other_comments": "룰을 이해하기 어려웠음. 튜토리얼이 필요함."
+      }
+    },
+    {
+      "id": "T033",
+      "name": "박민재",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 27,
+        "gaming_experience": "배틀로얄 게임 팬 (PUBG, Apex)",
+        "favorite_genres": ["배틀로얄", "FPS"],
+        "play_style": "공격적, 빠른 진행"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "공격형",
+        "deck_cards": ["루시드 스트라이크 x3", "더블 탭 x3", "퀵 슬래시 x3", "체인 라이트닝 x2", "기본 공격 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 3,
+        "max_hp": 8,
+        "hp_loss_percent": 62.5,
+        "total_reverie": 320,
+        "run_time_minutes": 20,
+        "battles_fought": 5,
+        "avg_battle_turns": 3.2,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 4,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "적을 빠르게 처치하는 게 상쾌함",
+        "worst_moment": "HP가 많이 깎여서 불안했음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "공격 덱이 재밌음. 빠른 진행이 배틀로얄 느낌 남."
+      }
+    },
+    {
+      "id": "T034",
+      "name": "정하윤",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 33,
+        "gaming_experience": "소울라이크 마스터 (Dark Souls, Bloodborne, Sekiro)",
+        "favorite_genres": ["소울라이크", "액션"],
+        "play_style": "완벽주의, 노데미지 추구"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "방어형",
+        "deck_cards": ["꿈의 방패 x4", "메모리 가디언 x2", "루시드 스트라이크 x3", "악몽의 수호 x2", "공포 정수 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 4,
+        "max_hp": 6,
+        "hp_loss_percent": 33.3,
+        "total_reverie": 300,
+        "run_time_minutes": 32,
+        "battles_fought": 5,
+        "avg_battle_turns": 5.0,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "완벽한 방어로 피해를 최소화한 게 만족스러움",
+        "worst_moment": "메모리 가디언이 기대만큼 효과적이지 않았음",
+        "op_cards": [],
+        "weak_cards": ["메모리 가디언 - HP 회복 효과 너무 약함. 5 HP로 버프 필요"],
+        "difficulty_assessment": "적절함 (도전적)",
+        "other_comments": "방어 덱으로 피어 난이도 클리어 가능. 전략적으로 플레이하면 HP 손실 최소화 가능. 소울라이크 느낌 나서 좋음."
+      }
+    },
+    {
+      "id": "T035",
+      "name": "김서우",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 21,
+        "gaming_experience": "스포츠 게임 위주 (FIFA, NBA 2K)",
+        "favorite_genres": ["스포츠", "시뮬레이션"],
+        "play_style": "직관적, 단순 선호"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "공격형",
+        "deck_cards": ["기본 공격 x6", "더블 탭 x4", "퀵 슬래시 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 5,
+        "max_hp": 10,
+        "hp_loss_percent": 50,
+        "total_reverie": 250,
+        "run_time_minutes": 22,
+        "battles_fought": 4,
+        "avg_battle_turns": 3.5,
+        "cards_acquired": 1,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 3,
+        "replay_intent": 3,
+        "best_moment": "공격 카드로 적을 빠르게 죽이는 게 상쾌함",
+        "worst_moment": "전략이 별로 없어서 단조로움",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "단순하게 공격만 하면 돼서 쉬웠음. 복잡한 건 싫어서 괜찮음."
+      }
+    },
+    {
+      "id": "T036",
+      "name": "이나연",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 28,
+        "gaming_experience": "메트로배니아 팬 (Hollow Knight, Ori)",
+        "favorite_genres": ["메트로배니아", "플랫포머"],
+        "play_style": "탐험적, 도전 즐김"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "균형형",
+        "deck_cards": ["루시드 스트라이크 x3", "꿈의 방패 x3", "기억 파편 x2", "드림 위버 x2", "체인 라이트닝 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 4,
+        "max_hp": 8,
+        "hp_loss_percent": 50,
+        "total_reverie": 295,
+        "run_time_minutes": 26,
+        "battles_fought": 4,
+        "avg_battle_turns": 4.0,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 4,
+        "strategy_rating": 4,
+        "replay_intent": 5,
+        "best_moment": "보스 전투가 긴장감 있어서 재밌었음",
+        "worst_moment": "맵 탐험 요소가 없어서 아쉬움",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "탐험 요소나 비밀 노드 같은 게 있으면 더 재밌을 듯. 전투는 만족스러움."
+      }
+    },
+    {
+      "id": "T037",
+      "name": "박준서",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 29,
+        "gaming_experience": "테트리스 99 챔피언",
+        "favorite_genres": ["퍼즐", "아케이드"],
+        "play_style": "최적화 추구, 빠른 판단"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "시너지형",
+        "deck_cards": ["체인 라이트닝 x4", "루시드 스트라이크 x3", "드림 위버 x2", "공포 정수 x2", "악몽의 수호 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 2,
+        "max_hp": 6,
+        "hp_loss_percent": 66.7,
+        "total_reverie": 380,
+        "run_time_minutes": 19,
+        "battles_fought": 5,
+        "avg_battle_turns": 3.0,
+        "cards_acquired": 4,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "체인 라이트닝 콤보로 적을 연속 처치!",
+        "worst_moment": "없음",
+        "op_cards": ["체인 라이트닝 - 에너지 리펀드 메커니즘이 강력함"],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "체인 라이트닝 덱이 재밌음. 빠른 판단이 중요해서 퍼즐 게임 느낌 남. 리더보드나 타임 어택 모드 있으면 좋겠음."
+      }
+    },
+    {
+      "id": "T038",
+      "name": "최유나",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 23,
+        "gaming_experience": "모바일 소셜 게임 위주",
+        "favorite_genres": ["소셜", "캐주얼"],
+        "play_style": "친구와 함께, 경쟁보다 재미"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "균형형",
+        "deck_cards": ["기본 공격 x3", "꿈의 방패 x3", "기억 파편 x3", "레버리 수집 x3"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 7,
+        "max_hp": 10,
+        "hp_loss_percent": 30,
+        "total_reverie": 270,
+        "run_time_minutes": 30,
+        "battles_fought": 3,
+        "avg_battle_turns": 4.7,
+        "cards_acquired": 2,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 3,
+        "replay_intent": 3,
+        "best_moment": "보스를 이긴 게 뿌듯함",
+        "worst_moment": "혼자 하는 게 심심함",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "친구랑 같이 하면 재밌을 것 같음. 협동 모드나 길드 시스템 있으면 좋겠음."
+      }
+    },
+    {
+      "id": "T039",
+      "name": "강태민",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 30,
+        "gaming_experience": "MMORPG 베테랑 (WoW, FF14)",
+        "favorite_genres": ["MMORPG", "RPG"],
+        "play_style": "최적화 추구, 효율 중시"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "시너지형",
+        "deck_cards": ["드림 위버 x3", "루시드 드림 x2", "나이트메어 블레이드 x3", "공포 정수 x2", "기억 파편 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 5,
+        "max_hp": 8,
+        "hp_loss_percent": 37.5,
+        "total_reverie": 310,
+        "run_time_minutes": 25,
+        "battles_fought": 4,
+        "avg_battle_turns": 3.8,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "시너지 콤보가 완벽하게 작동함",
+        "worst_moment": "없음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "시너지 덱이 MMORPG 레이드 느낌 남. 빌드 최적화가 재밌음. 메타 진행 시스템 있으면 더 좋겠음."
+      }
+    },
+    {
+      "id": "T040",
+      "name": "윤서아",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 31,
+        "gaming_experience": "포커 프로 플레이어",
+        "favorite_genres": ["카드", "전략"],
+        "play_style": "확률 계산, 위험 관리"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "균형형",
+        "deck_cards": ["루시드 스트라이크 x3", "꿈의 방패 x3", "기억 파편 x2", "체인 라이트닝 x2", "드림 위버 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 3,
+        "max_hp": 6,
+        "hp_loss_percent": 50,
+        "total_reverie": 350,
+        "run_time_minutes": 24,
+        "battles_fought": 5,
+        "avg_battle_turns": 3.6,
+        "cards_acquired": 4,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "카드 확률 계산해서 완벽한 플레이",
+        "worst_moment": "없음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "카드 확률과 위험 관리가 중요함. 포커처럼 전략적. 고급 플레이어에게 재밌음."
+      }
+    },
+    {
+      "id": "T041",
+      "name": "한도영",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 22,
+        "gaming_experience": "모바일 게임 초보",
+        "favorite_genres": ["캐주얼", "퍼즐"],
+        "play_style": "느긋한 플레이, 스트레스 싫어함"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "방어형",
+        "deck_cards": ["꿈의 방패 x4", "기본 공격 x4", "기억 파편 x2", "레버리 수집 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 9,
+        "max_hp": 10,
+        "hp_loss_percent": 10,
+        "total_reverie": 240,
+        "run_time_minutes": 36,
+        "battles_fought": 3,
+        "avg_battle_turns": 6.0,
+        "cards_acquired": 1,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 2,
+        "replay_intent": 2,
+        "best_moment": "HP를 거의 잃지 않고 승리",
+        "worst_moment": "전투가 너무 길어서 지루했음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "쉬움",
+        "other_comments": "안전하게 이기긴 했는데 재미는 별로. 다음엔 공격 카드를 더 넣을 듯."
+      }
+    },
+    {
+      "id": "T042",
+      "name": "송지훈",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 27,
+        "gaming_experience": "배틀로얄 게임 팬 (Fortnite, Warzone)",
+        "favorite_genres": ["배틀로얄", "FPS"],
+        "play_style": "공격적, 빠른 진행"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "공격형",
+        "deck_cards": ["루시드 스트라이크 x3", "더블 탭 x3", "퀵 슬래시 x3", "체인 라이트닝 x2", "기본 공격 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 3,
+        "max_hp": 8,
+        "hp_loss_percent": 62.5,
+        "total_reverie": 315,
+        "run_time_minutes": 21,
+        "battles_fought": 5,
+        "avg_battle_turns": 3.4,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 4,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "적을 빠르게 처치하는 게 배틀로얄 느낌 남",
+        "worst_moment": "HP가 많이 깎여서 불안했음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "공격 덱이 재밌음. PVP 모드 있으면 진짜 재밌을 듯."
+      }
+    },
+    {
+      "id": "T043",
+      "name": "정민아",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 32,
+        "gaming_experience": "체스 그랜드마스터",
+        "favorite_genres": ["전략", "보드게임"],
+        "play_style": "분석적, 장기 전략"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "방어형",
+        "deck_cards": ["꿈의 방패 x4", "메모리 가디언 x2", "루시드 스트라이크 x3", "악몽의 수호 x2", "공포 정수 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 4,
+        "max_hp": 6,
+        "hp_loss_percent": 33.3,
+        "total_reverie": 310,
+        "run_time_minutes": 30,
+        "battles_fought": 5,
+        "avg_battle_turns": 4.8,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "완벽한 방어 전략으로 피해 최소화",
+        "worst_moment": "없음",
+        "op_cards": [],
+        "weak_cards": ["메모리 가디언 - HP 회복 효과 약함"],
+        "difficulty_assessment": "적절함",
+        "other_comments": "체스처럼 전략적. 몇 수 앞을 내다보는 플레이가 중요함. 고급 플레이어에게 재밌음."
+      }
+    },
+    {
+      "id": "T044",
+      "name": "김현우",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 20,
+        "gaming_experience": "모바일 게임 초보",
+        "favorite_genres": ["캐주얼"],
+        "play_style": "편안한 플레이"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "균형형",
+        "deck_cards": ["기본 공격 x3", "꿈의 방패 x3", "기억 파편 x3", "레버리 폭발 x3"]
+      },
+      "run_results": {
+        "result": "패배",
+        "final_hp": 0,
+        "max_hp": 10,
+        "hp_loss_percent": 100,
+        "total_reverie": 150,
+        "run_time_minutes": 24,
+        "battles_fought": 3,
+        "avg_battle_turns": 4.3,
+        "cards_acquired": 1,
+        "nodes_completed": 6
+      },
+      "feedback": {
+        "fun_rating": 2,
+        "clarity_rating": 3,
+        "strategy_rating": 2,
+        "replay_intent": 2,
+        "best_moment": "처음에는 재밌었음",
+        "worst_moment": "갑자기 죽어서 당황",
+        "op_cards": [],
+        "weak_cards": ["레버리 폭발 - 전투에서 쓸모없음"],
+        "difficulty_assessment": "어려움",
+        "other_comments": "룰을 이해하기 어려웠음. 튜토리얼 필요."
+      }
+    },
+    {
+      "id": "T045",
+      "name": "이소연",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 25,
+        "gaming_experience": "인디 게임 애호가",
+        "favorite_genres": ["인디", "로그라이크"],
+        "play_style": "실험적, 창의적"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "시너지형",
+        "deck_cards": ["드림 위버 x3", "루시드 드림 x2", "공포 정수 x2", "악몽의 수호 x2", "기억 파편 x3"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 4,
+        "max_hp": 8,
+        "hp_loss_percent": 50,
+        "total_reverie": 300,
+        "run_time_minutes": 27,
+        "battles_fought": 4,
+        "avg_battle_turns": 3.8,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 4,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "시너지 콤보 발견하는 게 재밌음",
+        "worst_moment": "없음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "시너지 덱이 창의적이고 재밌음. 다양한 조합을 실험하고 싶음. 인디 게임 감성 좋음."
+      }
+    },
+    {
+      "id": "T046",
+      "name": "박재현",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 34,
+        "gaming_experience": "e스포츠 코치",
+        "favorite_genres": ["경쟁", "전략"],
+        "play_style": "분석적, 메타 연구"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "공격형",
+        "deck_cards": ["오블리비언 스트라이크 x3", "루시드 스트라이크 x3", "체인 라이트닝 x2", "더블 탭 x2", "퀵 슬래시 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 2,
+        "max_hp": 6,
+        "hp_loss_percent": 66.7,
+        "total_reverie": 400,
+        "run_time_minutes": 18,
+        "battles_fought": 5,
+        "avg_battle_turns": 2.6,
+        "cards_acquired": 4,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 5,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "메타 덱이 완벽하게 작동함",
+        "worst_moment": "밸런스가 깨져서 다른 빌드가 의미 없음",
+        "op_cards": ["오블리비언 스트라이크 - 메타 지배. 비용 5로 올려야 함"],
+        "weak_cards": [],
+        "difficulty_assessment": "쉬움 (메타 덱이라)",
+        "other_comments": "오블리비언 스트라이크가 메타를 지배함. 다른 카드도 버프해서 다양성 확보 필요. 경쟁 모드 있으면 e스포츠 가능성 있음."
+      }
+    },
+    {
+      "id": "T047",
+      "name": "최지원",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 21,
+        "gaming_experience": "모바일 캐주얼 게임",
+        "favorite_genres": ["캐주얼", "시뮬레이션"],
+        "play_style": "편안한 플레이"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "경제형",
+        "deck_cards": ["기억 파편 x4", "레버리 수집 x3", "꿈의 방패 x3", "기본 공격 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 8,
+        "max_hp": 10,
+        "hp_loss_percent": 20,
+        "total_reverie": 390,
+        "run_time_minutes": 37,
+        "battles_fought": 2,
+        "avg_battle_turns": 6.5,
+        "cards_acquired": 2,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 2,
+        "replay_intent": 2,
+        "best_moment": "레버리를 많이 모은 게 뿌듯함",
+        "worst_moment": "전투가 너무 길어서 지루했음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "쉬움",
+        "other_comments": "레버리 모으는 건 재밌는데 전투가 느림. 자동 전투 기능 있으면 좋겠음."
+      }
+    },
+    {
+      "id": "T048",
+      "name": "강민석",
+      "profile": {
+        "skill_level": "중급자",
+        "age": 26,
+        "gaming_experience": "서바이벌 게임 팬 (Don't Starve, Rust)",
+        "favorite_genres": ["서바이벌", "샌드박스"],
+        "play_style": "자원 관리, 장기 생존"
+      },
+      "run_config": {
+        "difficulty": "앙자이어티",
+        "deck_type": "균형형",
+        "deck_cards": ["루시드 스트라이크 x2", "꿈의 방패 x3", "기억 파편 x2", "레버리 수집 x2", "드림 위버 x2", "체인 라이트닝 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 5,
+        "max_hp": 8,
+        "hp_loss_percent": 37.5,
+        "total_reverie": 320,
+        "run_time_minutes": 28,
+        "battles_fought": 4,
+        "avg_battle_turns": 4.3,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 4,
+        "clarity_rating": 4,
+        "strategy_rating": 4,
+        "replay_intent": 4,
+        "best_moment": "자원 관리하면서 생존하는 게 서바이벌 느낌 남",
+        "worst_moment": "없음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함",
+        "other_comments": "자원 관리가 중요함. 서바이벌 느낌이 있어서 재밌음. HP와 레버리를 잘 관리해야 함."
+      }
+    },
+    {
+      "id": "T049",
+      "name": "윤채영",
+      "profile": {
+        "skill_level": "고급자",
+        "age": 30,
+        "gaming_experience": "스피드런 세계 기록 보유자",
+        "favorite_genres": ["플랫포머", "로그라이크"],
+        "play_style": "최적화 추구, 최단시간"
+      },
+      "run_config": {
+        "difficulty": "피어",
+        "deck_type": "공격형",
+        "deck_cards": ["루시드 스트라이크 x4", "더블 탭 x3", "퀵 슬래시 x4", "체인 라이트닝 x1"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 1,
+        "max_hp": 6,
+        "hp_loss_percent": 83.3,
+        "total_reverie": 360,
+        "run_time_minutes": 15,
+        "battles_fought": 5,
+        "avg_battle_turns": 2.4,
+        "cards_acquired": 3,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 5,
+        "clarity_rating": 5,
+        "strategy_rating": 5,
+        "replay_intent": 5,
+        "best_moment": "15분 만에 클리어! 스피드런 성공!",
+        "worst_moment": "HP 1 남았을 때 아슬아슬했음",
+        "op_cards": ["루시드 스트라이크 - 비용 대비 효율 최고. 스피드런용 최적"],
+        "weak_cards": [],
+        "difficulty_assessment": "적절함 (도전적)",
+        "other_comments": "스피드런하기 좋은 게임. 리더보드나 타임 어택 모드 있으면 진짜 재밌을 듯."
+      }
+    },
+    {
+      "id": "T050",
+      "name": "한서준",
+      "profile": {
+        "skill_level": "초보자",
+        "age": 24,
+        "gaming_experience": "모바일 게임 초보",
+        "favorite_genres": ["캐주얼"],
+        "play_style": "느긋한 플레이"
+      },
+      "run_config": {
+        "difficulty": "세레니티",
+        "deck_type": "방어형",
+        "deck_cards": ["꿈의 방패 x4", "기본 공격 x4", "기억 파편 x2", "레버리 수집 x2"]
+      },
+      "run_results": {
+        "result": "승리",
+        "final_hp": 8,
+        "max_hp": 10,
+        "hp_loss_percent": 20,
+        "total_reverie": 235,
+        "run_time_minutes": 33,
+        "battles_fought": 3,
+        "avg_battle_turns": 5.7,
+        "cards_acquired": 1,
+        "nodes_completed": 10
+      },
+      "feedback": {
+        "fun_rating": 3,
+        "clarity_rating": 4,
+        "strategy_rating": 2,
+        "replay_intent": 2,
+        "best_moment": "HP를 거의 안 잃고 승리",
+        "worst_moment": "전투가 너무 길어서 지루했음",
+        "op_cards": [],
+        "weak_cards": [],
+        "difficulty_assessment": "쉬움",
+        "other_comments": "안전하게 이기긴 했는데 재미는 별로. 다음엔 공격 카드를 더 넣을 듯."
+      }
+    }
+  ],
+  "aggregate_stats": {
+    "quantitative": {
+      "total_testers": 50,
+      "win_rate": 0.82,
+      "avg_final_hp": 4.48,
+      "avg_hp_loss_percent": 47.3,
+      "avg_total_reverie": 302.5,
+      "avg_run_time_minutes": 26.5,
+      "avg_battles_fought": 3.8,
+      "avg_battle_turns": 4.2,
+      "avg_cards_acquired": 2.7
+    },
+    "qualitative": {
+      "avg_fun_rating": 3.74,
+      "avg_clarity_rating": 4.14,
+      "avg_strategy_rating": 3.68,
+      "avg_replay_intent": 3.66
+    },
+    "deck_type_stats": {
+      "공격형": {
+        "count": 12,
+        "win_rate": 0.92,
+        "avg_hp_loss": 62.1,
+        "avg_run_time": 19.8,
+        "avg_fun_rating": 4.2
+      },
+      "방어형": {
+        "count": 10,
+        "win_rate": 0.9,
+        "avg_hp_loss": 19.5,
+        "avg_run_time": 34.2,
+        "avg_fun_rating": 2.9
+      },
+      "경제형": {
+        "count": 8,
+        "win_rate": 1.0,
+        "avg_hp_loss": 18.1,
+        "avg_run_time": 36.1,
+        "avg_fun_rating": 3.1
+      },
+      "시너지형": {
+        "count": 12,
+        "win_rate": 0.83,
+        "avg_hp_loss": 58.3,
+        "avg_run_time": 24.3,
+        "avg_fun_rating": 4.6
+      },
+      "균형형": {
+        "count": 8,
+        "win_rate": 0.62,
+        "avg_hp_loss": 46.9,
+        "avg_run_time": 26.9,
+        "avg_fun_rating": 3.5
+      }
+    },
+    "difficulty_stats": {
+      "세레니티": {
+        "count": 25,
+        "win_rate": 0.84,
+        "avg_hp_loss": 34.4,
+        "avg_fun_rating": 3.2
+      },
+      "앙자이어티": {
+        "count": 20,
+        "win_rate": 0.85,
+        "avg_hp_loss": 46.9,
+        "avg_fun_rating": 4.1
+      },
+      "피어": {
+        "count": 5,
+        "win_rate": 0.6,
+        "avg_hp_loss": 69.1,
+        "avg_fun_rating": 4.6
+      }
+    },
+    "card_feedback": {
+      "op_cards": {
+        "오블리비언 스트라이크": 8,
+        "드림 엔더": 5,
+        "나이트메어 블레이드": 3,
+        "루시드 스트라이크": 3,
+        "체인 라이트닝": 2,
+        "기억 파편": 2
+      },
+      "weak_cards": {
+        "메모리 가디언": 7,
+        "레버리 폭발": 6,
+        "레버리 수집": 4,
+        "헤비 블로우": 3
+      }
+    }
+  }
+}

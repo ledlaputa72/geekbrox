@@ -1,0 +1,255 @@
+# Cline Rules - Dream Collector
+
+**This file is automatically loaded by Cline Extension (Claude Code).**
+
+---
+
+## Project: Dream Collector
+
+- **Genre**: Roguelike Deckbuilding RPG
+- **Engine**: Godot 4.3
+- **Language**: GDScript + Korean UI
+- **Resolution**: 390×844 (Portrait)
+- **Root**: `~/Projects/geekbrox/teams/game/godot/dream-collector/`
+
+---
+
+## 🚨 MANDATORY: First Step
+
+**ALWAYS read PROJECT_CONTEXT.md before any task!**
+
+```
+@PROJECT_CONTEXT.md
+```
+
+This file contains:
+- Complete project structure
+- Coding style guide
+- Core systems (BottomNav, DreamCardSelection, Combat, GameManager, UITheme)
+- Workflow rules (Git/Notion approval)
+- Testing checklist
+- Common patterns
+
+---
+
+## Coding Style (Enforce!)
+
+### Naming
+- `snake_case`: variables, functions
+- `PascalCase`: classes, enums
+- `_private_method`: private functions
+
+### Type Hints (Required!)
+```gdscript
+func example(value: int) -> String:
+    var result: String = "test"
+    return result
+```
+
+### Signals
+```gdscript
+signal entity_updated(type: String, index: int, data: Dictionary)
+```
+
+### Node References
+```gdscript
+@onready var button = $Button
+```
+
+---
+
+## Critical Rules
+
+### DO NOT
+- Push to Git without Steve's approval (Telegram)
+- Call Notion API without Steve's approval (Telegram)
+- Hardcode colors (use UITheme)
+- Create inline BottomNav (use component)
+- Edit .tscn with Godot open (file corruption risk)
+
+### ALWAYS
+- Update CHANGELOG.md after work
+- Add comments for significant changes
+- Test in Godot before reporting
+- Report completion to Atlas (Telegram)
+
+---
+
+## Core Systems (Read Only!)
+
+### BottomNav Component
+- Path: `ui/components/BottomNav.tscn/gd`
+- Usage: Always use component, never inline
+- Tabs: 0=Home, 1=Cards, 2=Upgrade, 3=Progress, 4=Shop
+
+### DreamCardSelection (Gacha System)
+- Path: `ui/screens/DreamCardSelection.tscn/gd`
+- Flow: 3 stages (START → JOURNEY → END)
+- Interaction:
+  - First click: Card moves down 20px (preview)
+  - Second click: Confirm → others fade → reveal
+
+### GameManager
+- Path: `autoload/GameManager.gd`
+- Functions:
+  - `set_dream_cards(cards: Array)`
+  - `get_dream_nodes() -> Array`
+  - `get_dream_time_logs() -> Array`
+
+### UITheme
+- Path: `autoload/UITheme.gd`
+- Usage: `UITheme.COLORS.primary`, `UITheme.apply_button_style(btn, "primary")`
+
+---
+
+## Credit Management (Important!)
+
+**You are Level 2 (Claude Code Pro) - Actively use! (30% of work)**
+
+- User pays $10-30/month for you (PAID subscription!)
+- Limit: $30/month (estimated)
+- Currently: $0 used (100% UNUSED! 🚨)
+- **CRITICAL**: User is NOT using you at all! This is waste!
+- When limit approaching → User switches to Level 3 (Atlas)
+- See CREDITS.md for full cascade strategy
+
+**Your role**: Handle 30% of work (complex debugging, step-by-step analysis)
+**Strategy**: START using NOW! User needs to utilize paid subscription!
+
+**Optimize usage**:
+- Be thorough (not wasting, already paid!)
+- Use conversational debugging
+- Provide step-by-step explanations
+- Use @-mentions for context
+
+## Workflow
+
+### 1. Make Changes
+- Read @PROJECT_CONTEXT.md
+- Modify code
+- Test in Godot
+
+### 2. Document
+Update CHANGELOG.md:
+```markdown
+## [Unreleased]
+
+### Changed
+- FileX: Description (line 123)
+```
+
+### 3. Commit (Local)
+```bash
+git add .
+git commit -m "feat: Description"
+```
+
+### 4. Report (Telegram → Atlas)
+```
+✅ [Claude Code 작업 완료]
+
+📝 작업: ...
+📂 파일: ...
+✅ 테스트: Godot 확인 완료
+📌 Git: 로컬 커밋 완료 (push 대기)
+```
+
+### 5. Wait for Approval
+- Git push: Wait for Steve's "OK"
+- Notion update: Wait for Steve's "OK"
+
+---
+
+## Quick Reference
+
+### File Paths
+- Scripts: `res://scripts/`, `res://autoload/`
+- UI Screens: `res://ui/screens/`
+- UI Components: `res://ui/components/`
+
+### Colors (UITheme)
+- bg: Dark blue `(0.1, 0.1, 0.18, 1)`
+- panel: Dark purple `(0.15, 0.15, 0.25, 1)`
+- primary: Blue `(0.48, 0.62, 0.94, 1)`
+- accent: Gold `(0.98, 0.71, 0.25, 1)`
+
+### Layout
+- Resolution: 390×844
+- TopBar: 60px (if exists)
+- BottomNav: 60px at y=784
+- Content: 0-784 (or 60-784)
+
+---
+
+## Common Patterns
+
+### New Screen
+```gdscript
+extends Control
+
+"""
+ScreenName - Brief description
+"""
+
+@onready var button = $Button
+
+func _ready():
+    _setup_ui()
+    _connect_signals()
+
+func _setup_ui() -> void:
+    UITheme.apply_button_style(button, "primary")
+
+func _connect_signals() -> void:
+    button.pressed.connect(_on_button_pressed)
+
+func _on_button_pressed() -> void:
+    pass
+```
+
+### Using GameManager
+```gdscript
+var gold = GameManager.get_gold()
+GameManager.add_gold(50)
+var nodes = GameManager.get_dream_nodes()
+```
+
+---
+
+## Testing Checklist
+
+Before reporting:
+- [ ] No GDScript errors
+- [ ] Scene loads
+- [ ] UI displays correctly
+- [ ] Korean text works
+- [ ] Animations/interactions work
+
+---
+
+## Communication
+
+### Tools
+- **Claude Code**: Code edits, bug fixes, refactoring
+- **Cursor**: Multi-file changes, large refactoring
+- **Atlas (Telegram)**: Strategy, approvals, complex tasks
+
+### Reports
+Use templates in CLAUDE_CODE_GUIDE.md:
+- Work completion
+- Git push request
+- Notion update request
+
+---
+
+## Resources
+
+- **PROJECT_CONTEXT.md**: Main reference (READ FIRST!)
+- **CLAUDE_CODE_GUIDE.md**: Detailed workflow guide
+- **CHANGELOG.md**: Change history
+- **CURSOR_GUIDE.md**: Cursor IDE guide
+
+---
+
+**Last Updated**: 2026-02-25 by Atlas  
+**Always read PROJECT_CONTEXT.md first!**

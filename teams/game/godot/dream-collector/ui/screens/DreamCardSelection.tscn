@@ -1,0 +1,76 @@
+[gd_scene load_steps=3 format=3 uid="uid://dream_card_selection"]
+
+[ext_resource type="Script" path="res://ui/screens/DreamCardSelection.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://bottomnav_component" path="res://ui/components/BottomNav.tscn" id="2_bottomnav"]
+
+[node name="DreamCardSelection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+clip_contents = true
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.08, 0.18, 1)
+
+[node name="TopArea" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+offset_bottom = -604.0
+
+[node name="CardContainer" type="Control" parent="TopArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="SelectedCardsArea" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+offset_top = 240.0
+offset_bottom = -414.0
+
+[node name="SlotContainer" type="Control" parent="SelectedCardsArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="BottomArea" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+offset_top = 430.0
+offset_bottom = -60.0
+
+[node name="LogContainer" type="VBoxContainer" parent="BottomArea"]
+layout_mode = 1
+anchor_right = 1.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = -15.0
+theme_override_constants/separation = 10
+
+[node name="StartButton" type="Button" parent="BottomArea"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -72.0
+offset_right = 140.0
+offset_bottom = -12.0
+text = "꿈 탐험 시작"
+visible = false
+
+[node name="BottomNav" parent="." instance=ExtResource("2_bottomnav")]
+layout_mode = 1

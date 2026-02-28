@@ -1,0 +1,33 @@
+Create an upgraded Dream Collector Home/Archive screen with the following specs:
+
+LAYOUT (390×844px portrait mobile):
+- Top bar (60px): Reveries counter (left, gold #FFD700) + Settings button (right, ⚙️)
+- Character area (300px): Dream Collector floating character (200×250px, center, idle animation)
+- Offline rewards banner (100px): Purple gradient, "Offline rewards ready! Tap to collect: 2,345 R"
+- Main action grid (2×2, 180×120px each):
+  1. 🚀 Run Start (top-left, #7B9EF0, glowing pulse)
+  2. 📚 Cards (top-right, #5A7FC0, badge for new cards)
+  3. ⬆️ Upgrade (bottom-left, #9BA4C0, badge for available upgrades)
+  4. 🛒 Shop (bottom-right, #8B5FBF, badge for new items)
+- Tab bar (80px bottom): 🏠 Home | 📚 Cards | ⬆️ Upgrade | 📊 Progress | 🛒 Shop
+
+THEME:
+- Primary: #7B9EF0 (soft blue)
+- Background: #1A1A2E (dark navy)
+- Text: #FFFFFF (white), #AAAAAA (gray)
+- Font: Nunito (Google Fonts)
+
+INTERACTIONS:
+- Reveries counter: Tap → economy detail panel, count-up animation on change
+- Offline banner: Tap → reward collection animation (300ms) → detail panel
+- Run Start: Glowing pulse (2s cycle), tap scale 0.95 (100ms)
+- Settings: Tap → drawer slide from bottom
+- Tab buttons: Tap → icon bounce (200ms), active color #7B9EF0
+
+ANIMATIONS:
+- Character: Floating ±10px vertical (2s cycle, ease-in-out)
+- Particles: White, slow rotation around character
+- Buttons: Hover glow, tap scale 0.95
+- Transitions: Fade 200ms
+
+Make it mobile-friendly, responsive, and match the dreamy aesthetic with smooth animations.

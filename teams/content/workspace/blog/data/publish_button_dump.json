@@ -1,0 +1,722 @@
+[
+  {
+    "tag": "A",
+    "class": "link_logo",
+    "text": "티스토리",
+    "id": "kakaoServiceLogo"
+  },
+  {
+    "tag": "A",
+    "class": "link_profile",
+    "text": "GeekBroX",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "btn-category",
+    "text": "카테고리 선택\n카테고리\n더보기",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "카테고리 선택\n카테고리\n더보기",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "카테고리\n더보기",
+    "id": "category-btn"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-first mce-btn-group",
+    "text": "제목1 본고딕",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox mce-first",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": "attach-layer-btn"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox mce-btn-has-text",
+    "text": "제목1",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "제목1",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox mce-last mce-btn-has-text",
+    "text": "본고딕",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "본고딕",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-btn-group",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-first",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-forecolor mce-splitbtn mce-colorbutton",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "mce-open",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-hilitecolor mce-splitbtn mce-colorbutton mce-last",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "mce-open",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-btn-group",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-first",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-last",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-btn-group",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-first",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-last",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-last mce-btn-group",
+    "text": "기본모드더보기기본모드마크다운HTML",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-btn-has-text",
+    "text": "기본모드더보기기본모드마크다운HTML",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "기본모드더보기",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-first mce-btn-group",
+    "text": "제목1 본고딕",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox mce-first",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": "attach-layer-btn"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox mce-btn-has-text",
+    "text": "제목1",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "제목1",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox mce-last mce-btn-has-text",
+    "text": "본고딕",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "본고딕",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-btn-group",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-first",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-forecolor mce-splitbtn mce-colorbutton",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "mce-open",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-hilitecolor mce-splitbtn mce-colorbutton mce-last",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "mce-open",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-btn-group",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-first",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-last",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-btn-group",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-first",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-last",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-last mce-btn-group",
+    "text": "기본모드더보기기본모드마크다운HTML",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-btn-has-text",
+    "text": "기본모드더보기기본모드마크다운HTML",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "기본모드더보기",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-first mce-btn-group",
+    "text": "본문2 기본서체",
+    "id": "mceu_23"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-first",
+    "text": "",
+    "id": "mceu_0"
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": "mceu_0-open"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox mce-btn-has-text",
+    "text": "본문2",
+    "id": "mceu_1"
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "본문2",
+    "id": "mceu_1-open"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox mce-last mce-btn-has-text",
+    "text": "기본서체",
+    "id": "mceu_2"
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "기본서체",
+    "id": "mceu_2-open"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-btn-group",
+    "text": "",
+    "id": "mceu_24"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-first",
+    "text": "",
+    "id": "mceu_3"
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": "mceu_3-button"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": "mceu_4"
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": "mceu_4-button"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": "mceu_5"
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": "mceu_5-button"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn",
+    "text": "",
+    "id": "mceu_6"
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": "mceu_6-button"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-forecolor mce-splitbtn mce-colorbutton",
+    "text": "",
+    "id": "mceu_7"
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "mce-open",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-hilitecolor mce-splitbtn mce-colorbutton mce-last",
+    "text": "",
+    "id": "mceu_8"
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "BUTTON",
+    "class": "mce-open",
+    "text": "",
+    "id": ""
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-container mce-flow-layout-item mce-btn-group",
+    "text": "",
+    "id": "mceu_25"
+  },
+  {
+    "tag": "DIV",
+    "class": "mce-widget mce-btn mce-first",
+    "text": "",
+    "id": "mceu_9"
+  },
+  {
+    "tag": "BUTTON",
+    "class": "",
+    "text": "",
+    "id": "mceu_9-button"
+  }
+]

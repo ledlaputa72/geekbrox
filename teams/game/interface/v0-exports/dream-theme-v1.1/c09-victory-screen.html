@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Collector - Victory</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #1A1A2E;
+      color: #FFFFFF;
+      overflow: hidden;
+    }
+    #root {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    @keyframes confetti {
+      0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4); }
+      50% { box-shadow: 0 8px 32px rgba(255, 215, 0, 0.8); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const getRarityGradient = (rarity) => {
+      const gradients = {
+        Common: 'linear-gradient(135deg, #AAAAAA 0%, #CCCCCC 100%)',
+        Uncommon: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+        Rare: 'linear-gradient(135deg, #2196F3 0%, #64B5F6 100%)',
+        Epic: 'linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%)',
+        Legendary: 'linear-gradient(135deg, #FFC107 0%, #FFD54F 100%)'
+      };
+      return gradients[rarity];
+    };
+
+    const rewardCards = [
+      { id: 1, name: 'Dream Echo', rarity: 'Rare', cost: 2, type: 'Attack', effect: 'Deal 8 damage. Draw 1 card.' },
+      { id: 2, name: 'Nightmare Shield', rarity: 'Epic', cost: 3, type: 'Defense', effect: 'Gain 12 block. If attacked, reflect 3 damage.' },
+      { id: 3, name: 'Lucid Burst', rarity: 'Rare', cost: 4, type: 'Attack', effect: 'Deal 10 damage. Gain 20 Reveries.' }
+    ];
+
+    const VictoryScreen = () => {
+      const [showConfetti, setShowConfetti] = useState(true);
+      const [selectedCard, setSelectedCard] = useState(null);
+      const [stats] = useState({
+        turns: 24,
+        damageDealt: 156,
+        reveries: 235,
+        nodesCleared: 10
+      });
+
+      useEffect(() => {
+        const timer = setTimeout(() => setShowConfetti(false), 5000);
+        return () => clearTimeout(timer);
+      }, []);
+
+      return (
+        <div style={{
+          width: '390px',
+          height: '844px',
+          background: 'linear-gradient(180deg, #1A1A2E 0%, #2C3E50 100%)',
+          position: 'relative',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          {/* Confetti */}
+          {showConfetti && [...Array(30)].map((_, i) => (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                background: ['#FFD700', '#FFC107', '#FF9800', '#7B9EF0', '#9C27B0'][i % 5],
+                left: `${Math.random() * 100}%`,
+                top: '-10px',
+                animation: `confetti ${2 + Math.random() * 2}s linear forwards`,
+                animationDelay: `${Math.random() * 1}s`
+              }}
+            />
+          ))}
+
+          {/* Victory Title */}
+          <div style={{
+            textAlign: 'center',
+            marginBottom: '30px',
+            animation: 'fadeInScale 0.6s ease-out'
+          }}>
+            <div style={{
+              fontSize: '64px',
+              marginBottom: '16px'
+            }}>
+              🎉
+            </div>
+            <div style={{
+              fontSize: '36px',
+              fontWeight: 'bold',
+              color: '#FFD700',
+              marginBottom: '12px'
+            }}>
+              VICTORY!
+            </div>
+            <div style={{
+              fontSize: '16px',
+              color: '#AAAAAA'
+            }}>
+              Dream Cleared Successfully
+            </div>
+          </div>
+
+          {/* Stats Box */}
+          <div style={{
+            width: '100%',
+            background: '#2C2C3E',
+            borderRadius: '16px',
+            padding: '20px',
+            marginBottom: '30px',
+            animation: 'fadeInScale 0.8s ease-out'
+          }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '16px'
+            }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#7B9EF0' }}>
+                  {stats.turns}
+                </div>
+                <div style={{ fontSize: '14px', color: '#AAAAAA' }}>Turns</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#F44336' }}>
+                  {stats.damageDealt}
+                </div>
+                <div style={{ fontSize: '14px', color: '#AAAAAA' }}>Damage Dealt</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#FFD700' }}>
+                  {stats.reveries}
+                </div>
+                <div style={{ fontSize: '14px', color: '#AAAAAA' }}>Reveries</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#4CAF50' }}>
+                  {stats.nodesCleared}/10
+                </div>
+                <div style={{ fontSize: '14px', color: '#AAAAAA' }}>Nodes</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Reward Cards */}
+          <div style={{
+            width: '100%',
+            marginBottom: '30px',
+            animation: 'fadeInScale 1s ease-out'
+          }}>
+            <div style={{
+              fontSize: '18px',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              marginBottom: '16px'
+            }}>
+              Choose Your Reward
+            </div>
+
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              justifyContent: 'center'
+            }}>
+              {rewardCards.map(card => (
+                <div
+                  key={card.id}
+                  onClick={() => setSelectedCard(card)}
+                  style={{
+                    width: '100px',
+                    height: '140px',
+                    background: getRarityGradient(card.rarity),
+                    borderRadius: '12px',
+                    padding: '8px',
+                    cursor: 'pointer',
+                    border: selectedCard?.id === card.id ? '3px solid #FFD700' : 'none',
+                    boxShadow: selectedCard?.id === card.id ? '0 8px 24px rgba(255,215,0,0.6)' : '0 4px 8px rgba(0,0,0,0.3)',
+                    transition: 'all 0.3s',
+                    transform: selectedCard?.id === card.id ? 'scale(1.05)' : 'scale(1)',
+                    position: 'relative'
+                  }}
+                >
+                  {/* Cost Badge */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '8px',
+                    right: '8px',
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    background: '#1A1A2E',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '10px',
+                    fontWeight: 'bold'
+                  }}>
+                    {card.cost}
+                  </div>
+
+                  {/* Card Name */}
+                  <div style={{
+                    fontSize: '11px',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    marginTop: '20px',
+                    marginBottom: '8px'
+                  }}>
+                    {card.name}
+                  </div>
+
+                  {/* Type Icon */}
+                  <div style={{
+                    fontSize: '32px',
+                    textAlign: 'center',
+                    marginBottom: '8px'
+                  }}>
+                    {card.type === 'Attack' ? '⚔️' : '🛡'}
+                  </div>
+
+                  {/* Rarity */}
+                  <div style={{
+                    fontSize: '9px',
+                    textAlign: 'center',
+                    opacity: 0.8
+                  }}>
+                    {card.rarity}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            animation: 'fadeInScale 1.2s ease-out'
+          }}>
+            <button
+              disabled={!selectedCard}
+              style={{
+                width: '100%',
+                height: '56px',
+                borderRadius: '16px',
+                border: 'none',
+                background: selectedCard ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : '#555555',
+                color: '#FFFFFF',
+                fontFamily: 'Nunito',
+                fontWeight: 'bold',
+                fontSize: '18px',
+                cursor: selectedCard ? 'pointer' : 'not-allowed',
+                animation: selectedCard ? 'glow 2s infinite' : 'none'
+              }}
+            >
+              {selectedCard ? `Claim ${selectedCard.name}` : 'Select a Card'}
+            </button>
+
+            <button style={{
+              width: '100%',
+              height: '48px',
+              borderRadius: '12px',
+              border: 'none',
+              background: '#5A7FC0',
+              color: '#FFFFFF',
+              fontFamily: 'Nunito',
+              fontWeight: 'bold',
+              fontSize: '16px',
+              cursor: 'pointer'
+            }}>
+              Continue to Main Lobby
+            </button>
+
+            <button style={{
+              width: '100%',
+              height: '48px',
+              borderRadius: '12px',
+              border: '2px solid #7B9EF0',
+              background: 'transparent',
+              color: '#7B9EF0',
+              fontFamily: 'Nunito',
+              fontWeight: 'bold',
+              fontSize: '16px',
+              cursor: 'pointer'
+            }}>
+              🔄 Play Again
+            </button>
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<VictoryScreen />, document.getElementById('root'));
+  </script>
+</body>
+</html>

@@ -38,7 +38,7 @@
 ## 3. generate_post.py
 
 - **기본**: seasonal_top_anime.json → 글 생성, 이미지 다운로드, output/posts/*.md 저장
-- **수정 모드**: `--revise PATH --instruction TEXT` → 해당 .md만 Claude로 수정 후 덮어쓰기 (atlas_bot 연동)
+- **수정 모드**: `--revise PATH --instruction TEXT` → 해당 .md만 Claude로 수정 후 덮어쓰기 (content_team_bot 연동)
 
 ---
 
@@ -50,14 +50,14 @@
 
 ## 5. requirements.txt
 
-- anthropic, python-dotenv, requests, selenium (버전 명시). atlas_bot용 python-telegram-bot은 별도.
+- anthropic, python-dotenv, requests, selenium (버전 명시). content_team_bot용 python-telegram-bot은 별도.
 
 ---
 
 ## 6. 정리
 
 - **post_to_tistory.py**: TinyMCE(editor-tistory_ifr, body#tinymce) 기준으로 이미지/본문/해시태그 처리와 .cursorrules 내용이 맞게 반영되어 있음.
-- **generate_post.py**: `--revise` / `--instruction` 지원으로 atlas_bot 수정 요청 플로우와 호환됨.
+- **generate_post.py**: `--revise` / `--instruction` 지원으로 content_team_bot 수정 요청 플로우와 호환됨.
 - **실행**: Chrome 필요, Terminal.app에서 `./run_post.sh` 권장 (Cursor 터미널에서는 SessionNotCreatedException 가능).
 
 추가로 점검할 부분이 있으면 알려주세요.

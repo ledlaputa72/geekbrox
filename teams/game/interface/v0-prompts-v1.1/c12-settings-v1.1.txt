@@ -1,0 +1,192 @@
+Create a NEW Dream Collector Settings screen with the following specs:
+
+LAYOUT (390×844px portrait):
+- Header (60px): [← Back] "Settings" [empty]
+- Scrollable content area (784px)
+- Multiple setting sections with icons
+- No bottom tab bar (modal-like screen)
+
+HEADER (60px):
+- Background: #2C2C3E
+- Left: Back button (← 24px)
+- Center: "Settings" title (18px, Nunito Bold)
+- Right: empty
+
+CONTENT SECTIONS:
+
+### 1. AUDIO SECTION (200px)
+Icon: 🔊 Audio (18px bold)
+Background: #2C2C3E
+Border-radius: 16px
+Padding: 20px
+
+**Master Volume Slider:**
+- Label + value: "Master Volume" | "80%" (14px, #7B9EF0 for value)
+- Range input: 0-100
+- Slider style:
+  - Height: 8px
+  - Track: gradient (filled #7B9EF0, unfilled #555555)
+  - Thumb: custom (if possible) or default
+- Gap: 20px between sliders
+
+**Music Volume Slider:**
+- Same style as Master
+- Default: 70%
+
+**SFX Volume Slider:**
+- Same style as Master
+- Default: 60%
+
+### 2. DISPLAY SECTION (120px)
+Icon: 🎨 Display (18px bold)
+Background: #2C2C3E
+Border-radius: 16px
+Padding: 20px
+
+**Particle Effects Toggle:**
+- Label: "Particle Effects" (14px)
+- Toggle switch (56×32px):
+  - Background: ON #4CAF50, OFF #555555
+  - Thumb: 24×24px circle, white, moves left/right
+  - Transition: 0.3s
+- Default: ON
+
+**Screen Shake Toggle:**
+- Same style as Particle Effects
+- Default: ON
+
+### 3. ACCOUNT SECTION (150px)
+Icon: 👤 Account (18px bold)
+Background: #2C2C3E
+Border-radius: 16px
+Padding: 20px
+
+**Player Name:**
+- Label: "Player Name" (12px, #AAAAAA)
+- Value: "Player" (16px, Nunito Bold)
+- Gap: 4px
+
+**Account ID:**
+- Label: "Account ID" (12px, #AAAAAA)
+- Value: "DC-2026-1234" (14px, monospace, #7B9EF0)
+- Gap: 4px
+
+**Total Play Time:**
+- Label: "Total Play Time" (12px, #AAAAAA)
+- Value: "24h 35m" (16px, Nunito Bold)
+- Gap: 4px
+
+### 4. LANGUAGE SECTION (120px)
+Icon: 🌐 Language (18px bold)
+Background: #2C2C3E
+Border-radius: 16px
+Padding: 20px
+
+**Language Buttons (2 options):**
+- Layout: flex row, gap 12px
+- Button size: flex 1, height 44px
+- Border-radius: 8px
+
+**English Button:**
+- Background: selected #7B9EF0, unselected #1A1A2E
+- Border: selected 2px solid #7B9EF0, unselected none
+- Text: "English" (Nunito Bold, #FFFFFF)
+
+**한국어 Button:**
+- Same style as English
+- Text: "한국어"
+
+Default: English selected
+
+### 5. OTHER OPTIONS SECTION (140px)
+Background: #2C2C3E
+Border-radius: 16px
+Padding: 20px
+
+**View Credits Button:**
+- Text: "📚 View Credits" (16px, Nunito Bold)
+- Background: #5A7FC0
+- Height: 48px, full-width
+- Border-radius: 8px
+- Margin-bottom: 12px
+
+**Reset Tutorial Button:**
+- Text: "🔄 Reset Tutorial" (16px, Nunito Bold)
+- Background: #F44336 (red)
+- Height: 48px, full-width
+- Border-radius: 8px
+
+### 6. VERSION INFO (40px)
+- Text: "Dream Collector v1.0.0" (12px, #666666)
+- Center aligned
+- Margin: 20px 0
+
+INTERACTIONS:
+- Back button: Return to previous screen (usually c01-main-lobby)
+- Volume sliders: Real-time audio preview (if possible)
+- Toggles: Smooth slide animation (0.3s)
+- Language buttons: Immediate selection, update UI language
+- Credits button: Navigate to credits screen (planned)
+- Reset Tutorial button: Show confirmation modal → reset tutorial flags
+
+ANIMATIONS:
+- Toggle slide: 0.3s ease
+- Button press: scale(0.95) 0.1s
+- Slider drag: smooth real-time
+
+THEME:
+- Background: #1A1A2E
+- Sections: #2C2C3E
+- Text: #FFFFFF (white), #AAAAAA (gray)
+- Accent: #7B9EF0 (blue), #4CAF50 (green), #F44336 (red)
+- Font: Nunito
+
+RANGE SLIDER CUSTOM STYLING (if supported):
+```css
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to right, 
+    #7B9EF0 0%, 
+    #7B9EF0 ${value}%, 
+    #555555 ${value}%, 
+    #555555 100%);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+```
+
+TOGGLE SWITCH COMPONENT:
+- Container: 56×32px, border-radius 16px
+- Thumb: 24×24px circle, white, absolute positioned
+- State: boolean (on/off)
+- Animation: thumb left/right transition 0.3s
+- Colors: ON #4CAF50, OFF #555555
+
+SCROLLABLE CONTENT:
+- Height: calc(844px - 60px) = 784px
+- Padding: 20px
+- Gap between sections: 20px
+- Overflow-y: auto
+- Smooth scrolling
+
+ACCESSIBILITY:
+- All sliders have visible labels + current values
+- Toggles have clear ON/OFF states
+- Buttons have adequate tap target size (44×44px minimum)
+- Version info is non-interactive, decorative only
+
+Make it clean, functional, and easy to navigate. Group related settings together with clear section icons.

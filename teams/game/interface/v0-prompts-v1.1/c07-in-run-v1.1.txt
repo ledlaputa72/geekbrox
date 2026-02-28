@@ -1,0 +1,130 @@
+Create a NEW Dream Collector In-Run Progress screen with the following specs:
+
+LAYOUT (390×844px portrait):
+- Status bar (50px): HP bar (left) + Energy (center) + Reveries counter (right)
+- Node map (80px): Visual progress path with 10 nodes
+- Main view (400px): Dreamscape background with parallax layers + node animation
+- Node info panel (140px): Current node details + action buttons
+- Bottom action bar (60px): ⏩ Skip | 🤖 Auto | ☰ Menu buttons
+
+STATUS BAR (50px):
+- **HP bar** (140×20px):
+  - Background: #333333
+  - Fill: #4CAF50 (green) / #FFC107 (yellow) / #F44336 (red)
+  - Text: "HP: 6/10" (Nunito Bold 14px)
+  - Animation: Slide on change (300ms)
+
+- **Energy display** (80×20px):
+  - Background: #333333
+  - Fill: #2196F3 (blue)
+  - Text: "EN: 2/3" (Nunito Bold 14px)
+
+- **Reveries counter** (right):
+  - Text: "R: 125" (Nunito Bold 14px, #FFD700)
+
+NODE MAP (80px):
+- 10 nodes in linear path: ●━━○━━○━━○━━○━━●
+- Node size: 20×20px circles
+- Connection lines: 2px solid
+- Colors:
+  - Completed: #4CAF50 (green)
+  - Current: #7B9EF0 (blue, pulse animation)
+  - Uncompleted: #666666 (gray)
+- Icons (12×12px):
+  - Memory: 💎
+  - Combat: ⚔️
+  - Event: ❓
+  - Upgrade: ⬆️
+  - Shop: 🛒
+  - Boss: 👹
+
+MAIN VIEW (400px):
+- Background: Dreamscape illustration (3 parallax layers)
+- Particle effect: White particles, slow movement
+- Node entrance animation: Fade-in + scale-up (500ms)
+- Node exit animation: Fade-out + scale-down (500ms)
+
+NODE INFO PANEL (140px):
+- Background: #2C2C3E (90% opacity)
+- Border radius: 16px (top only)
+- Shadow: 0 -4px 8px rgba(0,0,0,0.3)
+- Padding: 20px
+
+**NODE TYPES:**
+
+**Memory Node (💎):**
+```
+Current Node: Memory 💎
+10 Reveries collected
+
+[Collect]
+[Heal 5 HP (30 R)]
+[Upgrade Card (variable)]
+```
+
+**Combat Node (⚔️):**
+```
+Combat: Shadow Fiend
+HP: ████████▁▁ (15/18)
+Attack: 3
+
+[Start Combat] →
+```
+
+**Event Node (❓):**
+```
+Event: Crossroads
+"Two paths diverge..."
+
+[A] Safe path (20 R)
+[B] Risky path (50% 50R)
+```
+
+ACTION BUTTONS:
+- Size: 150×44px each
+- Background: #5A7FC0
+- Text: Nunito Bold 16px
+- Gap: 12px
+- Animation: Tap scale 0.95 (100ms)
+
+BOTTOM ACTION BAR (60px):
+- Background: #1A1A2E (90% opacity)
+- 3 buttons (120×44px each):
+  - ⏩ Skip: Skip animations
+  - 🤖 Auto: Toggle auto-progress
+  - ☰ Menu: Pause menu
+
+EXAMPLE NODE FLOW:
+1. Start → Memory → Collect 10R
+2. Combat → Fight Shadow Fiend → Win → Get reward
+3. Event → Choose path → Outcome
+4. Shop → Buy cards → Continue
+5. Boss → Final combat → Run complete
+
+INTERACTIONS:
+- Node map: Tap node → jump to node (if completed)
+- Action buttons: Tap → execute action → node transition
+- Skip button: Fast-forward animations
+- Auto button: Enable/disable auto-play
+- Menu button: Pause menu (resume, abandon run, settings)
+
+ANIMATIONS:
+- HP/Energy change: Slide fill (300ms)
+- Node transition: Fade + scale (500ms)
+- Particle movement: Slow drift
+- Current node pulse: 2s cycle
+
+THEME:
+- Background: Dreamscape gradient (#1A1A2E → #2C3E50)
+- Panel: #2C2C3E (90% opacity)
+- Text: #FFFFFF (white), #FFD700 (gold)
+- Font: Nunito
+- Accent: #7B9EF0
+
+TRANSITIONS:
+- To Combat: Fade-out → combat screen
+- To Shop: Slide-left → shop overlay
+- Run complete: Victory animation → rewards screen
+
+Make the node progression visually clear with animated transitions.
+Show current status prominently and make action buttons large and tappable.

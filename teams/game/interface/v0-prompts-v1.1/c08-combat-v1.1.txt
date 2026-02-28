@@ -1,0 +1,161 @@
+Create a NEW Dream Collector Combat screen with the following specs:
+
+LAYOUT (390×844px portrait):
+- Top bar (50px): ☰ Menu (left) | "Turn: 3" (center) | "End Turn" button (right)
+- Enemy area (180px): Enemy card with HP bar, attack intent, status icons
+- Combat log (100px): Scrollable action history (recent 3 actions)
+- Player area (60px): Player HP + Energy bars + status icons
+- Hand (150px): 5 cards (72×101px each)
+- Pile counters (44px): Deck | Discard | Banish counters
+
+TOP BAR (50px):
+- **Menu button** (40×40px, left): ☰ icon → pause menu
+- **Turn counter** (center): "Turn: 3" (Nunito Bold 18px)
+- **End Turn button** (100×40px, right):
+  - Background: #5A7FC0
+  - Text: "End Turn" (Nunito Bold 16px)
+  - Active: Glow
+  - Inactive (card playing): Grayscale
+  - Animation: Tap scale 0.95 (100ms)
+
+ENEMY AREA (180px):
+- **Enemy card** (350×160px):
+  - Background: Monster-specific gradient
+  - Border radius: 16px
+  - Shadow: 0 4px 8px rgba(0,0,0,0.3)
+  - Content:
+    - Name: Nunito Bold 20px
+    - HP bar: 300×12px (green → yellow → red)
+    - HP text: "15/18" (Nunito Bold 16px)
+    - Intent icon: 48×48px (top-right)
+      - Attack: ⚔️ + damage number
+      - Defend: 🛡 + block amount
+      - Special: 💀 + effect name
+    - Status icons: 24×24px (bottom-left, max 4)
+- **Animations**:
+  - Hit: Red flash + shake (200ms)
+  - Attack: Forward + backward (400ms)
+  - Death: Fade-out + rotate (600ms)
+
+EXAMPLE ENEMIES:
+1. **Shadow Fiend**
+   - HP: 18
+   - Intent: Attack 3
+   - Gradient: linear-gradient(135deg, #434343 0%, #000000 100%)
+
+2. **Dream Eater**
+   - HP: 25
+   - Intent: Defend 8
+   - Gradient: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%)
+
+3. **Nightmare King (Boss)**
+   - HP: 50
+   - Intent: Special "Dark Curse"
+   - Gradient: linear-gradient(135deg, #FF0000 0%, #8B0000 100%)
+
+COMBAT LOG (100px):
+- Background: #1A1A2E (80% opacity)
+- Padding: 10px 20px
+- Max 3 lines, scrollable
+- Text: Nunito Regular 14px
+- Colors:
+  - Player action: #4CAF50 (green)
+  - Enemy action: #F44336 (red)
+  - System: #AAAAAA (gray)
+- Animation: New log slides up (200ms)
+
+EXAMPLE LOG:
+```
+• You dealt 10 damage
+• Enemy attacks for 3 damage
+• You blocked 8 damage
+```
+
+PLAYER AREA (60px):
+- **HP bar** (300×16px):
+  - Background: #333333
+  - Fill: #4CAF50 / #FFC107 / #F44336
+  - Text: "HP: 7/10" (Nunito Bold 16px)
+
+- **Energy display** (150×16px):
+  - Background: #333333
+  - Fill: #2196F3
+  - Text: "EN: 2/3" (Nunito Bold 16px)
+
+- **Status icons** (24×24px, right-aligned, max 4):
+  - Examples: 🔥 Burn, 🛡 Block, ⚡ Energized, 💪 Strength
+
+HAND (150px):
+- **Card layout**: 5 cards, 72×101px each, gap 8px
+- **Fan layout** (optional): Slight arc for visual appeal
+- **Card display**:
+  - Background: Rarity gradient
+  - Name: Nunito Bold 10px
+  - Cost: Top-right badge (20×20px)
+  - Type icon: Bottom-left (16×16px)
+- **States**:
+  - Playable: Glow effect
+  - Insufficient energy: Opacity 0.5 + grayscale
+  - Unplayable (condition): Red border + X mark
+- **Interactions**:
+  - Tap: Play card (enlarge + glow → apply)
+  - Drag: Drag to enemy (targeting)
+  - Long-press: Card detail info
+- **Animations**:
+  - Draw: Slide-in from deck (300ms)
+  - Play: Enlarge + fade-out (400ms)
+  - Discard: Slide-out to discard pile (200ms)
+
+EXAMPLE CARDS IN HAND:
+1. Strike (Common) - Cost: 1, Damage: 6
+2. Defend (Common) - Cost: 1, Block: 5
+3. Oblivion Strike (Rare) - Cost: 5, Damage: 15
+4. Memory Guardian (Uncommon) - Cost: 2, Heal: 5
+5. Reverie Burst (Epic) - Cost: 4, Damage: 8 + 20R
+
+PILE COUNTERS (44px):
+- Background: #2C2C3E
+- Padding: 10px 20px
+- Three counters:
+  - Deck: "Deck: 8" (Nunito Bold 14px)
+  - Discard: "Discard: 3" (Nunito Bold 14px)
+  - Banish: "Banish: 1" (Nunito Bold 14px, #F44336)
+- Tap counter → view pile contents (modal)
+
+COMBAT FLOW:
+1. **Player turn**:
+   - Draw cards
+   - Play cards (spend energy)
+   - End turn button
+2. **Enemy turn**:
+   - Execute intent
+   - Update combat log
+   - Player turn starts
+3. **Victory**: Enemy HP → 0 → victory screen
+4. **Defeat**: Player HP → 0 → defeat screen
+
+ANIMATIONS:
+- Card play: Enlarge (150ms) → fly to enemy → damage number popup
+- Damage: Red "-10" floating number (400ms)
+- Heal: Green "+5" floating number (400ms)
+- Block: Blue shield icon popup (300ms)
+- Turn transition: Fade overlay "Enemy Turn" (500ms)
+
+THEME:
+- Background: #1A1A2E
+- Enemy: Monster-specific gradients
+- Cards: Rarity gradients
+- Text: #FFFFFF (white), #AAAAAA (gray)
+- Font: Nunito
+- Accent: #7B9EF0
+
+SPECIAL EFFECTS:
+- Critical hit: Screen shake + yellow flash
+- Block break: Shield shatter animation
+- Status apply: Icon popup + particle burst
+- Victory: Confetti + fanfare
+- Defeat: Red fade + slow-mo
+
+Make the combat visually engaging with clear feedback for every action.
+Show intent clearly so players can strategize.
+Large tap targets for cards and smooth drag interactions.

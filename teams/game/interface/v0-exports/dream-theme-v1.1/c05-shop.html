@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Collector - Shop</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #1A1A2E;
+      color: #FFFFFF;
+      overflow: hidden;
+    }
+    #root {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState } = React;
+
+    const products = {
+      'Daily Deal': [
+        { id: 1, name: 'Legendary Card', icon: '💎', desc: '1 random Legendary card', price: 250, originalPrice: 500, badge: 'LIMITED' }
+      ],
+      'Cards': [
+        { id: 2, name: 'Rare Card Pack', icon: '🎴', desc: '5 random Rare cards', price: 100 },
+        { id: 3, name: 'Epic Card Pack', icon: '✨', desc: '3 random Epic cards', price: 300 },
+        { id: 4, name: 'Legendary Card', icon: '💎', desc: '1 random Legendary card', price: 500 },
+        { id: 5, name: 'Starter Deck Upgrade', icon: '📚', desc: 'Replace 3 Common with Uncommon', price: 200 }
+      ],
+      'Energy': [
+        { id: 6, name: 'Energy Refill', icon: '⚡', desc: 'Restore 100% energy', price: 50 },
+        { id: 7, name: 'Energy Pack', icon: '🔋', desc: '5 energy refills', price: 150 },
+        { id: 8, name: 'Max Energy +1', icon: '⚡⚡', desc: 'Permanent +1 max energy', price: 500 }
+      ]
+    };
+
+    
+    // Bottom Tab Bar Component
+    const BottomTabBar = ({ activeTab }) => {
+      const tabs = [
+        { id: 'home', icon: '🏠', label: 'Home' },
+        { id: 'cards', icon: '🎴', label: 'Cards' },
+        { id: 'upgrade', icon: '⬆️', label: 'Upgrade' },
+        { id: 'progress', icon: '📊', label: 'Progress' },
+        { id: 'shop', icon: '🛒', label: 'Shop' }
+      ];
+
+      return (
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '390px',
+          height: '60px',
+          background: '#2C2C3E',
+          borderTop: '1px solid #1A1A2E',
+          display: 'flex',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          zIndex: 100
+        }}>
+          {tabs.map(tab => (
+            <div
+              key={tab.id}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '4px',
+                cursor: tab.id === 'progress' ? 'not-allowed' : 'pointer',
+                opacity: tab.id === 'progress' ? 0.4 : 1
+              }}
+            >
+              <div style={{
+                fontSize: '24px',
+                filter: activeTab === tab.id ? 'none' : 'grayscale(100%)',
+                opacity: activeTab === tab.id ? 1 : 0.6
+              }}>
+                {tab.icon}
+              </div>
+              <div style={{
+                fontSize: '12px',
+                fontFamily: 'Nunito',
+                color: activeTab === tab.id ? '#FFFFFF' : '#888888',
+                fontWeight: activeTab === tab.id ? 'bold' : 'normal'
+              }}>
+                {tab.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    const Shop = () => {
+      const [reveries, setReveries] = useState(1234);
+      const [activeTab, setActiveTab] = useState('Daily Deal');
+      const [purchasedItems, setPurchasedItems] = useState([]);
+      const [confirmPurchase, setConfirmPurchase] = useState(null);
+
+      const canBuy = (product) => {
+        return reveries >= product.price && !purchasedItems.includes(product.id);
+      };
+
+      const buyProduct = (product) => {
+        if (canBuy(product)) {
+          setReveries(reveries - product.price);
+          setPurchasedItems([...purchasedItems, product.id]);
+          setConfirmPurchase(null);
+        }
+      };
+
+      return (
+        <div style={{
+          width: '390px',
+          height: '844px',
+          background: '#1A1A2E',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          {/* Header */}
+          <div style={{
+            height: '60px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 20px',
+            background: '#2C2C3E'
+          }}>
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: '#FFFFFF',
+              fontSize: '24px',
+              cursor: 'pointer'
+            }}>←</button>
+            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Shop</div>
+            <div style={{ fontWeight: 'bold', fontSize: '16px', color: '#FFD700' }}>
+              Reveries: {reveries}
+            </div>
+          </div>
+
+          {/* Tab Bar */}
+          <div style={{
+            height: '50px',
+            display: 'flex',
+            background: '#2C2C3E'
+          }}>
+            {Object.keys(products).map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                style={{
+                  flex: 1,
+                  background: 'none',
+                  border: 'none',
+                  color: activeTab === tab ? '#7B9EF0' : '#666666',
+                  fontFamily: 'Nunito',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  cursor: 'pointer',
+                  borderBottom: activeTab === tab ? '4px solid #7B9EF0' : 'none',
+                  transition: 'all 0.2s'
+                }}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Daily Deal Banner */}
+          {activeTab === 'Daily Deal' && (
+            <div style={{
+              margin: '20px',
+              height: '80px',
+              background: 'linear-gradient(135deg, #F093FB 0%, #F5576C 100%)',
+              borderRadius: '16px',
+              padding: '16px',
+              boxShadow: '0 4px 8px rgba(240, 147, 251, 0.5)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <div>
+                <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px' }}>
+                  🎁 Daily Deal
+                </div>
+                <div style={{ fontSize: '20px', fontWeight: 'bold' }}>
+                  50% OFF
+                </div>
+              </div>
+              <div style={{ fontSize: '14px', textAlign: 'right' }}>
+                6 hours left
+              </div>
+            </div>
+          )}
+
+          {/* Product Grid */}
+          <div style={{
+            height: activeTab === 'Daily Deal' ? 'calc(844px - 230px - 60px)' : 'calc(844px - 110px - 60px)',
+            overflowY: 'auto',
+            padding: '20px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '12px'
+          }}>
+            {products[activeTab].map(product => {
+              const purchased = purchasedItems.includes(product.id);
+              const affordable = canBuy(product);
+              
+              return (
+                <div
+                  key={product.id}
+                  style={{
+                    background: '#2C2C3E',
+                    borderRadius: '16px',
+                    padding: '16px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                    position: 'relative'
+                  }}
+                >
+                  {/* Badge */}
+                  {product.badge && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '8px',
+                      right: '8px',
+                      background: '#F5576C',
+                      padding: '2px 8px',
+                      borderRadius: '8px',
+                      fontSize: '10px',
+                      fontWeight: 'bold'
+                    }}>
+                      {product.badge}
+                    </div>
+                  )}
+
+                  {/* Icon */}
+                  <div style={{ fontSize: '48px', marginBottom: '12px' }}>
+                    {product.icon}
+                  </div>
+
+                  {/* Name */}
+                  <div style={{
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    marginBottom: '8px'
+                  }}>
+                    {product.name}
+                  </div>
+
+                  {/* Description */}
+                  <div style={{
+                    fontSize: '12px',
+                    color: '#AAAAAA',
+                    textAlign: 'center',
+                    marginBottom: '12px',
+                    minHeight: '32px'
+                  }}>
+                    {product.desc}
+                  </div>
+
+                  {/* Price */}
+                  <div style={{
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    color: '#FFD700',
+                    marginBottom: '12px'
+                  }}>
+                    {product.originalPrice && (
+                      <span style={{
+                        textDecoration: 'line-through',
+                        fontSize: '14px',
+                        color: '#AAAAAA',
+                        marginRight: '8px'
+                      }}>
+                        {product.originalPrice} R
+                      </span>
+                    )}
+                    {product.price} R
+                  </div>
+
+                  {/* Buy Button */}
+                  <button
+                    onClick={() => setConfirmPurchase(product)}
+                    disabled={!affordable || purchased}
+                    style={{
+                      width: '100%',
+                      height: '40px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      background: purchased ? '#4CAF50' : 
+                                 affordable ? '#5A7FC0' : '#555555',
+                      color: '#FFFFFF',
+                      fontFamily: 'Nunito',
+                      fontWeight: 'bold',
+                      cursor: affordable && !purchased ? 'pointer' : 'not-allowed'
+                    }}
+                  >
+                    {purchased ? 'Purchased' : 
+                     affordable ? 'Buy' : 'Insufficient Reveries'}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Purchase Confirmation Modal */}
+          {confirmPurchase && (
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              background: 'rgba(0,0,0,0.8)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              animation: 'fadeIn 0.3s'
+            }}>
+              <div style={{
+                width: '320px',
+                background: '#2C2C3E',
+                borderRadius: '16px',
+                padding: '24px',
+                textAlign: 'center'
+              }}>
+                <div style={{ fontSize: '48px', marginBottom: '16px' }}>
+                  {confirmPurchase.icon}
+                </div>
+                <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '12px' }}>
+                  {confirmPurchase.name}
+                </div>
+                <div style={{ fontSize: '14px', color: '#AAAAAA', marginBottom: '16px' }}>
+                  {confirmPurchase.desc}
+                </div>
+                <div style={{ fontSize: '16px', marginBottom: '20px' }}>
+                  <div>Current Reveries: {reveries}</div>
+                  <div style={{ color: '#FFD700', fontWeight: 'bold' }}>
+                    Cost: {confirmPurchase.price} R
+                  </div>
+                  <div style={{ color: '#4CAF50' }}>
+                    After: {reveries - confirmPurchase.price} R
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <button
+                    onClick={() => setConfirmPurchase(null)}
+                    style={{
+                      flex: 1,
+                      height: '44px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      background: '#555555',
+                      color: '#FFFFFF',
+                      fontFamily: 'Nunito',
+                      fontWeight: 'bold',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => buyProduct(confirmPurchase)}
+                    style={{
+                      flex: 1,
+                      height: '44px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      background: '#5A7FC0',
+                      color: '#FFFFFF',
+                      fontFamily: 'Nunito',
+                      fontWeight: 'bold',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Confirm Purchase
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+              {/* Bottom Tab Bar */}
+          <BottomTabBar activeTab="shop" />
+        </div>
+      );
+    };
+
+    ReactDOM.render(<Shop />, document.getElementById('root'));
+  </script>
+</body>
+</html>

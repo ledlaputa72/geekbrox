@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Collector - Run Preparation</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #1A1A2E;
+      color: #FFFFFF;
+      overflow: hidden;
+    }
+    #root {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 8px 16px rgba(102, 126, 234, 0.5); }
+      50% { box-shadow: 0 8px 24px rgba(102, 126, 234, 0.8); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState } = React;
+
+    const dreamers = [
+      {
+        id: 1,
+        name: 'Serenity',
+        difficulty: 'Easy',
+        icon: '😌',
+        hp: 10,
+        reward: '+20% Reveries',
+        gradient: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+        indicator: '🟢'
+      },
+      {
+        id: 2,
+        name: 'Anxiety',
+        difficulty: 'Normal',
+        icon: '😰',
+        hp: 8,
+        reward: '+0% Reveries',
+        gradient: 'linear-gradient(135deg, #FFC107 0%, #FFD54F 100%)',
+        indicator: '🟡'
+      },
+      {
+        id: 3,
+        name: 'Fear',
+        difficulty: 'Hard',
+        icon: '😱',
+        hp: 6,
+        reward: '-20% Reveries, +50% Card drops',
+        gradient: 'linear-gradient(135deg, #F44336 0%, #E57373 100%)',
+        indicator: '🔴'
+      }
+    ];
+
+    const sampleDeck = [
+      { id: 1, name: 'Strike', cost: 1, rarity: 'Common' },
+      { id: 2, name: 'Defend', cost: 1, rarity: 'Common' },
+      { id: 3, name: 'Dream Slash', cost: 2, rarity: 'Uncommon' },
+      { id: 4, name: 'Memory Guard', cost: 2, rarity: 'Uncommon' },
+      { id: 5, name: 'Oblivion Strike', cost: 5, rarity: 'Rare' },
+      { id: 6, name: 'Reverie Burst', cost: 4, rarity: 'Epic' },
+      { id: 7, name: 'Nightmare End', cost: 3, rarity: 'Rare' },
+      { id: 8, name: 'Dream Weaver', cost: 2, rarity: 'Uncommon' },
+      { id: 9, name: 'Soul Shield', cost: 1, rarity: 'Common' },
+      { id: 10, name: 'Lucid Strike', cost: 3, rarity: 'Rare' },
+      { id: 11, name: 'Echo', cost: 1, rarity: 'Common' },
+      { id: 12, name: 'Finale', cost: 6, rarity: 'Legendary' }
+    ];
+
+    const getRarityGradient = (rarity) => {
+      const gradients = {
+        Common: 'linear-gradient(135deg, #AAAAAA 0%, #CCCCCC 100%)',
+        Uncommon: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+        Rare: 'linear-gradient(135deg, #2196F3 0%, #64B5F6 100%)',
+        Epic: 'linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%)',
+        Legendary: 'linear-gradient(135deg, #FFC107 0%, #FFD54F 100%)'
+      };
+      return gradients[rarity];
+    };
+
+    
+    // Bottom Tab Bar Component
+    const BottomTabBar = ({ activeTab }) => {
+      const tabs = [
+        { id: 'home', icon: '🏠', label: 'Home' },
+        { id: 'cards', icon: '🎴', label: 'Cards' },
+        { id: 'upgrade', icon: '⬆️', label: 'Upgrade' },
+        { id: 'progress', icon: '📊', label: 'Progress' },
+        { id: 'shop', icon: '🛒', label: 'Shop' }
+      ];
+
+      return (
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '390px',
+          height: '60px',
+          background: '#2C2C3E',
+          borderTop: '1px solid #1A1A2E',
+          display: 'flex',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          zIndex: 100
+        }}>
+          {tabs.map(tab => (
+            <div
+              key={tab.id}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '4px',
+                cursor: tab.id === 'progress' ? 'not-allowed' : 'pointer',
+                opacity: tab.id === 'progress' ? 0.4 : 1
+              }}
+            >
+              <div style={{
+                fontSize: '24px',
+                filter: activeTab === tab.id ? 'none' : 'grayscale(100%)',
+                opacity: activeTab === tab.id ? 1 : 0.6
+              }}>
+                {tab.icon}
+              </div>
+              <div style={{
+                fontSize: '12px',
+                fontFamily: 'Nunito',
+                color: activeTab === tab.id ? '#FFFFFF' : '#888888',
+                fontWeight: activeTab === tab.id ? 'bold' : 'normal'
+              }}>
+                {tab.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    const RunPrep = () => {
+      const [selectedDreamer, setSelectedDreamer] = useState(dreamers[1]);
+
+      return (
+        <div style={{
+          width: '390px',
+          height: '844px',
+          background: '#1A1A2E',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          {/* Header */}
+          <div style={{
+            height: '60px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 20px',
+            background: '#2C2C3E'
+          }}>
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: '#FFFFFF',
+              fontSize: '24px',
+              cursor: 'pointer'
+            }}>←</button>
+            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Run Preparation</div>
+            <div></div>
+          </div>
+
+          {/* Section Title */}
+          <div style={{
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '0 20px',
+            fontSize: '16px',
+            fontWeight: 'bold'
+          }}>
+            Select Dreamer:
+          </div>
+
+          {/* Dreamer Selection */}
+          <div style={{
+            height: '200px',
+            padding: '0 20px',
+            overflowX: 'auto',
+            display: 'flex',
+            gap: '16px'
+          }}>
+            {dreamers.map(dreamer => {
+              const isSelected = selectedDreamer.id === dreamer.id;
+              return (
+                <div
+                  key={dreamer.id}
+                  onClick={() => setSelectedDreamer(dreamer)}
+                  style={{
+                    minWidth: '140px',
+                    height: '180px',
+                    background: dreamer.gradient,
+                    borderRadius: '16px',
+                    padding: '16px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    cursor: 'pointer',
+                    border: isSelected ? '4px solid #7B9EF0' : 'none',
+                    boxShadow: isSelected ? '0 0 16px rgba(123, 158, 240, 0.6)' : '0 4px 8px rgba(0,0,0,0.3)',
+                    opacity: isSelected ? 1 : 0.7,
+                    transition: 'all 0.2s',
+                    position: 'relative'
+                  }}
+                >
+                  <div style={{ fontSize: '16px', fontWeight: 'bold' }}>
+                    {dreamer.name}
+                  </div>
+                  <div style={{ fontSize: '48px' }}>
+                    {dreamer.icon}
+                  </div>
+                  <div style={{ fontSize: '12px', textAlign: 'center' }}>
+                    {dreamer.indicator} {dreamer.difficulty}
+                  </div>
+                  <div style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                    {dreamer.hp} HP
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#FFD700' }}>
+                    {dreamer.reward}
+                  </div>
+                  {isSelected && (
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '-10px',
+                      background: '#7B9EF0',
+                      padding: '4px 12px',
+                      borderRadius: '12px',
+                      fontSize: '10px',
+                      fontWeight: 'bold'
+                    }}>
+                      Selected
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Deck Section Title */}
+          <div style={{
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '0 20px',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            marginTop: '20px'
+          }}>
+            Your Deck (12 cards): DPS: 45 | Avg cost: 2.8
+          </div>
+
+          {/* Deck Preview */}
+          <div style={{
+            height: '140px',
+            padding: '0 20px',
+            overflowX: 'auto',
+            display: 'flex',
+            gap: '8px'
+          }}>
+            {sampleDeck.map(card => (
+              <div
+                key={card.id}
+                style={{
+                  minWidth: '64px',
+                  height: '90px',
+                  background: getRarityGradient(card.rarity),
+                  borderRadius: '8px',
+                  padding: '6px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                }}
+              >
+                <div style={{
+                  position: 'absolute',
+                  top: '4px',
+                  right: '4px',
+                  width: '16px',
+                  height: '16px',
+                  borderRadius: '50%',
+                  background: '#1A1A2E',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '8px',
+                  fontWeight: 'bold'
+                }}>
+                  {card.cost}
+                </div>
+                <div style={{
+                  fontSize: '8px',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  marginTop: '16px'
+                }}>
+                  {card.name}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Edit Deck Button */}
+          <div style={{ padding: '0 20px', marginTop: '20px' }}>
+            <button style={{
+              width: '100%',
+              height: '44px',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#5A7FC0',
+              color: '#FFFFFF',
+              fontFamily: 'Nunito',
+              fontWeight: 'bold',
+              fontSize: '16px',
+              cursor: 'pointer'
+            }}>
+              Edit Deck
+            </button>
+          </div>
+
+          {/* Run Start CTA */}
+          <div style={{ padding: '0 20px', marginTop: '20px' }}>
+            <button style={{
+              width: '100%',
+              height: '60px',
+              borderRadius: '16px',
+              border: 'none',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: '#FFFFFF',
+              fontFamily: 'Nunito',
+              fontWeight: 'bold',
+              fontSize: '20px',
+              cursor: 'pointer',
+              animation: 'pulse 2s infinite'
+            }}>
+              <div>🚀 Start Run</div>
+              <div style={{ fontSize: '14px', fontWeight: 'normal', marginTop: '4px' }}>
+                (Energy: 100%)
+              </div>
+            </button>
+          </div>
+
+          {/* Info Text */}
+          <div style={{
+            height: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '14px',
+            color: '#AAAAAA',
+            marginTop: '10px'
+          }}>
+            Estimated: 15-25 min
+          </div>
+        </div>
+      );
+    };
+
+              {/* Bottom Tab Bar */}
+          <BottomTabBar activeTab="home" />
+        </div>
+      );
+    };
+
+    ReactDOM.render(<RunPrep />, document.getElementById('root'));
+  </script>
+</body>
+</html>

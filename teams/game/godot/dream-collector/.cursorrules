@@ -1,0 +1,431 @@
+# Dream Collector - Cursor AI Context
+
+## Project Overview
+- **Name**: Dream Collector
+- **Genre**: Roguelike Deckbuilding RPG
+- **Engine**: Godot 4.3
+- **Language**: GDScript + Korean UI
+- **Resolution**: 390×844 (Portrait Mode)
+- **Status**: Core UI Complete (12/12 screens), Gameplay Logic In Progress
+
+## Project Manager
+- **Name**: Steve PM
+- **Languages**: Korean + English (bilingual)
+- **Timezone**: America/Los_Angeles (PST/PDT)
+- **Team**: Atlas (AI PM), Cursor (Dev Assistant)
+
+## Folder Structure
+```
+dream-collector/
+├── scripts/               # Core game logic
+│   ├── GameManager.gd    # Global state, currency, resources
+│   ├── CombatManager.gd  # Turn-based combat system
+│   ├── DeckManager.gd    # Deck building, hand management
+│   └── MainLobbyUI.gd    # Main lobby controller
+├── ui/
+│   ├── screens/          # 12 main screens
+│   │   ├── MainLobby.tscn/gd         # Home hub
+│   │   ├── InRun_v4.tscn/gd          # Active run gameplay
+│   │   ├── DreamCardSelection.tscn/gd # 3-stage card selection (gacha)
+│   │   ├── CardLibrary.tscn/gd       # Card collection
+│   │   ├── DeckBuilder.tscn/gd       # Deck editor
+│   │   ├── Shop.tscn/gd              # Shop screen
+│   │   ├── UpgradeTree.tscn/gd       # Character upgrades
+│   │   ├── Settings.tscn/gd          # Settings menu
+│   │   └── ...
+│   └── components/       # Reusable UI components
+│       ├── BottomNav.tscn/gd         # 5-tab navigation bar
+│       ├── CharacterNode.tscn/gd     # HP bar, sprite, damage effects
+│       ├── DamageNumber.tscn/gd      # Floating damage numbers
+│       ├── DreamItem.tscn/gd         # Past dream log item
+│       └── RunProgressBar.tscn/gd    # Journey node progression
+├── autoload/             # Singleton scripts
+│   ├── GameManager.gd
+│   ├── UITheme.gd        # Color palette, button styles
+│   └── ...
+└── scenes/
+    └── MainLobby.tscn    # Entry point scene
+```
+
+## Coding Style (Mandatory)
+
+### GDScript Conventions
+- **snake_case** for variables, functions, signals
+- **PascalCase** for classes, enums
+- **Type hints required**: `func example(value: int) -> String:`
+- **@onready** for node references: `@onready var button = $Button`
+- **Explicit signals**: `signal entity_updated(type: String, index: int, data: Dictionary)`
+
+### Example Code Pattern
+```gdscript
+extends Control
+
+"""
+ScreenName - Brief description
+Detailed explanation of purpose and flow.
+"""
+
+# ─── Signals ─────────────────────────────────────────
+signal action_completed(result: Dictionary)
+
+# ─── Constants ───────────────────────────────────────
+const MAX_HP = 100
+
+# ─── Variables ───────────────────────────────────────
+var current_hp: int = 100
+var is_active: bool = false
+
+# ─── Node References ─────────────────────────────────
+@onready var button = $Button
+@onready var label = $Label
+
+# ─── Lifecycle ───────────────────────────────────────
+func _ready():
+    _setup_ui()
+    _connect_signals()
+
+# ─── Public Methods ──────────────────────────────────
+func public_method(param: int) -> void:
+    """Public API method with docstring"""
+    pass
+
+# ─── Private Methods ─────────────────────────────────
+func _private_method() -> void:
+    """Internal helper method"""
+    pass
+
+# ─── Signal Handlers ─────────────────────────────────
+func _on_button_pressed() -> void:
+    pass
+```
+
+### Comments
+- Use `"""docstrings"""` for functions
+- Use section dividers: `# ─── Section Name ─────────`
+- Explain WHY, not WHAT (code should be self-documenting)
+
+## Key Systems (DO NOT BREAK!)
+
+### 1. BottomNav Component (Unified Navigation)
+- **Location**: `ui/components/BottomNav.tscn/gd`
+- **Tabs**: Home (0), Cards (1), Upgrade (2), Progress (3), Shop (4)
+- **Usage**: All meta-screens (MainLobby, CardLibrary, DeckBuilder, Shop, UpgradeTree)
+- **Signal**: `tab_pressed(tab_index: int)` → handle navigation
+- **DO NOT** create inline bottom nav, always use component
+
+### 2. DreamCardSelection (Gacha System)
+- **Location**: `ui/screens/DreamCardSelection.tscn/gd`
+- **Flow**: 3 stages (START → JOURNEY → END)
+- **Interaction**:
+  - First click: Card moves down 20px (selection preview)
+  - Second click: Confirm → other cards fade → selected card flips to reveal
+- **Cards**: 140×220 (tarot ratio), face-down initially (🔮)
+- **Logs**: Block-style panels (like DreamItem), not plain labels
+- **Output**: 3 selected cards → passed to GameManager → used in InRun_v4
+
+### 3. Combat System
+- **Manager**: `autoload/CombatManager.gd`
+- **Signals**:
+  - `entity_updated(type, index, data)` → HP sync
+  - `damage_dealt(entity_type, index, damage, is_healing)` → visual effects
+  - `combat_log_updated(message)` → log display
+  - `combat_ended(victory)` → result handling
+- **Visual Effects**:
+  - Damage numbers: Red (enemy damage), Orange (self damage), Green (healing)
+  - Shake effect: Position + rotation (0.4s)
+  - Red flash: Color modulate (0.3s)
+
+### 4. GameManager (Global State)
+- **Location**: `autoload/GameManager.gd`
+- **Responsibilities**:
+  - Currency: gold, gems, energy
+  - Resources: max_energy, energy_recharge
+  - Dream data: `dream_cards`, `dream_nodes`, `dream_time_logs`
+  - Deck state: `current_deck`, card collection
+- **Key Functions**:
+  - `set_dream_cards(cards: Array)` → store + generate nodes/logs
+  - `get_dream_nodes() -> Array` → for InRun_v4 progression
+  - `get_dream_time_logs() -> Array` → for time-based exploration
+
+### 5. UITheme (Consistent Styling)
+- **Location**: `autoload/UITheme.gd`
+- **COLORS**: bg, panel, primary, accent, warning, success, danger
+- **apply_button_style(button, style_name)**: "primary", "secondary", "warning", "info", "success", "danger"
+- **ALWAYS use UITheme** for colors and buttons, don't hardcode
+
+## Screen Descriptions
+
+### MainLobby
+- **Purpose**: Home hub, view past dreams, start new run, manage deck
+- **Layout**: Top (viewport with hero), Middle (past dreams scroll), Bottom (buttons + BottomNav)
+- **Key Features**: Accordion-style DreamItem, gold/gem/energy display, animated background
+
+### InRun_v4
+- **Purpose**: Active run gameplay (exploration + combat + shop + story)
+- **Layout**: TopBar (exit/title/settings), TopArea (views), BottomArea (UIs), BottomNav
+- **Views**: ExplorationView, CombatView, ShopView, StoryView
+- **UIs**: ExplorationBottomUI (time logs), CombatUI (cards + energy), ShopUI, StoryUI
+- **State Machine**: switch_to_exploration(), switch_to_combat(), switch_to_shop(), switch_to_npc_dialog()
+
+### DreamCardSelection
+- **Purpose**: 3-stage gacha card selection before run starts
+- **Stages**: START (시작) → JOURNEY (여정) → END (종료)
+- **Output**: 3 selected cards define run structure (nodes, hours, difficulty, rewards)
+
+### CardLibrary
+- **Purpose**: View all collected cards, filter/sort, quick access to DeckBuilder
+- **Features**: Card grid, rarity filter, search, "덱세팅" button
+
+### DeckBuilder
+- **Purpose**: Build/edit deck from owned cards
+- **Features**: Selected deck (left), available cards (right), drag-and-drop
+
+### Shop
+- **Purpose**: Buy cards, items, packs with gold/gems
+- **Layout**: 3×2 grid (6 items), refresh button
+
+### UpgradeTree
+- **Purpose**: Permanent character upgrades
+- **Tabs**: 캐릭터, 스킬, 패시브
+- **Mechanics**: Spend gold, level up, unlock nodes
+
+### Settings
+- **Purpose**: Sound, language, account info
+- **Sections**: Sound (BGM/SFX sliders), Language (한국어/English), Account, Info
+
+## Current Development Status
+
+### ✅ Completed (2026-02-25)
+1. All 12 screens UI (100% complete)
+2. BottomNav unified navigation
+3. Combat visual effects (HP sync, damage numbers, shake/flash)
+4. DreamCardSelection gacha system (3 stages, flip reveal)
+5. Time-based exploration logs (hourly progression)
+6. CharacterNode component (HP bar, emoji sprite, damage effects)
+7. GameManager dream card integration
+
+### 🚧 In Progress
+- Combat gameplay logic (card effects, enemy AI)
+- Data integration (JSON card database, monster stats)
+- DeckManager card draw/shuffle system
+- Shop purchase mechanics
+
+### 📋 TODO
+- Asset replacement (emoji → sprites)
+- Sound effects integration
+- Animation polish (card flip, monster entrance)
+- Balance testing
+- Save/load system
+
+## Workflow Rules (IMPORTANT!)
+
+### Git Rules
+- **Local commits**: Free to do anytime
+- **Git push**: MUST get Steve's approval via Telegram
+- **Report format**: "변경 파일 목록 + 커밋 메시지 요약"
+- **Wait for**: Steve's "OK", "승인", "Proceed"
+
+### Notion Rules
+- **API calls**: MUST get Steve's approval via Telegram
+- **Report format**: "업데이트 대상 페이지 + 변경 내용 요약"
+- **Wait for**: Steve's "OK", "승인", "Proceed"
+
+### Documentation Rules (CURSOR MUST FOLLOW!)
+After completing work in Cursor, document changes:
+
+1. **Update CHANGELOG.md**:
+   ```markdown
+   ## [Date] - [Your Name/Cursor]
+   ### Added
+   - New feature X in FileY.gd
+   
+   ### Changed
+   - Modified function Z in FileW.gd (reason: ...)
+   
+   ### Fixed
+   - Bug in combat HP sync
+   ```
+
+2. **Add code comments** for significant changes:
+   ```gdscript
+   # [2026-02-25] Cursor: Refactored card selection to use gacha system
+   # - First click: Preview (20px down)
+   # - Second click: Confirm + reveal
+   func _on_card_clicked(card: Control, index: int):
+   ```
+
+3. **Report to Steve via Telegram**:
+   ```
+   [Cursor 작업 완료]
+   파일: DreamCardSelection.gd
+   변경: 카드 선택 버그 수정 (애니메이션 타이밍 조정)
+   테스트: Godot에서 확인 필요
+   ```
+
+## Testing Checklist
+
+Before reporting completion:
+- [ ] No GDScript errors (check Output panel)
+- [ ] Scene loads without crashes
+- [ ] UI elements visible and positioned correctly
+- [ ] Signals connected properly (no null reference errors)
+- [ ] Korean text displays correctly
+- [ ] Animations play smoothly
+- [ ] Code follows style guide
+
+## Common Patterns
+
+### Creating a New Screen
+1. Create `.tscn` + `.gd` in `ui/screens/`
+2. Extend `Control`, add docstring
+3. Add BottomNav component if meta-screen
+4. Use UITheme for styling
+5. Follow lifecycle: `_ready() → _setup_ui() → _connect_signals()`
+6. Document in CHANGELOG.md
+
+### Adding a Signal Connection
+```gdscript
+# In _ready() or _connect_signals()
+button.pressed.connect(_on_button_pressed)
+GameManager.resource_changed.connect(_on_resource_changed)
+
+# Handler functions
+func _on_button_pressed() -> void:
+    """Handle button press"""
+    pass
+```
+
+### Using GameManager
+```gdscript
+# Get resources
+var gold = GameManager.get_gold()
+var energy = GameManager.get_energy()
+
+# Modify resources
+GameManager.add_gold(50)
+GameManager.spend_energy(3)
+
+# Dream data
+var nodes = GameManager.get_dream_nodes()
+var logs = GameManager.get_dream_time_logs()
+```
+
+### Creating UI with UITheme
+```gdscript
+# Background color
+var bg_color = UITheme.COLORS.bg
+
+# Button styling
+UITheme.apply_button_style(my_button, "primary")
+
+# Panel styling
+var panel_style = StyleBoxFlat.new()
+panel_style.bg_color = UITheme.COLORS.panel
+panel.add_theme_stylebox_override("panel", panel_style)
+```
+
+## Credit Management (Important!)
+
+**You are Level 1 (Cursor Pro) - Priority use! (60% of work)**
+
+- User pays $16/month for you (PAID subscription!)
+- Limit: 45,611 lines/month
+- Currently: 26% used (74% available!)
+- **IMPORTANT**: Use WITHOUT hesitation! (Already paid, not using = waste)
+- When limit approaching → User switches to Level 2 (Claude Code)
+- See CREDITS.md for full cascade strategy
+
+**Your role**: Handle 60% of work (code edits, bugs, features, refactoring)
+**Strategy**: MAXIMIZE usage! User is currently under-utilizing you (26%)
+
+## Communication with Atlas/Team
+
+When Cursor completes work:
+
+1. **Immediate**: Update `CHANGELOG.md` in project root
+2. **Report via Telegram**: Summary of changes + testing status
+3. **For Atlas review**: Mention specific files/functions changed
+4. **For Steve approval**: If Git push or Notion update needed
+
+Example Telegram message:
+```
+✅ Cursor 작업 완료
+
+파일:
+- DreamCardSelection.gd (150 lines modified)
+- GameManager.gd (20 lines added)
+
+변경 내용:
+- 카드 선택 시 애니메이션 버그 수정
+- 선택 확정 후 카드 공개 로직 개선
+- 로그 블록 스타일 일관성 개선
+
+테스트 필요:
+- Godot에서 3단계 선택 흐름 확인
+- 로그 블록 색상 확인
+
+Git push: 준비 완료 (승인 대기)
+```
+
+## Known Issues & Gotchas
+
+### Issue 1: .tscn File Conflicts
+- **Problem**: Manual .tscn edits + Godot editor changes = merge conflicts
+- **Solution**: Prefer scripting UI creation when possible
+- **If editing .tscn**: Close Godot editor first, then edit, then reopen
+
+### Issue 2: Signal Connection Warnings
+- **Problem**: "Signal already connected" warnings in console
+- **Solution**: Check if signal already connected before connecting
+  ```gdscript
+  if not button.pressed.is_connected(_on_button_pressed):
+      button.pressed.connect(_on_button_pressed)
+  ```
+
+### Issue 3: Korean Font Display
+- **Problem**: Korean text shows as boxes
+- **Solution**: Ensure font supports Korean (현재 default font 사용 중)
+- **Future**: Custom Korean font 추가 예정
+
+### Issue 4: BottomNav Not Showing
+- **Problem**: BottomNav hidden or behind other elements
+- **Solution**: Check z-index, ensure it's last child in scene tree
+- **Layout**: Should be at y=784, height=60
+
+## Quick Reference
+
+### File Paths (Absolute)
+- Project root: `~/Projects/geekbrox/teams/game/godot/dream-collector/`
+- Main scene: `res://scenes/MainLobby.tscn`
+- Scripts: `res://scripts/`, `res://autoload/`
+- UI: `res://ui/screens/`, `res://ui/components/`
+
+### Key Scripts
+- GameManager: `res://autoload/GameManager.gd`
+- CombatManager: `res://autoload/CombatManager.gd`
+- UITheme: `res://autoload/UITheme.gd`
+- DreamCardSelection: `res://ui/screens/DreamCardSelection.gd`
+- InRun_v4: `res://ui/screens/InRun_v4.gd`
+
+### Color Palette (UITheme)
+- bg: `Color(0.1, 0.1, 0.18, 1)` - Dark blue background
+- panel: `Color(0.15, 0.15, 0.25, 1)` - Panel background
+- primary: `Color(0.48, 0.62, 0.94, 1)` - Blue (주 버튼)
+- accent: `Color(0.98, 0.71, 0.25, 1)` - Gold (강조)
+- warning: `Color(0.95, 0.76, 0.26, 1)` - Yellow (경고)
+- success: `Color(0.49, 0.87, 0.58, 1)` - Green (성공)
+- danger: `Color(0.94, 0.33, 0.31, 1)` - Red (위험)
+
+### Screen Dimensions
+- Resolution: 390×844
+- TopBar: 60px height (if present)
+- BottomNav: 60px height, y=784
+- Content area: 0-784 (or 60-784 if TopBar exists)
+
+---
+
+**Last Updated**: 2026-02-25 by Atlas
+**Cursor Version**: Latest
+**Godot Version**: 4.3
+
+When in doubt, ask Steve via Telegram. Atlas is monitoring all changes.

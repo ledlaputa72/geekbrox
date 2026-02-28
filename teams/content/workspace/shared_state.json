@@ -1,0 +1,49 @@
+{
+  "version": "2.0",
+  "last_updated": "2026-02-21 21:06:12",
+  "actors": {
+    "claude_code": {
+      "status": "idle",
+      "action": null,
+      "target_files": [],
+      "progress": null,
+      "detail": null,
+      "started_at": null,
+      "last_active": null,
+      "session_note": null
+    },
+    "cursor_ai": {
+      "status": "idle",
+      "action": null,
+      "target_files": [],
+      "progress": null,
+      "detail": null,
+      "started_at": null,
+      "last_active": null,
+      "session_note": null
+    },
+    "telegram_bot": {
+      "status": "idle",
+      "action": null,
+      "target_files": [],
+      "progress": null,
+      "detail": null,
+      "started_at": null,
+      "last_active": null,
+      "session_note": null
+    }
+  },
+  "unresolved_conflicts": [],
+  "messages": {
+    "claude_code": [],
+    "cursor_ai": [],
+    "telegram_bot": []
+  },
+  "last_completed": {
+    "actor": null,
+    "action": null,
+    "result": null,
+    "at": null
+  },
+  "shared_notes": []
+}

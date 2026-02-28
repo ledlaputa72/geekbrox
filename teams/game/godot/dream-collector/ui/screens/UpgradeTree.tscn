@@ -1,0 +1,87 @@
+[gd_scene load_steps=3 format=3 uid="uid://c9upgrade_tree_screen"]
+
+[ext_resource type="Script" path="res://ui/screens/UpgradeTree.gd" id="1_upgrade_tree"]
+[ext_resource type="PackedScene" uid="uid://bottomnav_component" path="res://ui/components/BottomNav.tscn" id="2_bottomnav"]
+
+[node name="UpgradeTree" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_upgrade_tree")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.1, 0.18, 1)
+
+[node name="TopBar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "업그레이드"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsButton" type="Button" parent="TopBar"]
+layout_mode = 2
+text = "⚙️"
+custom_minimum_size = Vector2(50, 50)
+
+[node name="TabBar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 60.0
+offset_bottom = 110.0
+grow_horizontal = 2
+theme_override_constants/separation = 5
+
+[node name="CharacterTab" type="Button" parent="TabBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "캐릭터"
+
+[node name="SkillsTab" type="Button" parent="TabBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "스킬"
+
+[node name="PassiveTab" type="Button" parent="TabBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "패시브"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 110.0
+offset_left = 16.0
+offset_right = -16.0
+offset_bottom = -74.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UpgradeList" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="BottomNav" parent="." instance=ExtResource("2_bottomnav")]
+layout_mode = 1

@@ -1,0 +1,41 @@
+# Godot 4.x .gitignore
+# Godot-specific ignores
+
+## Godot 임시 파일
+.godot/
+*.tmp
+
+## 익스포트 설정 (플랫폼별 자격증명 포함될 수 있음)
+export_credentials.cfg
+
+## 임포트 캐시 (자동 생성됨)
+.import/
+
+## mono/.NET 빌드 (GDScript만 사용하면 불필요하지만 안전을 위해)
+.mono/
+data_*/
+
+## macOS 시스템 파일
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+## 저장 파일 (개발 중 테스트 저장 데이터)
+# user:// 경로는 OS별 다르지만 아래 경로는 공통 패턴
+*.save.json
+
+## 빌드 결과물
+../exports/
+exports/
+
+## Cursor AI / IDE 설정
+.cursor/
+.vscode/
+*.suo
+*.user
+
+## 로그
+*.log
+*.bak

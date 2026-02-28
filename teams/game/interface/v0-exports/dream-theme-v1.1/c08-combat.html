@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Collector - Combat</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #1A1A2E;
+      color: #FFFFFF;
+      overflow: hidden;
+    }
+    #root {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState } = React;
+
+    const hand = [
+      { id: 1, name: 'Strike', cost: 1, type: 'Attack', rarity: 'Common', effect: 'Deal 6 damage' },
+      { id: 2, name: 'Defend', cost: 1, type: 'Defense', rarity: 'Common', effect: 'Gain 5 block' },
+      { id: 3, name: 'Oblivion Strike', cost: 5, type: 'Attack', rarity: 'Rare', effect: 'Deal 15 damage' },
+      { id: 4, name: 'Memory Guardian', cost: 2, type: 'Defense', rarity: 'Uncommon', effect: 'Heal 5 HP' },
+      { id: 5, name: 'Reverie Burst', cost: 4, type: 'Attack', rarity: 'Epic', effect: 'Deal 8 damage + 20R' }
+    ];
+
+    const getRarityGradient = (rarity) => {
+      const gradients = {
+        Common: 'linear-gradient(135deg, #AAAAAA 0%, #CCCCCC 100%)',
+        Uncommon: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+        Rare: 'linear-gradient(135deg, #2196F3 0%, #64B5F6 100%)',
+        Epic: 'linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%)',
+        Legendary: 'linear-gradient(135deg, #FFC107 0%, #FFD54F 100%)'
+      };
+      return gradients[rarity];
+    };
+
+    const Combat = () => {
+      const [playerHp, setPlayerHp] = useState(7);
+      const [playerMaxHp] = useState(10);
+      const [energy, setEnergy] = useState(2);
+      const [maxEnergy] = useState(3);
+      const [enemyHp, setEnemyHp] = useState(15);
+      const [enemyMaxHp] = useState(18);
+      const [turn, setTurn] = useState(3);
+      const [combatLog, setCombatLog] = useState([
+        '• You dealt 10 damage',
+        '• Enemy attacks for 3 damage',
+        '• You blocked 8 damage'
+      ]);
+      const [selectedCard, setSelectedCard] = useState(null);
+
+      const playerHpPercent = (playerHp / playerMaxHp) * 100;
+      const energyPercent = (energy / maxEnergy) * 100;
+      const enemyHpPercent = (enemyHp / enemyMaxHp) * 100;
+
+      const getHpColor = (percent) => {
+        if (percent > 60) return '#4CAF50';
+        if (percent > 30) return '#FFC107';
+        return '#F44336';
+      };
+
+      const canPlayCard = (card) => energy >= card.cost;
+
+      return (
+        <div style={{
+          width: '390px',
+          height: '844px',
+          background: '#1A1A2E',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          {/* Top Bar */}
+          <div style={{
+            height: '50px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 20px',
+            background: '#2C2C3E'
+          }}>
+            <button style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#5A7FC0',
+              color: '#FFFFFF',
+              fontSize: '20px',
+              cursor: 'pointer'
+            }}>☰</button>
+
+            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>
+              Turn: {turn}
+            </div>
+
+            <button style={{
+              height: '40px',
+              padding: '0 16px',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#5A7FC0',
+              color: '#FFFFFF',
+              fontFamily: 'Nunito',
+              fontWeight: 'bold',
+              fontSize: '16px',
+              cursor: 'pointer'
+            }}>
+              End Turn
+            </button>
+          </div>
+
+          {/* Enemy Area */}
+          <div style={{
+            height: '180px',
+            padding: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <div style={{
+              width: '350px',
+              height: '160px',
+              background: 'linear-gradient(135deg, #434343 0%, #000000 100%)',
+              borderRadius: '16px',
+              padding: '16px',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+              position: 'relative'
+            }}>
+              {/* Enemy Name */}
+              <div style={{
+                fontSize: '20px',
+                fontWeight: 'bold',
+                marginBottom: '8px'
+              }}>
+                Shadow Fiend
+              </div>
+
+              {/* HP Bar */}
+              <div style={{
+                width: '300px',
+                height: '12px',
+                background: '#333333',
+                borderRadius: '6px',
+                overflow: 'hidden',
+                position: 'relative',
+                marginBottom: '8px'
+              }}>
+                <div style={{
+                  width: `${enemyHpPercent}%`,
+                  height: '100%',
+                  background: getHpColor(enemyHpPercent),
+                  transition: 'width 0.3s'
+                }}></div>
+              </div>
+
+              <div style={{
+                fontSize: '16px',
+                fontWeight: 'bold',
+                marginBottom: '12px'
+              }}>
+                {enemyHp}/{enemyMaxHp} HP
+              </div>
+
+              {/* Intent */}
+              <div style={{
+                position: 'absolute',
+                top: '16px',
+                right: '16px',
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                background: '#F44336',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '24px'
+              }}>
+                ⚔️
+              </div>
+
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '16px',
+                fontSize: '14px',
+                fontWeight: 'bold'
+              }}>
+                Intent: Attack 3
+              </div>
+
+              {/* Status Icons */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                left: '16px',
+                display: 'flex',
+                gap: '8px'
+              }}>
+                <div style={{
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '50%',
+                  background: '#F44336',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px'
+                }}>🔥</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Combat Log */}
+          <div style={{
+            height: '100px',
+            padding: '10px 20px',
+            background: 'rgba(26, 26, 46, 0.8)',
+            overflowY: 'auto'
+          }}>
+            {combatLog.map((log, index) => (
+              <div
+                key={index}
+                style={{
+                  fontSize: '14px',
+                  marginBottom: '4px',
+                  color: log.includes('dealt') ? '#4CAF50' : 
+                         log.includes('Enemy') ? '#F44336' : '#AAAAAA'
+                }}
+              >
+                {log}
+              </div>
+            ))}
+          </div>
+
+          {/* Player Area */}
+          <div style={{
+            height: '60px',
+            padding: '10px 20px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px'
+          }}>
+            {/* HP Bar */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 'bold', minWidth: '80px' }}>
+                HP: {playerHp}/{playerMaxHp}
+              </div>
+              <div style={{
+                flex: 1,
+                height: '16px',
+                background: '#333333',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                position: 'relative'
+              }}>
+                <div style={{
+                  width: `${playerHpPercent}%`,
+                  height: '100%',
+                  background: getHpColor(playerHpPercent),
+                  transition: 'width 0.3s'
+                }}></div>
+              </div>
+            </div>
+
+            {/* Energy Bar */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 'bold', minWidth: '80px' }}>
+                EN: {energy}/{maxEnergy}
+              </div>
+              <div style={{
+                flex: 1,
+                height: '16px',
+                background: '#333333',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                position: 'relative'
+              }}>
+                <div style={{
+                  width: `${energyPercent}%`,
+                  height: '100%',
+                  background: '#2196F3',
+                  transition: 'width 0.3s'
+                }}></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Hand */}
+          <div style={{
+            height: '150px',
+            padding: '10px 20px',
+            overflowX: 'auto',
+            display: 'flex',
+            gap: '8px',
+            alignItems: 'center'
+          }}>
+            {hand.map(card => {
+              const playable = canPlayCard(card);
+              return (
+                <div
+                  key={card.id}
+                  onClick={() => playable && setSelectedCard(card)}
+                  style={{
+                    minWidth: '72px',
+                    height: '101px',
+                    background: playable ? getRarityGradient(card.rarity) : '#555555',
+                    borderRadius: '8px',
+                    padding: '6px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    cursor: playable ? 'pointer' : 'not-allowed',
+                    position: 'relative',
+                    boxShadow: playable ? '0 2px 4px rgba(0,0,0,0.2)' : 'none',
+                    opacity: playable ? 1 : 0.5,
+                    filter: playable ? 'none' : 'grayscale(100%)',
+                    border: selectedCard?.id === card.id ? '2px solid #FFD700' : 'none'
+                  }}
+                >
+                  {/* Cost Badge */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '4px',
+                    right: '4px',
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    background: '#1A1A2E',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '10px',
+                    fontWeight: 'bold'
+                  }}>
+                    {card.cost}
+                  </div>
+
+                  {/* Card Name */}
+                  <div style={{
+                    fontSize: '9px',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    marginTop: '16px'
+                  }}>
+                    {card.name}
+                  </div>
+
+                  {/* Type Icon */}
+                  <div style={{
+                    fontSize: '16px',
+                    textAlign: 'center'
+                  }}>
+                    {card.type === 'Attack' ? '⚔️' : '🛡'}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Pile Counters */}
+          <div style={{
+            height: '44px',
+            padding: '0 20px',
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            background: '#2C2C3E'
+          }}>
+            <div style={{ fontSize: '14px', fontWeight: 'bold', cursor: 'pointer' }}>
+              Deck: 8
+            </div>
+            <div style={{ fontSize: '14px', fontWeight: 'bold', cursor: 'pointer' }}>
+              Discard: 3
+            </div>
+            <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#F44336', cursor: 'pointer' }}>
+              Banish: 1
+            </div>
+          </div>
+
+          {/* Card Detail Modal */}
+          {selectedCard && (
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              background: 'rgba(0,0,0,0.8)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              animation: 'fadeIn 0.2s',
+              zIndex: 100
+            }}>
+              <div style={{
+                width: '300px',
+                background: '#2C2C3E',
+                borderRadius: '16px',
+                padding: '24px',
+                textAlign: 'center'
+              }}>
+                <div style={{
+                  width: '120px',
+                  height: '168px',
+                  margin: '0 auto 20px',
+                  background: getRarityGradient(selectedCard.rarity),
+                  borderRadius: '12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '48px'
+                }}>
+                  {selectedCard.type === 'Attack' ? '⚔️' : '🛡'}
+                </div>
+
+                <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '12px' }}>
+                  {selectedCard.name}
+                </div>
+                <div style={{ fontSize: '16px', marginBottom: '12px' }}>
+                  Cost: {selectedCard.cost} Energy
+                </div>
+                <div style={{ fontSize: '14px', color: '#AAAAAA', marginBottom: '20px' }}>
+                  {selectedCard.effect}
+                </div>
+
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <button
+                    onClick={() => setSelectedCard(null)}
+                    style={{
+                      flex: 1,
+                      height: '44px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      background: '#555555',
+                      color: '#FFFFFF',
+                      fontFamily: 'Nunito',
+                      fontWeight: 'bold',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => {
+                      setEnergy(energy - selectedCard.cost);
+                      setCombatLog([`• You played ${selectedCard.name}`, ...combatLog].slice(0, 3));
+                      setSelectedCard(null);
+                    }}
+                    style={{
+                      flex: 1,
+                      height: '44px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      background: '#5A7FC0',
+                      color: '#FFFFFF',
+                      fontFamily: 'Nunito',
+                      fontWeight: 'bold',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Play
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    ReactDOM.render(<Combat />, document.getElementById('root'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Collector - Upgrade Tree</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #1A1A2E;
+      color: #FFFFFF;
+      overflow: hidden;
+    }
+    #root {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState } = React;
+
+    const upgrades = [
+      { id: 1, name: 'Enhanced Starting Deck', cost: 3, effect: 'Start with 1 Rare card', icon: '🎴', row: 0, col: 0, requires: [] },
+      { id: 2, name: 'Energy Boost', cost: 5, effect: '+1 max energy', icon: '⚡', row: 0, col: 2, requires: [1] },
+      { id: 3, name: 'HP Recovery', cost: 4, effect: '+2 starting HP', icon: '❤️', row: 0, col: 4, requires: [2] },
+      { id: 4, name: 'Card Draw', cost: 7, effect: 'Draw 1 extra card at turn start', icon: '🎯', row: 1, col: 1, requires: [1, 2] },
+      { id: 5, name: 'Reveries Boost', cost: 6, effect: '+20% Reveries earned', icon: '💎', row: 1, col: 3, requires: [2, 3] },
+      { id: 6, name: 'Dream Mastery', cost: 10, effect: 'All cards cost 1 less', icon: '✨', row: 2, col: 2, requires: [4, 5] }
+    ];
+
+    // Bottom Tab Bar Component
+    const BottomTabBar = ({ activeTab }) => {
+      const tabs = [
+        { id: 'home', icon: '🏠', label: 'Home' },
+        { id: 'cards', icon: '🎴', label: 'Cards' },
+        { id: 'upgrade', icon: '⬆️', label: 'Upgrade' },
+        { id: 'progress', icon: '📊', label: 'Progress' },
+        { id: 'shop', icon: '🛒', label: 'Shop' }
+      ];
+
+      return (
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '390px',
+          height: '60px',
+          background: '#2C2C3E',
+          borderTop: '1px solid #1A1A2E',
+          display: 'flex',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          zIndex: 100
+        }}>
+          {tabs.map(tab => (
+            <div
+              key={tab.id}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '4px',
+                cursor: tab.id === 'progress' ? 'not-allowed' : 'pointer',
+                opacity: tab.id === 'progress' ? 0.4 : 1
+              }}
+            >
+              <div style={{
+                fontSize: '24px',
+                filter: activeTab === tab.id ? 'none' : 'grayscale(100%)',
+                opacity: activeTab === tab.id ? 1 : 0.6
+              }}>
+                {tab.icon}
+              </div>
+              <div style={{
+                fontSize: '12px',
+                fontFamily: 'Nunito',
+                color: activeTab === tab.id ? '#FFFFFF' : '#888888',
+                fontWeight: activeTab === tab.id ? 'bold' : 'normal'
+              }}>
+                {tab.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    const UpgradeTree = () => {
+      const [dreamShards, setDreamShards] = useState(12);
+      const [unlockedUpgrades, setUnlockedUpgrades] = useState([]);
+      const [selectedUpgrade, setSelectedUpgrade] = useState(upgrades[0]);
+
+      const isUnlocked = (id) => unlockedUpgrades.includes(id);
+      
+      const canUnlock = (upgrade) => {
+        if (isUnlocked(upgrade.id)) return false;
+        if (dreamShards < upgrade.cost) return false;
+        if (upgrade.requires.length === 0) return true;
+        return upgrade.requires.every(reqId => isUnlocked(reqId));
+      };
+
+      const unlockUpgrade = () => {
+        if (canUnlock(selectedUpgrade)) {
+          setDreamShards(dreamShards - selectedUpgrade.cost);
+          setUnlockedUpgrades([...unlockedUpgrades, selectedUpgrade.id]);
+        }
+      };
+
+      const getNodeStatus = (upgrade) => {
+        if (isUnlocked(upgrade.id)) return 'unlocked';
+        if (canUnlock(upgrade)) return 'unlockable';
+        return 'locked';
+      };
+
+      const getNodeColor = (status) => {
+        if (status === 'unlocked') return '#4CAF50';
+        if (status === 'unlockable') return '#7B9EF0';
+        return '#333333';
+      };
+
+      return (
+        <div style={{
+          width: '390px',
+          height: '844px',
+          background: '#1A1A2E',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          {/* Header */}
+          <div style={{
+            height: '60px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 20px',
+            background: '#2C2C3E'
+          }}>
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: '#FFFFFF',
+              fontSize: '24px',
+              cursor: 'pointer'
+            }}>←</button>
+            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Upgrade Tree</div>
+            <div style={{ fontWeight: 'bold', fontSize: '16px', color: '#00CED1' }}>
+              Dream Shards: {dreamShards}
+            </div>
+          </div>
+
+          {/* Tree Visual - Adjusted height for bottom tab bar */}
+          <div style={{
+            height: 'calc(844px - 60px - 140px - 60px)',
+            padding: '40px',
+            overflowY: 'auto',
+            position: 'relative'
+          }}>
+            <svg width="310" height="400" style={{ position: 'absolute', top: 40, left: 40 }}>
+              {/* Connection lines */}
+              {upgrades.map(upgrade => 
+                upgrade.requires.map(reqId => {
+                  const fromNode = upgrades.find(u => u.id === reqId);
+                  const toNode = upgrade;
+                  const fromStatus = getNodeStatus(fromNode);
+                  const toStatus = getNodeStatus(toNode);
+                  const lineColor = (fromStatus === 'unlocked' && toStatus !== 'locked') ? '#7B9EF0' : '#555555';
+                  const isDashed = toStatus === 'locked';
+                  
+                  return (
+                    <line
+                      key={`${reqId}-${upgrade.id}`}
+                      x1={fromNode.col * 70 + 25}
+                      y1={fromNode.row * 120 + 25}
+                      x2={toNode.col * 70 + 25}
+                      y2={toNode.row * 120 + 25}
+                      stroke={lineColor}
+                      strokeWidth="2"
+                      strokeDasharray={isDashed ? "5,5" : "0"}
+                    />
+                  );
+                })
+              )}
+            </svg>
+
+            {/* Nodes */}
+            {upgrades.map(upgrade => {
+              const status = getNodeStatus(upgrade);
+              const color = getNodeColor(status);
+              const isSelected = selectedUpgrade?.id === upgrade.id;
+              
+              return (
+                <div
+                  key={upgrade.id}
+                  onClick={() => setSelectedUpgrade(upgrade)}
+                  style={{
+                    position: 'absolute',
+                    left: upgrade.col * 70 + 40,
+                    top: upgrade.row * 120 + 40,
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '50%',
+                    background: color,
+                    border: `3px solid ${isSelected ? '#FFD700' : color}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '24px',
+                    cursor: 'pointer',
+                    boxShadow: isSelected ? '0 0 20px rgba(255,215,0,0.6)' : '0 2px 4px rgba(0,0,0,0.3)',
+                    animation: status === 'unlockable' ? 'pulse 2s infinite' : 'none'
+                  }}
+                >
+                  {status === 'unlocked' ? '✓' : upgrade.icon}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Info Panel */}
+          {selectedUpgrade && (
+            <div style={{
+              position: 'absolute',
+              bottom: 60,
+              left: 0,
+              width: '100%',
+              height: '140px',
+              background: '#2C2C3E',
+              borderRadius: '16px 16px 0 0',
+              padding: '20px',
+              boxShadow: '0 -4px 8px rgba(0,0,0,0.3)'
+            }}>
+              <div style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                marginBottom: '8px'
+              }}>
+                {selectedUpgrade.name}
+              </div>
+              
+              <div style={{
+                fontSize: '14px',
+                fontWeight: 'bold',
+                color: '#00CED1',
+                marginBottom: '8px'
+              }}>
+                Cost: {selectedUpgrade.cost} Dream Shards
+              </div>
+              
+              <div style={{
+                fontSize: '14px',
+                marginBottom: '12px',
+                color: '#AAAAAA'
+              }}>
+                {selectedUpgrade.effect}
+              </div>
+
+              <button
+                onClick={unlockUpgrade}
+                disabled={!canUnlock(selectedUpgrade)}
+                style={{
+                  width: '100%',
+                  height: '44px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: isUnlocked(selectedUpgrade.id) ? '#4CAF50' : 
+                             canUnlock(selectedUpgrade) ? '#7B9EF0' : '#555555',
+                  color: '#FFFFFF',
+                  fontFamily: 'Nunito',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  cursor: canUnlock(selectedUpgrade) ? 'pointer' : 'not-allowed'
+                }}
+              >
+                {isUnlocked(selectedUpgrade.id) ? 'Unlocked' :
+                 canUnlock(selectedUpgrade) ? 'Unlock' : 
+                 dreamShards < selectedUpgrade.cost ? 'Shards Insufficient' : 'Requirements Not Met'}
+              </button>
+            </div>
+          )}
+
+          {/* Bottom Tab Bar */}
+          <BottomTabBar activeTab="upgrade" />
+        </div>
+      );
+    };
+
+    ReactDOM.render(<UpgradeTree />, document.getElementById('root'));
+  </script>
+</body>
+</html>

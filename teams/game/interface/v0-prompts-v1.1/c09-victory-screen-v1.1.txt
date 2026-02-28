@@ -1,0 +1,99 @@
+Create a NEW Dream Collector Victory Screen with the following specs:
+
+LAYOUT (390×844px portrait):
+- Full-screen celebratory UI (no header/footer)
+- Confetti animation (30 particles, multi-color)
+- Victory title (64px emoji + 36px gold text)
+- Stats box (4-column grid with key metrics)
+- Reward card selection (3 cards, 100×140px each)
+- Action buttons (Continue, Play Again)
+
+CONFETTI ANIMATION:
+- 30 particles total
+- Colors: #FFD700 (gold), #FFC107 (amber), #FF9800 (orange), #7B9EF0 (blue), #9C27B0 (purple)
+- Size: 10×10px circles
+- Animation: fall from top to bottom, rotate 720deg
+- Duration: 2-4s random
+- Auto-stop after 5 seconds
+
+VICTORY TITLE:
+- Background: linear-gradient(180deg, #1A1A2E 0%, #2C3E50 100%)
+- Emoji: 🎉 (64px)
+- Title: "VICTORY!" (36px, Nunito Bold, #FFD700)
+- Subtitle: "Dream Cleared Successfully" (16px, #AAAAAA)
+- Animation: fadeInScale (0.6s ease-out)
+
+STATS BOX (350×120px):
+- Background: #2C2C3E
+- Border-radius: 16px
+- Padding: 20px
+- Animation: fadeInScale (0.8s ease-out)
+- Grid: 2×2 (4 stats)
+
+Stats display:
+1. **Turns**: 24 (32px bold, #7B9EF0)
+2. **Damage Dealt**: 156 (32px bold, #F44336)
+3. **Reveries**: 235 (32px bold, #FFD700)
+4. **Nodes Cleared**: 10/10 (32px bold, #4CAF50)
+
+REWARD CARDS (3 options, pick 1):
+- Section title: "Choose Your Reward" (18px bold)
+- Card layout: horizontal row, gap 12px
+- Card size: 100×140px
+- Rarity gradients (Common to Legendary)
+- Cost badge: top-right 20×20px circle
+- Card name: Nunito Bold 11px
+- Type icon: 32px emoji
+- Rarity label: 9px
+
+Card states:
+- Default: shadow 0 4px 8px rgba(0,0,0,0.3)
+- Selected: border 3px #FFD700 + shadow 0 8px 24px rgba(255,215,0,0.6) + scale(1.05)
+- Hover: border 3px #FFFFFF + shadow + scale(1.03)
+
+SAMPLE CARDS:
+1. Dream Echo (Rare) - Cost: 2, Attack, "Deal 8 damage. Draw 1 card."
+2. Nightmare Shield (Epic) - Cost: 3, Defense, "Gain 12 block. Reflect 3 damage."
+3. Lucid Burst (Rare) - Cost: 4, Attack, "Deal 10 damage. Gain 20 Reveries."
+
+ACTION BUTTONS:
+- Primary button (56px height):
+  - Text: "Claim [Card Name]" OR "Select a Card"
+  - Background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+  - Active: glow animation (2s infinite)
+  - Disabled: #555555 background
+  
+- Secondary button (48px height):
+  - Text: "Continue to Main Lobby"
+  - Background: #5A7FC0
+  - Border-radius: 12px
+
+- Tertiary button (48px height):
+  - Text: "🔄 Play Again"
+  - Border: 2px solid #7B9EF0
+  - Background: transparent
+  - Color: #7B9EF0
+
+INTERACTIONS:
+- Card tap: Select card (show border, enable claim button)
+- Card long-press: Show card detail (not in this screen)
+- Claim button: Add card to collection → fade-out → return to lobby
+- Continue button: Navigate to main lobby
+- Play Again: Navigate to run prep with same dreamer
+
+ANIMATIONS:
+- Confetti: fall + rotate (2-4s, auto-stop after 5s)
+- Title: fadeInScale 0.6s
+- Stats: fadeInScale 0.8s
+- Cards: fadeInScale 1.0s
+- Buttons: fadeInScale 1.2s
+- Glow (primary button): box-shadow pulse 2s infinite
+
+THEME:
+- Background: linear-gradient(180deg, #1A1A2E 0%, #2C3E50 100%)
+- Panels: #2C2C3E
+- Text: #FFFFFF (white), #AAAAAA (gray)
+- Accent: #FFD700 (gold), #7B9EF0 (blue)
+- Font: Nunito
+
+Make it celebratory with smooth animations and clear reward selection feedback.

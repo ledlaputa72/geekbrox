@@ -1,0 +1,64 @@
+Create an upgraded Dream Collector Card Library screen with the following specs:
+
+LAYOUT (390×844px portrait):
+- Header (60px): ← Back button (left) | "Card Library" title (center) | Filter icon (right)
+- Stats bar (40px): "Collected: 42/85 | Common: 18 | Rare: 12 | Epic: 8 | Legendary: 4"
+- Filter bar (50px): [All Types▼] [All Rarities▼] [🔍 Search]
+- Card grid (scrollable): 3-column grid, 100×140px cards, gap 12px
+  - Show all 85 cards (owned + unowned)
+  - Owned: Full color + checkmark
+  - Unowned: Grayscale + lock icon + "???" name
+
+CARD DISPLAY (100×140px):
+- Rarity gradient backgrounds (same as deck builder)
+- Card name: Nunito Bold 12px
+- Cost badge: Top-right 20×20px circle
+- Type icon: Bottom-left 16×16px
+- Ownership: Bottom-right checkmark (green ✓) or lock (gray 🔒)
+- Border radius: 12px
+- Shadow: 0 2px 4px rgba(0,0,0,0.2)
+
+CARD DETAIL MODAL (tap card):
+- Size: 350×600px
+- Background: #2C2C3E
+- Content:
+  - Large card image (200×280px, center)
+  - Card name (Nunito Bold 20px)
+  - Cost: "5 Energy" (Nunito Bold 16px)
+  - Type: Attack/Defense/Collection/Synergy (icon + text)
+  - Effect: Full description (Nunito Regular 14px)
+  - Rarity badge
+  - Upgrade info (if applicable)
+- Close button: X icon top-right
+- Animation: Fade + scale-up (300ms)
+
+FILTERS:
+- Type: All / Attack / Defense / Collection / Synergy
+- Rarity: All / Common / Uncommon / Rare / Epic / Legendary
+- Owned: All / Owned / Unowned
+- Tag: All / Nightmare / Memory / Lucid
+
+STATS BAR:
+- Show collection progress
+- Color-coded by rarity
+- Tap for detailed breakdown
+
+SEARCH:
+- Modal overlay with text input
+- Real-time filtering
+- Fuzzy match on card names
+
+THEME:
+- Background: #1A1A2E
+- Modal: #2C2C3E
+- Text: #FFFFFF (white), #AAAAAA (gray)
+- Font: Nunito
+- Rarity colors: Common(gray), Uncommon(green), Rare(blue), Epic(purple), Legendary(gold)
+
+INTERACTIONS:
+- Card tap: Open detail modal (fade + scale 300ms)
+- Long-press: Quick info tooltip
+- Scroll: Smooth infinite scroll
+- Filter apply: Fade transition (200ms)
+
+Make it visually appealing with clear ownership states and smooth interactions.
