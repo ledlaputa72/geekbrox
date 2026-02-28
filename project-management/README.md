@@ -44,34 +44,24 @@ project-management/ [루트 레벨 - 전체 프로젝트 관리만]
 
 ## 📍 팀별 문서 위치
 
-**게임 팀 관련:**
-```
-teams/game/workspace/
-├── roadmap/
-│   └── game-development-roadmap.md     (← 이동됨)
-├── sprints/
-│   └── 2026-W08-sprint.md              (← 이동됨)
-└── guides/
-    └── CODE_REVIEW.md                  (← 이동됨)
-```
+**각 팀의 구조 & 업무 위임:**
+- 🎮 **[teams/game/README.md](../teams/game/)** - 게임 팀 구조
+- 📝 **[teams/content/README.md](../teams/content/)** - 콘텐츠 팀 구조  
+- 🔧 **[teams/ops/README.md](../teams/ops/)** - 운영 팀 구조
 
-**콘텐츠 팀 관련:**
-```
-teams/content/workspace/
-├── roadmap/
-│   └── content-operations-roadmap.md   (← 이동됨)
-├── sprints/
-│   └── 2026-W08-sprint-content.md      (← 이동됨)
-└── guides/
-    └── BLOG_POSTING_UPDATE.md          (← 이동됨)
-```
-
-**운영 팀 관련:**
-```
-teams/ops/workspace/
-└── sprints/
-    └── 2026-W08-sprint-ops.md          (← 이동됨)
-```
+**각 팀의 워크스페이스 (로드맵, 스프린트, 가이드):**
+- 🎮 **[teams/game/workspace/](../teams/game/workspace/)** 
+  - roadmap/: game-development-roadmap.md
+  - sprints/: 2026-W08-sprint.md
+  - guides/: CODE_REVIEW.md
+  
+- 📝 **[teams/content/workspace/](../teams/content/workspace/)**
+  - roadmap/: content-operations-roadmap.md
+  - sprints/: 2026-W08-sprint-content.md
+  - guides/: BLOG_POSTING_UPDATE.md
+  
+- 🔧 **[teams/ops/workspace/](../teams/ops/workspace/)**
+  - sprints/: 2026-W08-sprint-ops.md
 
 ---
 

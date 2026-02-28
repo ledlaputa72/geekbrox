@@ -1,8 +1,12 @@
 # 📝 Content Team - 콘텐츠 운영 팀
 
 **팀 PM**: Atlas  
-**팀장 (Lead)**: [팀장 이름 - 지정 예정]  
+**팀장 (Lead)**: Lee.C (Gemini 2.5 Pro)  
 **현재 상태**: 블로그 자동화 시스템 운영 중
+
+> **팀 문서 위치:**
+> - 📂 **[teams/content/workspace/](./workspace/)** - 팀 워크스페이스 (로드맵, 가이드, 스프린트, 블로그 프로젝트)
+> - 🔄 **[frameworks/blog_automation/](../../frameworks/blog_automation/)** - 공용 블로그 자동화 프레임워크
 
 ---
 

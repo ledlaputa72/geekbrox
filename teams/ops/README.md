@@ -1,8 +1,12 @@
 # 🔧 Operations Team - 운영 & 인프라 팀
 
 **팀 PM**: Atlas  
-**팀장 (Lead)**: [팀장 이름 - 지정 예정]  
+**팀장 (Lead)**: Park.O (Gemini 2.5 Pro)  
 **현재 상태**: OpenClaw 인프라 및 자동화 관리
+
+> **팀 문서 위치:**
+> - 📂 **[teams/ops/workspace/](./workspace/)** - 팀 워크스페이스 (스프린트, QA, 연구, 수익화)
+> - 📊 **[project-management/](../../project-management/)** - 전체 프로젝트 관리 (예산, 조직, 전략)
 
 ---
 

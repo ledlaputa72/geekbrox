@@ -1,8 +1,14 @@
 # 🎮 Game Team - 게임 개발 팀
 
 **팀 PM**: Atlas  
-**팀장 (Lead)**: [팀장 이름 - 지정 예정]  
+**팀장 (Lead)**: Kim.G (Gemini 2.5 Pro)  
 **현재 상태**: Phase 3 진행 중 (Combat System)
+
+> **팀 문서 위치:**
+> - 📂 **[teams/game/workspace/](./workspace/)** - 팀 워크스페이스 (로드맵, 가이드, 스프린트, 프로젝트 구조)
+> - 🎮 **[teams/game/godot/](./godot/)** - Godot 게임 엔진 프로젝트
+> - 📊 **[teams/game/data/](./data/)** - 게임 데이터 (카드, 몬스터, 밸런싱)
+> - 🎨 **[teams/game/interface/](./interface/)** - UI 설계 (메타 UI, 화면 설계)
 
 ---
 
