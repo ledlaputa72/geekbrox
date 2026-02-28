@@ -201,7 +201,7 @@ Team Lead가 지시했을 때:
 ### 문제: "테스트 계획이 어디에 있나요?"
 **해결:**
 ```
-teams/ops/workspace/testing/test-plan.md
+teams/ops/workspace/testing/dream-collector-test-plan.md
 또는 teams/ops/workspace/testing/ 폴더의 관련 파일
 ```
 

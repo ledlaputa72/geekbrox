@@ -76,7 +76,7 @@ Kim.G가 Telegram에서 지시할 때까지 대기
 
 ```
 1. 지시받은 파일 열기 (예: CardDatabase.gd)
-2. 요구사항 재확인 (TAROT_SYSTEM_GUIDE.md 읽기)
+2. 요구사항 재확인 (teams/game/workspace/design/dream-collector/02_core_design/TAROT_SYSTEM_GUIDE.md 읽기)
 3. 코드 작성 시작
 4. 코드 스타일 확인 (CODE_REVIEW.md)
 5. Commit & PR 준비
@@ -171,7 +171,7 @@ teams/game/workspace/guides/CODE_REVIEW.md
 ### 문제: "TAROT_SYSTEM_GUIDE.md를 찾을 수 없어요"
 **해결:**
 ```
-teams/game/workspace/design/02_core_design/TAROT_SYSTEM_GUIDE.md
+teams/game/workspace/design/dream-collector/02_core_design/TAROT_SYSTEM_GUIDE.md
 ```
 
 ### 문제: "PR 생성 방법을 모르겠어요"

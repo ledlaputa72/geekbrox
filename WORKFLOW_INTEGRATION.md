@@ -300,8 +300,8 @@ Telegram 완료 보고
 Error: TAROT_SYSTEM_GUIDE.md를 못 찾았습니다."
 
 Team Lead
-"TAROT_SYSTEM_GUIDE.md는 teams/game/workspace/design/02_core_design/에 있습니다.
-경로: teams/game/workspace/design/02_core_design/TAROT_SYSTEM_GUIDE.md"
+"TAROT_SYSTEM_GUIDE.md는 teams/game/workspace/design/dream-collector/02_core_design/에 있습니다.
+경로: teams/game/workspace/design/dream-collector/02_core_design/TAROT_SYSTEM_GUIDE.md"
 
 개발자
 "감사합니다. 수정하고 다시 진행하겠습니다."
