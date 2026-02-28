@@ -2,6 +2,47 @@
 
 **GeekBrox**는 인디 게임 개발과 콘텐츠 운영을 효율적으로 관리하는 통합 플랫폼입니다. OpenClaw 기반 AI 에이전트와 자동화 프레임워크로 팀 생산성을 극대화합니다.
 
+---
+
+## 🚀 새 팀원? 여기서 시작하세요!
+
+**모든 새 팀원과 기존 팀원이 읽어야 할 완벽한 온보딩 가이드가 준비되어 있습니다.**
+
+### 📍 첫 진입점
+👉 **[project-management/getting-started/](./project-management/getting-started/)**
+
+### ⏱️ 50분 온보딩 로드맵
+```
+1️⃣ GETTING_STARTED.md (2분)
+   ↓ 당신의 역할 선택
+2️⃣ QUICK_START.md (5분)
+   ↓ 프로젝트 이해
+3️⃣ WORKFLOW_INTEGRATION.md (15분) ⭐ 가장 중요!
+   ↓ Telegram-Cursor-GitHub 워크플로우
+4️⃣ onboarding/[YOUR_TEAM]_STARTUP.md (30분)
+   ↓ 역할별 상세 가이드
+✅ 준비 완료!
+```
+
+### 📚 폴더 구조
+```
+project-management/getting-started/
+├── README.md                      ← 폴더 개요
+├── GETTING_STARTED.md            ← 시작점
+├── QUICK_START.md                ← 5분 개요
+├── WORKFLOW_INTEGRATION.md        ← 워크플로우 ⭐
+├── onboarding/                   ← 팀별 가이드
+│   ├── GAME_TEAM_STARTUP.md
+│   ├── CONTENT_TEAM_STARTUP.md
+│   └── OPS_TEAM_STARTUP.md
+└── tools/                        ← 도구 가이드
+    ├── TOOL_GUIDELINES.md
+    ├── TOOL_CHEATSHEETS.md
+    └── tool-integration/         ← copy-paste 규칙 파일
+```
+
+---
+
 **핵심 철학:**
 - 🎯 **목적-기반 조직화**: 모든 폴더와 파일이 명확한 목적을 가짐
 - 🤖 **AI PM 중심**: Atlas (AI PM)가 팀을 관리하고 자동화 조율
