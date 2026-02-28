@@ -47,20 +47,27 @@
 ```
 Steve (Telegram)
     ↕
-🚀 Atlas — 총괄 PM  (Gemini 2.5 Flash, ~/.openclaw/workspace/)
+🚀 Atlas — 총괄 PM  (gemini-2.5-flash 메인 / claude-haiku-4-5-20251001 폴백)
     │  역할: Steve 소통, 위임, 결과 통합 보고. 실무 직접 처리 없음.
+    │  ⚠️ 모델 폴백 순서: gemini-2.5-flash → claude-haiku-4-5-20251001 → gemini-2.5-pro
     │
-    ├── 📝 콘텐츠팀장  (Claude Sonnet 4.5 + Gemini fallback)
+    ├── 📝 콘텐츠팀장  (claude-sonnet-4-5-20250929 + gemini-2.5-flash fallback)
     │   workspace: teams/content/workspace/
     │   담당: 블로그·SNS·유튜브 자동화
     │
-    ├── 🎮 게임개발팀장  (Claude Sonnet 4.5 + Gemini fallback)
+    ├── 🎮 게임개발팀장  (claude-sonnet-4-5-20250929 + gemini-2.5-flash fallback)
     │   workspace: teams/game/workspace/
     │   담당: GDD, 개발, 아트, 사운드
     │
-    └── 🏢 운영및사업팀장  (Claude Sonnet 4.5 + Gemini fallback)
+    └── 🏢 운영및사업팀장  (claude-sonnet-4-5-20250929 + gemini-2.5-flash fallback)
         workspace: teams/ops/workspace/
         담당: 리서치, 유료화, QA
+
+⚠️  모델명 주의사항 (2026-02-27 업데이트):
+    - ❌ 오류: anthropic/claude-3-5-haiku        ← 버전 태그 없음, 404 발생
+    - ✅ 올바름: anthropic/claude-haiku-4-5-20251001  ← 반드시 날짜 태그 포함
+    - ✅ 올바름: anthropic/claude-3-5-haiku-20241022  ← 구버전도 날짜 태그 필수
+    - 🔧 수리 가이드: OPENCLAW_REPAIR.md 참고
 ```
 
 **Cursor AI 역할:** 각 팀장 에이전트의 지시에 따라 코드를 작성·수정한다.
