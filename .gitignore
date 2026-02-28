@@ -1,15 +1,32 @@
+# Environment & Config
 .env
+.config/.env
+.config/__pycache__/
+.config/.venv/
+.config/*.json
+
+# Development Environment
 .venv/
 __pycache__/
 *.pyc
 .DS_Store
-output/
-cookies.json
 *.log
 .pytest_cache/
-# .cursor/rules/ 는 팀 공유용으로 커밋 포함
+
+# Build Output
+build/
+output/
+
+# IDE Settings (local only)
 .cursor/settings.json
 .cursor/*.json
+.claude/
+
+# Credentials & Cookies
+cookies.json
 blog_automation/scripts/cookies.json
+
+# Package Lock
+*.lock
 
 
