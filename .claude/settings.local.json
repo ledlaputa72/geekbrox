@@ -144,7 +144,8 @@
       "Bash(sips -g all /Users/stevemacbook/Projects/geekbrox/teams/game/godot/dream-collector/assets/sprite/player_walk.png)",
       "Bash(/usr/local/bin/godot --headless --import --path .)",
       "Bash(/Applications/Godot.app/Contents/MacOS/Godot --headless --check-only --path .)",
-      "Bash(/Applications/Godot.app/Contents/MacOS/Godot --headless --import --path .)"
+      "Bash(/Applications/Godot.app/Contents/MacOS/Godot --headless --import --path .)",
+      "Bash(# API 키 위치 찾기 grep -r \"\"ANTHROPIC_API_KEY\\\\|anthropic_api_key\"\" /Users/stevemacbook/Projects/geekbrox/ --include=\"\"*.env\"\" --include=\"\".env*\"\" -l)"
     ]
   }
 }

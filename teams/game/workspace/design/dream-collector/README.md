@@ -20,8 +20,13 @@
     -   **목적**: 게임의 스토리, 캐릭터, 세계관, 설정 등 서사와 관련된 모든 문서가 위치합니다.
     -   **대상**: 기획팀, 시나리오 작가, 아트팀
 
+-   `05_development_tracking/`
+    -   **목적**: 프로젝트의 개발 진행 상황, 체크리스트, 기술 결정 사항 등을 추적하는 문서입니다. OpenClaw와 개발팀이 함께 관리합니다.
+    -   **주요 문서**: `PROGRESS.md`, `PROGRESS_TRACKER.md`, `DEVELOPMENT_CHECKLIST.md`, `SYSTEM_REQUIREMENTS.md`, `TECH_DECISIONS.md`
+    -   **대상**: PM(Atlas), 개발팀
+
 -   `_archive/`
     -   **목적**: 현재는 사용되지 않는 과거 버전의 기획 문서나 컨셉 아이디어를 보관합니다. 기록 보존의 의미를 가집니다.
 
 ---
-*문서 구조 최종 업데이트: 2026-02-27 by Atlas*
+*문서 구조 최종 업데이트: 2026-02-27 by Atlas (dev→design 통합)*
