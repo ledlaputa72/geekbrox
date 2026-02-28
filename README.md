@@ -4,8 +4,8 @@
 
 **핵심 철학:**
 - 🎯 **목적-기반 조직화**: 모든 폴더와 파일이 명확한 목적을 가짐
-- 🤖 **AI 에이전트 중심**: Atlas PM이 팀을 조율하고 자동화 관리
-- 📊 **계층적 업무 위임**: Steve → Atlas → Team Lead → Developers
+- 🤖 **AI PM 중심**: Atlas (AI PM)가 팀을 관리하고 자동화 조율
+- 📊 **3단계 계층 구조**: Steve (CEO/PD) → Atlas (AI PM) → Kim.G/Lee.C/Park.O (AI Agents)
 - 🔄 **반복 프레임워크**: 게임/콘텐츠 개발 자동화로 효율성 극대화
 - 📈 **추적 가능한 진행**: 모든 프로젝트가 PROGRESS.md로 추적됨
 
