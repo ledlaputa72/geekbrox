@@ -9,8 +9,15 @@
 - **주요 파일**:
   - `atlas_bot.py` - Atlas 봇 메인 Python 스크립트
   - `ATLAS_MANUAL.md` - Atlas 사용 가이드
+  - `run_atlas.sh` - Atlas 봇 실행 스크립트
 - **책임**: 프로젝트 추적, 자동화 관리, 문서 정리
 - **통신**: Telegram 기반 커맨드 처리
+
+#### 빠른 시작
+```bash
+# 프로젝트 루트에서 실행
+./agents/atlas/run_atlas.sh
+```
 
 ## 📋 에이전트 & 조직 문서
 

@@ -53,9 +53,16 @@ TELEGRAM_CHAT_ID=your_chat_id_here
 
 ### 봇 시작
 
+**방법 1: 스크립트를 통한 실행 (권장)**
 ```bash
 # 프로젝트 루트에서 실행
-python blog_automation/scripts/content_team_bot.py
+./frameworks/blog_automation/run_post.sh
+```
+
+**방법 2: 직접 Python 실행**
+```bash
+# 프로젝트 루트에서 실행
+python frameworks/blog_automation/scripts/content_team_bot.py
 ```
 
 ### 봇 종료

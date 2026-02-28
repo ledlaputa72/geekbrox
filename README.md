@@ -33,41 +33,35 @@ geekbrox/
 │  📌 역할: 
 │     - Atlas: PM 역할, 팀 진행률 추적, 자동화 관리, 일일 보고
 │  🎯 사용법:
-│     - ./scripts/run_atlas.sh (Atlas 봇 실행)
+│     - ./agents/atlas/run_atlas.sh (Atlas 봇 실행)
 │     - Telegram으로 Atlas에 지시 명령 전달
 │
 │
 ├─ 🔄 FRAMEWORKS/ (반복 자동화 프레임워크)
 │  │
 │  └─ blog_automation/
+│     ├─ README.md                 # 프레임워크 개요
 │     ├─ MANUAL.md                 # 블로그 자동화 사용 설명서
+│     ├─ run_post.sh               # 블로그 봇 실행 스크립트 ⭐
 │     ├─ scripts/                  # Python 자동화 스크립트들
+│     │  ├─ content_team_bot.py    # Telegram 봇 UI
 │     │  ├─ fetch_anime.py         # 애니 정보 자동 수집
 │     │  ├─ generate_post.py       # 블로그 글 자동 생성
 │     │  ├─ post_to_tistory.py    # Tistory 자동 포스팅
 │     │  └─ share_to_sns.py        # SNS 자동 공유
-│     └─ templates/                # 글 작성 템플릿
-│        └─ anime_post_template.md # 애니 리뷰 포스트 템플릿
-│  └─ README.md                    # 프레임워크 개요
+│     ├─ templates/                # 글 작성 템플릿
+│     │  └─ anime_post_template.md # 애니 리뷰 포스트 템플릿
+│     └─ output/                   # 자동화 결과물 (Git 제외)
+│        ├─ images/                # 생성된 이미지
+│        ├─ posts/                 # 생성된 글
+│        └─ shared_state.json      # 상태 추적
 │
 │  💡 목적: 반복 가능한 자동화 솔루션 제공
 │  📌 역할:
 │     - blog_automation: 블로그 글 자동 수집 → 생성 → 포스팅 → SNS 배포
 │  🎯 사용법:
-│     - ./scripts/run_post.sh (블로그 자동화 실행)
-│     - teams/content/blog/ 과 연동
-│
-│
-├─ 🔧 SCRIPTS/ (유틸리티 & 실행 스크립트)
-│  │
-│  ├─ run_atlas.sh                 # Atlas PM 에이전트 실행
-│  ├─ run_post.sh                  # 블로그 자동화 실행
-│  └─ README.md                    # 스크립트 참고서
-│
-│  💡 목적: 주요 자동화 작업 실행
-│  📌 사용법:
-│     chmod +x scripts/*.sh         # 실행 권한 추가
-│     ./scripts/run_atlas.sh        # 실행
+│     - ./frameworks/blog_automation/run_post.sh (블로그 봇 실행)
+│     - teams/content/workspace/ 과 연동
 │
 │
 ├─ 📊 PROJECT-MANAGEMENT/ (프로젝트 관리 & 문서)
@@ -347,14 +341,14 @@ source .config/.venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 에이전트 실행
+### 에이전트 & 자동화 실행
 
 ```bash
 # Atlas PM 에이전트 실행
-./scripts/run_atlas.sh
+./agents/atlas/run_atlas.sh
 
 # 블로그 포스팅 자동화 실행
-./scripts/run_post.sh
+./frameworks/blog_automation/run_post.sh
 ```
 
 ### 프로젝트 문서 탐색
@@ -424,18 +418,18 @@ pip install -r requirements.txt
   - `frameworks/blog_automation/output/` - 자동화 결과물
 - ✅ build/ 폴더 제거 (빈 폴더, 자동화 결과는 frameworks에 통합)
 - ✅ 프로젝트 구조 정규화
-  - `agents/` - AI 에이전트 설정
-  - `frameworks/` - 자동화 프레임워크
+  - `agents/` - AI 에이전트 설정 (atlas/run_atlas.sh 포함)
+  - `frameworks/` - 자동화 프레임워크 (blog_automation/run_post.sh 포함)
   - `project-management/` - 프로젝트 관리 & 기술 문서
-  - `scripts/` - 유틸리티 스크립트
   - `resources/` - 공유 자산
   - `teams/` - 팀별 개발 프로젝트
   - `.config/` - 개발 환경 설정 (Git 제외)
-- ✅ 폴더별 README 작성
-- ✅ .gitignore 업데이트
+- ✅ scripts 폴더 통합 (agents & frameworks로 이동)
+- ✅ 폴더별 README 작성 및 업데이트
+- ✅ 모든 경로 참조 수정
 
 ---
 
 **관리자**: Steve PM  
 **PM Agent**: Atlas  
-**마지막 업데이트**: 2026-02-27
+**마지막 업데이트**: 2026-02-28 (scripts 폴더 통합)
