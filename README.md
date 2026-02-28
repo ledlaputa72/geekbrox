@@ -99,30 +99,6 @@ geekbrox/
 │     - 역할이 궁금한가? project-management/TEAM_WORKFLOWS.md 참고
 │
 │
-├─ 📦 RESOURCES/ (공유 자산 & 벤치마킹 자료)
-│  │
-│  ├─ img/                         # 이미지 자산
-│  │  ├─ bg/                       # 배경 이미지
-│  │  │  └─ home_bg.png           # Dream Collector 홈 배경
-│  │  └─ sprite/                   # 캐릭터/몬스터 스프라이트
-│  │     ├─ player_ani.png         # 플레이어 애니메이션
-│  │     ├─ NPC1_ani.png           # NPC1 애니메이션
-│  │     └─ ...
-│  │
-│  ├─ references/                   # 외부 참고 자료 & 벤치마킹
-│  │  ├─ Game System.pdf           # 게임 시스템 레퍼런스
-│  │  └─ game test.pdf             # 게임 테스트 매뉴얼
-│  │
-│  └─ README.md                     # 자산 가이드
-│
-│  💡 목적: 모든 프로젝트가 공유하는 자산 및 벤치마킹 자료 보관
-│  📌 특징:
-│     - 게임 에셋이 아님 (게임별 에셋은 teams/game/workspace/art/)
-│     - 로고, 아이콘, 범용 배경 등 프로젝트 공용 이미지
-│  🎯 사용법:
-│     - 게임 에셋: teams/game/dream-collector/workspace/art/
-│     - 공유 이미지: resources/img/ 참고
-│
 │
 ├─ 👥 TEAMS/ (개별 프로젝트 & 팀 관리)
 │  │
@@ -371,9 +347,10 @@ pip install -r requirements.txt
 | **엔진** | Godot 4.x |
 | **플랫폼** | 모바일 (Portrait 390×844px) |
 | **장르** | Roguelike + Deck-building + Idle |
-| **기획** | `teams/game/dream-collector/workspace/design/` |
-| **코드** | `teams/game/dream-collector/workspace/godot/` |
-| **에셋** | `teams/game/dream-collector/workspace/art/` |
+| **기획** | `teams/game/workspace/design/` |
+| **코드** | `teams/game/godot/dream-collector/` |
+| **에셋** | `teams/game/godot/dream-collector/assets/` |
+| **아트 가이드** | `teams/game/workspace/art/` |
 
 **Phase 진행 상황**:
 - ✅ Phase 1: UI 시스템 (12 screens)

@@ -25,6 +25,9 @@ project-management/
 │   └── BLOG_POSTING_UPDATE.md         # 블로그 포스팅 가이드
 ├── manuals/                            # 문제 해결 & 트러블슈팅
 │   └── OPENCLAW_REPAIR.md             # OpenClaw 트러블슈팅
+├── references/                         # 외부 참고자료 & 벤치마킹
+│   ├── Game System.pdf                # 게임 시스템 레퍼런스
+│   └── game test.pdf                  # 게임 테스트 매뉴얼
 │
 ├─ 📊 [로드맵 & 계획]
 ├── MASTER_ROADMAP.md                   # 전체 프로젝트 마스터 로드맵
