@@ -347,14 +347,14 @@ Instant Task Priority:
 ```yaml
 Name: Lee.C (Content Manager)
 Type: Run-Based (빠른 태스크 처리)
-Primary Model: google/gemini-2.5-flash
+Primary Model: google/gemini-2.5-pro
 Fallback Chain:
-  1. google/gemini-2.5-pro (품질 필요시)
-  2. anthropic/claude-haiku-4-5-20251001 (백업)
+  1. anthropic/claude-haiku-4-5-20251001 (빠른 응답)
+  2. google/gemini-2.5-flash (백업)
 
-Cost Budget: $15/month (가장 저비용)
-Specialization: 콘텐츠 생성, SNS 관리, 빠른 처리
-Response Time Target: <1s
+Cost Budget: $20/month (고급 콘텐츠 처리)
+Specialization: 콘텐츠 생성, SNS 관리, 품질 우선
+Response Time Target: <2s
 ```
 
 ### 🎯 역할 & 책임
@@ -496,14 +496,14 @@ Instant Task Priority:
       "name": "Content Manager (Lee.C)",
       "type": "mixed",
       "model": {
-        "primary": "google/gemini-2.5-flash",
+        "primary": "google/gemini-2.5-pro",
         "fallbacks": [
-          "google/gemini-2.5-pro",
-          "anthropic/claude-haiku-4-5-20251001"
+          "anthropic/claude-haiku-4-5-20251001",
+          "google/gemini-2.5-flash"
         ]
       },
       "cost": {
-        "budget": 15,
+        "budget": 20,
         "currency": "USD/month"
       },
       "timeout": 1800,
@@ -1043,5 +1043,429 @@ Park.O (Ops Manager):
 
 ---
 
-**마지막 업데이트**: 2026-02-27 by Atlas  
+## 🔄 4. Fallback Chain 상세 - Rule 3: 모두 실패 시
+
+### 📋 Fallback 전체 흐름
+
+**각 매니저의 Fallback 체인:**
+
+| 순번 | Kim.G (Game) | Lee.C (Content) | Park.O (Ops) |
+|------|---|---|---|
+| **Primary** | Gemini 2.5 Pro | Gemini 2.5 Pro | Gemini 2.5 Pro |
+| **Fallback1** | Claude Haiku 4-5 | Claude Haiku 4-5 | Claude Haiku 4-5 |
+| **Fallback2** | Gemini Flash | Gemini Flash | Gemini Flash |
+
+### Rule 1, 2, 3 정의
+
+```yaml
+Rule 1 (Primary 성공):
+  ✅ 즉시 응답
+  └─ 평균 응답시간: 1-2초
+
+Rule 2 (Primary 실패 → Fallback1 성공):
+  ⚠️ 자동 전환
+  ├─ Fallback1 대기: 5초
+  ├─ 응답 완료
+  └─ 사용자: 약간 느린 것만 인지 (6-7초)
+
+Rule 3 (모든 Fallback 실패):
+  🔴 Steve 수동 개입 & 알림
+  ├─ 모든 모델 다운 감지
+  ├─ Telegram → Steve에게 긴급 알림
+  │  "🚨 CRITICAL: 모든 AI 모델 응답 불가 (Kim.G 태스크)"
+  ├─ Steve 수동 개입
+  │  - 상황 파악
+  │  - 대체 솔루션 지시
+  │  - 임시 방안 결정
+  └─ Atlas: Steve 지시 받고 정정된 워크플로우 실행
+```
+
+### 예시 - Kim.G (게임 개발)
+
+```
+요청: "CardDatabase.gd 완성해줘 (긴급)"
+
+1️⃣ Primary 시도 (Gemini 2.5 Pro)
+   ├─ 대기: 2초
+   ├─ 응답: ✅ 성공
+   └─ 시간: 2초
+
+2️⃣ Primary 실패 → Fallback1 (Claude Haiku)
+   ├─ Primary 실패 감지 (타임아웃 3초)
+   ├─ Fallback1 자동 전환
+   ├─ 대기: 5초
+   ├─ 응답: ✅ 성공 (약간 느림)
+   └─ 사용자 경험: "응답이 좀 느렸는데 정상"
+
+3️⃣ Fallback1 실패 → Fallback2 (Gemini Flash)
+   ├─ Fallback1 실패 감지
+   ├─ Fallback2 자동 전환
+   ├─ 대기: 5초
+   ├─ 응답: ✅ 성공 (약간 더 느림)
+   └─ 사용자 경험: "좀 느리지만 작동함"
+
+4️⃣ Rule 3: 모두 실패 (Gemini Flash도 다운)
+   ├─ 모든 모델 실패 감지
+   ├─ Telegram → Steve 긴급 알림
+   │  🚨 "Kim.G 요청 처리 불가 (모든 AI 모델 응답 없음)"
+   ├─ Steve 수동 개입
+   │  - 상황: "Gemini 서버 전체 다운, Claude 장애"
+   │  - 결정: "일단 Task 연기하고 Park.O에게 상황 공유"
+   ├─ Atlas: Steve 지시 받고 실행
+   │  - Park.O에게: "API 상태 확인해줘"
+   │  - Kim.G에게: "Task 연기될 예정, 상황 공유 대기"
+   └─ 사용자 경험: "장애 발생, Steve가 처리 중"
+```
+
+---
+
+## 🎯 5. 인스턴트 태스크 관리 (각 매니저별)
+
+### Kim.G - 게임 개발
+
+```yaml
+우선순위 & SLA (Service Level Agreement):
+
+🔴 Critical (즉시, <5분)
+  - Blocker 이슈: 게임 빌드 실패
+  - 심각한 버그: 렌더링 오류, 크래시
+  - 예: "CardDatabase.gd 컴파일 오류로 빌드 불가"
+  
+🟠 High (긴급, <30분)
+  - 버그 수정: 일반 버그
+  - 기술 결정: 구현 방식 논의
+  - PR 검수: 코드 리뷰
+  - 예: "Enemy 렌더링이 느려"
+  
+🟡 Medium (표준, <2시간)
+  - 새로운 태스크 지시: "Battle UI 구현해"
+  - 코칭 & 멘토링: "이 부분 개선하려면?"
+  - 성능 최적화: 캐싱 방안 논의
+  
+🟢 Low (차순, <1일)
+  - 코드 스타일 개선
+  - 문서 업데이트 (주석 추가)
+```
+
+### Lee.C - 콘텐츠 운영
+
+```yaml
+우선순위 & SLA:
+
+🔴 Critical (즉시, <1시간)
+  - 긴급 콘텐츠 요청: Steve의 즉시 지시
+  - 게시 실패: Tistory API 오류
+  - 자동화 오류: SNS 공유 실패
+  - 예: "오늘 해야 할 블로그 글 긴급 요청"
+  
+🟠 High (긴급, 2시간)
+  - 주간 계획 글: 마감 있음 (화/수/금)
+  - 글 검수: 수정 사항 있는 글
+  - 예: "화요일 게임 리뷰 글 검수 완료해"
+  
+🟡 Medium (표준, 4시간)
+  - 추가 글 요청: 마감 없음
+  - 리서치 & 아이디어: 주제 발굴
+  - 예: "인디게임 트렌드 분석 글 작성해"
+  
+🟢 Low (차순, 24시간)
+  - 아이디어 개발: 주제 브레인스토밍
+  - 문서 정리: 과거 글 분류
+```
+
+### Park.O - 인프라 관리
+
+```yaml
+우선순위 & SLA:
+
+🔴 Critical (즉시, <5분)
+  - 서비스 장애: OpenClaw 다운
+  - API 다운: Gemini/Claude 서비스 불가
+  - 비용 폭증: 월간 예산 초과 위험
+  - 예: "Gemini API가 응답 안 함"
+  
+🟠 High (긴급, 30분)
+  - 성능 저하: 응답시간 3초 이상
+  - 에러율 증가: 비정상 에러 증가
+  - 자동화 실패: 블로그 게시 실패
+  - 예: "모델 응답 시간이 느려졌어"
+  
+🟡 Medium (표준, 2시간)
+  - 설정 최적화: Fallback 체인 개선
+  - 비용 분석: 월간 API 비용 검토
+  - 헬스 체크: 정기 인프라 점검
+  
+🟢 Low (차순, 1일)
+  - 문서화: 운영 매뉴얼 작성
+  - 모니터링 개선: 대시보드 개선
+```
+
+---
+
+## 📊 6. 세션 관리 & API 설정
+
+### 세션 타입별 특성
+
+```yaml
+Session (지속적 대화):
+  - 타입: 수동 세션, 대화형
+  - 타임아웃: 1-3시간 (활동 없으면 종료)
+  - 컨텍스트: 이전 대화 기억
+  - 사용처: Atlas, Kim.G, Park.O
+  - 가격: 높음 (세션 유지 비용)
+
+Run (일회성 태스크):
+  - 타입: 자동 세션, 빠른 실행
+  - 타임아웃: 10-30분
+  - 컨텍스트: 현재 태스크만
+  - 사용처: Lee.C (콘텐츠 생성)
+  - 가격: 낮음 (빠른 종료)
+```
+
+### 각 매니저의 세션 설정
+
+| 매니저 | 세션 타입 | 타임아웃 | 컨텍스트 | 토큰 제한 | 우선순위 |
+|--------|----------|---------|---------|----------|---------|
+| **Atlas** | Session | 1시간 | 전체 프로젝트 | 100K | Active |
+| **Kim.G** | Session | 2시간 | Game 팀 | 50K | Active |
+| **Lee.C** | Run | 30분 | Content만 | 30K | Active |
+| **Park.O** | Session | 3시간 | Ops만 | 40K | Active |
+
+### 최종 API 설정 (모든 매니저)
+
+```json
+{
+  "agents": {
+    "atlas": {
+      "id": "atlas",
+      "name": "Atlas PM",
+      "type": "session",
+      "model": {
+        "primary": "anthropic/claude-haiku-4-5-20251001",
+        "fallbacks": [
+          "google/gemini-2.5-pro",
+          "google/gemini-2.5-flash"
+        ]
+      },
+      "cost": {"budget": 35, "currency": "USD/month"},
+      "timeout": 3600,
+      "priority": "active"
+    },
+    
+    "kim_g": {
+      "id": "kim_g",
+      "name": "Game Manager (Kim.G)",
+      "type": "session",
+      "model": {
+        "primary": "google/gemini-2.5-pro",
+        "fallbacks": [
+          "anthropic/claude-haiku-4-5-20251001",
+          "google/gemini-2.5-flash"
+        ]
+      },
+      "cost": {"budget": 35, "currency": "USD/month"},
+      "timeout": 7200,
+      "priority": "active",
+      "specialization": "game_development"
+    },
+    
+    "lee_c": {
+      "id": "lee_c",
+      "name": "Content Manager (Lee.C)",
+      "type": "run",
+      "model": {
+        "primary": "google/gemini-2.5-pro",
+        "fallbacks": [
+          "anthropic/claude-haiku-4-5-20251001",
+          "google/gemini-2.5-flash"
+        ]
+      },
+      "cost": {"budget": 20, "currency": "USD/month"},
+      "timeout": 1800,
+      "priority": "active",
+      "specialization": "content_creation"
+    },
+    
+    "park_o": {
+      "id": "park_o",
+      "name": "Ops Manager (Park.O)",
+      "type": "session",
+      "model": {
+        "primary": "google/gemini-2.5-pro",
+        "fallbacks": [
+          "anthropic/claude-haiku-4-5-20251001",
+          "google/gemini-2.5-flash"
+        ]
+      },
+      "cost": {"budget": 25, "currency": "USD/month"},
+      "timeout": 10800,
+      "priority": "active",
+      "specialization": "infrastructure"
+    }
+  }
+}
+```
+
+---
+
+## ✅ 7. 최종 정리 - 핵심 요점
+
+### Who (누가)
+
+```
+Steve: CEO/PD
+  └─ 결정권자, 전략 결정, 긴급 개입
+
+Atlas: AI PM (OpenClaw Agent)
+  └─ 팀 관리, 자동화, 일일 추적
+
+Kim.G: Game Manager
+  └─ 게임 개발 지휘, 기술 결정
+
+Lee.C: Content Manager
+  └─ 콘텐츠 계획, 글 관리
+
+Park.O: Ops Manager
+  └─ 인프라 모니터링, 비용 최적화
+```
+
+### What (뭐하는가)
+
+```
+Atlas의 역할:
+  ✅ 팀 진행률 추적 (매일)
+  ✅ 태스크 모니터링 (실시간)
+  ✅ Blocker 이슈 해결
+  ✅ 주간 리포트 (금요일)
+  ✅ 자동화 관리
+
+Kim.G의 역할:
+  ✅ 게임 개발 지휘
+  ✅ Cursor IDE 태스크 관리
+  ✅ 기술 결정 (구현 방식)
+  ✅ PR 코드 리뷰
+  ✅ 버그 분석 & 해결
+
+Lee.C의 역할:
+  ✅ 콘텐츠 계획 (주간)
+  ✅ Claude Code에 글 지시
+  ✅ 글 검수 & 승인
+  ✅ 자동화 게시
+  ✅ 성과 분석
+
+Park.O의 역할:
+  ✅ 인프라 모니터링
+  ✅ API 상태 확인
+  ✅ 비용 분석 & 최적화
+  ✅ 자동화 유지보수
+  ✅ 긴급 장애 대응
+```
+
+### How (어떻게)
+
+```
+Atlas의 방식:
+  • 타입: Session (지속적)
+  • 모드: 일일 추적 (09:00-20:00)
+  • 주기: 실시간 모니터링
+  • 타임아웃: 1시간 비활동
+
+Kim.G의 방식:
+  • 타입: Session (지속적)
+  • 모드: 실시간 대화
+  • 주기: 일일 (09:00-18:00)
+  • 타임아웃: 2시간 비활동
+
+Lee.C의 방식:
+  • 타입: Run (일회성)
+  • 모드: 빠른 태스크
+  • 주기: 주간 월-금
+  • 타임아웃: 30분 (세션 자동 종료)
+
+Park.O의 방식:
+  • 타입: Session (지속적)
+  • 모드: 모니터링 + 리포트
+  • 주기: 일일 (09:00-17:00) + 금요일
+  • 타임아웃: 3시간 비활동
+```
+
+### When (언제)
+
+```
+Atlas:
+  • 아침 09:00: 팀 스탠드업
+  • 10:00-17:00: 실시간 모니터링
+  • 17:00-20:00: 일일 종료 리포트
+  • 금요일 20:00: 주간 리포트
+
+Kim.G:
+  • 매일 09:00: 진행 상황 검토
+  • 09:30: 우선순위 정렬
+  • 10:00-17:00: 개발 지휘 & 태스크 관리
+  • 17:30: 일일 완료 정리
+
+Lee.C:
+  • 월요일 10:00: 주간 콘텐츠 계획 (Session)
+  • 화/수/목: 글 작성 & 검수 (Run × 3)
+  • 금요일 17:00: 자동 게시 + 성과 분석 (Session)
+  • 금요일 18:00: 주간 보고
+
+Park.O:
+  • 매일 09:00: 인프라 헬스 체크
+  • 10:00-17:00: 모니터링 & 비용 추적
+  • 17:00: 일일 상태 보고
+  • 금요일 16:00: 주간 비용 분석 & 리포트
+```
+
+### Budget (예산)
+
+```
+월간 총 예산: $200
+
+배분:
+├─ Atlas (AI PM): $35/월
+├─ Kim.G (Game): $35/월
+├─ Lee.C (Content): $20/월 ← 업그레이드 (Flash $15 → Pro $20)
+├─ Park.O (Ops): $25/월
+└─ Reserve (예비): $85/월
+
+분석:
+✅ 총 비용: $200/월 (예산 내)
+✅ 효율성: 각 매니저가 전문화된 모델 사용
+✅ 안정성: 3단계 Fallback 체인으로 99.5% 가용성
+✅ 유연성: 긴급 시 Reserve로 추가 비용 충당
+```
+
+### 성공 기준
+
+```
+Kim.G (게임 개발):
+  ✅ 일일 2-3개 태스크 완료
+  ✅ 0개의 Blocker 이슈 (또는 <1시간 내 해결)
+  ✅ PR 24시간 내 검수 완료
+  ✅ 월간 Phase 목표 달성 (예: Phase 3 50% 완성)
+
+Lee.C (콘텐츠):
+  ✅ 주간 3개 글 게시 (100% 목표)
+  ✅ 모든 글 품질 검수 (오타/오류 0)
+  ✅ SNS 자동 배포 성공률 100%
+  ✅ 월간 15개 글 게시 (KPI)
+
+Park.O (인프라):
+  ✅ 시스템 가용성 99.5% 이상
+  ✅ 평균 응답시간 <2초
+  ✅ 월간 API 비용 ≤ 예산
+  ✅ 긴급 이슈 <5분 내 대응
+
+Atlas (PM):
+  ✅ 팀 진행률 추적 (100% 정확도)
+  ✅ 블로킹 이슈 <5분 내 Steve 보고
+  ✅ 주간 리포트 매 금요일 18:00 제출
+  ✅ 팀 생산성 20% 이상 증대
+```
+
+---
+
+**마지막 업데이트**: 2026-02-28 by Atlas  
+**상태**: ✅ 완성 (Rule 3, 인스턴트 태스크, 세션 설정, 최종 정리 포함)  
 **다음 검토**: 월간 성과 분석 시 (2026-03-27)
