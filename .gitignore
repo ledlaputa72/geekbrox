@@ -11,3 +11,7 @@ cookies.json
 .cursor/settings.json
 .cursor/*.json
 blog_automation/scripts/cookies.json
+
+# Ignore local art reference images in the game art workspace
+teams/game/workspace/art/dream_collector_references/art_style/**/*
+!teams/game/workspace/art/dream_collector_references/art_style/**/.gitkeep
