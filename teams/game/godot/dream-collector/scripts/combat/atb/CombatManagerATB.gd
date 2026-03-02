@@ -239,6 +239,10 @@ func _on_enemy_atb_full(enemy):
 	reaction_open = true
 	if reaction_mgr:
 		reaction_mgr.open_reaction_window(attack)
+		# 오토 플레이: 패링 불가, 회피=카드별 확률, 가드=100%
+		if auto_ai and auto_ai.mode == ATBAutoAI.AutoMode.FULL:
+			await get_tree().create_timer(0.3).timeout
+			_try_auto_reaction()
 		await reaction_mgr.reaction_resolved
 	else:
 		await get_tree().create_timer(0.1).timeout
@@ -326,6 +330,22 @@ func _calculate_damage(attacker, attack: Dictionary, target: Dictionary) -> int:
 	var after_block = max(0, base - block)
 	target["block"] = max(0, block - base)
 	return after_block
+
+# ── 오토 리액션 (패링 불가, 회피=카드별 확률, 가드=100%) ─────────────────
+func _try_auto_reaction():
+	var cur_energy = energy_system.get_current() if energy_system else 0
+	# 1) 가드 100% 우선
+	for card in hand:
+		if card.has_tag("GUARD") and card.cost <= cur_energy:
+			player_play_card(card)
+			return
+	# 2) 회피: 카드별 확률로 성공 시 사용
+	for card in hand:
+		if card.has_tag("DODGE") and card.cost <= cur_energy:
+			if randf() < card.auto_dodge_success_rate:
+				player_play_card(card)
+				return
+	# 패링은 오토에서 사용하지 않음 → 무반응(NONE)으로 종료
 
 # ── 플레이어 카드 플레이 ──────────────────────────────
 func player_play_card(card: Card, target_index: int = -1):

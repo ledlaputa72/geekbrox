@@ -130,6 +130,9 @@ func _on_reaction_attempt_failed(attempted_type: String):
 
 func _card_to_dict(card: Card) -> Dictionary:
 	"""Card Resource → Dictionary (CardHandItem 호환 형식)"""
+	var tags_arr: Array = []
+	for t in card.tags:
+		tags_arr.append(t)
 	return {
 		"name": card.name,
 		"cost": card.cost,
@@ -138,6 +141,8 @@ func _card_to_dict(card: Card) -> Dictionary:
 		"damage": card.damage,
 		"block": card.block,
 		"draw": card.draw,
+		"tags": tags_arr,
+		"auto_dodge_success_rate": card.auto_dodge_success_rate,
 	}
 
 func _on_new_hand_updated(hand: Array):
@@ -433,6 +438,13 @@ func _update_hand_ui(animate_from_deck_count: int = 0):
 
 		card_item.set_card(card_dict, i)
 		card_item.set_affordable(current_energy >= card_cost)
+		# 오토 시 패링 카드 비활성화 + X 표시 (메뉴얼 시 정상)
+		var is_auto = _auto_enabled
+		if new_combat_manager and "auto_ai" in new_combat_manager:
+			var ai = new_combat_manager.auto_ai
+			if ai and "mode" in ai:
+				is_auto = (ai.mode == 2)  # FULL = 2
+		card_item.set_auto_parry_disabled(is_auto)
 
 		var x_pos = positions_x[i]
 		var angle: float = 0.0

@@ -12,6 +12,9 @@ var card_data: Dictionary = {}
 var card_index: int = -1
 var is_selected: bool = false
 var is_affordable: bool = true
+var _parry_disabled_by_auto: bool = false  # 오토 시 패링 카드 비활성
+var _x_overlay: Label = null
+var _auto_rate_label: Label = null  # 회피 카드 오토 성공률 표시
 
 # ─── UI 노드 참조 ────────────────────────────────────
 @onready var card_bg: Panel = $CardBG
@@ -62,7 +65,56 @@ func _update_display():
 	# 타입별 색상 적용
 	apply_type_colors(card_type)
 	
+	# 회피 카드: 오토 성공률 표시 (하단 정보 영역)
+	_update_auto_rate_label()
 	# Affordability 업데이트
+	_update_affordability()
+
+func _update_auto_rate_label():
+	var tags: Array = card_data.get("tags", [])
+	if "DODGE" in tags:
+		var rate = card_data.get("auto_dodge_success_rate", 0.5)
+		if _auto_rate_label == null:
+			_auto_rate_label = Label.new()
+			_auto_rate_label.name = "AutoRateLabel"
+			_auto_rate_label.add_theme_font_size_override("font_size", 8)
+			_auto_rate_label.add_theme_color_override("font_color", Color(0.9, 0.85, 0.3))
+			_auto_rate_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			add_child(_auto_rate_label)
+		_auto_rate_label.text = "오토 성공률 %d%%" % int(round(rate * 100.0))
+		_auto_rate_label.visible = true
+		_auto_rate_label.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+		_auto_rate_label.offset_top = -22
+		_auto_rate_label.offset_bottom = -6
+		_auto_rate_label.offset_left = 4
+		_auto_rate_label.offset_right = -4
+	else:
+		if _auto_rate_label:
+			_auto_rate_label.visible = false
+
+func set_auto_parry_disabled(is_auto: bool):
+	"""오토 시 패링 카드 X 표시 + 비활성 (메뉴얼 시 정상)"""
+	var tags: Array = card_data.get("tags", [])
+	var has_parry = "PARRY" in tags
+	_parry_disabled_by_auto = is_auto and has_parry
+	if _parry_disabled_by_auto:
+		if _x_overlay == null:
+			_x_overlay = Label.new()
+			_x_overlay.name = "ParryDisabledX"
+			_x_overlay.text = "✕"
+			_x_overlay.add_theme_font_size_override("font_size", 36)
+			_x_overlay.add_theme_color_override("font_color", Color(1, 0.2, 0.2))
+			_x_overlay.add_theme_constant_override("outline_size", 2)
+			_x_overlay.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+			_x_overlay.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			_x_overlay.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			_x_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+			_x_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			add_child(_x_overlay)
+		_x_overlay.visible = true
+	else:
+		if _x_overlay:
+			_x_overlay.visible = false
 	_update_affordability()
 
 func apply_type_colors(card_type: String):
@@ -199,6 +251,9 @@ func set_affordable(affordable: bool):
 	_update_affordability()
 
 func _update_affordability():
+	if _parry_disabled_by_auto:
+		modulate = Color(0.5, 0.5, 0.5, 0.9)  # 오토 시 패링 카드 비활성
+		return
 	if not is_affordable:
 		modulate = Color(0.5, 0.5, 0.5, 1)  # Gray out
 	else:
@@ -234,12 +289,14 @@ func set_selected(selected: bool):
 			card_style.border_color = Color(0.1, 0.1, 0.1, 0.5)
 
 func _on_button_pressed():
-	if is_affordable:
-		card_clicked.emit(card_index)
+	if _parry_disabled_by_auto or not is_affordable:
+		return
+	card_clicked.emit(card_index)
 
 func _on_mouse_entered():
-	if is_affordable:
-		card_hovered.emit(card_index)
+	if _parry_disabled_by_auto or not is_affordable:
+		return
+	card_hovered.emit(card_index)
 		# Hover 효과 (테두리)
 		var card_style = card_bg.get_theme_stylebox("panel")
 		if card_style is StyleBoxFlat and not is_selected:

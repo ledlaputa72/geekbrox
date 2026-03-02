@@ -171,49 +171,56 @@ func _build_all_cards():
 		"🥋 패링 ⚡+1 ⚔️8")
 	_all_cards.append(par004)
 
-	# PAR_005 — 완벽한 방어 (패링/회피 겸용)
+	# PAR_005 — 완벽한 방어 (패링/회피 겸용, 오토 시 회피 성공률 50%)
 	var par005 = _make("PAR_005", "완벽한 방어", 0, "DEF", 0, 0, 0,
 		[], ["PARRY", "DODGE"], "SPECIAL",
 		"[패링/회피 겸용] 어떤 공격도 무효화. 에너지 +1.",
 		"🥋🌀 패링+회피 ⚡+1")
+	par005.auto_dodge_success_rate = 0.5
 	_all_cards.append(par005)
 
 	# ═══════════════════════════════════════
 	# 회피 카드 (DODGE 태그) — 5장
 	# ═══════════════════════════════════════
 
-	# DOD_001 — 꿈의 스텝
-	_all_cards.append(_make("DOD_001", "꿈의 스텝", 0, "DEF", 0, 0, 0,
+	# DOD_001 — 꿈의 스텝 (오토 시 성공률 50%)
+	var dod001 = _make("DOD_001", "꿈의 스텝", 0, "DEF", 0, 0, 0,
 		[], ["DODGE"], "COMMON",
 		"[회피] 적 공격을 회피. 에너지 +1(다음 행동).",
-		"🌀 회피 ⚡+1"))
+		"🌀 회피 ⚡+1")
+	dod001.auto_dodge_success_rate = 0.5
+	_all_cards.append(dod001)
 
-	# DOD_002 — 잔상 (버프 이전)
+	# DOD_002 — 잔상 (오토 시 성공률 55%)
 	var dod002 = _make("DOD_002", "잔상", 0, "DEF", 0, 0, 0,
 		[], ["DODGE"], "RARE",
 		"[회피] 적 공격을 회피. 에너지 +1 + 버프 효과 이전.",
 		"🌀 회피 ⚡+1 버프이전")
+	dod002.auto_dodge_success_rate = 0.55
 	_all_cards.append(dod002)
 
-	# DOD_003 — 황혼의 도약 (다음 공격 +3)
+	# DOD_003 — 황혼의 도약 (오토 시 성공률 60%)
 	var dod003 = _make("DOD_003", "황혼의 도약", 0, "DEF", 0, 0, 0,
 		[{"target": "self", "type": "STRENGTH", "value": 3}], ["DODGE"], "RARE",
 		"[회피] 적 공격을 회피. 에너지 +1 + 다음 공격 +3.",
 		"🌀 회피 ⚡+1 ⚔️+3")
+	dod003.auto_dodge_success_rate = 0.6
 	_all_cards.append(dod003)
 
-	# DOD_004 — 연막 (적 다음 공격 -3)
+	# DOD_004 — 연막 (오토 시 성공률 50%)
 	var dod004 = _make("DOD_004", "연막", 1, "DEF", 0, 0, 0,
 		[{"target": "enemy", "type": "WEAK", "value": 2}], ["DODGE"], "RARE",
 		"[회피] 에너지 1 소모. 적 공격을 회피 + 에너지 +1 + 적 약화 2.",
 		"🌀 회피(1) ⚡+1 👁️-3")
+	dod004.auto_dodge_success_rate = 0.5
 	_all_cards.append(dod004)
 
-	# DOD_005 — 반보 앞으로 (패링/회피 겸용, 50% 감소)
+	# DOD_005 — 반보 앞으로 (패링/회피 겸용, 오토 시 회피 성공률 45%)
 	var dod005 = _make("DOD_005", "반보 앞으로", 0, "DEF", 0, 0, 0,
 		[], ["DODGE", "PARRY"], "COMMON",
 		"[패링/회피] 피해 50% 감소. 에너지 +1.",
 		"🌀🥋 반회피 ⚡+1")
+	dod005.auto_dodge_success_rate = 0.45
 	_all_cards.append(dod005)
 
 	# ═══════════════════════════════════════

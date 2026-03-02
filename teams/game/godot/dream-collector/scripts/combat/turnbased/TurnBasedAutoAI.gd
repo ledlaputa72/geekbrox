@@ -11,40 +11,28 @@ signal suggested_card(card: Card)
 signal auto_played_card(card: Card)
 signal auto_turn_ended
 
-# ── 방어 결정 (적 턴 리액션 윈도우) ─────────────────
+# ── 방어 결정 (적 턴 리액션 윈도우) — 오토 규칙: 패링 불가, 회피=카드별 확률, 가드=100% ─
 func decide_defense(hand: Array[Card], attack: Dictionary, energy: int) -> Card:
 	var attack_type = attack.get("type", "NORMAL")
 
-	# 관통 공격 → 회피 전용
-	if attack_type == "UNBLOCKABLE":
-		for card in hand:
-			if card.has_tag("DODGE") and card.cost <= energy:
-				return card
-		return null  # 회피 카드 없으면 무반응
-
-	# 강한 공격 → 패링 70% 확률로 시도
-	var base_atk = attack.get("base_atk", 10)
-	if attack.get("damage", 0) > base_atk * 1.3:
-		if randf() < 0.70:
-			for card in hand:
-				if card.has_tag("PARRY") and card.cost <= energy:
-					return card
-
-	# 패링 카드 우선 (65% 확률)
-	for card in hand:
-		if card.has_tag("PARRY") and card.cost <= energy:
-			if randf() < 0.65:
-				return card
-
-	# 회피 카드
-	for card in hand:
-		if card.has_tag("DODGE") and card.cost <= energy:
-			return card
-
-	# 방어 카드
+	# 1) 가드: 오토 시 100% 성공 → 우선 사용
 	for card in hand:
 		if card.has_tag("GUARD") and card.cost <= energy:
 			return card
+
+	# 2) 관통 공격 → 회피만 가능 (오토 시 카드별 성공 확률)
+	if attack_type == "UNBLOCKABLE":
+		for card in hand:
+			if card.has_tag("DODGE") and card.cost <= energy:
+				if randf() < card.auto_dodge_success_rate:
+					return card
+		return null
+
+	# 3) 일반 공격: 회피만 사용 (패링은 오토에서 불가), 카드별 확률로 성공
+	for card in hand:
+		if card.has_tag("DODGE") and card.cost <= energy:
+			if randf() < card.auto_dodge_success_rate:
+				return card
 
 	return null  # 대응 불가 → 무반응
 

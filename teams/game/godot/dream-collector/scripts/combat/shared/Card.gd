@@ -19,6 +19,9 @@ extends Resource
 @export var energy_cost_reduction: int = 0
 @export var status_effects: Array[Dictionary] = []
 
+# 오토 플레이 시 회피 카드 성공 확률 (0.0~1.0, DODGE 태그 카드만 사용)
+@export var auto_dodge_success_rate: float = 0.5
+
 # 태그 체크
 func has_tag(tag: String) -> bool:
 	return tags.has(tag)
@@ -56,4 +59,5 @@ func duplicate_card() -> Card:
 	c.draw = draw
 	c.energy_cost_reduction = energy_cost_reduction
 	c.status_effects = status_effects.duplicate(true)
+	c.auto_dodge_success_rate = auto_dodge_success_rate
 	return c

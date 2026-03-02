@@ -351,6 +351,14 @@ func _enemy_perform_action(enemy):
 	# 리액션 윈도우 오픈
 	if reaction_mgr:
 		reaction_mgr.open_window(attack_data)
+		# 오토 플레이: 패링 불가, 회피=카드별 확률, 가드=100%
+		if auto_ai and auto_ai.mode == TurnBasedAutoAI.AutoMode.FULL:
+			await get_tree().create_timer(0.3).timeout
+			var hand = hand_system.get_hand() if hand_system else []
+			var energy = energy_system.get_current() if energy_system else 0
+			var card = auto_ai.decide_defense(hand, attack_data, energy)
+			if card:
+				player_play_card(card)
 		await reaction_mgr.reaction_resolved
 	else:
 		await get_tree().create_timer(0.3).timeout
