@@ -16,6 +16,9 @@ setup data에 "sprite" 키가 있으면 스프라이트 애니메이션 사용
 
 signal character_clicked(character_node: CharacterNode)
 
+# Floating number scene (shared)
+const DAMAGE_NUMBER_SCENE := preload("res://ui/components/DamageNumber.tscn")
+
 # ─── Character data ───────────────────────────────────
 var character_type: String = "monster"  # "hero", "monster", "npc"
 var character_id: String = ""
@@ -39,6 +42,10 @@ var click_button: Button
 
 # ─── 스프라이트 애니메이터 (Hero + Monster) ───────────
 var sprite_animator: PlayerSpriteAnimator = null
+
+# ─── 턴/리액션 표시 UI ────────────────────────────────
+var turn_shadow: Panel = null
+var alert_label: Label = null
 
 # ─── 크기 설정 ────────────────────────────────────────
 const HERO_SIZE = Vector2(100, 150)
@@ -83,6 +90,7 @@ func _create_ui():
 	else:
 		_create_emoji_ui()
 
+	_create_turn_indicator_ui()
 	_create_hp_bar()
 	_create_click_button()
 
@@ -251,6 +259,79 @@ func setup(data: Dictionary):
 		hp_label.text = "%d/%d" % [current_hp, max_hp]
 
 
+func _create_turn_indicator_ui():
+	# 발밑 타원(그림자)
+	turn_shadow = Panel.new()
+	turn_shadow.name = "TurnShadow"
+	turn_shadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	turn_shadow.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	turn_shadow.offset_left = 12
+	turn_shadow.offset_right = -12
+	turn_shadow.offset_bottom = -2
+	turn_shadow.offset_top = -12
+	var s = StyleBoxFlat.new()
+	s.bg_color = Color(0, 0, 0, 0.35)
+	s.corner_radius_top_left = 20
+	s.corner_radius_top_right = 20
+	s.corner_radius_bottom_left = 20
+	s.corner_radius_bottom_right = 20
+	turn_shadow.add_theme_stylebox_override("panel", s)
+	turn_shadow.visible = false
+	add_child(turn_shadow)
+
+	# 머리 위 경고 "!"
+	alert_label = Label.new()
+	alert_label.name = "AlertLabel"
+	alert_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	alert_label.text = "!"
+	alert_label.visible = false
+	alert_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	alert_label.offset_top = -26
+	alert_label.offset_bottom = -2
+	alert_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	alert_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	alert_label.add_theme_font_size_override("font_size", 26)
+	alert_label.add_theme_color_override("font_color", Color(1.0, 0.95, 0.2, 1.0))
+	alert_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	alert_label.add_theme_constant_override("outline_size", 4)
+	add_child(alert_label)
+
+
+func set_turn_active(active: bool):
+	if turn_shadow:
+		turn_shadow.visible = active
+
+
+func set_alert_state(visible_flag: bool, is_unblockable: bool = false, phase: String = ""):
+	if not alert_label:
+		return
+	alert_label.visible = visible_flag
+	if not visible_flag:
+		return
+	# "!" 일반 위험 | "!!" 패링 불가 위험
+	alert_label.text = "!!" if is_unblockable else "!"
+
+	var c: Color
+	if is_unblockable:
+		# !! 패링 불가: 노란색(회피 구간) -> 빨간색(패링 불가)
+		if phase == "red":
+			c = Color(1.0, 0.25, 0.25, 1.0)
+		else:
+			c = Color(1.0, 0.95, 0.2, 1.0)  # green/yellow -> 노란색
+	else:
+		# ! 일반: 녹색(시작) -> 노란색(회피) -> 빨간색(패링)
+		match phase:
+			"green":
+				c = Color(0.2, 1.0, 0.35, 1.0)
+			"yellow":
+				c = Color(1.0, 0.95, 0.2, 1.0)
+			"red":
+				c = Color(1.0, 0.25, 0.25, 1.0)
+			_:
+				c = Color(1.0, 0.95, 0.2, 1.0)
+	alert_label.add_theme_color_override("font_color", c)
+
+
 func update_hp(new_hp: int, damage_dealt: int = 0, is_healing: bool = false, new_max_hp: int = -1):
 	"""HP 업데이트 + 데미지 숫자 표시. new_max_hp >= 0이면 max_hp도 갱신 (전투 시그널 동기화용)"""
 	if new_max_hp >= 0:
@@ -295,8 +376,7 @@ func get_sprite_animator() -> PlayerSpriteAnimator:
 
 func show_damage_number(damage: int, is_healing: bool = false):
 	"""플로팅 데미지 숫자 표시"""
-	var DamageNumberScene = preload("res://ui/components/DamageNumber.tscn")
-	var dmg_num = DamageNumberScene.instantiate()
+	var dmg_num = DAMAGE_NUMBER_SCENE.instantiate()
 	dmg_num.position = Vector2(size.x / 2.0, 20)
 	add_child(dmg_num)
 
@@ -310,6 +390,16 @@ func show_damage_number(damage: int, is_healing: bool = false):
 
 	if not is_healing:
 		shake()
+
+
+func show_block_number(block_amount: int):
+	"""플로팅 블록(아머) 숫자 표시"""
+	if block_amount <= 0:
+		return
+	var num = DAMAGE_NUMBER_SCENE.instantiate()
+	num.position = Vector2(size.x / 2.0, 20)
+	add_child(num)
+	num.show_damage(block_amount, DamageNumber.Type.BLOCK)
 
 
 func shake(intensity: float = 8.0, duration: float = 0.4):

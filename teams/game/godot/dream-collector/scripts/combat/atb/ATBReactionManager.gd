@@ -3,17 +3,26 @@
 class_name ATBReactionManager
 extends Node
 
-# ── 상수 ─────────────────────────────────────────────
-const PARRY_WINDOW_STORY  = 0.8    # ★ OPS 피드백: Story 모드를 기본으로
-const PARRY_WINDOW_HARD   = 0.5
-const DODGE_WINDOW_STORY  = 1.8
-const DODGE_WINDOW_HARD   = 1.2
-const COUNTER_WINDOW      = 2.0    # ★ OPS 피드백: 반격 창 2.0초
+# ── 상수 (녹→노→빨, 빨간=가장 짧음) ─────────────────────
+# 회피=노랑+빨강 | 방어=전체 | 패링=빨강만
+# Story: 총 2.4초 | Green 0~1.0 (가장 김) | Yellow 1.0~2.0 | Red 2.0~2.4 (가장 짧음)
+const GREEN_DURATION_STORY  = 1.0
+const DODGE_START_STORY     = 1.0
+const PARRY_START_STORY     = 2.0
+const WINDOW_END_STORY      = 2.4
+# Hard: 더 짧게
+const GREEN_DURATION_HARD   = 0.65
+const DODGE_START_HARD      = 0.65
+const PARRY_START_HARD      = 1.35
+const WINDOW_END_HARD       = 1.6
+const COUNTER_WINDOW        = 2.0
 
 # ── 상태 변수 ─────────────────────────────────────────
 var reaction_state : String = "IDLE"  # "IDLE" | "OPEN" | "RESOLVED"
-var parry_timer    : float  = 0.0
-var dodge_timer    : float  = 0.0
+var time_elapsed   : float  = 0.0
+var _last_phase    : String = ""
+var parry_timer    : float  = 0.0   # 호환용 (미사용)
+var dodge_timer    : float  = 0.0   # 호환용 (미사용)
 var counter_timer  : float  = 0.0
 var last_result    : ReactionResult = null
 var current_attack : Dictionary = {}
@@ -25,6 +34,9 @@ signal parry_success(card: Card)
 signal dodge_success(card: Card)
 signal guard_success(card: Card)
 signal reaction_failed
+signal reaction_window_opened(attack: Dictionary)
+signal reaction_window_closed(result_type: String)
+signal reaction_phase_changed(phase: String, is_unblockable: bool)
 
 # ── 윈도우 오픈 ──────────────────────────────────────
 func open_reaction_window(attack: Dictionary):
@@ -34,35 +46,47 @@ func open_reaction_window(attack: Dictionary):
 	else:
 		story_mode = true
 
-	var pw = PARRY_WINDOW_STORY if story_mode else PARRY_WINDOW_HARD
-	var dw = DODGE_WINDOW_STORY if story_mode else DODGE_WINDOW_HARD
-
-	parry_timer = pw
-	dodge_timer  = dw
+	time_elapsed = 0.0
+	_last_phase = "green"
 	reaction_state = "OPEN"
+	emit_signal("reaction_window_opened", attack)
+	emit_signal("reaction_phase_changed", "green", _is_unblockable())
 
-	# 관통 공격은 패링 불가 알림
 	if attack.get("type", "") == "UNBLOCKABLE":
 		print("[ATBReaction] UNBLOCKABLE attack — DODGE only!")
 
-	# 타이머는 _process에서 감소, dodge_timer <= 0 시 자동 none 처리
+func _is_unblockable() -> bool:
+	return str(current_attack.get("type", "")) == "UNBLOCKABLE"
+
+func _get_phase() -> String:
+	var g = GREEN_DURATION_STORY if story_mode else GREEN_DURATION_HARD
+	var d = DODGE_START_STORY if story_mode else DODGE_START_HARD
+	var p = PARRY_START_STORY if story_mode else PARRY_START_HARD
+	var e = WINDOW_END_STORY if story_mode else WINDOW_END_HARD
+	if time_elapsed < g:
+		return "green"
+	if time_elapsed < p:
+		return "yellow"
+	if time_elapsed < e:
+		return "red"
+	return "closed"
 
 # ── 카드 탭 판정 ──────────────────────────────────────
 func on_player_tap_card(card: Card):
 	if reaction_state != "OPEN":
 		return
 
-	# 관통 공격 처리
 	if current_attack.get("type", "") == "UNBLOCKABLE":
 		if card.has_tag("PARRY"):
 			print("[ATBReaction] PARRY failed on UNBLOCKABLE!")
 			return
 
-	if card.has_tag("PARRY") and parry_timer > 0:
+	var phase = _get_phase()
+	if card.has_tag("PARRY") and phase == "red":
 		_resolve_parry(card)
-	elif card.has_tag("DODGE") and dodge_timer > 0:
+	elif card.has_tag("DODGE") and phase in ["yellow", "red"]:
 		_resolve_dodge(card)
-	elif card.has_tag("GUARD"):
+	elif card.has_tag("GUARD") and phase in ["green", "yellow", "red"]:
 		_resolve_guard(card)
 
 func _resolve_parry(card: Card):
@@ -70,18 +94,21 @@ func _resolve_parry(card: Card):
 	last_result = ReactionResult.new("PARRY", card)
 	counter_timer = COUNTER_WINDOW
 	emit_signal("parry_success", card)
+	emit_signal("reaction_window_closed", "PARRY")
 	emit_signal("reaction_resolved")
 
 func _resolve_dodge(card: Card):
 	reaction_state = "RESOLVED"
 	last_result = ReactionResult.new("DODGE", card)
 	emit_signal("dodge_success", card)
+	emit_signal("reaction_window_closed", "DODGE")
 	emit_signal("reaction_resolved")
 
 func _resolve_guard(card: Card):
 	reaction_state = "RESOLVED"
 	last_result = ReactionResult.new("GUARD", card)
 	emit_signal("guard_success", card)
+	emit_signal("reaction_window_closed", "GUARD")
 	emit_signal("reaction_resolved")
 
 func _auto_resolve_none():
@@ -90,24 +117,36 @@ func _auto_resolve_none():
 	reaction_state = "RESOLVED"
 	last_result = ReactionResult.new("NONE", null)
 	emit_signal("reaction_failed")
+	emit_signal("reaction_window_closed", "NONE")
 	emit_signal("reaction_resolved")
 
 func reset():
+	if reaction_state == "OPEN":
+		emit_signal("reaction_window_closed", "RESET")
 	reaction_state = "IDLE"
+	time_elapsed = 0.0
+	_last_phase = ""
 	parry_timer = 0.0
 	dodge_timer = 0.0
 	counter_timer = 0.0
 	last_result = null
 	current_attack = {}
 
-# ── _process에서 타이머 감소 ──────────────────────────
+# ── _process: time_elapsed 증가 + phase 변경 시 시그널 ─
 func _process(delta: float):
 	if reaction_state != "OPEN":
 		return
-	parry_timer -= delta
-	dodge_timer -= delta
-	if dodge_timer <= 0:
+	time_elapsed += delta
+
+	var e = WINDOW_END_STORY if story_mode else WINDOW_END_HARD
+	if time_elapsed >= e:
 		_auto_resolve_none()
+		return
+
+	var phase = _get_phase()
+	if phase != _last_phase:
+		_last_phase = phase
+		emit_signal("reaction_phase_changed", phase, _is_unblockable())
 
 
 # ── ReactionResult 내부 클래스 ────────────────────────

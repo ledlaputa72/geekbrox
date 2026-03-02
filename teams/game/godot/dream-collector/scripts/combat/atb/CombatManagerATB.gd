@@ -97,9 +97,9 @@ func start_combat(p_data: Dictionary, enemy_list: Array, card_deck: Array[Card])
 	# 초기 손패 드로우 (5장)
 	_draw_cards(5)
 
-	# Auto AI 기본 FULL 모드로 시작 (테스트용)
+	# Auto AI 기본값: 수동 (신규 유저가 패링/회피 경험하도록)
 	if auto_ai:
-		auto_ai.set_mode(ATBAutoAI.AutoMode.FULL)
+		auto_ai.set_mode(ATBAutoAI.AutoMode.MANUAL)
 
 	emit_signal("combat_started")
 	emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))

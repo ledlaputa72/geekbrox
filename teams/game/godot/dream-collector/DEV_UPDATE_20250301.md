@@ -1,92 +1,113 @@
-# Dream Collector 개발 업데이트 (2025-03-01)
+# Dream Collector — 전투·리액션 UI 업데이트 요약 (2025-03-01)
 
-## 요약
-전투 시스템(ATB/턴베이스) UI·로직 개선, 카드 핸드 레이아웃, 에너지 규칙, 기본 체력 조정 등 적용.
-
----
-
-## 1. 전투 시스템
-
-### 에너지 규칙 (ATB/턴베이스 공통)
-- **전투 시작 시 3에너지** — ATB·턴베이스 모두 동일
-- **ATB**: 5초마다 +1 시간 충전 (`ATBEnergySystem.update_timer`)
-- **턴베이스**: 매 턴 시작 시 새로 3에너지 (패링/회피 보너스 적용)
-
-### 덱·손패 규칙
-- **30장 덱**: ATK 10, DEF 8, PARRY 5, DODGE 5, SKILL 2
-- **턴베이스**: 매 턴 5장 드로우, 턴 종료 시 손패 → 무덤, 덱 비면 무덤 셔플
-- **ATB Pass**: 손패 → 무덤, 새로 5장 드로우 (10초 쿨)
-
-### 기본 체력
-- 캐릭터 기본 체력 **80 → 200**으로 변경
+클로드·텔레그램 등에 공유용으로 정리한 내용입니다.
 
 ---
 
-## 2. UI 변경
+## 1. 카드 사용 애니메이션
 
-### 덱/무덤 표시
-- 왼쪽: 덱 아이콘 📚 + 카드 수
-- 오른쪽: 무덤 아이콘 🪦 + 카드 수
-
-### 카드 애니메이션
-- **덱 → 핸드**: 드로우 시 왼쪽 덱 위치에서 핸드로 이동
-- **핸드 → 무덤**: 턴 종료·Pass 시 오른쪽 무덤으로 이동 후 페이드 아웃
-
-### 핸드 카드 레이아웃
-- 좌우 경계 내 정렬 (화면 밖으로 나가지 않음)
-- 선택 카드: 수직(0°), 양옆 카드 최대 ±15°
-- 선택 카드: 좌우 2배 간격
-- 레이어: 왼쪽 아래 → 오른쪽 위, 선택 카드는 최상단
-
-### 카드 텍스트
-- 폰트 크기 약 50% 확대 (이름 7→11, 코스트 12→18 등)
-
-### 플레이어 HP/아머
-- Hero HP·블록 게이지를 캐릭터 위 10px 위치에 표시
-- 전투 시작 시 `player_hp_changed` emit으로 초기화
+- **플로우**: 카드 선택 → 사용(클릭 또는 타겟+클릭) → 카드가 전투 화면으로 날아가서 적용
+- **플레이어 대상(DEF/SKILL)**: 카드가 플레이어 쪽으로 날아가며 축소·비행 후 몸에 들어가며 사라짐
+- **몬스터 대상(ATK)**: 카드가 타겟 몬스터로 날아가 동일한 방식으로 적용
+- **순서**: 카드는 사용 순서대로만 애니 재생, 이전 카드가 전투 화면에 들어간 뒤에 다음 카드 애니 시작
+- **구현**: `CombatBottomUI` → `card_play_with_animation_requested` 시그널, `InRun_v4`에서 복제 카드 Tween 후 `player_play_card` 호출
 
 ---
 
-## 3. 공격 카드 타겟팅
+## 2. 효과 숫자 표시 (데미지·회복·블록)
 
-### 2단계 선택
-1. 카드 선택 (확대) → 화살표로 대상 선택 (몬스터 하이라이트)
-2. **같은 몬스터 재클릭** → 공격 발동
-
-### 인덱스 매핑 수정
-- `character_nodes` 인덱스 ↔ `enemies` 인덱스 불일치 해결
-- `_combat_monster_character_indices` 매핑 추가
+- **데미지**: 기존처럼 `damage_dealt` 시그널로 플레이어/몬스터 위에 숫자 표시
+- **체력 회복**: `player_hp_changed` / `enemy_hp_changed`에서 HP 증가분 감지 시 **녹색 +숫자** 표시
+- **아머/블록**: 플레이어 블록 증가 시 **파란색 🛡+숫자** 표시
+- **구현**: `DamageNumber`에 `Type.BLOCK` 추가, `CharacterNode.show_block_number()`, `InRun_v4`에서 HP/블록 delta 계산 후 표시
 
 ---
 
-## 4. 수정된 파일
+## 3. 오토 AI 기본값 → 수동
 
-### 핵심
-- `CombatManagerATB.gd` — Pass 10초 쿨, player_hp_changed
-- `CombatManagerTB.gd` — player_hp_changed, 에너지 주석
-- `CombatBottomUI.gd` — 카드 레이아웃, 덱/무덤 UI, 2단계 타겟팅
-- `InRun_v4.gd` — _combat_monster_character_indices, 기본 체력 200
-
-### 컴포넌트
-- `CardHandItem.gd` — 폰트 50% 확대, 선택 스케일
-- `CharacterNode.gd` — set_target_highlighted, Hero HP/블록 위 배치
-
-### 에너지/덱
-- `ATBEnergySystem.gd` — 에너지 규칙 주석
-- `TurnBasedEnergySystem.gd` — 턴베이스 규칙 주석
-- `CardDatabase.gd` — get_full_deck_30()
-
-### 기타
-- `CombatManager.gd`, `StatusEffectSystem.gd`, `DreamShardSystem.gd` — 기본 체력 200
+- **변경**: 전투 시작 시 오토를 **FULL**이 아니라 **MANUAL**로 설정
+- **목적**: 신규 유저가 패링/회피를 직접 체험할 수 있도록
+- **수정 파일**: `CombatManagerATB.start_combat()`, `ATBAutoAI`, `TurnBasedAutoAI` 기본 `mode = MANUAL`
 
 ---
 
-## 5. 코드 정리 (최근)
+## 4. 액션(턴) 큐 UI (전투 화면 상단)
 
-### 디버그 로그
-- **CombatManagerATB/TB**: `DEBUG_COMBAT` 상수로 전투 로그 제어 (기본 false)
-- **InRun_v4**: `DEBUG_SWITCH`로 화면 전환 로그 제어
-- 불필요한 print 제거, 에러는 `push_error` 사용
+- **위치**: 전투 화면 **바로 위** (노란 박스 영역), `battle_scene` 최상단
+- **표시**: 왼쪽 첫 아이콘 = 현재 턴, 옆에 이름 라벨, 최대 5개 큐
+- **순서**: ATB는 SPD/ATB로 예측, TB는 플레이어→몬스터 순서로 표시
+- **전환 애니**:
+  - 맨 왼쪽(현재 턴): 행동 종료 시 제자리에서 축소·페이드아웃
+  - 나머지 아이콘: 왼쪽으로 한 칸씩 이동
+  - 맨 오른쪽: 새 턴 캐릭터 아이콘이 스케일 0→1로 등장
 
-### 주석/매핑
-- `_combat_monster_character_indices` 주석 수정: enemies → character_nodes 인덱스 매핑
+---
+
+## 5. 액션 턴 UI 스타일 (왼쪽 스크린샷 기준)
+
+- **높이**: 기존 대비 약 **40%** (얇은 바)
+- **캐릭터 아이콘**: 기존 대비 **50%** (15×15px), 중앙 정렬
+- **현재 턴 표시**:
+  - **삼각형**: **▲** (위쪽), **흰색**, 옆 아이콘과 같은 높이 유지
+  - **현재 턴 아이콘**: **2px 흰색 테두리**
+- **구현**: `InRun_v4._setup_action_queue_ui`, `_apply_action_queue_entries`, `_set_action_queue_icon_outline`
+
+---
+
+## 6. 현재 액션 대상 표시 (발밑·머리 위)
+
+- **발밑 타원**: 현재 행동 중인 플레이어/몬스터 발밑에 **타원형 그림자** 표시
+- **머리 위 "!"**  
+  - **일반 위험 "!"**: 녹색(시작) → 노란색(회피 구간) → 빨간색(패링 구간)  
+  - **패링 불가 "!!"**: 노란색(회피 구간) → 빨간색(패링 불가)
+- **구현**: `CharacterNode` — `turn_shadow`, `alert_label`, `set_turn_active()`, `set_alert_state(visible, is_unblockable, phase)`  
+  `InRun_v4` — `_refresh_turn_and_alert_ui`, 리액션 시그널 연결
+
+---
+
+## 7. "!" 표시와 판정 타이밍 동기화
+
+- **방식**: 리액션 **윈도우 오픈/클로즈** 시점에 시그널로 "!" 표시 on/off
+- **시그널**: `reaction_window_opened(attack)`, `reaction_window_closed(result_type)`, `reaction_phase_changed(phase, is_unblockable)`
+- **효과**: "!"가 보이는 시간 = 패링/회피/가드 판정 가능 시간과 일치
+
+---
+
+## 8. 리액션 구간·난이도 (패링 가장 짧음)
+
+- **회피**: **노랑 + 빨강** 구간에서 성공
+- **방어(가드)**: **전체 구간**에서 성공
+- **패링**: **빨강 구간에서만** 성공 (가장 짧은 구간)
+- **구간 길이**: 빨강 &lt; 노랑 &lt; 녹색 (빨강이 가장 짧음)
+
+**Story 모드 (총 2.4초)**  
+- 녹색: 0~1.0초 (1.0초) — 가드만  
+- 노랑: 1.0~2.0초 (1.0초) — 회피, 가드  
+- 빨강: 2.0~2.4초 (0.4초) — 패링, 회피, 가드  
+
+**Hard 모드 (총 1.6초)**  
+- 녹색: 0~0.65초 | 노랑: 0.65~1.35초 | 빨강: 1.35~1.6초 (0.25초)
+
+- **수정 파일**: `ATBReactionManager.gd`, `TurnBasedReactionManager.gd` (상수 및 `_get_phase()` 기준 판정)
+
+---
+
+## 9. 버그 수정
+
+- **Godot 4**: `Control.PRESET_TOP_CENTER` → `Control.PRESET_CENTER_TOP` 로 수정 (파싱 에러 해결)
+- **InRun_v4**: `_on_reaction_window_closed` 안에 잘못 들어가 있던 폴백 코드 제거
+
+---
+
+## 공유 시 붙여넣기용 (짧은 버전)
+
+```
+[Dream Collector 전투 UI 업데이트]
+
+• 카드 사용 시 카드가 대상(플레이어/몬스터)으로 날아가는 애니, 순서대로 처리
+• 데미지/회복/블록 숫자 플로팅 표시 (빨강·녹색·파랑)
+• 오토 AI 기본값 수동(MANUAL)으로 변경
+• 액션 턴 큐: 전투 화면 바로 위, 얇은 바, 아이콘 50% 축소, ▲ 흰색, 현재 턴 2px 흰 테두리
+• 현재 턴 발밑 타원 그림자 + 공격 몬스터 머리 위 !/!! (녹→노→빨, 패링=빨강만)
+• 리액션 구간: 빨강 가장 짧음, 회피=노+빨, 방어=전체, 패링=빨강만
+```

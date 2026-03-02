@@ -1,20 +1,19 @@
 extends Label
 class_name DamageNumber
 
-"""
-DamageNumber - Floating damage number animation
-데미지 숫자가 위로 떠오르며 사라지는 애니메이션
-
-Usage:
-	var dmg_num = DamageNumber.new()
-	character_node.add_child(dmg_num)
-	dmg_num.show_damage(15, DamageNumber.Type.DAMAGE)
-"""
+# DamageNumber - Floating damage number animation
+# 데미지 숫자가 위로 떠오르며 사라지는 애니메이션
+#
+# Usage:
+# 	var dmg_num = DamageNumber.new()
+# 	character_node.add_child(dmg_num)
+# 	dmg_num.show_damage(15, DamageNumber.Type.DAMAGE)
 
 enum Type {
 	DAMAGE,      # 빨간색 (적에게 가한 데미지)
 	HEALING,     # 녹색 (회복)
-	SELF_DAMAGE  # 주황색 (자신이 받은 데미지)
+	SELF_DAMAGE, # 주황색 (자신이 받은 데미지)
+	BLOCK        # 파란색 (블록/아머 증가)
 }
 
 var damage_value: int = 0
@@ -40,7 +39,7 @@ func _ready():
 	modulate.a = 0
 
 func show_damage(value: int, type: Type = Type.DAMAGE):
-	"""Show damage number with animation"""
+	# Show damage number with animation
 	damage_value = value
 	damage_type = type
 	
@@ -59,12 +58,16 @@ func show_damage(value: int, type: Type = Type.DAMAGE):
 		Type.SELF_DAMAGE:
 			add_theme_color_override("font_color", Color(1.0, 0.6, 0.2))  # Orange
 			add_theme_font_size_override("font_size", 22)
+		Type.BLOCK:
+			add_theme_color_override("font_color", Color(0.35, 0.75, 1.0))  # Blue
+			text = "🛡+" + text
+			add_theme_font_size_override("font_size", 20)
 	
 	# Animate
 	_animate()
 
 func _animate():
-	"""Animate floating up and fade out"""
+	# Animate floating up and fade out
 	var tween = create_tween()
 	tween.set_parallel(true)
 	

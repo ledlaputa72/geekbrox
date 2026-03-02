@@ -10,7 +10,7 @@ enum AutoMode {
 	FULL         # 풀오토 — AI가 자동 실행
 }
 
-var mode : AutoMode = AutoMode.SEMI
+var mode : AutoMode = AutoMode.MANUAL
 
 signal suggested_card(card: Card)
 signal auto_played_card(card: Card)
@@ -97,7 +97,7 @@ func _pick_efficient_attack(hand: Array[Card], energy: int) -> Card:
 	return best
 
 func _pick_draw_card(hand: Array[Card], energy: int) -> Card:
-	"""드로우 카드 선택 (SKL/PAR draw > 0) — ATK 없을 때 패 보충용 폴백"""
+	# 드로우 카드 선택 (SKL/PAR draw > 0) — ATK 없을 때 패 보충용 폴백
 	for card in hand:
 		if card.draw > 0 and card.cost <= energy:
 			return card

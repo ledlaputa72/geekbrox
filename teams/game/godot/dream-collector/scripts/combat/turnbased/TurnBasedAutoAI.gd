@@ -5,7 +5,7 @@ extends Node
 
 enum AutoMode { MANUAL, SEMI, FULL }
 
-var mode : AutoMode = AutoMode.SEMI
+var mode : AutoMode = AutoMode.MANUAL
 
 signal suggested_card(card: Card)
 signal auto_played_card(card: Card)
@@ -49,7 +49,12 @@ func decide_defense(hand: Array[Card], attack: Dictionary, energy: int) -> Card:
 	return null  # 대응 불가 → 무반응
 
 # ── 공격 카드 플레이 결정 ─────────────────────────────
-func decide_attack_cards(hand: Array[Card], energy: int, enemy, player_hp_ratio: float) -> Array[Card]:
+func decide_attack_cards(
+	hand: Array[Card],
+	energy: int,
+	enemy,
+	player_hp_ratio: float
+) -> Array[Card]:
 	var selected : Array[Card] = []
 	var rem = energy
 
@@ -100,12 +105,23 @@ func suggest_next_card(hand: Array[Card], enemy, energy: int, player_hp_ratio: f
 		emit_signal("suggested_card", cards[0])
 
 # ── 풀 오토 플레이 ────────────────────────────────────
-func auto_play_turn(hand: Array[Card], enemy, energy: int, player_hp_ratio: float, combat_manager) -> void:
+func auto_play_turn(
+	hand: Array[Card],
+	enemy,
+	energy: int,
+	player_hp_ratio: float,
+	combat_manager
+) -> void:
 	if mode != AutoMode.FULL:
 		return
 	var to_play = decide_attack_cards(hand, energy, enemy, player_hp_ratio)
 	for card in to_play:
-		if combat_manager and "combat_active" in combat_manager and not combat_manager.combat_active:
+		var should_stop = (
+			combat_manager
+			and "combat_active" in combat_manager
+			and not combat_manager.combat_active
+		)
+		if should_stop:
 			break
 		await get_tree().create_timer(0.5).timeout
 		if combat_manager and combat_manager.has_method("player_play_card"):

@@ -500,14 +500,15 @@ func _on_card_pressed(card_index: int):
 				break
 		if not card_item_def:
 			return
-		# 이미 선택된 같은 카드 재탭 → 사용
+		# 이미 선택된 같은 카드 재탭 → 사용 (플레이어 대상: DEF/SKILL)
 		if currently_selected_card_index == card_index and not selecting_target:
 			if currently_selected_card_item:
 				currently_selected_card_item.set_selected(false)
+			var item = card_item_def
 			currently_selected_card_index = -1
 			currently_selected_card_item = null
 			if new_combat_manager and card is Card:
-				new_combat_manager.player_play_card(card)
+				card_play_with_animation_requested.emit(item, card, "player", -1)
 			else:
 				request_action("card_played", {"card_index": card_index, "target": -1})
 			add_combat_log("%s 사용" % card_name)
@@ -600,6 +601,7 @@ func _enter_target_selection_mode():
 	selected_card_index = currently_selected_card_index
 
 signal target_selection_changed(monster_index: int)  # -1=해제, >=0=선택된 몬스터
+signal card_play_with_animation_requested(card_item: Control, card, target_type: String, target_index: int)
 
 func on_monster_clicked(monster_index: int):
 	"""Handle monster click — 2단계: 1클릭=대상 선택, 2클릭=공격 발동"""
@@ -639,21 +641,20 @@ func _get_first_alive_monster() -> int:
 	return -1
 
 func _play_card_with_target(card_index: int, target_index: int):
-	"""Play selected attack card with target"""
+	"""Play selected attack card with target (몬스터 대상)"""
 	_clear_target_selection()
-	if currently_selected_card_item:
-		currently_selected_card_item.set_selected(false)
+	var card_item = currently_selected_card_item
+	if card_item:
+		card_item.set_selected(false)
 
 	currently_selected_card_index = -1
 	currently_selected_card_item = null
 	selected_card_index = -1
-	# 드래그 화살표 숨기기 (selecting_target도 false로 변경)
 	_cancel_target_selection()
 
-	if new_combat_manager:
-		if card_index >= 0 and card_index < new_hand.size():
-			var card = new_hand[card_index]
-			new_combat_manager.player_play_card(card, target_index)
+	if new_combat_manager and card_index >= 0 and card_index < new_hand.size():
+		var card = new_hand[card_index]
+		card_play_with_animation_requested.emit(card_item, card, "monster", target_index)
 	else:
 		request_action("card_played", {"card_index": card_index, "target": target_index})
 	add_combat_log("Attacked target #%d" % (target_index + 1))

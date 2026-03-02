@@ -70,11 +70,48 @@ var current_is_boss : bool = false        # 현재 전투가 보스전인지
 var active_combat_scene : Node = null     # 현재 활성 전투 씬 (ATB or TB)
 var combat_mode_override : String = ""    # "" | "ATB" | "TURNBASED" (F1/F2 단축키)
 
+# 카드 사용 애니메이션 큐 (순서대로 적용)
+var _card_flight_layer: CanvasLayer = null
+var _card_animation_queue: Array = []
+var _card_animation_running: bool = false
+
+# 효과 숫자 표시용 이전 값 (힐/블록 증가량 계산)
+var _last_player_hp: int = -1
+var _last_player_block: int = -1
+var _last_enemy_hp: Dictionary = {}  # enemy_idx -> hp
+
+# 액션(턴) 큐 UI (최대 5개 표시)
+const ACTION_QUEUE_MAX := 5
+var _action_queue_root: Control = null
+var _action_queue_name_label: Label = null
+var _action_queue_icon_labels: Array = []   # Array[Label]
+var _action_queue_pointer_labels: Array = [] # Array[Label]
+var _action_queue_icon_panels: Array = []   # Array[Control]
+var _action_queue_update_accum: float = 0.0
+var _action_queue_last_entries: Array = []
+var _action_queue_anim_overlay: Control = null
+var _action_queue_animating: bool = false
+
+# "현재 턴" 오버라이드 (카드 사용 등으로 잠깐 플레이어 표시)
+var _action_queue_override_actor: Dictionary = {}
+var _action_queue_override_until_ms: int = 0
+
+# 리액션 "!" 표시를 신호 기반으로 동기화 (판정 타이밍과 동일)
+var _reaction_alert_enemy_idx: int = -1
+var _reaction_alert_unblockable: bool = false
+
 func _ready():
+
+	# 카드 비행 애니메이션용 CanvasLayer (최상단)
+	_card_flight_layer = CanvasLayer.new()
+	_card_flight_layer.layer = 100
+	add_child(_card_flight_layer)
 
 	_setup_top_bar()
 	_setup_progress_bar()
 	_create_hero_permanent()
+	_setup_action_queue_ui()
+	_set_action_queue_visible(false)
 	_apply_theme_styles()
 	_setup_reward_modal()
 	_create_exploration_ui_permanent()  # 탐험 UI 한 번만 생성 (로그 영구 보존)
@@ -180,6 +217,13 @@ func _process(delta):
 			background_scroll_offset = 0.0
 		background.position.x = -background_scroll_offset
 
+	# Combat action queue UI update (COMBAT mode)
+	if current_state == ScreenState.COMBAT and _action_queue_root:
+		_action_queue_update_accum += delta
+		if _action_queue_update_accum >= 0.15:
+			_action_queue_update_accum = 0.0
+			_refresh_action_queue_ui()
+
 
 func _apply_theme_styles():
 	pass # Apply UITheme styles
@@ -189,6 +233,456 @@ func _setup_reward_modal():
 	# Setup reward modal signals
 	if reward_modal:
 		reward_modal.reward_claimed.connect(_on_reward_claimed)
+
+
+# ─── 액션(턴) 큐 UI ───────────────────────────────────
+
+func _setup_action_queue_ui():
+	if not battle_scene:
+		return
+	if _action_queue_root:
+		return
+
+	# 전투 화면 바로 위(노란 박스 영역), 높이 40% 수준
+	_action_queue_root = PanelContainer.new()
+	_action_queue_root.name = "ActionQueueUI"
+	_action_queue_root.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_action_queue_root.offset_top = 0
+	_action_queue_root.offset_left = -160
+	_action_queue_root.offset_right = 160
+	_action_queue_root.offset_bottom = 24
+
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.10, 0.10, 0.16, 0.85)
+	style.corner_radius_top_left = 10
+	style.corner_radius_top_right = 10
+	style.corner_radius_bottom_left = 10
+	style.corner_radius_bottom_right = 10
+	style.content_margin_left = 8
+	style.content_margin_right = 8
+	style.content_margin_top = 2
+	style.content_margin_bottom = 2
+	_action_queue_root.add_theme_stylebox_override("panel", style)
+
+	var hbox = HBoxContainer.new()
+	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	hbox.add_theme_constant_override("separation", 6)
+	_action_queue_root.add_child(hbox)
+
+	_action_queue_anim_overlay = Control.new()
+	_action_queue_anim_overlay.name = "ActionQueueAnimOverlay"
+	_action_queue_anim_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_action_queue_anim_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_action_queue_anim_overlay.visible = false
+	_action_queue_root.add_child(_action_queue_anim_overlay)
+
+	_action_queue_name_label = Label.new()
+	_action_queue_name_label.text = ""
+	_action_queue_name_label.add_theme_font_size_override("font_size", 12)
+	_action_queue_name_label.add_theme_color_override("font_color", Color(0.95, 0.95, 1.0, 1.0))
+	_action_queue_name_label.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	hbox.add_child(_action_queue_name_label)
+
+	# 아이콘 50% 축소(15x15), 삼각형 위쪽(▲) 화이트, 아이콘과 같은 높이 유지
+	for i in range(ACTION_QUEUE_MAX):
+		var slot = VBoxContainer.new()
+		slot.alignment = BoxContainer.ALIGNMENT_CENTER
+		slot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		slot.add_theme_constant_override("separation", 0)
+
+		var icon_panel = Panel.new()
+		icon_panel.custom_minimum_size = Vector2(15, 15)
+		var icon_style = StyleBoxFlat.new()
+		icon_style.bg_color = Color(0.25, 0.25, 0.30, 1.0)
+		icon_style.corner_radius_top_left = 8
+		icon_style.corner_radius_top_right = 8
+		icon_style.corner_radius_bottom_left = 8
+		icon_style.corner_radius_bottom_right = 8
+		icon_panel.add_theme_stylebox_override("panel", icon_style)
+		slot.add_child(icon_panel)
+		_action_queue_icon_panels.append(icon_panel)
+
+		var icon_label = Label.new()
+		icon_label.text = "?"
+		icon_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		icon_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		icon_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+		icon_label.add_theme_font_size_override("font_size", 10)
+		icon_panel.add_child(icon_label)
+		_action_queue_icon_labels.append(icon_label)
+
+		var pointer = Label.new()
+		pointer.text = "▲"
+		pointer.visible = false
+		pointer.add_theme_font_size_override("font_size", 8)
+		pointer.add_theme_color_override("font_color", Color.WHITE)
+		slot.add_child(pointer)
+		_action_queue_pointer_labels.append(pointer)
+
+		hbox.add_child(slot)
+
+	battle_scene.add_child(_action_queue_root)
+
+
+func _set_action_queue_visible(v: bool):
+	if _action_queue_root:
+		_action_queue_root.visible = v
+
+
+func _refresh_action_queue_ui():
+	if not _action_queue_root or not active_combat_scene:
+		return
+
+	var manager = active_combat_scene.get_node_or_null("CombatManagerATB")
+	var is_atb = manager != null
+	if not manager:
+		manager = active_combat_scene.get_node_or_null("CombatManagerTB")
+	if not manager:
+		return
+
+	var entries: Array = []
+	if is_atb:
+		entries = _compute_action_queue_atb(manager, ACTION_QUEUE_MAX)
+	else:
+		entries = _compute_action_queue_tb(manager, ACTION_QUEUE_MAX)
+
+	_update_action_queue_entries(entries)
+	_refresh_turn_and_alert_ui(manager, is_atb, entries)
+
+
+func _update_action_queue_entries(entries: Array):
+	# 첫 적용은 즉시 반영
+	if _action_queue_last_entries.is_empty() or entries.is_empty():
+		_apply_action_queue_entries(entries)
+		_action_queue_last_entries = entries.duplicate()
+		return
+
+	if _action_queue_animating:
+		return
+
+	var old0: Dictionary = _action_queue_last_entries[0] if _action_queue_last_entries.size() > 0 else {}
+	var new0: Dictionary = entries[0] if entries.size() > 0 else {}
+	if old0 == new0:
+		_apply_action_queue_entries(entries)
+		_action_queue_last_entries = entries.duplicate()
+		return
+
+	# "한 칸씩 밀리는" 패턴일 때만 애니메이션 (새 head == 이전 2번째)
+	var can_step = (
+		_action_queue_last_entries.size() >= 2
+		and entries.size() >= 1
+		and entries[0] == _action_queue_last_entries[1]
+	)
+	if can_step:
+		_play_action_queue_step_animation(_action_queue_last_entries, entries)
+		_action_queue_last_entries = entries.duplicate()
+	else:
+		_apply_action_queue_entries(entries)
+		_action_queue_last_entries = entries.duplicate()
+
+
+func _play_action_queue_step_animation(old_entries: Array, new_entries: Array):
+	if not _action_queue_anim_overlay:
+		_apply_action_queue_entries(new_entries)
+		return
+
+	_action_queue_animating = true
+	_action_queue_anim_overlay.visible = true
+
+	# 실제 슬롯 UI는 애니 동안 숨김
+	for i in range(_action_queue_icon_panels.size()):
+		_action_queue_icon_panels[i].visible = false
+	for i in range(_action_queue_pointer_labels.size()):
+		_action_queue_pointer_labels[i].visible = false
+
+	# 기존 오버레이 자식 정리
+	for c in _action_queue_anim_overlay.get_children():
+		c.queue_free()
+
+	var overlay_xform_inv = _action_queue_anim_overlay.get_global_transform_with_canvas().affine_inverse()
+	var slot_pos: Array = []
+	for i in range(ACTION_QUEUE_MAX):
+		if i >= _action_queue_icon_panels.size():
+			break
+		var p: Control = _action_queue_icon_panels[i]
+		var g = p.get_global_rect().get_center()
+		var local_center: Vector2 = overlay_xform_inv * g
+		slot_pos.append(local_center)
+
+	var icon_sz = 15
+	var make_icon_panel = func(icon_text: String) -> Control:
+		var panel = Panel.new()
+		panel.custom_minimum_size = Vector2(icon_sz, icon_sz)
+		var icon_style = StyleBoxFlat.new()
+		icon_style.bg_color = Color(0.25, 0.25, 0.30, 1.0)
+		icon_style.corner_radius_top_left = 8
+		icon_style.corner_radius_top_right = 8
+		icon_style.corner_radius_bottom_left = 8
+		icon_style.corner_radius_bottom_right = 8
+		panel.add_theme_stylebox_override("panel", icon_style)
+		panel.pivot_offset = Vector2(icon_sz / 2.0, icon_sz / 2.0)
+
+		var label = Label.new()
+		label.text = icon_text
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.set_anchors_preset(Control.PRESET_FULL_RECT)
+		label.add_theme_font_size_override("font_size", 10)
+		panel.add_child(label)
+		return panel
+
+	var icon_for = func(e: Dictionary) -> String:
+		return "🧑" if str(e.get("kind", "")) == "player" else "👾"
+
+	# 오버레이에 "현재 상태" 아이콘들을 생성
+	var panels: Array = []
+	var n_old = min(ACTION_QUEUE_MAX, old_entries.size(), slot_pos.size())
+	var half = icon_sz / 2.0
+	for i in range(n_old):
+		var p = make_icon_panel.call(icon_for.call(old_entries[i]))
+		var center: Vector2 = slot_pos[i]
+		p.position = center - Vector2(half, half)
+		_action_queue_anim_overlay.add_child(p)
+		panels.append(p)
+
+	# 맨 오른쪽 새 아이콘 (스케일 0 → 1)
+	var n_new = min(ACTION_QUEUE_MAX, new_entries.size(), slot_pos.size())
+	if n_new > 0 and slot_pos.size() > 0:
+		var last_i = min(ACTION_QUEUE_MAX - 1, slot_pos.size() - 1)
+		var right_panel = make_icon_panel.call(icon_for.call(new_entries[last_i]))
+		var right_center: Vector2 = slot_pos[last_i]
+		right_panel.position = right_center - Vector2(half, half)
+		right_panel.scale = Vector2.ZERO
+		right_panel.modulate.a = 0.0
+		_action_queue_anim_overlay.add_child(right_panel)
+
+	var tween = create_tween()
+	tween.set_parallel(true)
+
+	# 0번째: 축소+페이드 (제자리에서 사라짐)
+	if panels.size() > 0:
+		tween.tween_property(panels[0], "scale", Vector2.ZERO, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tween.tween_property(panels[0], "modulate:a", 0.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
+	# 나머지: 왼쪽으로 한 칸 이동
+	for i in range(1, panels.size()):
+		var target_i = i - 1
+		if target_i < 0 or target_i >= slot_pos.size():
+			continue
+		var target_center: Vector2 = slot_pos[target_i]
+		tween.tween_property(panels[i], "position", target_center - Vector2(half, half), 0.22).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+	# 오른쪽 새 아이콘: 확대+페이드 인
+	for c in _action_queue_anim_overlay.get_children():
+		if c is Panel and c.scale == Vector2.ZERO:
+			tween.tween_property(c, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			tween.tween_property(c, "modulate:a", 1.0, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	tween.tween_callback(func():
+		_action_queue_anim_overlay.visible = false
+		for c in _action_queue_anim_overlay.get_children():
+			c.queue_free()
+		for i in range(_action_queue_icon_panels.size()):
+			_action_queue_icon_panels[i].visible = true
+		_apply_action_queue_entries(new_entries)
+		_action_queue_animating = false
+	)
+	tween.play()
+
+func _apply_action_queue_entries(entries: Array):
+	if entries.is_empty():
+		_action_queue_name_label.text = ""
+		for i in range(ACTION_QUEUE_MAX):
+			_action_queue_icon_labels[i].text = ""
+			_action_queue_pointer_labels[i].visible = false
+			_set_action_queue_icon_outline(i, false)
+		return
+
+	_action_queue_name_label.text = str(entries[0].get("name", ""))
+
+	for i in range(ACTION_QUEUE_MAX):
+		var has = i < entries.size()
+		var icon_label: Label = _action_queue_icon_labels[i]
+		var pointer: Label = _action_queue_pointer_labels[i]
+		_set_action_queue_icon_outline(i, has and i == 0)
+		if not has:
+			icon_label.text = ""
+			pointer.visible = false
+			continue
+		var e: Dictionary = entries[i]
+		var kind: String = str(e.get("kind", ""))
+		if kind == "player":
+			icon_label.text = "🧑"
+		else:
+			icon_label.text = "👾"
+		pointer.visible = (i == 0)
+		pointer.text = "▲"
+		pointer.add_theme_color_override("font_color", Color.WHITE)
+
+
+func _set_action_queue_icon_outline(slot_index: int, enabled: bool):
+	if slot_index < 0 or slot_index >= _action_queue_icon_panels.size():
+		return
+	var panel: Panel = _action_queue_icon_panels[slot_index]
+	var style = panel.get_theme_stylebox("panel").duplicate()
+	if style is StyleBoxFlat:
+		var w = 2 if enabled else 0
+		style.border_width_left = w
+		style.border_width_top = w
+		style.border_width_right = w
+		style.border_width_bottom = w
+		if enabled:
+			style.border_color = Color.WHITE
+		panel.add_theme_stylebox_override("panel", style)
+
+
+func _refresh_turn_and_alert_ui(_manager, _is_atb: bool, entries: Array):
+	# 1) 모든 표시 초기화
+	if hero_node and hero_node.has_method("set_turn_active"):
+		hero_node.set_turn_active(false)
+	if hero_node and hero_node.has_method("set_alert_state"):
+		hero_node.set_alert_state(false, false)
+	for node in character_nodes:
+		if not node:
+			continue
+		if node.has_method("set_turn_active"):
+			node.set_turn_active(false)
+		if node.has_method("set_alert_state"):
+			node.set_alert_state(false, false)
+
+	# 2) 현재 액션 대상 발밑 타원 표시 (entries[0])
+	if entries.size() > 0:
+		var cur: Dictionary = entries[0]
+		if str(cur.get("kind", "")) == "player":
+			if hero_node and hero_node.has_method("set_turn_active"):
+				hero_node.set_turn_active(true)
+		else:
+			var idx = int(cur.get("index", -1))
+			if idx >= 0 and idx < _combat_monster_character_indices.size():
+				var char_idx = _combat_monster_character_indices[idx]
+				if char_idx >= 0 and char_idx < character_nodes.size():
+					var mon = character_nodes[char_idx]
+					if mon and mon.visible and mon.has_method("set_turn_active"):
+						mon.set_turn_active(true)
+
+	# 3) 리액션 "!"은 reaction_manager 신호로 정확히 동기화 (판정 타이밍과 동일)
+
+
+func _compute_action_queue_atb(manager, count: int) -> Array:
+	var now_ms = Time.get_ticks_msec()
+	var override_active = now_ms < _action_queue_override_until_ms and not _action_queue_override_actor.is_empty()
+	var current: Dictionary = {}
+
+	if override_active:
+		current = _action_queue_override_actor.duplicate()
+	elif "reaction_open" in manager and manager.reaction_open and "reaction_mgr" in manager and manager.reaction_mgr:
+		var atk = manager.reaction_mgr.current_attack if "current_attack" in manager.reaction_mgr else {}
+		if atk is Dictionary and atk.has("attacker") and atk["attacker"] != null:
+			var attacker = atk["attacker"]
+			var idx = -1
+			if "enemies" in manager and manager.enemies is Array:
+				idx = manager.enemies.find(attacker)
+			current = {"kind": "monster", "index": idx, "name": attacker.display_name if "display_name" in attacker else "Monster"}
+
+	var predicted = _simulate_atb_queue(manager, count)
+	if current.is_empty():
+		return predicted
+
+	var out: Array = [current]
+	for i in range(min(count - 1, predicted.size())):
+		out.append(predicted[i])
+	return out
+
+
+func _simulate_atb_queue(manager, count: int) -> Array:
+	if not ("player_data" in manager) or not ("enemies" in manager):
+		return []
+
+	var rate = 1.0
+	if "ATB_CHARGE_RATE" in manager:
+		rate = float(manager.ATB_CHARGE_RATE)
+
+	var actors: Array[Dictionary] = []
+	var p_atb = float(manager.player_data.get("atb", 0.0))
+	var p_spd = float(manager.player_data.get("spd", 70.0))
+	var p_name = hero_node.character_name if hero_node and "character_name" in hero_node else "Player"
+	actors.append({"kind": "player", "index": -1, "name": p_name, "atb": p_atb, "spd": p_spd})
+
+	for i in range(manager.enemies.size()):
+		var e = manager.enemies[i]
+		if e and e.has_method("is_alive") and not e.is_alive():
+			continue
+		var e_name = e.display_name if e and "display_name" in e else "Monster"
+		var e_spd = float(e.spd) if e and "spd" in e else 50.0
+		var e_atb = float(e.atb) if e and "atb" in e else 0.0
+		actors.append({"kind": "monster", "index": i, "name": e_name, "atb": e_atb, "spd": e_spd})
+
+	if actors.size() == 0:
+		return []
+
+	var out: Array = []
+	for step in range(count):
+		var best_i := -1
+		var best_t := INF
+		for j in range(actors.size()):
+			var a = actors[j]
+			var spd = float(a["spd"])
+			if spd <= 0.0:
+				continue
+			var atb = float(a["atb"])
+			var t = 0.0 if atb >= 100.0 else (100.0 - atb) / (spd * rate)
+			if t < best_t - 0.0001:
+				best_t = t
+				best_i = j
+			elif abs(t - best_t) <= 0.0001 and best_i >= 0:
+				# 동률이면 플레이어를 우선 노출 (UI 직관)
+				if actors[j]["kind"] == "player" and actors[best_i]["kind"] != "player":
+					best_i = j
+
+		if best_i < 0 or best_t == INF:
+			break
+
+		var chosen = actors[best_i]
+		out.append({"kind": chosen["kind"], "index": chosen["index"], "name": chosen["name"]})
+
+		# 시간 best_t 만큼 진행 → 모두 ATB 증가
+		for j in range(actors.size()):
+			var a = actors[j]
+			var new_atb = float(a["atb"]) + float(a["spd"]) * rate * best_t
+			a["atb"] = clamp(new_atb, 0.0, 100.0)
+			actors[j] = a
+
+		# 행동 실행 후 ATB 리셋 규칙
+		if chosen["kind"] == "player":
+			actors[best_i]["atb"] = max(0.0, float(actors[best_i]["atb"]) - 100.0)
+		else:
+			actors[best_i]["atb"] = 0.0
+
+	return out
+
+
+func _compute_action_queue_tb(manager, count: int) -> Array:
+	# 턴베이스는 엄밀한 타임라인 대신 "현재(플레이어/적) + 다음 대상"을 단순 표시
+	var alive_enemies: Array[Dictionary] = []
+	if "enemies" in manager and manager.enemies is Array:
+		for i in range(manager.enemies.size()):
+			var e = manager.enemies[i]
+			if e and e.has_method("is_alive") and e.is_alive():
+				var e_name = e.display_name if "display_name" in e else "Monster"
+				alive_enemies.append({"kind": "monster", "index": i, "name": e_name})
+
+	var p_name = hero_node.character_name if hero_node and "character_name" in hero_node else "Player"
+	var base: Array = [{"kind": "player", "index": -1, "name": p_name}]
+	for e in alive_enemies:
+		base.append(e)
+	# 반복 패턴으로 count 채우기
+	var out: Array = []
+	if base.is_empty():
+		return out
+	for i in range(count):
+		out.append(base[i % base.size()])
+	return out
 
 
 # === TopArea Character Management ===
@@ -543,6 +1037,7 @@ func switch_to_exploration():
 	print("\n[InRun_v4] ===== SWITCHING TO EXPLORATION =====")
 	current_state = ScreenState.EXPLORATION
 	is_scrolling = true
+	_set_action_queue_visible(false)
 
 	# Hero → WALK 애니메이션
 	_play_hero_animation(PlayerSpriteAnimator.AnimState.WALK)
@@ -591,6 +1086,7 @@ func switch_to_combat(is_boss: bool = false):
 	current_state = ScreenState.COMBAT
 	current_is_boss = is_boss
 	is_scrolling = false
+	_set_action_queue_visible(true)
 
 	# Hero → IDLE (전투 대기)
 	_play_hero_animation(PlayerSpriteAnimator.AnimState.IDLE)
@@ -621,6 +1117,7 @@ func switch_to_combat(is_boss: bool = false):
 	else:
 		await _start_atb_combat(enemy_nodes)
 
+	_refresh_action_queue_ui()
 	print("[InRun_v4] ===== COMBAT SWITCH COMPLETE =====\n")
 
 func _start_atb_combat(enemy_nodes: Array):
@@ -646,6 +1143,8 @@ func _start_atb_combat(enemy_nodes: Array):
 				current_bottom_ui.connect_combat_manager(manager)
 				if current_bottom_ui.has_signal("target_selection_changed") and not current_bottom_ui.target_selection_changed.is_connected(_on_target_selection_changed):
 					current_bottom_ui.target_selection_changed.connect(_on_target_selection_changed)
+				if current_bottom_ui.has_signal("card_play_with_animation_requested") and not current_bottom_ui.card_play_with_animation_requested.is_connected(_on_card_play_animation_requested):
+					current_bottom_ui.card_play_with_animation_requested.connect(_on_card_play_animation_requested)
 			# 플레이어 데이터
 			var p_data = {
 				"hp": 200, "max_hp": 200, "atk": 10, "spd": 70.0,
@@ -661,6 +1160,7 @@ func _start_atb_combat(enemy_nodes: Array):
 			manager.enemy_hp_changed.connect(_on_new_enemy_hp_changed)
 			if manager.has_signal("damage_dealt"):
 				manager.damage_dealt.connect(_on_new_damage_dealt)
+			_connect_reaction_signals_atb(manager)
 			print("[InRun_v4] ATB CombatManager 시작 완료")
 			return
 
@@ -696,6 +1196,8 @@ func _start_tb_combat(enemy_nodes: Array):
 				current_bottom_ui.connect_combat_manager(manager)
 				if current_bottom_ui.has_signal("target_selection_changed") and not current_bottom_ui.target_selection_changed.is_connected(_on_target_selection_changed):
 					current_bottom_ui.target_selection_changed.connect(_on_target_selection_changed)
+				if current_bottom_ui.has_signal("card_play_with_animation_requested") and not current_bottom_ui.card_play_with_animation_requested.is_connected(_on_card_play_animation_requested):
+					current_bottom_ui.card_play_with_animation_requested.connect(_on_card_play_animation_requested)
 			var p_data = {
 				"hp": 200, "max_hp": 200, "atk": 10,
 				"block": 0, "status_effects": {}
@@ -707,15 +1209,88 @@ func _start_tb_combat(enemy_nodes: Array):
 			manager.enemy_hp_changed.connect(_on_new_enemy_hp_changed)
 			if manager.has_signal("damage_dealt"):
 				manager.damage_dealt.connect(_on_new_damage_dealt)
+			_connect_reaction_signals_tb(manager)
 			print("[InRun_v4] TB CombatManager 시작 완료")
 			return
 
-	# 폴백: 기존 CombatManager
-	print("[InRun_v4] TB 씬 없음 — 기존 CombatManager 폴백")
-	var monsters = _get_test_monsters()
-	CombatManager.start_combat(monsters)
-	if not CombatManager.combat_ended.is_connected(_on_combat_ended):
-		CombatManager.combat_ended.connect(_on_combat_ended)
+
+func _connect_reaction_signals_atb(manager):
+	if not manager or not ("reaction_mgr" in manager):
+		return
+	var rm = manager.reaction_mgr
+	if rm and rm.has_signal("reaction_window_opened") and not rm.reaction_window_opened.is_connected(_on_atb_reaction_window_opened):
+		rm.reaction_window_opened.connect(_on_atb_reaction_window_opened)
+	if rm and rm.has_signal("reaction_window_closed") and not rm.reaction_window_closed.is_connected(_on_reaction_window_closed):
+		rm.reaction_window_closed.connect(_on_reaction_window_closed)
+	if rm and rm.has_signal("reaction_phase_changed") and not rm.reaction_phase_changed.is_connected(_on_reaction_phase_changed):
+		rm.reaction_phase_changed.connect(_on_reaction_phase_changed)
+
+
+func _connect_reaction_signals_tb(manager):
+	if not manager or not ("reaction_mgr" in manager):
+		return
+	var rm = manager.reaction_mgr
+	if rm and rm.has_signal("reaction_window_opened") and not rm.reaction_window_opened.is_connected(_on_tb_reaction_window_opened):
+		rm.reaction_window_opened.connect(_on_tb_reaction_window_opened)
+	if rm and rm.has_signal("reaction_window_closed") and not rm.reaction_window_closed.is_connected(_on_reaction_window_closed):
+		rm.reaction_window_closed.connect(_on_reaction_window_closed)
+	if rm and rm.has_signal("reaction_phase_changed") and not rm.reaction_phase_changed.is_connected(_on_reaction_phase_changed):
+		rm.reaction_phase_changed.connect(_on_reaction_phase_changed)
+
+
+func _on_atb_reaction_window_opened(attack: Dictionary):
+	_on_reaction_window_opened_common(attack, true)
+
+
+func _on_tb_reaction_window_opened(attack: Dictionary):
+	_on_reaction_window_opened_common(attack, false)
+
+
+func _on_reaction_window_opened_common(attack: Dictionary, is_atb: bool):
+	_reaction_alert_enemy_idx = -1
+	_reaction_alert_unblockable = str(attack.get("type", "")) == "UNBLOCKABLE"
+
+	var attacker = attack.get("attacker", null)
+	if attacker == null or not active_combat_scene:
+		return
+
+	var manager = active_combat_scene.get_node_or_null("CombatManagerATB") if is_atb else null
+	if not manager:
+		manager = active_combat_scene.get_node_or_null("CombatManagerTB")
+	if not manager or not ("enemies" in manager) or not (manager.enemies is Array):
+		return
+
+	var idx = manager.enemies.find(attacker)
+	_reaction_alert_enemy_idx = idx
+
+	if idx >= 0 and idx < _combat_monster_character_indices.size():
+		var cidx = _combat_monster_character_indices[idx]
+		if cidx >= 0 and cidx < character_nodes.size():
+			var node = character_nodes[cidx]
+			if node and node.visible and node.has_method("set_alert_state"):
+				node.set_alert_state(true, _reaction_alert_unblockable, "green")
+
+
+func _on_reaction_phase_changed(phase: String, is_unblockable: bool):
+	if _reaction_alert_enemy_idx < 0 or _reaction_alert_enemy_idx >= _combat_monster_character_indices.size():
+		return
+	var cidx = _combat_monster_character_indices[_reaction_alert_enemy_idx]
+	if cidx < 0 or cidx >= character_nodes.size():
+		return
+	var node = character_nodes[cidx]
+	if node and node.has_method("set_alert_state"):
+		node.set_alert_state(true, is_unblockable, phase)
+
+
+func _on_reaction_window_closed(_result_type: String):
+	if _reaction_alert_enemy_idx >= 0 and _reaction_alert_enemy_idx < _combat_monster_character_indices.size():
+		var cidx = _combat_monster_character_indices[_reaction_alert_enemy_idx]
+		if cidx >= 0 and cidx < character_nodes.size():
+			var node = character_nodes[cidx]
+			if node and node.has_method("set_alert_state"):
+				node.set_alert_state(false, false)
+	_reaction_alert_enemy_idx = -1
+	_reaction_alert_unblockable = false
 
 # ── 새 전투 시스템 시그널 핸들러 ─────────────────────
 func _on_new_combat_ended(result: String):
@@ -728,6 +1303,19 @@ func _on_new_combat_ended(result: String):
 
 func _on_new_player_hp_changed(hp: int, _max_hp: int, block: int = 0):
 	if hero_node:
+		# 초기 동기화 프레임에서는 숫자 표시 생략
+		if _last_player_hp < 0:
+			_last_player_hp = hp
+			_last_player_block = block
+		else:
+			var hp_delta = hp - _last_player_hp
+			if hp_delta > 0:
+				hero_node.show_damage_number(hp_delta, true)
+			var block_delta = block - _last_player_block
+			if block_delta > 0 and hero_node.has_method("show_block_number"):
+				hero_node.show_block_number(block_delta)
+			_last_player_hp = hp
+			_last_player_block = block
 		hero_node.update_hp(hp)
 		hero_node.update_block(block)
 
@@ -737,6 +1325,15 @@ func _on_new_enemy_hp_changed(enemy_idx: int, hp: int, max_hp: int):
 		if char_idx >= 0 and char_idx < character_nodes.size():
 			var node = character_nodes[char_idx]
 			if node.visible:
+				# 몬스터 힐(HP 증가)도 숫자 표시 (데미지는 damage_dealt에서 표시)
+				if _last_enemy_hp.has(enemy_idx):
+					var prev_hp = int(_last_enemy_hp[enemy_idx])
+					var delta = hp - prev_hp
+					if delta > 0:
+						node.show_damage_number(delta, true)
+					_last_enemy_hp[enemy_idx] = hp
+				else:
+					_last_enemy_hp[enemy_idx] = hp
 				node.update_hp(hp, 0, false, max_hp)
 
 func _on_new_damage_dealt(entity_type: String, index: int, damage: int, is_healing: bool):
@@ -761,6 +1358,88 @@ func _on_new_damage_dealt(entity_type: String, index: int, damage: int, is_heali
 					monster_node.show_damage_number(damage, is_healing)
 					if not is_healing:
 						_play_character_animation(monster_node, PlayerSpriteAnimator.AnimState.HIT)
+
+func _on_card_play_animation_requested(card_item: Control, card, target_type: String, target_index: int):
+	"""카드 사용 시 비행 애니메이션: 카드 → 대상(플레이어/몬스터)으로 날아가며 축소·페이드 후 적용"""
+	if not active_combat_scene or not _card_flight_layer:
+		return
+	# 카드 사용 순간은 "플레이어 턴"으로 보이게 잠깐 오버라이드
+	_action_queue_override_actor = {
+		"kind": "player",
+		"index": -1,
+		"name": hero_node.character_name if hero_node and "character_name" in hero_node else "Player"
+	}
+	_action_queue_override_until_ms = Time.get_ticks_msec() + 700
+	var manager = active_combat_scene.get_node_or_null("CombatManagerATB")
+	if not manager:
+		manager = active_combat_scene.get_node_or_null("CombatManagerTB")
+	if not manager or not manager.has_method("player_play_card"):
+		return
+
+	var entry = {"card_item": card_item, "card": card, "target_type": target_type, "target_index": target_index, "manager": manager}
+	_card_animation_queue.append(entry)
+	if not _card_animation_running:
+		_process_next_card_animation()
+
+func _process_next_card_animation():
+	if _card_animation_queue.is_empty():
+		_card_animation_running = false
+		return
+	_card_animation_running = true
+	var entry = _card_animation_queue.pop_front()
+	var card_item: Control = entry["card_item"]
+	var card = entry["card"]
+	var target_type: String = entry["target_type"]
+	var target_index: int = entry["target_index"]
+	var manager = entry["manager"]
+
+	# 시작 위치 (카드 핸드)
+	var start_pos = card_item.get_global_transform_with_canvas().get_origin()
+	# 끝 위치 (대상)
+	var end_pos: Vector2
+	if target_type == "player":
+		if hero_node:
+			var rect = hero_node.get_global_rect()
+			end_pos = rect.get_center()
+		else:
+			end_pos = Vector2(get_viewport().get_visible_rect().size.x * 0.3, get_viewport().get_visible_rect().size.y * 0.5)
+	else:
+		if target_index >= 0 and target_index < _combat_monster_character_indices.size():
+			var char_idx = _combat_monster_character_indices[target_index]
+			if char_idx >= 0 and char_idx < character_nodes.size():
+				var mon = character_nodes[char_idx]
+				if mon.visible:
+					end_pos = mon.get_global_rect().get_center()
+				else:
+					end_pos = start_pos + Vector2(100, -80)
+			else:
+				end_pos = start_pos + Vector2(100, -80)
+		else:
+			end_pos = start_pos + Vector2(100, -80)
+
+	# 원본 숨김
+	card_item.visible = false
+
+	# 복제 카드 생성 → 비행 레이어에 추가
+	var dup: Control = card_item.duplicate()
+	_card_flight_layer.add_child(dup)
+	dup.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	dup.position = start_pos
+	dup.size = card_item.size
+	dup.pivot_offset = dup.size / 2
+
+	# Tween: 이동 + 축소 + 페이드
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(dup, "position", end_pos - dup.size / 2, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(dup, "scale", Vector2(0.15, 0.15), 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.tween_property(dup, "modulate:a", 0.0, 0.35).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.tween_callback(func():
+		dup.queue_free()
+		manager.player_play_card(card, target_index if target_type == "monster" else -1)
+		_process_next_card_animation()
+	)
+	tween.play()
 
 # ── 새 시스템용 몬스터/덱 생성 헬퍼 ──────────────────
 func _create_test_monster_nodes(is_boss: bool) -> Array:
