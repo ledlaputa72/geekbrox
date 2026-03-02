@@ -132,7 +132,7 @@ func apply_styles():
 	cost_style.border_width_bottom = 2
 	cost_style.border_color = Color(0.6, 0.4, 0.1)
 	cost_badge.add_theme_stylebox_override("panel", cost_style)
-	cost_label.add_theme_font_size_override("font_size", 12)
+	cost_label.add_theme_font_size_override("font_size", 18)
 	cost_label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
 	
 	# 3. 이름 배너
@@ -143,7 +143,7 @@ func apply_styles():
 	banner_style.corner_radius_bottom_left = 3
 	banner_style.corner_radius_bottom_right = 3
 	name_banner.add_theme_stylebox_override("panel", banner_style)
-	name_label.add_theme_font_size_override("font_size", 7)
+	name_label.add_theme_font_size_override("font_size", 11)
 	name_label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
 	
 	# 4. 원형 일러스트
@@ -159,7 +159,7 @@ func apply_styles():
 	circle_style.border_width_bottom = 2
 	circle_style.border_color = Color(0.4, 0.7, 1.0)
 	art_circle.add_theme_stylebox_override("panel", circle_style)
-	art_placeholder.add_theme_font_size_override("font_size", 20)
+	art_placeholder.add_theme_font_size_override("font_size", 30)
 	
 	# 5. 타입 배지
 	var type_style = StyleBoxFlat.new()
@@ -169,11 +169,11 @@ func apply_styles():
 	type_style.corner_radius_bottom_left = 3
 	type_style.corner_radius_bottom_right = 3
 	type_badge.add_theme_stylebox_override("panel", type_style)
-	type_label.add_theme_font_size_override("font_size", 6)
+	type_label.add_theme_font_size_override("font_size", 9)
 	type_label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
 	
 	# 6. 설명 레이블
-	desc_label.add_theme_font_size_override("font_size", 7)
+	desc_label.add_theme_font_size_override("font_size", 11)
 	desc_label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.9))
 
 func get_type_korean(type: String) -> String:
@@ -204,8 +204,13 @@ func _update_affordability():
 	else:
 		modulate = Color(1, 1, 1, 1)
 
+const SCALE_BASE = 1.3
+const SCALE_SELECTED = 1.4
+
 func set_selected(selected: bool):
 	is_selected = selected
+	var s = SCALE_SELECTED / SCALE_BASE if selected else 1.0
+	scale = Vector2(s, s)
 	if selected:
 		# 선택 시 설명 표시
 		desc_label.visible = true

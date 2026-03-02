@@ -13,6 +13,7 @@ const COLORS = {
 	"primary": Color("#7B9EF0"),           # 메인 액센트 (파란색)
 	"primary_dark": Color("#5A7DC8"),      # Primary 어두운 버전
 	"primary_light": Color("#9CB6F5"),     # Primary 밝은 버전
+	"secondary": Color("#4A5070"),         # 보조/비활성 버튼
 	
 	# Background Colors
 	"bg": Color("#1A1A2E"),                # 메인 배경 (매우 어두운 남색)
@@ -206,8 +207,8 @@ static func darken(color: Color, amount: float = 0.2) -> Color:
 # THEME APPLICATION HELPERS
 # ============================================
 
-# Panel/Control에 기본 스타일 적용
-static func apply_panel_style(panel: Panel) -> void:
+# Panel/Control에 기본 스타일 적용 (autoload 인스턴스에서 호출되므로 static 제거)
+func apply_panel_style(panel: Panel) -> void:
 	var stylebox = StyleBoxFlat.new()
 	stylebox.bg_color = get_color("panel")
 	stylebox.border_width_left = BORDER.thin
@@ -221,8 +222,8 @@ static func apply_panel_style(panel: Panel) -> void:
 	stylebox.corner_radius_bottom_right = RADIUS.medium
 	panel.add_theme_stylebox_override("panel", stylebox)
 
-# Button에 기본 스타일 적용
-static func apply_button_style(button: Button, color_key: String = "primary") -> void:
+# Button에 기본 스타일 적용 (autoload 인스턴스에서 호출되므로 static 제거)
+func apply_button_style(button: Button, color_key: String = "primary") -> void:
 	# Normal
 	var stylebox_normal = StyleBoxFlat.new()
 	stylebox_normal.bg_color = get_color(color_key)
@@ -253,8 +254,8 @@ static func apply_button_style(button: Button, color_key: String = "primary") ->
 	# Font Color
 	button.add_theme_color_override("font_color", get_color("text"))
 
-# Label에 폰트 색상 적용
-static func apply_label_style(label: Label, color_key: String = "text", size_key: String = "body") -> void:
+# Label에 폰트 색상 적용 (autoload 인스턴스에서 호출되므로 static 제거)
+func apply_label_style(label: Label, color_key: String = "text", size_key: String = "body") -> void:
 	label.add_theme_color_override("font_color", get_color(color_key))
 	# Note: Godot 4에서는 Theme Resource로 폰트 크기 관리 권장
 

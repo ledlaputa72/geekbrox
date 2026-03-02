@@ -1,0 +1,113 @@
+[gd_scene load_steps=11 format=3 uid="uid://combat_tb_scene"]
+
+[ext_resource type="Script" path="res://scripts/combat/turnbased/CombatManagerTB.gd" id="1_CombatManagerTB"]
+[ext_resource type="Script" path="res://scripts/combat/turnbased/TurnBasedEnergySystem.gd" id="2_TBEnergySystem"]
+[ext_resource type="Script" path="res://scripts/combat/turnbased/TurnBasedReactionManager.gd" id="3_TBReactionMgr"]
+[ext_resource type="Script" path="res://scripts/combat/turnbased/TurnBasedIntentSystem.gd" id="4_TBIntentSystem"]
+[ext_resource type="Script" path="res://scripts/combat/turnbased/TurnBasedHandSystem.gd" id="5_TBHandSystem"]
+[ext_resource type="Script" path="res://scripts/combat/turnbased/TarotEnergySystem.gd" id="6_TarotEnergy"]
+[ext_resource type="Script" path="res://scripts/combat/turnbased/DreamShardSystem.gd" id="7_DreamShard"]
+[ext_resource type="Script" path="res://scripts/combat/turnbased/DeckPassiveCalculator.gd" id="8_DeckPassive"]
+[ext_resource type="Script" path="res://scripts/combat/turnbased/TurnBasedAutoAI.gd" id="9_TBAutoAI"]
+[ext_resource type="Script" path="res://scripts/combat/shared/BattleDiary.gd" id="10_BattleDiary"]
+
+[node name="CombatSceneTB" type="Node"]
+
+[node name="CombatManagerTB" type="Node" parent="."]
+script = ExtResource("1_CombatManagerTB")
+
+[node name="TurnBasedEnergySystem" type="Node" parent="CombatManagerTB"]
+script = ExtResource("2_TBEnergySystem")
+
+[node name="TurnBasedReactionManager" type="Node" parent="CombatManagerTB"]
+script = ExtResource("3_TBReactionMgr")
+
+[node name="TurnBasedIntentSystem" type="Node" parent="CombatManagerTB"]
+script = ExtResource("4_TBIntentSystem")
+
+[node name="TurnBasedHandSystem" type="Node" parent="CombatManagerTB"]
+script = ExtResource("5_TBHandSystem")
+
+[node name="TarotEnergySystem" type="Node" parent="CombatManagerTB"]
+script = ExtResource("6_TarotEnergy")
+
+[node name="DreamShardSystem" type="Node" parent="CombatManagerTB"]
+script = ExtResource("7_DreamShard")
+
+[node name="DeckPassiveCalculator" type="Node" parent="CombatManagerTB"]
+script = ExtResource("8_DeckPassive")
+
+[node name="TurnBasedAutoAI" type="Node" parent="CombatManagerTB"]
+script = ExtResource("9_TBAutoAI")
+
+[node name="BattleDiary" type="Node" parent="CombatManagerTB"]
+script = ExtResource("10_BattleDiary")
+
+[node name="EnemyGroup" type="Node" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="EnergyUI" type="HBoxContainer" parent="UI"]
+anchors_preset = 7
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -180.0
+offset_bottom = -150.0
+
+[node name="HandUI" type="HBoxContainer" parent="UI"]
+anchors_preset = 7
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -130.0
+
+[node name="IntentUI" type="VBoxContainer" parent="UI"]
+anchors_preset = 1
+offset_right = 200.0
+offset_bottom = 120.0
+
+[node name="TarotUI" type="HBoxContainer" parent="UI"]
+anchors_preset = 3
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -180.0
+offset_top = 60.0
+offset_bottom = 90.0
+
+[node name="ShardUI" type="HBoxContainer" parent="UI"]
+anchors_preset = 3
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -200.0
+offset_top = 95.0
+offset_bottom = 125.0
+
+[node name="DeckPassiveUI" type="VBoxContainer" parent="UI"]
+anchors_preset = 0
+offset_right = 160.0
+offset_top = 50.0
+offset_bottom = 160.0
+
+[node name="TurnEndButton" type="Button" parent="UI"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -50.0
+offset_right = 60.0
+offset_bottom = -10.0
+text = "턴 종료"
+
+[node name="AutoModeToggle" type="OptionButton" parent="UI"]
+anchors_preset = 9
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 120.0
+offset_top = 60.0
+offset_bottom = 90.0

@@ -34,6 +34,7 @@ var emoji_label: Label      # emoji 텍스트
 # ─── UI nodes — 공통 ─────────────────────────────────
 var hp_bar: ProgressBar
 var hp_label: Label
+var block_label: Label = null  # Hero 전용 아머 수치
 var click_button: Button
 
 # ─── 스프라이트 애니메이터 (Hero + Monster) ───────────
@@ -126,27 +127,60 @@ func _create_emoji_ui():
 
 
 func _create_hp_bar():
-	"""HP 바 + 라벨"""
-	hp_bar = ProgressBar.new()
-	hp_bar.name = "HPBar"
-	hp_bar.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	hp_bar.offset_top = 4
-	hp_bar.offset_bottom = 14
-	hp_bar.max_value = max_hp
-	hp_bar.value = current_hp
-	hp_bar.show_percentage = false
-	add_child(hp_bar)
-
-	hp_label = Label.new()
-	hp_label.name = "HPLabel"
-	hp_label.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	hp_label.offset_top = 4
-	hp_label.offset_bottom = 14
-	hp_label.text = "%d/%d" % [current_hp, max_hp]
-	hp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	hp_label.add_theme_font_size_override("font_size", 10)
-	add_child(hp_label)
+	"""HP 바 + 라벨. Hero: 플레이어 위 10px, Monster: 하단"""
+	var is_hero = (character_type == "hero")
+	if is_hero:
+		# 플레이어: 캐릭터 위 10px에 HP 게이지
+		hp_bar = ProgressBar.new()
+		hp_bar.name = "HPBar"
+		hp_bar.set_anchors_preset(Control.PRESET_TOP_WIDE)
+		hp_bar.offset_top = -24
+		hp_bar.offset_bottom = -14
+		hp_bar.max_value = max_hp
+		hp_bar.value = current_hp
+		hp_bar.show_percentage = false
+		add_child(hp_bar)
+		hp_label = Label.new()
+		hp_label.name = "HPLabel"
+		hp_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
+		hp_label.offset_top = -24
+		hp_label.offset_bottom = -14
+		hp_label.text = "%d/%d" % [current_hp, max_hp]
+		hp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		hp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		hp_label.add_theme_font_size_override("font_size", 10)
+		add_child(hp_label)
+		# 아머 게이지 (수치)
+		block_label = Label.new()
+		block_label.name = "BlockLabel"
+		block_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
+		block_label.offset_top = -14
+		block_label.offset_bottom = -2
+		block_label.text = "🛡0"
+		block_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		block_label.add_theme_font_size_override("font_size", 10)
+		add_child(block_label)
+	else:
+		# 몬스터: 기존 하단 배치
+		hp_bar = ProgressBar.new()
+		hp_bar.name = "HPBar"
+		hp_bar.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+		hp_bar.offset_top = 4
+		hp_bar.offset_bottom = 14
+		hp_bar.max_value = max_hp
+		hp_bar.value = current_hp
+		hp_bar.show_percentage = false
+		add_child(hp_bar)
+		hp_label = Label.new()
+		hp_label.name = "HPLabel"
+		hp_label.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+		hp_label.offset_top = 4
+		hp_label.offset_bottom = 14
+		hp_label.text = "%d/%d" % [current_hp, max_hp]
+		hp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		hp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		hp_label.add_theme_font_size_override("font_size", 10)
+		add_child(hp_label)
 
 
 func _create_click_button():
@@ -333,6 +367,13 @@ func set_hp_bar_visible(visible_flag: bool):
 		hp_bar.visible = visible_flag
 	if hp_label:
 		hp_label.visible = visible_flag
+	if block_label:
+		block_label.visible = visible_flag
+
+func update_block(block_val: int):
+	"""아머(블록) 수치 갱신 (Hero 전용)"""
+	if block_label:
+		block_label.text = "🛡%d" % block_val
 
 
 func fly_in_from_right(target_pos: Vector2, duration: float = 0.5):
@@ -362,6 +403,20 @@ func fly_out_to_right(duration: float = 0.3):
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(self, "position:x", 500, duration)
 	tween.tween_callback(func(): visible = false)
+
+
+func set_target_highlighted(highlighted: bool):
+	"""공격 대상 선택 표시 (보라색 테두리)"""
+	if sprite_animator:
+		if highlighted:
+			sprite_animator.modulate = Color(1.2, 0.9, 1.3, 1.0)
+		else:
+			sprite_animator.modulate = Color.WHITE
+	elif sprite:
+		if highlighted:
+			sprite.modulate = Color(1.2, 0.9, 1.3, 1.0)
+		else:
+			sprite.modulate = Color.WHITE
 
 
 func _on_clicked():

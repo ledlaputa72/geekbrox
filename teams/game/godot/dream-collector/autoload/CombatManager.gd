@@ -61,8 +61,8 @@ func start_combat(monster_data: Array):
 	# Initialize Hero
 	hero = {
 		"name": "Hero",
-		"hp": 80,
-		"max_hp": 80,
+		"hp": 200,
+		"max_hp": 200,
 		"atk": 10,
 		"def": 2,
 		"spd": 10,

@@ -25,6 +25,17 @@ SaveSystem="*res://scripts/SaveSystem.gd"
 IdleSystem="*res://scripts/IdleSystem.gd"
 CombatManager="*res://autoload/CombatManager.gd"
 DeckManager="*res://autoload/DeckManager.gd"
+SettingsManager="*res://scripts/autoloads/SettingsManager.gd"
+CardDatabase="*res://scripts/combat/shared/CardDatabase.gd"
+VFX="*res://scripts/autoloads/VFX.gd"
+SFX="*res://scripts/autoloads/SFX.gd"
+UI="*res://scripts/autoloads/UI.gd"
+HandUI="*res://scripts/autoloads/HandUI.gd"
+Haptics="*res://scripts/autoloads/Haptics.gd"
+FocusUI="*res://scripts/autoloads/FocusUI.gd"
+CrisisUI="*res://scripts/autoloads/CrisisUI.gd"
+ComboHintUI="*res://scripts/autoloads/ComboHintUI.gd"
+IntentUI="*res://scripts/autoloads/IntentUI.gd"
 
 [display]
 
