@@ -85,8 +85,10 @@ const ACTION_QUEUE_MAX := 5
 var _action_queue_root: Control = null
 var _action_queue_name_label: Label = null
 var _action_queue_icon_labels: Array = []   # Array[Label]
-var _action_queue_pointer_labels: Array = [] # Array[Label]
+var _action_queue_pointer_label: Label = null  # 단일 삼각형, 아이콘 열과 별도 레이어
 var _action_queue_icon_panels: Array = []   # Array[Control]
+var _action_queue_baseline: Control = null  # 점선 기준선 (아이콘 중앙 정렬용)
+var _action_queue_pointer_layer: Control = null  # 삼각형만 그리는 레이어
 var _action_queue_update_accum: float = 0.0
 var _action_queue_last_entries: Array = []
 var _action_queue_anim_overlay: Control = null
@@ -264,18 +266,17 @@ func _setup_action_queue_ui():
 	style.content_margin_bottom = 2
 	_action_queue_root.add_theme_stylebox_override("panel", style)
 
+	# 텍스트-아이콘-아이콘… 동일 중앙 정렬, 점선 기준선, 삼각형은 별도 레이어
+	var content = VBoxContainer.new()
+	content.add_theme_constant_override("separation", 2)
+	_action_queue_root.add_child(content)
+
+	# 1) 아이콘 행: 이름 + 아이콘들만 (같은 기준선에 정렬)
 	var hbox = HBoxContainer.new()
 	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	hbox.add_theme_constant_override("separation", 6)
-	_action_queue_root.add_child(hbox)
-
-	_action_queue_anim_overlay = Control.new()
-	_action_queue_anim_overlay.name = "ActionQueueAnimOverlay"
-	_action_queue_anim_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_action_queue_anim_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_action_queue_anim_overlay.visible = false
-	_action_queue_root.add_child(_action_queue_anim_overlay)
+	content.add_child(hbox)
 
 	_action_queue_name_label = Label.new()
 	_action_queue_name_label.text = ""
@@ -284,13 +285,7 @@ func _setup_action_queue_ui():
 	_action_queue_name_label.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	hbox.add_child(_action_queue_name_label)
 
-	# 아이콘 50% 축소(15x15), 삼각형 위쪽(▲) 화이트, 아이콘과 같은 높이 유지
 	for i in range(ACTION_QUEUE_MAX):
-		var slot = VBoxContainer.new()
-		slot.alignment = BoxContainer.ALIGNMENT_CENTER
-		slot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		slot.add_theme_constant_override("separation", 0)
-
 		var icon_panel = Panel.new()
 		icon_panel.custom_minimum_size = Vector2(15, 15)
 		var icon_style = StyleBoxFlat.new()
@@ -300,7 +295,7 @@ func _setup_action_queue_ui():
 		icon_style.corner_radius_bottom_left = 8
 		icon_style.corner_radius_bottom_right = 8
 		icon_panel.add_theme_stylebox_override("panel", icon_style)
-		slot.add_child(icon_panel)
+		hbox.add_child(icon_panel)
 		_action_queue_icon_panels.append(icon_panel)
 
 		var icon_label = Label.new()
@@ -312,15 +307,43 @@ func _setup_action_queue_ui():
 		icon_panel.add_child(icon_label)
 		_action_queue_icon_labels.append(icon_label)
 
-		var pointer = Label.new()
-		pointer.text = "▲"
-		pointer.visible = false
-		pointer.add_theme_font_size_override("font_size", 8)
-		pointer.add_theme_color_override("font_color", Color.WHITE)
-		slot.add_child(pointer)
-		_action_queue_pointer_labels.append(pointer)
+	# 2) 보이는 점선 기준선 (아이콘과 같은 중앙 정렬 참조)
+	var baseline_row = HBoxContainer.new()
+	baseline_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	baseline_row.add_theme_constant_override("separation", 3)
+	content.add_child(baseline_row)
+	var dash_count = 20
+	for _j in range(dash_count):
+		var dash = ColorRect.new()
+		dash.custom_minimum_size = Vector2(2, 1)
+		dash.color = Color(1.0, 1.0, 1.0, 0.4)
+		baseline_row.add_child(dash)
+	_action_queue_baseline = baseline_row
 
-		hbox.add_child(slot)
+	# 3) 삼각형(▲) 전용 레이어 — 아이콘 열과 무관하게 아래에만 표시
+	_action_queue_pointer_layer = Control.new()
+	_action_queue_pointer_layer.name = "ActionQueuePointerLayer"
+	_action_queue_pointer_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_action_queue_pointer_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_action_queue_pointer_layer.offset_left = 0
+	_action_queue_pointer_layer.offset_top = 0
+	_action_queue_pointer_layer.offset_right = 0
+	_action_queue_pointer_layer.offset_bottom = 0
+	_action_queue_root.add_child(_action_queue_pointer_layer)
+
+	_action_queue_pointer_label = Label.new()
+	_action_queue_pointer_label.text = "▲"
+	_action_queue_pointer_label.visible = false
+	_action_queue_pointer_label.add_theme_font_size_override("font_size", 8)
+	_action_queue_pointer_label.add_theme_color_override("font_color", Color.WHITE)
+	_action_queue_pointer_layer.add_child(_action_queue_pointer_label)
+
+	_action_queue_anim_overlay = Control.new()
+	_action_queue_anim_overlay.name = "ActionQueueAnimOverlay"
+	_action_queue_anim_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_action_queue_anim_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_action_queue_anim_overlay.visible = false
+	_action_queue_root.add_child(_action_queue_anim_overlay)
 
 	battle_scene.add_child(_action_queue_root)
 
@@ -393,8 +416,8 @@ func _play_action_queue_step_animation(old_entries: Array, new_entries: Array):
 	# 실제 슬롯 UI는 애니 동안 숨김
 	for i in range(_action_queue_icon_panels.size()):
 		_action_queue_icon_panels[i].visible = false
-	for i in range(_action_queue_pointer_labels.size()):
-		_action_queue_pointer_labels[i].visible = false
+	if _action_queue_pointer_label:
+		_action_queue_pointer_label.visible = false
 
 	# 기존 오버레이 자식 정리
 	for c in _action_queue_anim_overlay.get_children():
@@ -487,6 +510,8 @@ func _play_action_queue_step_animation(old_entries: Array, new_entries: Array):
 			_action_queue_icon_panels[i].visible = true
 		_apply_action_queue_entries(new_entries)
 		_action_queue_animating = false
+		# 삼각형 위치 갱신 (레이아웃 반영 후)
+		call_deferred("_update_action_queue_pointer_position")
 	)
 	tween.play()
 
@@ -495,7 +520,8 @@ func _apply_action_queue_entries(entries: Array):
 		_action_queue_name_label.text = ""
 		for i in range(ACTION_QUEUE_MAX):
 			_action_queue_icon_labels[i].text = ""
-			_action_queue_pointer_labels[i].visible = false
+		_set_action_queue_pointer_visible(false)
+		for i in range(ACTION_QUEUE_MAX):
 			_set_action_queue_icon_outline(i, false)
 		return
 
@@ -504,11 +530,9 @@ func _apply_action_queue_entries(entries: Array):
 	for i in range(ACTION_QUEUE_MAX):
 		var has = i < entries.size()
 		var icon_label: Label = _action_queue_icon_labels[i]
-		var pointer: Label = _action_queue_pointer_labels[i]
 		_set_action_queue_icon_outline(i, has and i == 0)
 		if not has:
 			icon_label.text = ""
-			pointer.visible = false
 			continue
 		var e: Dictionary = entries[i]
 		var kind: String = str(e.get("kind", ""))
@@ -516,10 +540,28 @@ func _apply_action_queue_entries(entries: Array):
 			icon_label.text = "🧑"
 		else:
 			icon_label.text = "👾"
-		pointer.visible = (i == 0)
-		pointer.text = "▲"
-		pointer.add_theme_color_override("font_color", Color.WHITE)
 
+	# 삼각형은 별도 레이어: 현재 턴(0번) 아이콘 아래에만 배치 (레이아웃 반영 후 위치 갱신)
+	_set_action_queue_pointer_visible(true)
+	call_deferred("_update_action_queue_pointer_position")
+
+
+func _set_action_queue_pointer_visible(v: bool):
+	if _action_queue_pointer_label:
+		_action_queue_pointer_label.visible = v
+
+func _update_action_queue_pointer_position():
+	if not _action_queue_pointer_label or not _action_queue_pointer_label.visible:
+		return
+	if _action_queue_icon_panels.is_empty() or not _action_queue_pointer_layer:
+		return
+	var first: Control = _action_queue_icon_panels[0]
+	var panel_global = first.get_global_rect()
+	var layer_global = _action_queue_pointer_layer.get_global_rect()
+	var center_x = panel_global.get_center().x - layer_global.position.x
+	var bottom_y = panel_global.end.y - layer_global.position.y
+	var label_w = 10
+	_action_queue_pointer_label.position = Vector2(center_x - label_w / 2.0, bottom_y)
 
 func _set_action_queue_icon_outline(slot_index: int, enabled: bool):
 	if slot_index < 0 or slot_index >= _action_queue_icon_panels.size():
@@ -538,17 +580,23 @@ func _set_action_queue_icon_outline(slot_index: int, enabled: bool):
 
 
 func _refresh_turn_and_alert_ui(_manager, _is_atb: bool, entries: Array):
-	# 1) 모든 표시 초기화
+	# 1) 모든 표시 초기화 (리액션 "!" 중인 캐릭터는 alert 유지 — phase 시그널로 색상만 갱신)
+	var reaction_char_idx = -1
+	if _reaction_alert_enemy_idx >= 0 and _reaction_alert_enemy_idx < _combat_monster_character_indices.size():
+		reaction_char_idx = _combat_monster_character_indices[_reaction_alert_enemy_idx]
+
 	if hero_node and hero_node.has_method("set_turn_active"):
 		hero_node.set_turn_active(false)
 	if hero_node and hero_node.has_method("set_alert_state"):
 		hero_node.set_alert_state(false, false)
-	for node in character_nodes:
+	for i in range(character_nodes.size()):
+		var node = character_nodes[i]
 		if not node:
 			continue
 		if node.has_method("set_turn_active"):
 			node.set_turn_active(false)
-		if node.has_method("set_alert_state"):
+		# 리액션 윈도우 중인 캐릭터는 alert 초기화하지 않음 (녹→노→빨 색상 전환 유지)
+		if node.has_method("set_alert_state") and i != reaction_char_idx:
 			node.set_alert_state(false, false)
 
 	# 2) 현재 액션 대상 발밑 타원 표시 (entries[0])
@@ -663,7 +711,7 @@ func _simulate_atb_queue(manager, count: int) -> Array:
 
 
 func _compute_action_queue_tb(manager, count: int) -> Array:
-	# 턴베이스는 엄밀한 타임라인 대신 "현재(플레이어/적) + 다음 대상"을 단순 표시
+	# 턴베이스: current_phase / current_acting_enemy_index 반영 (보스 전 포함)
 	var alive_enemies: Array[Dictionary] = []
 	if "enemies" in manager and manager.enemies is Array:
 		for i in range(manager.enemies.size()):
@@ -676,12 +724,20 @@ func _compute_action_queue_tb(manager, count: int) -> Array:
 	var base: Array = [{"kind": "player", "index": -1, "name": p_name}]
 	for e in alive_enemies:
 		base.append(e)
-	# 반복 패턴으로 count 채우기
-	var out: Array = []
 	if base.is_empty():
-		return out
+		return []
+
+	# 현재 액터를 맨 앞에: 보스/적 턴이면 current_acting_enemy_index 반영 (Node.get()은 인자 1개만 허용)
+	var acting_idx = -1
+	if "current_acting_enemy_index" in manager:
+		var v = manager.get("current_acting_enemy_index")
+		acting_idx = int(v) if v != null else -1
+	var start_i := 0
+	if acting_idx >= 0 and (acting_idx + 1) < base.size():
+		start_i = acting_idx + 1
+	var out: Array = []
 	for i in range(count):
-		out.append(base[i % base.size()])
+		out.append(base[(start_i + i) % base.size()])
 	return out
 
 
@@ -1160,6 +1216,8 @@ func _start_atb_combat(enemy_nodes: Array):
 			manager.enemy_hp_changed.connect(_on_new_enemy_hp_changed)
 			if manager.has_signal("damage_dealt"):
 				manager.damage_dealt.connect(_on_new_damage_dealt)
+			if manager.has_signal("reaction_feedback"):
+				manager.reaction_feedback.connect(_on_new_reaction_feedback)
 			_connect_reaction_signals_atb(manager)
 			print("[InRun_v4] ATB CombatManager 시작 완료")
 			return
@@ -1209,6 +1267,8 @@ func _start_tb_combat(enemy_nodes: Array):
 			manager.enemy_hp_changed.connect(_on_new_enemy_hp_changed)
 			if manager.has_signal("damage_dealt"):
 				manager.damage_dealt.connect(_on_new_damage_dealt)
+			if manager.has_signal("reaction_feedback"):
+				manager.reaction_feedback.connect(_on_new_reaction_feedback)
 			_connect_reaction_signals_tb(manager)
 			print("[InRun_v4] TB CombatManager 시작 완료")
 			return
@@ -1359,6 +1419,25 @@ func _on_new_damage_dealt(entity_type: String, index: int, damage: int, is_heali
 					if not is_healing:
 						_play_character_animation(monster_node, PlayerSpriteAnimator.AnimState.HIT)
 
+
+func _on_new_reaction_feedback(text: String, result_type: String, _enemy_idx: int):
+	"""리액션 성공/실패 텍스트를 플레이어 머리 위로 표시"""
+	if not hero_node or not hero_node.has_method("show_floating_text"):
+		return
+	var c = Color.WHITE
+	match result_type:
+		"PARRY":
+			c = Color(0.2, 1.0, 0.35, 1.0)
+		"DODGE":
+			c = Color(1.0, 0.95, 0.2, 1.0)
+		"GUARD":
+			c = Color(0.35, 0.75, 1.0, 1.0)
+		"PARRY_FAIL", "DODGE_FAIL":
+			c = Color(1.0, 0.25, 0.25, 1.0)
+		_:
+			c = Color.WHITE
+	hero_node.show_floating_text(text, c, 18)
+
 func _on_card_play_animation_requested(card_item: Control, card, target_type: String, target_index: int):
 	"""카드 사용 시 비행 애니메이션: 카드 → 대상(플레이어/몬스터)으로 날아가며 축소·페이드 후 적용"""
 	if not active_combat_scene or not _card_flight_layer:
@@ -1420,24 +1499,42 @@ func _process_next_card_animation():
 	# 원본 숨김
 	card_item.visible = false
 
+	# 전투 화면 중앙 (2단계 카드 등장 위치)
+	var center_rect = battle_scene.get_global_rect() if battle_scene else get_viewport().get_visible_rect()
+	var center_pos = center_rect.get_center()
+
 	# 복제 카드 생성 → 비행 레이어에 추가
 	var dup: Control = card_item.duplicate()
 	_card_flight_layer.add_child(dup)
 	dup.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	dup.position = start_pos
 	dup.size = card_item.size
 	dup.pivot_offset = dup.size / 2
 
-	# Tween: 이동 + 축소 + 페이드
+	# 1단계: 선택된 카드가 위로 올라가며 투명해져서 사라짐
+	dup.position = start_pos
+	var up_pos = start_pos + Vector2(0, -70)
 	var tween = create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(dup, "position", end_pos - dup.size / 2, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(dup, "scale", Vector2(0.15, 0.15), 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	tween.tween_property(dup, "modulate:a", 0.0, 0.35).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.tween_property(dup, "position", up_pos, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(dup, "modulate:a", 0.0, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tween.tween_callback(func():
-		dup.queue_free()
-		manager.player_play_card(card, target_index if target_type == "monster" else -1)
-		_process_next_card_animation()
+		# 2단계: 전투 화면 중앙에 카드 등장
+		dup.position = center_pos - dup.size / 2
+		dup.scale = Vector2.ONE
+		dup.modulate.a = 1.0
+		var tween2 = create_tween()
+		tween2.set_parallel(true)
+		# 3단계: 대상에게 날아감 (축소하며 사라짐) — ATK→몬스터, DEF→플레이어, SKILL→적절한 대상
+		var final_pos = end_pos - dup.size / 2
+		tween2.tween_property(dup, "position", final_pos, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tween2.tween_property(dup, "scale", Vector2(0.15, 0.15), 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tween2.tween_property(dup, "modulate:a", 0.0, 0.35).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		tween2.tween_callback(func():
+			dup.queue_free()
+			manager.player_play_card(card, target_index if target_type == "monster" else -1)
+			_process_next_card_animation()
+		)
+		tween2.play()
 	)
 	tween.play()
 
@@ -1773,8 +1870,12 @@ func _input(event):
 					if rect.has_point(pos):
 						var enemy_idx = _combat_monster_character_indices.find(i)
 						if enemy_idx >= 0:
-							current_bottom_ui.on_monster_clicked(enemy_idx)
-							print("[InRun_v4] 드래그 릴리즈 → enemy %d 타겟" % enemy_idx)
+							# 드래그로 놓은 경우 → 즉시 카드 사용 (데미지 + 애니)
+							if current_bottom_ui.has_method("on_monster_drag_dropped"):
+								current_bottom_ui.on_monster_drag_dropped(enemy_idx)
+							else:
+								current_bottom_ui.on_monster_clicked(enemy_idx)
+							print("[InRun_v4] 드래그 릴리즈 → enemy %d 타겟, 카드 사용" % enemy_idx)
 						return
 	if event is InputEventKey and event.pressed:
 		match event.keycode:

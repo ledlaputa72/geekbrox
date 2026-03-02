@@ -23,6 +23,7 @@ var current_attack       : Dictionary = {}
 var last_result          : ReactionResult = null
 var pending_draw_bonus   : int = 0   # 패링 성공 시 다음 턴 드로우 +1
 var story_mode           : bool = true
+var last_failed_attempt_type : String = ""  # "PARRY" | "DODGE" | "" (실패 페널티 판정용)
 
 # 에너지 시스템 참조
 var energy_system : TurnBasedEnergySystem = null
@@ -34,6 +35,7 @@ signal dodge_success
 signal reaction_window_opened(attack: Dictionary)
 signal reaction_window_closed(result_type: String)
 signal reaction_phase_changed(phase: String, is_unblockable: bool)
+signal reaction_attempt_failed(attempted_type: String)  # 패링/회피 타이밍 실패 → UI에서 다음 옵션 활성화
 
 func setup(es: TurnBasedEnergySystem):
 	energy_system = es
@@ -64,6 +66,7 @@ func open_window(attack: Dictionary):
 	_last_phase = "green"
 	reaction_state = "OPEN"
 	last_result = null
+	last_failed_attempt_type = ""
 	emit_signal("reaction_window_opened", attack)
 	emit_signal("reaction_phase_changed", "green", _is_unblockable())
 
@@ -91,6 +94,7 @@ func on_player_card_tapped(card: Card):
 
 	if current_attack.get("type", "") == "UNBLOCKABLE" and card.has_tag("PARRY"):
 		print("[TBReaction] 패링 불가!")
+		emit_signal("reaction_attempt_failed", "PARRY")
 		return
 
 	var phase = _get_phase()
@@ -100,6 +104,13 @@ func on_player_card_tapped(card: Card):
 		_resolve_dodge(card)
 	elif card.has_tag("GUARD") and phase in ["green", "yellow", "red"]:
 		_resolve_guard(card)
+	else:
+		if card.has_tag("PARRY") and phase != "red":
+			last_failed_attempt_type = "PARRY"
+			emit_signal("reaction_attempt_failed", "PARRY")
+		elif card.has_tag("DODGE") and not (phase in ["yellow", "red"]):
+			last_failed_attempt_type = "DODGE"
+			emit_signal("reaction_attempt_failed", "DODGE")
 
 func _resolve_parry(card: Card):
 	reaction_state = "RESOLVED"
@@ -144,6 +155,7 @@ func reset():
 	current_attack = {}
 	last_result = null
 	pending_draw_bonus = 0
+	last_failed_attempt_type = ""
 
 
 # ── ReactionResult 내부 클래스 ────────────────────────

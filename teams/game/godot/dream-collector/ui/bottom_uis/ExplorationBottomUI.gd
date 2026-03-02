@@ -38,6 +38,7 @@ const LOG_COLORS = {
 	"start":     {"bg": Color(0.353, 0.333, 0.506, 1), "circle": Color(0.45, 0.42, 0.60, 1)},
 }
 const DEFAULT_COLORS = {"bg": Color(0.353, 0.333, 0.506, 1), "circle": Color(0.45, 0.42, 0.60, 1)}
+const MAX_LOG_COUNT = 3  # 최대 표시 로그 수 (초과 시 맨 위 오래된 것부터 삭제)
 
 # ─── 이벤트 타입별 기본 아이콘 ───
 const EVENT_ICONS = {
@@ -228,9 +229,18 @@ func _build_log_row(
 
 	row.add_child(panel)
 	event_log.add_child(row)
+	_trim_old_logs()
 
 	await get_tree().process_frame
 	scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)
+
+
+func _trim_old_logs():
+	"""로그가 MAX_LOG_COUNT 초과 시 맨 위(가장 오래된) 로그부터 삭제"""
+	while event_log.get_child_count() > MAX_LOG_COUNT:
+		var oldest = event_log.get_child(0)
+		event_log.remove_child(oldest)
+		oldest.queue_free()
 
 
 const NORMAL_ROW_HEIGHT = 48
@@ -307,6 +317,7 @@ func _build_victory_row(icon: String, text: String, colors: Dictionary):
 
 	row.add_child(panel)
 	event_log.add_child(row)
+	_trim_old_logs()
 
 	var expanded = true
 	var btn = Button.new()

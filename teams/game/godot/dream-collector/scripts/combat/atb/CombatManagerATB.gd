@@ -51,6 +51,8 @@ signal energy_updated(current: float, max_e: int)
 signal energy_timer_progress(progress: float)  # EnergyOrb 외곽 쿨타임 게이지
 signal damage_dealt(entity_type: String, index: int, damage: int, is_healing: bool)
 signal pass_timer_updated(remaining: float, duration: float)  # Pass 버튼 10초 쿨
+signal battle_log_updated(message: String)
+signal reaction_feedback(text: String, result_type: String, enemy_idx: int) # hero 머리 위 텍스트
 
 # ── 초기화 ────────────────────────────────────────────
 func _ready():
@@ -65,6 +67,11 @@ func _ready():
 		energy_system.energy_changed.connect(func(cur, mx): emit_signal("energy_updated", cur, mx))
 		if energy_system.has_signal("energy_timer_progress"):
 			energy_system.energy_timer_progress.connect(_on_energy_timer_progress)
+
+func battle_log(msg: String) -> void:
+	if battle_diary:
+		battle_diary.log(msg)
+	emit_signal("battle_log_updated", msg)
 
 func start_combat(p_data: Dictionary, enemy_list: Array, card_deck: Array[Card]):
 	player_data = p_data.duplicate()
@@ -249,35 +256,62 @@ func _apply_attack_result(enemy, attack: Dictionary, result):
 
 	var attacker_name = enemy.display_name if enemy and "display_name" in enemy else "???"
 	var atk_type = attack.get("type", "NORMAL")
+	var enemy_idx = enemies.find(enemy) if enemy else -1
 
 	match result.type:
 		"PARRY":
-			# 패링: 피해 0, 에너지 +2, 적 ATB 롤백
+			# 패링: 피해 0, 에너지 +2, 적 다음턴 ATB 시간 2배(느려짐)
 			if energy_system: energy_system.on_parry_success()
-			enemy.atb *= 0.5
+			enemy.atb = -ATB_MAX
 			if battle_diary:
 				battle_diary.record_parry(true)
-				battle_diary.log("패링 성공! 에너지 +2")
+			battle_log("패링 성공! (%s)" % attacker_name)
+			emit_signal("reaction_feedback", "패링 성공!", "PARRY", enemy_idx)
 			if DEBUG_COMBAT: print("[ATB] 패링 성공")
 		"DODGE":
 			if energy_system: energy_system.on_dodge_success()
 			if battle_diary:
 				battle_diary.record_dodge()
-				battle_diary.log("회피 성공!")
+			battle_log("회피 성공! (%s)" % attacker_name)
+			emit_signal("reaction_feedback", "회피 성공!", "DODGE", enemy_idx)
 			if DEBUG_COMBAT: print("[ATB] 회피 성공")
 		"GUARD":
 			var block_val = result.card.block if result.card else 0
 			if energy_system: energy_system.on_guard_success(block_val)
+			# 가드: 가드 수치만큼 피해 경감 (블록으로 흡수 처리)
 			player_data["block"] = player_data.get("block", 0) + block_val
+			var dmg_guarded = _calculate_damage(enemy, attack, player_data)
+			player_data["hp"] = max(0, player_data.get("hp", 200) - dmg_guarded)
+			if battle_diary: battle_diary.record_damage_taken(dmg_guarded)
+			emit_signal("damage_dealt", "hero", 0, dmg_guarded, false)
 			emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
-			if battle_diary: battle_diary.log("방어 성공! 블록 +%d" % block_val)
+			battle_log("가드! (%s) 피해 %d" % [attacker_name, dmg_guarded])
+			emit_signal("reaction_feedback", "가드", "GUARD", enemy_idx)
 			if DEBUG_COMBAT: print("[ATB] 방어 성공 블록 +%d" % block_val)
 		"NONE":
-			var dmg = _calculate_damage(enemy, attack, player_data)
+			# 실패 페널티: 패링 실패(+50% dmg + 플레이어 ATB 2배 느려짐), 회피 실패(+20% dmg)
+			var dmg_attack = attack.duplicate()
+			var fail_type = reaction_mgr.last_failed_attempt_type if reaction_mgr and "last_failed_attempt_type" in reaction_mgr else ""
+			if fail_type == "PARRY":
+				dmg_attack["damage"] = int(dmg_attack.get("damage", 10) * 1.5)
+			elif fail_type == "DODGE":
+				dmg_attack["damage"] = int(dmg_attack.get("damage", 10) * 1.2)
+
+			var dmg = _calculate_damage(enemy, dmg_attack, player_data)
 			player_data["hp"] = max(0, player_data.get("hp", 200) - dmg)
 			if battle_diary: battle_diary.record_damage_taken(dmg)
 			emit_signal("damage_dealt", "hero", 0, dmg, false)
 			emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
+			if fail_type == "PARRY":
+				# 패링 실패: 적 다음턴이 더 빨리 옴(ATB 시간 반대 효과)
+				enemy.atb = ATB_MAX * 0.5
+				battle_log("패링 실패! (%s) 피해 %d (+50%%) / 적 ATB 빨라짐" % [attacker_name, dmg])
+				emit_signal("reaction_feedback", "패링 실패!", "PARRY_FAIL", enemy_idx)
+			elif fail_type == "DODGE":
+				battle_log("회피 실패! (%s) 피해 %d (+20%%)" % [attacker_name, dmg])
+				emit_signal("reaction_feedback", "회피 실패!", "DODGE_FAIL", enemy_idx)
+			else:
+				battle_log("피해 %d (%s)" % [dmg, attacker_name])
 			if DEBUG_COMBAT: print("[ATB] 피해 %d 받음 HP %d/%d" % [dmg, player_data.get("hp", 0), player_data.get("max_hp", 200)])
 
 func _calculate_damage(attacker, attack: Dictionary, target: Dictionary) -> int:
@@ -295,6 +329,7 @@ func _calculate_damage(attacker, attack: Dictionary, target: Dictionary) -> int:
 
 # ── 플레이어 카드 플레이 ──────────────────────────────
 func player_play_card(card: Card, target_index: int = -1):
+	# 리액션 창이 열려 있으면 ATK 카드도 데미지가 아닌 리액션(패링/회피/가드)으로 처리됨. 데미지 안 들어감 현상 디버깅 시 reaction_open 확인.
 	if reaction_open and reaction_mgr:
 		reaction_mgr.on_player_tap_card(card)
 		return

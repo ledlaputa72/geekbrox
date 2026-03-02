@@ -401,6 +401,15 @@ func show_block_number(block_amount: int):
 	add_child(num)
 	num.show_damage(block_amount, DamageNumber.Type.BLOCK)
 
+func show_floating_text(message: String, color: Color = Color.WHITE, font_size: int = 18):
+	"""플로팅 텍스트 표시 (리액션 성공/실패 등)"""
+	if message == "":
+		return
+	var num = DAMAGE_NUMBER_SCENE.instantiate()
+	num.position = Vector2(size.x / 2.0, 6)
+	add_child(num)
+	num.show_text(message, color, font_size)
+
 
 func shake(intensity: float = 8.0, duration: float = 0.4):
 	"""흔들림 효과 (position 기반)"""

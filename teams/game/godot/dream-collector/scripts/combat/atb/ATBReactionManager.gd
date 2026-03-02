@@ -27,6 +27,7 @@ var counter_timer  : float  = 0.0
 var last_result    : ReactionResult = null
 var current_attack : Dictionary = {}
 var story_mode     : bool = true   # SettingsManager에서 읽어옴
+var last_failed_attempt_type : String = ""  # "PARRY" | "DODGE" | "" (실패 판정용)
 
 # ── 시그널 ────────────────────────────────────────────
 signal reaction_resolved
@@ -37,6 +38,7 @@ signal reaction_failed
 signal reaction_window_opened(attack: Dictionary)
 signal reaction_window_closed(result_type: String)
 signal reaction_phase_changed(phase: String, is_unblockable: bool)
+signal reaction_attempt_failed(attempted_type: String)  # 패링/회피 타이밍 실패 → UI에서 다음 옵션 활성화
 
 # ── 윈도우 오픈 ──────────────────────────────────────
 func open_reaction_window(attack: Dictionary):
@@ -48,6 +50,7 @@ func open_reaction_window(attack: Dictionary):
 
 	time_elapsed = 0.0
 	_last_phase = "green"
+	last_failed_attempt_type = ""
 	reaction_state = "OPEN"
 	emit_signal("reaction_window_opened", attack)
 	emit_signal("reaction_phase_changed", "green", _is_unblockable())
@@ -79,6 +82,7 @@ func on_player_tap_card(card: Card):
 	if current_attack.get("type", "") == "UNBLOCKABLE":
 		if card.has_tag("PARRY"):
 			print("[ATBReaction] PARRY failed on UNBLOCKABLE!")
+			emit_signal("reaction_attempt_failed", "PARRY")
 			return
 
 	var phase = _get_phase()
@@ -88,6 +92,14 @@ func on_player_tap_card(card: Card):
 		_resolve_dodge(card)
 	elif card.has_tag("GUARD") and phase in ["green", "yellow", "red"]:
 		_resolve_guard(card)
+	else:
+		# 실패 시도 기록 (시간 종료 시 NONE으로 떨어질 때 페널티 적용용) + UI에 다음 옵션 활성화
+		if card.has_tag("PARRY") and phase != "red":
+			last_failed_attempt_type = "PARRY"
+			emit_signal("reaction_attempt_failed", "PARRY")
+		elif card.has_tag("DODGE") and not (phase in ["yellow", "red"]):
+			last_failed_attempt_type = "DODGE"
+			emit_signal("reaction_attempt_failed", "DODGE")
 
 func _resolve_parry(card: Card):
 	reaction_state = "RESOLVED"
@@ -126,6 +138,7 @@ func reset():
 	reaction_state = "IDLE"
 	time_elapsed = 0.0
 	_last_phase = ""
+	last_failed_attempt_type = ""
 	parry_timer = 0.0
 	dodge_timer = 0.0
 	counter_timer = 0.0

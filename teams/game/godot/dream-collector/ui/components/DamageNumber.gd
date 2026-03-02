@@ -66,6 +66,13 @@ func show_damage(value: int, type: Type = Type.DAMAGE):
 	# Animate
 	_animate()
 
+func show_text(message: String, color: Color = Color.WHITE, font_size: int = 18):
+	# Show floating text with animation (reaction feedback 등)
+	text = message
+	add_theme_color_override("font_color", color)
+	add_theme_font_size_override("font_size", font_size)
+	_animate()
+
 func _animate():
 	# Animate floating up and fade out
 	var tween = create_tween()

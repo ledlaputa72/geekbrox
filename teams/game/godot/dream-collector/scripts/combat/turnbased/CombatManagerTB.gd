@@ -18,6 +18,8 @@ enum TurnPhase {
 var current_phase : TurnPhase = TurnPhase.PLAYER_TURN
 var turn_count    : int = 0
 var combat_active : bool = false
+# 액션 턴 큐 UI용: 적 턴일 때 현재 행동 중인 적 인덱스 (-1 = 플레이어 턴)
+var current_acting_enemy_index : int = -1
 
 # ── 서브시스템 ─────────────────────────────────────────
 @onready var energy_system   : TurnBasedEnergySystem    = $TurnBasedEnergySystem
@@ -56,6 +58,7 @@ signal shard_updated(current: int, max_s: int)
 signal tarot_updated(current: int, max_t: int)
 signal deck_passive_activated(passives: Array)
 signal battle_log_updated(message: String)
+signal reaction_feedback(text: String, result_type: String, enemy_idx: int) # hero 머리 위 텍스트
 
 # ── 전투 시작 ─────────────────────────────────────────
 func _ready():
@@ -116,6 +119,7 @@ func start_combat(p_data: Dictionary, enemy_list: Array, card_deck: Array[Card])
 # ── 플레이어 턴 시작 ──────────────────────────────────
 func _start_player_turn():
 	current_phase = TurnPhase.PLAYER_TURN
+	current_acting_enemy_index = -1
 	turn_count += 1
 	first_atk_used = false
 	emit_signal("turn_count_updated", turn_count)
@@ -270,9 +274,8 @@ func player_end_turn():
 		return
 	current_phase = TurnPhase.PLAYER_END
 
-	# 미사용 카드 버림 더미
-	if hand_system:
-		hand_system.discard_remaining()
+	# 미사용 카드는 적 턴(리액션 윈도우) 종료 후에 버림 — 보스 공격 턴에 패링/회피/가드 버튼 사용 가능
+	# (discard_remaining은 _start_enemy_turns 마지막에 호출)
 
 	# 블록 소멸 (기본값)
 	player_data["block"] = 0
@@ -296,6 +299,10 @@ func _start_enemy_turns():
 		if player_data.get("hp", 1) <= 0:
 			_check_battle_end()
 			return
+
+	# 적 턴 종료 후 미사용 카드 버림 (리액션 윈도우 동안 손패 유지)
+	if hand_system:
+		hand_system.discard_remaining()
 
 	# 상태이상 틱 (모든 적)
 	for enemy in enemies:
@@ -326,12 +333,14 @@ func _start_enemy_turns():
 		return
 
 	# 다음 플레이어 턴
+	current_acting_enemy_index = -1
 	await get_tree().create_timer(0.3).timeout
 	if combat_active:
 		_start_player_turn()
 
 func _enemy_perform_action(enemy):
 	current_phase = TurnPhase.ENEMY_ATTACKING
+	current_acting_enemy_index = enemies.find(enemy) if enemy in enemies else -1
 	var action = enemy.get_next_action()
 	var attack_data = enemy.make_attack_data()
 
@@ -357,6 +366,9 @@ func _apply_action_result(enemy, attack: Dictionary, result):
 	if result == null:
 		result = TurnBasedReactionManager.ReactionResult.new("NONE", null, 0)
 
+	var attacker_name = enemy.display_name if enemy and "display_name" in enemy else "???"
+	var enemy_idx = enemies.find(enemy) if enemy else -1
+
 	match result.type:
 		"PARRY":
 			if battle_diary:
@@ -366,25 +378,46 @@ func _apply_action_result(enemy, attack: Dictionary, result):
 			# parry_energy_extra 패시브 적용
 			if parry_energy_extra > 0 and energy_system:
 				energy_system.on_parry_success()  # +2에 추가
+			emit_signal("reaction_feedback", "패링 성공!", "PARRY", enemy_idx)
 			if DEBUG_COMBAT: print("[TB] 패링 성공")
 
 		"DODGE":
 			if battle_diary:
 				battle_diary.record_dodge()
 				battle_diary.log("회피 성공!")
+			emit_signal("reaction_feedback", "회피 성공!", "DODGE", enemy_idx)
 			if DEBUG_COMBAT: print("[TB] 회피 성공")
 
 		"GUARD":
+			# 가드: 가드 수치만큼 피해 경감 (블록으로 흡수 처리)
 			player_data["block"] = player_data.get("block", 0) + result.block_value
+			var dmg_guarded = _calc_enemy_damage(attack, player_data)
+			player_data["hp"] = max(0, player_data.get("hp", 200) - dmg_guarded)
+			if battle_diary: battle_diary.record_damage_taken(dmg_guarded)
+			emit_signal("damage_dealt", "hero", 0, dmg_guarded, false)
 			emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
-			if battle_diary: battle_diary.log("방어 성공! 블록 +%d" % result.block_value)
+			battle_log("가드! (%s) 피해 %d" % [attacker_name, dmg_guarded])
+			emit_signal("reaction_feedback", "가드", "GUARD", enemy_idx)
 
 		"NONE":
-			var dmg = _calc_enemy_damage(attack, player_data)
+			var dmg_attack = attack.duplicate()
+			var fail_type = reaction_mgr.last_failed_attempt_type if reaction_mgr and "last_failed_attempt_type" in reaction_mgr else ""
+			if fail_type == "PARRY":
+				dmg_attack["damage"] = int(dmg_attack.get("damage", 10) * 1.5)
+			elif fail_type == "DODGE":
+				dmg_attack["damage"] = int(dmg_attack.get("damage", 10) * 1.2)
+
+			var dmg = _calc_enemy_damage(dmg_attack, player_data)
 			player_data["hp"] = max(0, player_data.get("hp", 200) - dmg)
 			if battle_diary: battle_diary.record_damage_taken(dmg)
 			emit_signal("damage_dealt", "hero", 0, dmg, false)
 			emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
+			if fail_type == "PARRY":
+				battle_log("패링 실패! (%s) 피해 %d (+50%%)" % [attacker_name, dmg])
+				emit_signal("reaction_feedback", "패링 실패!", "PARRY_FAIL", enemy_idx)
+			elif fail_type == "DODGE":
+				battle_log("회피 실패! (%s) 피해 %d (+20%%)" % [attacker_name, dmg])
+				emit_signal("reaction_feedback", "회피 실패!", "DODGE_FAIL", enemy_idx)
 			if DEBUG_COMBAT: print("[TB] 피해 %d 받음" % dmg)
 
 func _calc_enemy_damage(attack: Dictionary, target: Dictionary) -> int:
