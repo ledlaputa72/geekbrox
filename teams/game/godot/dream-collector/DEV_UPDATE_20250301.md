@@ -78,3 +78,15 @@
 
 ### 기타
 - `CombatManager.gd`, `StatusEffectSystem.gd`, `DreamShardSystem.gd` — 기본 체력 200
+
+---
+
+## 5. 코드 정리 (최근)
+
+### 디버그 로그
+- **CombatManagerATB/TB**: `DEBUG_COMBAT` 상수로 전투 로그 제어 (기본 false)
+- **InRun_v4**: `DEBUG_SWITCH`로 화면 전환 로그 제어
+- 불필요한 print 제거, 에러는 `push_error` 사용
+
+### 주석/매핑
+- `_combat_monster_character_indices` 주석 수정: enemies → character_nodes 인덱스 매핑

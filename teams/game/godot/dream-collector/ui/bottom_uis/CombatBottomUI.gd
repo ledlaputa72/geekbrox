@@ -7,7 +7,7 @@ CombatBottomUI - 전투 중 UI
 Layout (564px):
 ├─ CardHandArea (220px) ← 카드 팬 레이아웃
 ├─ GameInfo (50px) ← Energy Orb, Deck/Discard/Exile
-├─ CombatLog (230px) ← 스크롤 가능
+├─ CombatLog (120px) ← 스크롤 가능
 └─ ActionButtons (64px) ← Pass, Auto, Speed
 """
 
@@ -54,16 +54,14 @@ const TYPE_TO_DISPLAY = {
 }
 
 func _ready():
-	# Load EnergyOrb script dynamically
 	if energy_orb:
 		var EnergyOrbScript = load("res://ui/components/EnergyOrb.gd")
 		energy_orb.set_script(EnergyOrbScript)
 		energy_orb._ready()
 		energy_orb.set_energy(3, 3)
 		energy_orb.set_timer_progress(0.0)
-		print("[CombatBottomUI] EnergyOrb initialized: 3/3")
 	else:
-		print("[CombatBottomUI] ERROR: energy_orb node not found!")
+		push_error("[CombatBottomUI] EnergyOrb node not found")
 
 	_setup_buttons()
 	ui_ready.emit()
@@ -99,7 +97,6 @@ func connect_combat_manager(manager: Node):
 	# TB: Pass 항상 활성. ATB: pass_timer_updated로 제어
 	if pass_button:
 		pass_button.disabled = (manager is CombatManagerATB)
-	print("[CombatBottomUI] Connected to new combat manager: %s" % manager.name)
 
 func _card_to_dict(card: Card) -> Dictionary:
 	"""Card Resource → Dictionary (CardHandItem 호환 형식)"""
@@ -149,9 +146,7 @@ func _get_new_manager_energy() -> int:
 
 func _on_enter():
 	"""UI 활성화 시"""
-	print("[CombatBottomUI] _on_enter called")
-
-	# New manager signals are connected via connect_combat_manager() — skip old autoloads if available
+	# New manager signals are connected via connect_combat_manager()
 	if not new_combat_manager:
 		if not CombatManager.combat_log_updated.is_connected(_on_combat_log_updated):
 			CombatManager.combat_log_updated.connect(_on_combat_log_updated)
@@ -165,8 +160,6 @@ func _on_enter():
 			CombatManager.energy_timer_updated.connect(_on_energy_timer_updated)
 		if not DeckManager.hand_changed.is_connected(_on_hand_changed):
 			DeckManager.hand_changed.connect(_on_hand_changed)
-
-	print("[CombatBottomUI] Signals connected")
 
 	_update_deck_ui()
 
@@ -605,7 +598,6 @@ func _enter_target_selection_mode():
 	"""타겟 선택 모드 진입 (ATK 카드 전용)"""
 	selecting_target = true
 	selected_card_index = currently_selected_card_index
-	print("[CombatBottomUI] 타겟 선택 모드 — 몬스터 탭 또는 ESC 취소")
 
 signal target_selection_changed(monster_index: int)  # -1=해제, >=0=선택된 몬스터
 
@@ -779,10 +771,8 @@ func _on_combat_ended(victory: bool):
 	"""Combat ended - log result"""
 	if victory:
 		add_combat_log("=== VICTORY ===")
-		print("[CombatBottomUI] Combat ended - VICTORY")
 	else:
 		add_combat_log("=== DEFEAT ===")
-		print("[CombatBottomUI] Combat ended - DEFEAT")
 	
 	# Note: InRun_v4 handles reward modal via CombatManager.combat_ended signal
 
@@ -790,16 +780,11 @@ func _on_energy_changed(current: int, max_val: int):
 	"""Energy changed"""
 	if energy_orb:
 		energy_orb.set_energy(current, max_val)
-		print("[CombatBottomUI] Energy updated: %d/%d" % [current, max_val])
-	else:
-		print("[CombatBottomUI] ERROR: energy_orb is null!")
 
 func _on_energy_timer_updated(progress: float):
 	"""Energy timer updated (legacy CombatManager)"""
 	if energy_orb:
 		energy_orb.set_timer_progress(progress)
-	else:
-		print("[CombatBottomUI] ERROR: energy_orb is null for timer!")
 
 func _on_energy_timer_progress(progress: float):
 	"""Energy timer progress (new ATB combat - EnergyOrb 외곽 쿨타임 게이지)"""
@@ -915,10 +900,8 @@ func _on_reaction_pressed():
 	"""리액션 버튼 — 패링/회피/방어 카드 즉시 사용"""
 	if _reaction_card == null:
 		return
-	var card_name = _reaction_card.name  # player_play_card가 hand_updated를 트리거해 _reaction_card가 null로 바뀌므로 먼저 저장
 	if new_combat_manager:
 		new_combat_manager.player_play_card(_reaction_card)
-		print("[CombatBottomUI] ★ 리액션 사용: %s" % card_name)
 	else:
 		var idx = new_hand.find(_reaction_card)
 		if idx >= 0:
@@ -946,4 +929,3 @@ func _on_combat_started_sync():
 		else:
 			auto_button.text = "Auto"
 			_apply_button_style(auto_button, UITheme.COLORS.panel)
-	print("[CombatBottomUI] Auto 버튼 동기화: %s" % ("ON" if _auto_enabled else "OFF"))

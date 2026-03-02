@@ -1,8 +1,9 @@
 # scripts/combat/atb/CombatManagerATB.gd
-# ATB 전투 중앙 관리자 — DEV_SPEC_ATB.md 기반
-# 일반 전투(몬스터)에 사용. 보스 전투는 CombatManagerTB.
+# ATB 전투 중앙 관리자 — 일반 전투(몬스터)용. 보스 전투는 CombatManagerTB.
 class_name CombatManagerATB
 extends Node
+
+const DEBUG_COMBAT := false  # true: 전투 시작 수치/공격 로그 출력
 
 # ── 핵심 상수 ──────────────────────────────────────────
 const ATB_MAX            = 100.0
@@ -102,54 +103,37 @@ func start_combat(p_data: Dictionary, enemy_list: Array, card_deck: Array[Card])
 
 	emit_signal("combat_started")
 	emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
-
-	# ── 전투 시작 수치 로그 (디버그용) ────────────────────────────────
-	print("\n" + "=".repeat(55))
-	print("[ATB] ★ 전투 시작 수치 보고서 ★")
-	print("=".repeat(55))
-	print("[ATB] ▶ 플레이어")
-	print("[ATB]   HP  : %d / %d" % [player_data.get("hp", 0), player_data.get("max_hp", 200)])
-	print("[ATB]   ATK : %d (+ atk_bonus %d)" % [player_data.get("atk", 10), atk_bonus])
-	var p_spd = player_data.get("spd", 70.0)
-	var p_atb_interval = 100.0 / ((p_spd / 100.0) * ATB_CHARGE_RATE * 100.0)
-	print("[ATB]   SPD : %.0f → ATB 기본공격 %.2f초마다 1회 (1×속도)" % [p_spd, p_atb_interval])
-	print("[ATB]   에너지 : %d / %d  회복 %.1f초마다 1 (1×속도)  ※카드 플레이 전용" % [
-		3, 3, ATBEnergySystem.ENERGY_AUTO_INTERVAL
-	])
-	print("[ATB] ▶ 몬스터 목록")
+	# UI 초기 HP 동기화 (InRun_v4 character_nodes ↔ enemies 매핑)
 	for i in range(enemies.size()):
 		var e = enemies[i]
-		var atb_time = 100.0 / ((e.spd / 100.0) * ATB_CHARGE_RATE * 100.0)
-		print("[ATB]   [%d] %s  HP %d  ATK %d  SPD %.0f → 공격주기 %.2f초" % [
-			i, e.display_name, e.current_hp, e.atk, e.spd, atb_time
-		])
-	var type_counts = {}
-	for c in (deck + hand):
-		type_counts[c.type] = type_counts.get(c.type, 0) + 1
-	var deck_summary = ""
-	for t in type_counts:
-		deck_summary += "  %s:%d장" % [t, type_counts[t]]
-	print("[ATB] ▶ 덱 구성 (전체 %d장) %s" % [deck.size() + hand.size(), deck_summary])
-	print("[ATB] ▶ 초기 손패 (%d장)" % hand.size())
-	for c in hand:
-		print("[ATB]   - %s  [%s]  코스트:%d  피해:%d  블록:%d  드로우:%d" % [
-			c.name, c.type, c.cost, c.damage, c.block, c.draw
-		])
-	print("=".repeat(55) + "\n")
+		if e.is_alive():
+			emit_signal("enemy_hp_changed", i, e.current_hp, e.max_hp)
+
+	if DEBUG_COMBAT:
+		_print_combat_start_report()
+
+func _print_combat_start_report():
+	"""DEBUG_COMBAT일 때 전투 시작 수치 로그"""
+	print("\n[ATB] 전투 시작 | 플레이어 HP %d/%d ATK %d | 적 %d마리 | 덱 %d장" % [
+		player_data.get("hp", 0), player_data.get("max_hp", 200),
+		player_data.get("atk", 10) + atk_bonus, enemies.size(), deck.size() + hand.size()
+	])
 
 # ── 메인 게임 루프 ────────────────────────────────────
 func _process(delta: float):
-	if not combat_active or is_paused or reaction_open:
+	if not combat_active or is_paused:
 		return
-	_update_atb(delta * speed_multiplier)
+	# Pass 타이머: reaction_open과 무관하게 항상 감소 (10초 쿨이 리액션으로 멈추지 않도록)
+	var scaled_delta = delta * speed_multiplier
 	if _pass_timer > 0:
-		_pass_timer -= delta
-		if _pass_timer <= 0:
-			_pass_timer = 0
+		_pass_timer = max(0.0, _pass_timer - scaled_delta)
 		emit_signal("pass_timer_updated", _pass_timer, PASS_COOLDOWN)
+	if reaction_open:
+		return
+	_update_atb(scaled_delta)
 	if energy_system:
 		# ★ speed_multiplier 적용: 2×속도에서 적도 빠르고 에너지도 빠르게 회복 (균형)
-		energy_system.update_timer(delta * speed_multiplier)
+		energy_system.update_timer(scaled_delta)
 	if crisis_mode:
 		crisis_mode.check(delta)
 	# 오토 플레이 (FULL 모드)
@@ -234,11 +218,8 @@ func _player_atb_attack():
 	if battle_diary:
 		battle_diary.record_damage_dealt(dmg)
 
-	print("[ATB] ⚔ 플레이어 ATB 기본공격 → %s  피해 %d  남은HP %d/%d  (ATK %d)" % [
-		target_enemy.display_name, dmg,
-		target_enemy.current_hp, target_enemy.max_hp,
-		base_atk
-	])
+	if DEBUG_COMBAT:
+		print("[ATB] ATB 기본공격 → %s 피해 %d HP %d/%d" % [target_enemy.display_name, dmg, target_enemy.current_hp, target_enemy.max_hp])
 
 	_check_battle_end()
 
@@ -277,32 +258,27 @@ func _apply_attack_result(enemy, attack: Dictionary, result):
 			if battle_diary:
 				battle_diary.record_parry(true)
 				battle_diary.log("패링 성공! 에너지 +2")
-			print("[ATB] ★ 패링 성공!  (%s [%s] 공격 무효화, 에너지 +2)" % [attacker_name, atk_type])
+			if DEBUG_COMBAT: print("[ATB] 패링 성공")
 		"DODGE":
 			if energy_system: energy_system.on_dodge_success()
 			if battle_diary:
 				battle_diary.record_dodge()
 				battle_diary.log("회피 성공!")
-			print("[ATB] ★ 회피 성공!  (%s [%s] 공격 회피, 에너지 +1)" % [attacker_name, atk_type])
+			if DEBUG_COMBAT: print("[ATB] 회피 성공")
 		"GUARD":
 			var block_val = result.card.block if result.card else 0
 			if energy_system: energy_system.on_guard_success(block_val)
 			player_data["block"] = player_data.get("block", 0) + block_val
 			emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
 			if battle_diary: battle_diary.log("방어 성공! 블록 +%d" % block_val)
-			print("[ATB] ★ 방어 성공!  (%s [%s] 공격, 블록 +%d, 누적블록 %d)" % [
-				attacker_name, atk_type, block_val, player_data.get("block", 0)
-			])
+			if DEBUG_COMBAT: print("[ATB] 방어 성공 블록 +%d" % block_val)
 		"NONE":
 			var dmg = _calculate_damage(enemy, attack, player_data)
 			player_data["hp"] = max(0, player_data.get("hp", 200) - dmg)
 			if battle_diary: battle_diary.record_damage_taken(dmg)
 			emit_signal("damage_dealt", "hero", 0, dmg, false)
 			emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
-			print("[ATB] 피해 %d 받음  (%s [%s] 공격, 남은HP %d/%d)" % [
-				dmg, attacker_name, atk_type,
-				player_data.get("hp", 0), player_data.get("max_hp", 200)
-			])
+			if DEBUG_COMBAT: print("[ATB] 피해 %d 받음 HP %d/%d" % [dmg, player_data.get("hp", 0), player_data.get("max_hp", 200)])
 
 func _calculate_damage(attacker, attack: Dictionary, target: Dictionary) -> int:
 	var base = attack.get("damage", 10)
@@ -323,7 +299,6 @@ func player_play_card(card: Card, target_index: int = -1):
 		reaction_mgr.on_player_tap_card(card)
 		return
 	if energy_system == null or not energy_system.can_afford(card.cost):
-		print("[ATB] 에너지 부족!")
 		return
 
 	energy_system.spend(card.cost)
@@ -353,9 +328,6 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 					var idx = enemies.find(enemy)
 					emit_signal("damage_dealt", "monster", idx, actual, false)
 					emit_signal("enemy_hp_changed", idx, enemy.current_hp, enemy.max_hp)
-					print("[ATB] ▶ 플레이어 공격(AOE) '%s' → %s  피해 %d  남은HP %d/%d" % [
-						card.name, enemy.display_name, actual, enemy.current_hp, enemy.max_hp
-					])
 		else:
 			# 단일 대상: target_index 우선, 없으면 첫 번째 살아있는 적
 			var target_enemy = null
@@ -373,18 +345,6 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 				var idx = enemies.find(target_enemy)
 				emit_signal("damage_dealt", "monster", idx, actual, false)
 				emit_signal("enemy_hp_changed", idx, target_enemy.current_hp, target_enemy.max_hp)
-				print("[ATB] ▶ 플레이어 공격 '%s' → %s  피해 %d  남은HP %d/%d  (에너지 잔여 %d)" % [
-					card.name, target_enemy.display_name, actual,
-					target_enemy.current_hp, target_enemy.max_hp,
-					energy_system.get_current() if energy_system else -1
-				])
-
-	# 방어/스킬 카드 로그
-	if card.type != "ATK":
-		print("[ATB] ▶ 플레이어 카드 '%s' [%s]  블록+%d  드로우+%d  (에너지 잔여 %d)" % [
-			card.name, card.type, card.block, card.draw,
-			energy_system.get_current() if energy_system else -1
-		])
 
 	# 방어 카드
 	if card.block > 0:
@@ -442,7 +402,6 @@ func _reshuffle_discard():
 	deck = discard_pile.duplicate()
 	discard_pile.clear()
 	deck.shuffle()
-	print("[ATB] 덱 셔플!")
 
 # ── 전투 종료 체크 ────────────────────────────────────
 func _check_battle_end():
@@ -461,9 +420,9 @@ func _end_combat(result: String):
 	if not combat_active:
 		return
 	combat_active = false
-	if battle_diary:
+	if DEBUG_COMBAT and battle_diary:
 		var report = battle_diary.compile_report()
-		print("[ATB] 전투 종료: %s | 시간: %.1fs | 패링률: %.0f%%" % [result, report.duration, report.parry_rate * 100])
+		print("[ATB] 전투 종료: %s | 시간: %.1fs" % [result, report.duration])
 	emit_signal("combat_ended", result)
 
 # ── 전투 속도 변경 ────────────────────────────────────
@@ -510,7 +469,6 @@ func player_pass_atb():
 	_draw_cards(5)
 	_pass_timer = PASS_COOLDOWN
 	emit_signal("pass_timer_updated", _pass_timer, PASS_COOLDOWN)
-	print("[ATB] Pass — 손패 버리고 5장 드로우 (덱:%d 무덤:%d)" % [deck.size(), discard_pile.size()])
 
 func is_pass_ready() -> bool:
 	return _pass_timer <= 0

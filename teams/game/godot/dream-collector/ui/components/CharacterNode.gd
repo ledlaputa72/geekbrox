@@ -251,12 +251,15 @@ func setup(data: Dictionary):
 		hp_label.text = "%d/%d" % [current_hp, max_hp]
 
 
-func update_hp(new_hp: int, damage_dealt: int = 0, is_healing: bool = false):
-	"""HP 업데이트 + 데미지 숫자 표시"""
+func update_hp(new_hp: int, damage_dealt: int = 0, is_healing: bool = false, new_max_hp: int = -1):
+	"""HP 업데이트 + 데미지 숫자 표시. new_max_hp >= 0이면 max_hp도 갱신 (전투 시그널 동기화용)"""
+	if new_max_hp >= 0:
+		max_hp = new_max_hp
 	var old_hp = current_hp
 	current_hp = clamp(new_hp, 0, max_hp)
 
 	if hp_bar:
+		hp_bar.max_value = max_hp
 		hp_bar.value = current_hp
 	if hp_label:
 		hp_label.text = "%d/%d" % [current_hp, max_hp]

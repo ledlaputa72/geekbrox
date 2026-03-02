@@ -1,8 +1,9 @@
 # scripts/combat/turnbased/CombatManagerTB.gd
-# 턴베이스 전투 중앙 관리자 — DEV_SPEC_TURNBASED.md 기반
-# 보스 전투에 사용. 일반 전투는 CombatManagerATB.
+# 턴베이스 전투 중앙 관리자 — 보스 전투용. 일반 전투는 CombatManagerATB.
 class_name CombatManagerTB
 extends Node
+
+const DEBUG_COMBAT := false  # true: 전투/턴 로그 출력
 
 # ── 턴 상태 ──────────────────────────────────────────
 enum TurnPhase {
@@ -102,8 +103,14 @@ func start_combat(p_data: Dictionary, enemy_list: Array, card_deck: Array[Card])
 		deck_passive.apply_passives(passives, self)
 		emit_signal("deck_passive_activated", passives)
 
-	print("[CombatManagerTB] 보스 전투 시작! 적: %d마리" % enemies.size())
+	if DEBUG_COMBAT:
+		print("[TB] 보스 전투 시작 적 %d마리" % enemies.size())
 	emit_signal("combat_started")
+	# UI 초기 HP 동기화 (InRun_v4 character_nodes ↔ enemies 매핑)
+	for i in range(enemies.size()):
+		var e = enemies[i]
+		if e.is_alive():
+			emit_signal("enemy_hp_changed", i, e.current_hp, e.max_hp)
 	_start_player_turn()
 
 # ── 플레이어 턴 시작 ──────────────────────────────────
@@ -168,7 +175,6 @@ func player_play_card(card: Card, target_index: int = -1):
 	if current_phase != TurnPhase.PLAYER_TURN:
 		return
 	if energy_system == null or not energy_system.can_afford(card.cost):
-		print("[TB] 에너지 부족!")
 		return
 
 	energy_system.spend(card.cost)
@@ -245,6 +251,7 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 		hand_system.draw_cards(card.draw)
 
 func _calc_player_damage(base: int, enemy) -> int:
+	"""플레이어→적 데미지 (블록은 Monster.take_damage에서 처리)"""
 	var dmg = base
 	# 힘 보너스
 	var strength = player_data.get("status_effects", {}).get("STRENGTH", 0)
@@ -255,7 +262,7 @@ func _calc_player_damage(base: int, enemy) -> int:
 	# 플레이어 약화
 	if player_data.get("status_effects", {}).get("WEAK", 0) > 0:
 		dmg = int(dmg * 0.75)
-	return max(0, dmg - enemy.block)
+	return max(0, dmg)
 
 # ── 턴 종료 (플레이어 버튼 또는 AI 완료) ────────────
 func player_end_turn():
@@ -359,13 +366,13 @@ func _apply_action_result(enemy, attack: Dictionary, result):
 			# parry_energy_extra 패시브 적용
 			if parry_energy_extra > 0 and energy_system:
 				energy_system.on_parry_success()  # +2에 추가
-			print("[TB] 패링 성공!")
+			if DEBUG_COMBAT: print("[TB] 패링 성공")
 
 		"DODGE":
 			if battle_diary:
 				battle_diary.record_dodge()
 				battle_diary.log("회피 성공!")
-			print("[TB] 회피 성공!")
+			if DEBUG_COMBAT: print("[TB] 회피 성공")
 
 		"GUARD":
 			player_data["block"] = player_data.get("block", 0) + result.block_value
@@ -378,7 +385,7 @@ func _apply_action_result(enemy, attack: Dictionary, result):
 			if battle_diary: battle_diary.record_damage_taken(dmg)
 			emit_signal("damage_dealt", "hero", 0, dmg, false)
 			emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
-			print("[TB] 피해 %d 받음" % dmg)
+			if DEBUG_COMBAT: print("[TB] 피해 %d 받음" % dmg)
 
 func _calc_enemy_damage(attack: Dictionary, target: Dictionary) -> int:
 	var dmg = attack.get("damage", 10)
@@ -410,9 +417,9 @@ func _end_combat(result: String):
 		return
 	combat_active = false
 	current_phase = TurnPhase.CHECK_END
-	if battle_diary:
+	if DEBUG_COMBAT and battle_diary:
 		var report = battle_diary.compile_report()
-		print("[TB] 전투 종료: %s | 턴: %d | 패링률: %.0f%%" % [result, turn_count, report.parry_rate * 100])
+		print("[TB] 전투 종료: %s 턴 %d" % [result, turn_count])
 	emit_signal("combat_ended", result)
 
 # ── 꿈 조각 능력 사용 ─────────────────────────────────
