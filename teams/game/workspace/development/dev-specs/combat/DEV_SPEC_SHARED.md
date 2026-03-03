@@ -2,7 +2,7 @@
 # Dream Collector — Shared Combat Systems
 
 **대상**: Cursor IDE / Claude Code 구현용
-**버전**: v1.0 | **날짜**: 2026-03-01
+**버전**: v2.0 | **날짜**: 2026-03 (카드 타입 4체계 업데이트)
 **작성**: Kim.G (게임팀장) + OPS 플레이테스트 반영
 
 > ⚠️ 이 문서는 ATB와 턴베이스 두 전투 모드에서 공통으로 사용하는 시스템을 정의합니다.
@@ -51,7 +51,8 @@ extends Resource
 @export var id: String = ""
 @export var name: String = ""
 @export var cost: int = 1
-@export var type: String = ""       # "ATK" | "DEF" | "SKILL" | "POWER" | "CURSE"
+@export var type: String = ""       # "ATTACK" | "SKILL" | "POWER" | "CURSE"
+                                    # ⚠️ v2.0: 기존 "ATK"→"ATTACK", "DEF"→"SKILL", 별도 "POWER"/"CURSE" 추가
 @export var tags: Array[String] = []  # ["PARRY", "DODGE", "GUARD", "MAJOR_ARCANA"]
 @export var rarity: String = "COMMON"  # COMMON | RARE | SPECIAL | LEGENDARY
 @export var description: String = ""
