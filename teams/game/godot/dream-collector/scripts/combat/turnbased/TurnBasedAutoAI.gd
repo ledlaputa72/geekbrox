@@ -46,10 +46,10 @@ func decide_attack_cards(
 	var selected : Array[Card] = []
 	var rem = energy
 
-	# HP 40% 이하 → 방어 카드 우선
+	# HP 40% 이하 → 스킬(방어) 카드 우선
 	if player_hp_ratio < 0.40:
 		for card in hand:
-			if card.type == "DEF" and card.cost <= rem:
+			if card.type == "SKILL" and card.cost <= rem:
 				selected.append(card)
 				rem -= card.cost
 				break
@@ -76,9 +76,9 @@ func decide_attack_cards(
 			selected.append(card)
 			rem -= card.cost
 
-	# 스킬 카드 (드로우 등)
+	# 파워 카드 (드로우 등)
 	for card in hand:
-		if card.type == "SKILL" and card.cost <= rem and not selected.has(card):
+		if card.type == "POWER" and card.cost <= rem and not selected.has(card):
 			selected.append(card)
 			rem -= card.cost
 

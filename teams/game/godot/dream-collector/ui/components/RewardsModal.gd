@@ -45,11 +45,13 @@ func show_rewards(cards: Array):
 		# Apply type color
 		match card.get("type", ""):
 			"Attack":
-				btn.modulate = Color(1.0, 0.6, 0.6)
-			"Defense":
-				btn.modulate = Color(0.6, 0.8, 1.0)
+				btn.modulate = Color(1.0, 0.6, 0.6)   # 빨강
 			"Skill":
-				btn.modulate = Color(0.7, 1.0, 0.7)
+				btn.modulate = Color(0.7, 1.0, 0.7)    # 초록
+			"Power":
+				btn.modulate = Color(0.6, 0.8, 1.0)    # 파랑
+			"Curse":
+				btn.modulate = Color(1.0, 0.95, 0.5)   # 노랑
 
 func hide_modal():
 	control.visible = false

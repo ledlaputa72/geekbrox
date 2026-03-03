@@ -47,24 +47,18 @@ func decide_action(hand: Array[Card], enemy, energy: int) -> Card:
 	# 마지막 폴백: 드로우 카드 (패 보충 — SKL 바보 등)
 	return _pick_draw_card(hand, energy)
 
-# ── 방어 선택 ─────────────────────────────────────────
+# ── 방어 선택 (오토 시 패링 미선택: 리액션 창에서만 사용) ─────────────────
 func _pick_best_defense(hand: Array[Card], intent: Dictionary, energy: int) -> Card:
-	# 관통 공격 → 회피 카드 우선
+	# 플레이어 턴에 "낼" 방어 카드: 가드(블록)/회피만. 패링은 리액션 전용이라 여기서는 선택 안 함.
 	if intent.get("type", "") == "UNBLOCKABLE":
 		for card in hand:
 			if card.has_tag("DODGE") and card.cost <= energy:
 				return card
-	# 일반/강한 공격 → 패링 카드 우선
-	for card in hand:
-		if card.has_tag("PARRY") and card.cost <= energy:
-			return card
-	# 패링 없으면 회피
-	for card in hand:
-		if card.has_tag("DODGE") and card.cost <= energy:
-			return card
-	# 방어 카드
 	for card in hand:
 		if card.has_tag("GUARD") and card.cost <= energy:
+			return card
+	for card in hand:
+		if card.has_tag("DODGE") and card.cost <= energy:
 			return card
 	return null
 

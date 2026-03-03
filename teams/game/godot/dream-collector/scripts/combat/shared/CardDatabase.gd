@@ -18,16 +18,19 @@ func _build_all_cards():
 	# ═══════════════════════════════════════
 
 	# ATK_001 — 검의 에이스 (단타)
-	_all_cards.append(_make("ATK_001", "검의 에이스", 1, "ATK", 6, 0, 0,
+	var atk001 = _make("ATK_001", "검의 에이스", 1, "ATK", 6, 0, 0,
 		[], ["MAJOR_ARCANA"], "COMMON",
 		"단순하지만 확실한 일격. 적에게 6 피해를 입힙니다.",
-		"⚔️6"))
+		"⚔️6")
+	atk001.sub_category = "SINGLE"
+	_all_cards.append(atk001)
 
 	# ATK_002 — 이중 베기 (2회 공격)
 	var atk002 = _make("ATK_002", "이중 베기", 2, "ATK", 9, 0, 0,
 		[], [], "COMMON",
 		"2회 연속 공격. 각 4.5 피해를 입힙니다 (총 9).",
 		"⚔️4.5×2")
+	atk002.sub_category = "SINGLE"
 	_all_cards.append(atk002)
 
 	# ATK_003 — 마법사 (광역)
@@ -36,6 +39,7 @@ func _build_all_cards():
 		"마법의 힘으로 모든 적에게 4 피해를 입힙니다.",
 		"⚔️4 전체")
 	atk003.tags.append("AOE")
+	atk003.sub_category = "AOE"
 	_all_cards.append(atk003)
 
 	# ATK_004 — 탑 (강타, 자해)
@@ -43,6 +47,7 @@ func _build_all_cards():
 		[{"target": "self", "type": "POISON", "value": 3}], ["MAJOR_ARCANA"], "RARE",
 		"강력한 일격으로 15 피해. 그러나 자신에게 중독 3을 얻습니다.",
 		"⚔️15 (자해 🤢3)")
+	atk004.sub_category = "DEBUFF"
 	_all_cards.append(atk004)
 
 	# ATK_005 — 세계 (복합)
@@ -50,13 +55,16 @@ func _build_all_cards():
 		[], ["MAJOR_ARCANA"], "LEGENDARY",
 		"강력한 일격으로 20 피해를 입히고 블록 10을 획득합니다.",
 		"⚔️20 🛡️10")
+	atk005.sub_category = "SINGLE"
 	_all_cards.append(atk005)
 
 	# ATK_006 — 번개 (단타)
-	_all_cards.append(_make("ATK_006", "번개", 1, "ATK", 8, 0, 0,
+	var atk006 = _make("ATK_006", "번개", 1, "ATK", 8, 0, 0,
 		[], [], "COMMON",
 		"번개처럼 빠른 공격. 적에게 8 피해를 입힙니다.",
-		"⚔️8"))
+		"⚔️8")
+	atk006.sub_category = "SINGLE"
+	_all_cards.append(atk006)
 
 	# ATK_007 — 악마 (광역 디버프)
 	var atk007 = _make("ATK_007", "악마", 2, "ATK", 5, 0, 0,
@@ -64,180 +72,198 @@ func _build_all_cards():
 		"어둠의 힘으로 모든 적에게 5 피해와 중독 3을 부여합니다.",
 		"⚔️5 전체 🤢+3")
 	atk007.tags.append("AOE")
+	atk007.sub_category = "AOE"
 	_all_cards.append(atk007)
 
 	# ATK_008 — 태양 (강타)
-	_all_cards.append(_make("ATK_008", "태양", 3, "ATK", 18, 0, 0,
+	var atk008 = _make("ATK_008", "태양", 3, "ATK", 18, 0, 0,
 		[], ["MAJOR_ARCANA"], "RARE",
 		"태양의 빛으로 적에게 18 피해를 입힙니다.",
-		"⚔️18"))
+		"⚔️18")
+	atk008.sub_category = "SINGLE"
+	_all_cards.append(atk008)
 
 	# ATK_009 — 별 (유틸 공격)
-	_all_cards.append(_make("ATK_009", "별", 2, "ATK", 7, 0, 1,
+	var atk009 = _make("ATK_009", "별", 2, "ATK", 7, 0, 1,
 		[], ["MAJOR_ARCANA"], "COMMON",
 		"적에게 7 피해를 입히고 카드를 1장 드로우합니다.",
-		"⚔️7 ✨드로우1"))
+		"⚔️7 ✨드로우1")
+	atk009.sub_category = "UTILITY"
+	_all_cards.append(atk009)
 
 	# ATK_010 — 황제 (버프 공격)
 	var atk010 = _make("ATK_010", "황제", 3, "ATK", 12, 0, 0,
 		[{"target": "self", "type": "STRENGTH", "value": 2}], ["MAJOR_ARCANA"], "SPECIAL",
 		"적에게 12 피해를 입히고 힘 +2를 영구 획득합니다.",
 		"⚔️12 💪+2")
+	atk010.sub_category = "BUFF"
 	_all_cards.append(atk010)
 
 	# ═══════════════════════════════════════
-	# 방어 카드 (DEF) — 8장
+	# 가드 카드 (SKILL - GUARD 태그) — 8장
 	# ═══════════════════════════════════════
 
-	# DEF_001 — 방패의 왕
-	_all_cards.append(_make("DEF_001", "방패의 왕", 2, "DEF", 0, 12, 0,
+	# DEF_001 — 방패의 왕 (가드/아머)
+	var def001 = _make("DEF_001", "방패의 왕", 2, "SKILL", 0, 12, 0,
 		[], ["GUARD"], "COMMON",
 		"블록 12을 획득합니다.",
-		"🛡️12"))
+		"🛡️12")
+	def001.sub_category = "GUARD"
+	_all_cards.append(def001)
 
-	# DEF_002 — 철벽
-	_all_cards.append(_make("DEF_002", "철벽", 1, "DEF", 0, 5, 0,
+	var def002 = _make("DEF_002", "철벽", 1, "SKILL", 0, 5, 0,
 		[], ["GUARD"], "COMMON",
 		"저비용으로 블록 5를 획득합니다.",
-		"🛡️5"))
+		"🛡️5")
+	def002.sub_category = "GUARD"
+	_all_cards.append(def002)
 
-	# DEF_003 — 여황제
-	_all_cards.append(_make("DEF_003", "여황제", 3, "DEF", 0, 18, 0,
+	var def003 = _make("DEF_003", "여황제", 3, "SKILL", 0, 18, 0,
 		[], ["GUARD", "MAJOR_ARCANA"], "RARE",
 		"강력한 보호막. 블록 18을 획득합니다.",
-		"🛡️18"))
+		"🛡️18")
+	def003.sub_category = "GUARD"
+	_all_cards.append(def003)
 
-	# DEF_004 — 교황 (방어+드로우)
-	_all_cards.append(_make("DEF_004", "교황", 2, "DEF", 0, 8, 1,
+	var def004 = _make("DEF_004", "교황", 2, "SKILL", 0, 8, 1,
 		[], ["GUARD", "MAJOR_ARCANA"], "COMMON",
 		"블록 8을 획득하고 카드를 1장 드로우합니다.",
-		"🛡️8 ✨드로우1"))
+		"🛡️8 ✨드로우1")
+	def004.sub_category = "GUARD"
+	_all_cards.append(def004)
 
 	# DEF_005 — 달 (방어+민첩)
-	var def005 = _make("DEF_005", "달", 2, "DEF", 0, 10, 0,
+	var def005 = _make("DEF_005", "달", 2, "SKILL", 0, 10, 0,
 		[{"target": "self", "type": "DEXTERITY", "value": 1}], ["GUARD", "MAJOR_ARCANA"], "RARE",
 		"블록 10을 획득하고 민첩 +1을 영구 획득합니다.",
 		"🛡️10 👟+1")
+	def005.sub_category = "GUARD"
 	_all_cards.append(def005)
 
-	# DEF_006 — 정의 (균형)
-	_all_cards.append(_make("DEF_006", "정의", 1, "DEF", 0, 7, 0,
+	var def006 = _make("DEF_006", "정의", 1, "SKILL", 0, 7, 0,
 		[], ["GUARD", "MAJOR_ARCANA"], "COMMON",
 		"균형 잡힌 방어. 블록 7을 획득합니다.",
-		"🛡️7"))
+		"🛡️7")
+	def006.sub_category = "GUARD"
+	_all_cards.append(def006)
 
-	# DEF_007 — 은둔자 (순수 방어)
-	_all_cards.append(_make("DEF_007", "은둔자", 2, "DEF", 0, 15, 0,
+	var def007 = _make("DEF_007", "은둔자", 2, "SKILL", 0, 15, 0,
 		[], ["GUARD", "MAJOR_ARCANA"], "RARE",
 		"강력한 순수 방어. 블록 15를 획득합니다.",
-		"🛡️15"))
+		"🛡️15")
+	def007.sub_category = "GUARD"
+	_all_cards.append(def007)
 
 	# DEF_008 — 절제 (소량 치유)
-	var def008 = _make("DEF_008", "절제", 1, "DEF", 0, 4, 0,
+	var def008 = _make("DEF_008", "절제", 1, "SKILL", 0, 4, 0,
 		[], ["GUARD", "MAJOR_ARCANA"], "COMMON",
 		"블록 4를 획득하고 HP 2를 회복합니다.",
 		"🛡️4 ❤️+2")
 	def008.status_effects.append({"target": "self", "type": "HEAL", "value": 2})
+	def008.sub_category = "HP"
 	_all_cards.append(def008)
 
 	# ═══════════════════════════════════════
-	# 패링 카드 (PARRY 태그) — 5장
+	# 패링 카드 (SKILL - PARRY 태그) — 5장
 	# ═══════════════════════════════════════
 
-	# PAR_001 — 꿈의 쳐내기
-	_all_cards.append(_make("PAR_001", "꿈의 쳐내기", 0, "DEF", 0, 0, 1,
+	var par001 = _make("PAR_001", "꿈의 쳐내기", 0, "SKILL", 0, 0, 1,
 		[], ["PARRY"], "COMMON",
 		"[패링] 적 공격 무효 + 에너지 +2(다음 행동) + 카드 드로우 1장.",
-		"🥋 패링 ⚡+2 드로우1"))
+		"🥋 패링 ⚡+2 드로우1")
+	par001.sub_category = "PARRY"
+	_all_cards.append(par001)
 
-	# PAR_002 — 반사의 순간 (30% 반격)
-	var par002 = _make("PAR_002", "반사의 순간", 0, "DEF", 0, 0, 0,
+	var par002 = _make("PAR_002", "반사의 순간", 0, "SKILL", 0, 0, 0,
 		[], ["PARRY"], "RARE",
 		"[패링] 적 공격 무효 + 에너지 +2 + 30% 확률로 반격 데미지.",
 		"🥋 패링 ⚡+2 반격30%")
+	par002.sub_category = "PARRY"
 	_all_cards.append(par002)
 
-	# PAR_003 — 각성의 쳐내기 (타이트한 윈도우, 에너지 +3)
-	var par003 = _make("PAR_003", "각성의 쳐내기", 0, "DEF", 0, 0, 0,
+	var par003 = _make("PAR_003", "각성의 쳐내기", 0, "SKILL", 0, 0, 0,
 		[], ["PARRY"], "SPECIAL",
 		"[패링] 0.3초의 좁은 윈도우. 성공 시 에너지 +3.",
 		"🥋★ 패링 ⚡+3 (0.3초)")
+	par003.sub_category = "PARRY"
 	_all_cards.append(par003)
 
-	# PAR_004 — 달빛 반격 (에너지 비용 1, 반격 8)
-	var par004 = _make("PAR_004", "달빛 반격", 1, "DEF", 8, 0, 0,
+	var par004 = _make("PAR_004", "달빛 반격", 1, "SKILL", 8, 0, 0,
 		[], ["PARRY"], "RARE",
 		"[패링] 에너지 1 소모. 적 공격 무효 + 에너지 +1 + 반격 8.",
 		"🥋 패링 ⚡+1 ⚔️8")
+	par004.sub_category = "PARRY"
 	_all_cards.append(par004)
 
-	# PAR_005 — 완벽한 방어 (패링/회피 겸용, 오토 시 회피 성공률 50%)
-	var par005 = _make("PAR_005", "완벽한 방어", 0, "DEF", 0, 0, 0,
+	var par005 = _make("PAR_005", "완벽한 방어", 0, "SKILL", 0, 0, 0,
 		[], ["PARRY", "DODGE"], "SPECIAL",
 		"[패링/회피 겸용] 어떤 공격도 무효화. 에너지 +1.",
 		"🥋🌀 패링+회피 ⚡+1")
 	par005.auto_dodge_success_rate = 0.5
+	par005.sub_category = "PARRY"
 	_all_cards.append(par005)
 
 	# ═══════════════════════════════════════
-	# 회피 카드 (DODGE 태그) — 5장
+	# 회피 카드 (SKILL - DODGE 태그) — 5장
 	# ═══════════════════════════════════════
 
 	# DOD_001 — 꿈의 스텝 (오토 시 성공률 50%)
-	var dod001 = _make("DOD_001", "꿈의 스텝", 0, "DEF", 0, 0, 0,
+	var dod001 = _make("DOD_001", "꿈의 스텝", 0, "SKILL", 0, 0, 0,
 		[], ["DODGE"], "COMMON",
 		"[회피] 적 공격을 회피. 에너지 +1(다음 행동).",
 		"🌀 회피 ⚡+1")
 	dod001.auto_dodge_success_rate = 0.5
+	dod001.sub_category = "DODGE"
 	_all_cards.append(dod001)
 
-	# DOD_002 — 잔상 (오토 시 성공률 55%)
-	var dod002 = _make("DOD_002", "잔상", 0, "DEF", 0, 0, 0,
+	var dod002 = _make("DOD_002", "잔상", 0, "SKILL", 0, 0, 0,
 		[], ["DODGE"], "RARE",
 		"[회피] 적 공격을 회피. 에너지 +1 + 버프 효과 이전.",
 		"🌀 회피 ⚡+1 버프이전")
 	dod002.auto_dodge_success_rate = 0.55
+	dod002.sub_category = "DODGE"
 	_all_cards.append(dod002)
 
-	# DOD_003 — 황혼의 도약 (오토 시 성공률 60%)
-	var dod003 = _make("DOD_003", "황혼의 도약", 0, "DEF", 0, 0, 0,
+	var dod003 = _make("DOD_003", "황혼의 도약", 0, "SKILL", 0, 0, 0,
 		[{"target": "self", "type": "STRENGTH", "value": 3}], ["DODGE"], "RARE",
 		"[회피] 적 공격을 회피. 에너지 +1 + 다음 공격 +3.",
 		"🌀 회피 ⚡+1 ⚔️+3")
 	dod003.auto_dodge_success_rate = 0.6
+	dod003.sub_category = "DODGE"
 	_all_cards.append(dod003)
 
-	# DOD_004 — 연막 (오토 시 성공률 50%)
-	var dod004 = _make("DOD_004", "연막", 1, "DEF", 0, 0, 0,
+	var dod004 = _make("DOD_004", "연막", 1, "SKILL", 0, 0, 0,
 		[{"target": "enemy", "type": "WEAK", "value": 2}], ["DODGE"], "RARE",
 		"[회피] 에너지 1 소모. 적 공격을 회피 + 에너지 +1 + 적 약화 2.",
 		"🌀 회피(1) ⚡+1 👁️-3")
 	dod004.auto_dodge_success_rate = 0.5
+	dod004.sub_category = "DODGE"
 	_all_cards.append(dod004)
 
-	# DOD_005 — 반보 앞으로 (패링/회피 겸용, 오토 시 회피 성공률 45%)
-	var dod005 = _make("DOD_005", "반보 앞으로", 0, "DEF", 0, 0, 0,
+	var dod005 = _make("DOD_005", "반보 앞으로", 0, "SKILL", 0, 0, 0,
 		[], ["DODGE", "PARRY"], "COMMON",
 		"[패링/회피] 피해 50% 감소. 에너지 +1.",
 		"🌀🥋 반회피 ⚡+1")
 	dod005.auto_dodge_success_rate = 0.45
+	dod005.sub_category = "DODGE"
 	_all_cards.append(dod005)
 
 	# ═══════════════════════════════════════
-	# 스킬 카드 (SKILL) — 2장
+	# 파워 카드 (POWER) — 2장
 	# ═══════════════════════════════════════
 
-	# SKL_001 — 바보 (드로우+에너지)
-	_all_cards.append(_make("SKL_001", "바보", 0, "SKILL", 0, 0, 1,
+	var skl001 = _make("SKL_001", "바보", 0, "POWER", 0, 0, 1,
 		[], ["MAJOR_ARCANA"], "COMMON",
 		"카드를 1장 드로우하고 에너지 +1을 즉시 획득합니다.",
-		"✨드로우1 ⚡+1"))
+		"✨드로우1 ⚡+1")
+	skl001.sub_category = "DRAW"
+	_all_cards.append(skl001)
 
-	# SKL_002 — 달의 환영 (드로우3)
-	var skl002 = _make("SKL_002", "달의 환영", 2, "SKILL", 0, 0, 3,
+	var skl002 = _make("SKL_002", "달의 환영", 2, "POWER", 0, 0, 3,
 		[], ["MAJOR_ARCANA"], "RARE",
 		"카드를 3장 드로우합니다. (타로 에너지 2 소모 버전도 존재)",
 		"✨드로우3")
+	skl002.sub_category = "DRAW"
 	_all_cards.append(skl002)
 
 	print("[CardDatabase] 카드 %d장 로드 완료" % _all_cards.size())
@@ -287,14 +313,31 @@ func get_by_type(type: String) -> Array[Card]:
 			result.append(c)
 	return result
 
+func get_by_sub_category(sub: String) -> Array[Card]:
+	var result: Array[Card] = []
+	for c in _all_cards:
+		if c.sub_category == sub:
+			result.append(c)
+	return result
+
+# 메인 카테고리(type)별 사용 가능한 서브 카테고리 목록 (UI 필터용)
+func get_sub_categories_for_type(main_type: String) -> Array[String]:
+	var subs: Array[String] = []
+	var seen: Dictionary = {}
+	for c in _all_cards:
+		if c.type == main_type and c.sub_category != "" and not seen.get(c.sub_category, false):
+			seen[c.sub_category] = true
+			subs.append(c.sub_category)
+	return subs
+
 func get_starter_deck() -> Array[Card]:
 	# 기본 스타터 덱 구성 (10장)
 	var starter_ids = [
 		"ATK_001", "ATK_001", "ATK_006",  # 공격 3장
-		"DEF_002", "DEF_002", "DEF_006",  # 방어 3장
-		"PAR_001", "PAR_001",              # 패링 2장
-		"DOD_001",                          # 회피 1장
-		"SKL_001",                          # 스킬 1장
+		"DEF_002", "DEF_002", "DEF_006",  # 스킬(가드) 3장
+		"PAR_001", "PAR_001",              # 스킬(패링) 2장
+		"DOD_001",                          # 스킬(회피) 1장
+		"SKL_001",                          # 파워 1장
 	]
 	var result: Array[Card] = []
 	for id in starter_ids:
@@ -303,7 +346,7 @@ func get_starter_deck() -> Array[Card]:
 			result.append(card.duplicate_card())
 	return result
 
-## 30장 풀 덱 — ATK 10, DEF 8, PARRY 5, DODGE 5, SKILL 2
+## 30장 풀 덱 — ATK 10, SKILL(GUARD) 8, SKILL(PARRY) 5, SKILL(DODGE) 5, POWER 2
 func get_full_deck_30() -> Array[Card]:
 	var ids: Array[String] = []
 	# ATK 10장

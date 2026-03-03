@@ -1,15 +1,20 @@
 extends BaseBottomUI
 
 """
-CombatBottomUI - 전투 중 UI
-카드 핸드 + 로그 + 버튼 (2분할 구조)
-
-Layout (564px):
-├─ CardHandArea (220px) ← 카드 팬 레이아웃
-├─ GameInfo (50px) ← Energy Orb, Deck/Discard/Exile
-├─ CombatLog (120px) ← 스크롤 가능
-└─ ActionButtons (64px) ← Pass, Auto, Speed
+CombatBottomUI - Combat bottom bar.
+Card hand + log + buttons (2-column layout).
+Layout: CardHandArea, GameInfo (Energy/Deck/Discard), CombatLog, ActionButtons.
 """
+
+# Reaction labels: use Unicode escape to avoid "Unicode parsing error" when scene loads (engine Latin-1)
+const _TXT_GUARD := "\uBC29\uC5B4"      # Guard
+const _TXT_REACTION := "\uB9AC\uC561\uC158"  # Reaction
+const _TXT_PARRY := "\uD328\uB9C1"     # Parry
+const _TXT_DODGE := "\uD68C\uD53C"     # Dodge
+
+# Class-level signals (GDScript4: must be at top)
+signal target_selection_changed(monster_index: int)  # -1=clear, >=0=selected
+signal card_play_with_animation_requested(card_item: Control, card, target_type: String, target_index: int)
 
 @onready var card_hand_container = $CardHandArea
 @onready var energy_orb = $GameInfo/EnergyOrb
@@ -33,12 +38,12 @@ var selected_card_index: int = -1
 var is_dragging: bool = false
 var drag_arrow: Node2D = null
 
-# ── 리액션 버튼 상태 ─────────────────────────────────────
-var _reaction_card: Card = null   # 현재 사용 가능한 최우선 리액션 카드
+# Reaction button state
+var _reaction_card: Card = null
 var _reaction_window_active: bool = false
-var _excluded_reaction_types: Array = []  # 이번 윈도우에서 실패한 타입 (패링 실패 → 회피/가드 연속 사용)
+var _excluded_reaction_types: Array = []  # Failed types this window (parry fail -> dodge/guard)
 
-# ── 드래그 화살표 (공격 카드 타겟팅) ──────────────────────
+# Drag arrow (ATK card targeting)
 var _draw_arrow_from: Vector2 = Vector2.ZERO
 var _draw_arrow_to: Vector2 = Vector2.ZERO
 var _draw_arrow_visible: bool = false
@@ -47,13 +52,13 @@ var _draw_arrow_visible: bool = false
 var new_combat_manager: Node = null
 var new_hand: Array = []
 var _selected_target_index: int = -1
-var _targeting_card: Card = null  # ★ 타겟 모드 진입 시 카드 객체 직접 저장 (index 불안정 방지)
+var _targeting_card: Card = null  # Card ref when in target mode
 var _auto_enabled: bool = false
 var _speed: float = 1.0
 
 const TYPE_TO_DISPLAY = {
-	"ATK": "Attack", "DEF": "Defense", "SKILL": "Skill",
-	"POWER": "Power", "CURSE": "Attack"
+	"ATK": "Attack", "SKILL": "Skill",
+	"POWER": "Power", "CURSE": "Curse"
 }
 
 func _ready():
@@ -72,7 +77,7 @@ func _ready():
 # === New Combat Manager Bridge ===
 
 func connect_combat_manager(manager: Node):
-	"""새 전투 매니저(CombatManagerATB / CombatManagerTB) 연결"""
+	"""Connect CombatManagerATB or CombatManagerTB"""
 	new_combat_manager = manager
 	if "speed_multiplier" in manager:
 		_speed = manager.speed_multiplier
@@ -89,14 +94,13 @@ func connect_combat_manager(manager: Node):
 		manager.battle_log_updated.connect(_on_combat_log_updated)
 	if manager.has_signal("energy_timer_progress"):
 		manager.energy_timer_progress.connect(_on_energy_timer_progress)
-	# ★ combat_started 연결 — Auto AI 모드 동기화용
 	if manager.has_signal("combat_started"):
 		manager.combat_started.connect(_on_combat_started_sync)
-	# ATB Pass 10초 쿨타임
+	# ATB Pass 10s cooldown
 	if manager.has_signal("pass_timer_updated"):
 		manager.pass_timer_updated.connect(_on_pass_timer_updated)
 
-	# 리액션 윈도우 상태(열림/닫힘) 추적 → 버튼 오작동(플레이어 턴 소비) 방지
+	# Reaction window open/close tracking
 	_reaction_window_active = false
 	if "reaction_mgr" in manager and manager.reaction_mgr:
 		var rm = manager.reaction_mgr
@@ -108,7 +112,7 @@ func connect_combat_manager(manager: Node):
 			rm.reaction_attempt_failed.connect(_on_reaction_attempt_failed)
 
 	_update_deck_ui()
-	# TB: Pass 항상 활성. ATB: pass_timer_updated로 제어
+	# TB: Pass always on. ATB: pass_timer_updated
 	if pass_button:
 		pass_button.disabled = (manager is CombatManagerATB)
 	_update_reaction_button()
@@ -123,16 +127,17 @@ func _on_reaction_window_closed(_result_type: String):
 	_update_reaction_button()
 
 func _on_reaction_attempt_failed(attempted_type: String):
-	"""패링/회피 실패 시 해당 타입 제외 후 다음 우선(회피/가드) 버튼 활성화"""
+	"""On parry/dodge fail, exclude type and enable next (dodge/guard) button"""
 	if attempted_type not in _excluded_reaction_types:
 		_excluded_reaction_types.append(attempted_type)
 	_update_reaction_button()
 
 func _card_to_dict(card: Card) -> Dictionary:
-	"""Card Resource → Dictionary (CardHandItem 호환 형식)"""
+	"""Card Resource to Dictionary (CardHandItem format)"""
 	var tags_arr: Array = []
 	for t in card.tags:
-		tags_arr.append(t)
+		tags_arr.append(str(t))
+	var rate: float = float(card.auto_dodge_success_rate)
 	return {
 		"name": card.name,
 		"cost": card.cost,
@@ -142,24 +147,27 @@ func _card_to_dict(card: Card) -> Dictionary:
 		"block": card.block,
 		"draw": card.draw,
 		"tags": tags_arr,
-		"auto_dodge_success_rate": card.auto_dodge_success_rate,
+		"auto_dodge_success_rate": rate,
 	}
 
 func _on_new_hand_updated(hand: Array):
+	if hand == null:
+		return
 	new_hand = hand.duplicate()
 	_update_deck_ui()
 	var old_count = _prev_hand_count
 	_prev_hand_count = hand.size()
-	if hand.is_empty() and card_hand_container.get_child_count() > 0:
+	if hand.is_empty() and card_hand_container and card_hand_container.get_child_count() > 0:
 		_run_discard_animation()
 		return
 	var drawn_count = hand.size() - old_count
-	_update_hand_ui(drawn_count if drawn_count > 0 else 0)
+	# Defer one frame for layout/node ready (avoid combat enter crash)
+	call_deferred("_update_hand_ui", drawn_count if drawn_count > 0 else 0)
 
 func _on_new_energy_updated(current, max_val):
 	if energy_orb and energy_orb.has_method("set_energy"):
 		energy_orb.set_energy(int(current), int(max_val))
-	# 에너지 변경 시 리액션 버튼 갱신 (affordability 체크)
+	# Refresh reaction button on energy change (affordability)
 	_update_reaction_button()
 
 func _on_new_combat_ended_signal(result: String):
@@ -180,7 +188,7 @@ func _get_new_manager_energy() -> int:
 # === Lifecycle ===
 
 func _on_enter():
-	"""UI 활성화 시"""
+	"""When UI is activated"""
 	# New manager signals are connected via connect_combat_manager()
 	if not new_combat_manager:
 		if not CombatManager.combat_log_updated.is_connected(_on_combat_log_updated):
@@ -199,14 +207,19 @@ func _on_enter():
 	_update_deck_ui()
 
 	if not new_combat_manager:
-		if CombatManager.hero and "energy" in CombatManager.hero:
-			var current_energy = CombatManager.hero.get("energy", 0)
+		if CombatManager.hero:
+			var current_energy = 0
+			if CombatManager.hero is Dictionary:
+				current_energy = int(CombatManager.hero.get("energy", 0))
+			else:
+				var v = CombatManager.hero.get("energy")
+				current_energy = int(v) if v != null else 0
 			_on_energy_changed(current_energy, CombatManager.ENERGY_MAX)
 
 	add_combat_log("=== Combat UI Ready ===")
 
 func _on_exit():
-	"""UI 비활성화 시"""
+	"""When UI is deactivated"""
 	# Disconnect new manager signals
 	if new_combat_manager:
 		if "reaction_mgr" in new_combat_manager and new_combat_manager.reaction_mgr:
@@ -256,16 +269,16 @@ func _setup_buttons():
 	# Apply custom styles to buttons
 	_apply_button_style(pass_button, UITheme.COLORS.panel)
 
-	# Auto button — 초기 OFF 상태, 전투 시작 시 combat_started 신호로 동기화
+	# Auto button: off by default, synced on combat_started
 	_auto_enabled = false
 	auto_button.text = "Auto"
 	_apply_button_style(auto_button, UITheme.COLORS.panel)
 
 	_apply_button_style(speed_button, UITheme.COLORS.panel)
 
-	# 리액션 버튼 — 초기 비활성 (패 업데이트 시 활성화)
+	# Reaction button: initially disabled (ASCII only to avoid parse error)
 	if reaction_button:
-		reaction_button.text = "방어"
+		reaction_button.text = "Defense"
 		reaction_button.disabled = true
 		_apply_button_style(reaction_button, UITheme.COLORS.panel)
 
@@ -359,7 +372,7 @@ func _get_discard_ui_pos() -> Vector2:
 	return Vector2(card_hand_container.size.x - 80, card_hand_container.size.y / 2)
 
 func _run_discard_animation():
-	"""손패 카드들을 무덤 위치로 날리는 애니메이션 후 클리어"""
+	"""Animate hand cards to discard then clear"""
 	var target = _get_discard_ui_pos()
 	var cards = card_hand_container.get_children().duplicate()
 	var tween = create_tween()
@@ -370,14 +383,18 @@ func _run_discard_animation():
 	tween.set_parallel(false)
 	tween.tween_callback(func():
 		for c in cards:
-			c.queue_free()
+			if is_instance_valid(c):
+				c.queue_free()
 		_update_reaction_button()
 	)
 
 func _update_hand_ui(animate_from_deck_count: int = 0):
-	"""Update card hand display — 좌우 경계 내 정렬, 선택 카드 수직·2배 간격"""
+	"""Update card hand display (bounds, selected card spacing)"""
+	if not card_hand_container:
+		return
 	for child in card_hand_container.get_children():
-		child.queue_free()
+		if is_instance_valid(child):
+			child.queue_free()
 
 	var hand: Array
 	var current_energy: int
@@ -388,8 +405,16 @@ func _update_hand_ui(animate_from_deck_count: int = 0):
 		hand = DeckManager.get_hand_cards()
 		current_energy = CombatManager.get_current_energy()
 
-	if hand.is_empty():
+	if hand == null or hand.is_empty():
 		return
+	# Remove nulls (combat manager safety)
+	var valid_hand: Array = []
+	for c in hand:
+		if c != null:
+			valid_hand.append(c)
+	if valid_hand.is_empty():
+		return
+	hand = valid_hand
 
 	var card_scene = preload("res://ui/components/CardHandItem.tscn")
 	var num_cards = hand.size()
@@ -397,7 +422,7 @@ func _update_hand_ui(animate_from_deck_count: int = 0):
 	var container_w = max(card_w, card_hand_container.size.x)
 	var sel_idx = currently_selected_card_index
 
-	# 좌(0) ~ 우(container_w - card_w) 경계 내, 선택 시 2배 간격
+	# Left-right bounds, 2x spacing for selected
 	var total_span = container_w - card_w
 	var positions_x: Array[float] = []
 	positions_x.resize(num_cards)
@@ -416,7 +441,7 @@ func _update_hand_ui(animate_from_deck_count: int = 0):
 		for i in range(num_cards):
 			positions_x[i] = i * total_span / float(num_cards - 1)
 
-	# 기울기: 선택=0°, 외곽 최대 ±15°
+	# Tilt: selected=0, outer max +/-15
 	const MAX_ANGLE = 15.0
 	var base_y = 25.0
 	var arc_depth = 16.0
@@ -432,18 +457,21 @@ func _update_hand_ui(animate_from_deck_count: int = 0):
 		if new_combat_manager and card is Card:
 			card_dict = _card_to_dict(card)
 			card_cost = card.cost
-		else:
+		elif card is Dictionary:
 			card_dict = card
 			card_cost = int(card.get("cost", 0))
+		else:
+			card_dict = {}
+			card_cost = 0
 
 		card_item.set_card(card_dict, i)
 		card_item.set_affordable(current_energy >= card_cost)
-		# 오토 시 패링 카드 비활성화 + X 표시 (메뉴얼 시 정상)
+		# Auto: parry disabled + X overlay (manual: normal)
 		var is_auto = _auto_enabled
-		if new_combat_manager and "auto_ai" in new_combat_manager:
-			var ai = new_combat_manager.auto_ai
-			if ai and "mode" in ai:
-				is_auto = (ai.mode == 2)  # FULL = 2
+		if new_combat_manager:
+			var ai = new_combat_manager.get("auto_ai")
+			if ai != null and ai.get("mode") == 2:  # FULL = 2
+				is_auto = true
 		card_item.set_auto_parry_disabled(is_auto)
 
 		var x_pos = positions_x[i]
@@ -481,7 +509,7 @@ func _update_hand_ui(animate_from_deck_count: int = 0):
 	_update_reaction_button()
 
 func _refresh_hand_layout():
-	"""선택 변경 시 레이아웃 재계산"""
+	"""Recalc layout on selection change"""
 	call_deferred("_update_hand_ui", 0)
 
 func _reset_card_positions():
@@ -498,11 +526,7 @@ func _restore_card_position(card_item: Control):
 # === Card Interaction ===
 
 func _on_card_pressed(card_index: int):
-	"""카드 탭 처리
-	- DEF / SKILL : 1탭 → 즉시 사용 (대상 선택 불필요)
-	- ATK         : 1탭 → 선택 + 타겟 모드 진입 (드래그 화살표 표시)
-	                같은 카드 재탭 → 취소
-	"""
+	"""Card tap: DEF/SKILL=use; ATK=select+target mode; same card again=cancel"""
 	var hand: Array
 	if new_combat_manager:
 		hand = new_hand
@@ -514,7 +538,7 @@ func _on_card_pressed(card_index: int):
 
 	var card = hand[card_index]
 
-	# ── 에너지 확인 ──────────────────────────────────────
+	# Energy check
 	var card_cost: int
 	var current_energy: int
 	if new_combat_manager and card is Card:
@@ -525,12 +549,10 @@ func _on_card_pressed(card_index: int):
 		current_energy = CombatManager.get_current_energy()
 
 	if current_energy < card_cost:
-		add_combat_log("에너지 부족!")
+		add_combat_log("\uC5D0\uB108\uC9C0 \uBD80\uC871!")  # Energy low
 		return
 
-	# ── 카드 타입 판별 ────────────────────────────────────
-	# new_combat_manager 에서는 card.type = "ATK" / "DEF" / "SKILL"
-	# legacy에서는 TYPE_TO_DISPLAY 거친 "Attack" / "Defense" / ...
+	# Card type: ATK/DEF/SKILL (new) or Attack/Defense (legacy)
 	var is_atk: bool
 	var card_name: String
 	if new_combat_manager and card is Card:
@@ -541,7 +563,7 @@ func _on_card_pressed(card_index: int):
 		is_atk = (display_type == "Attack")
 		card_name = card.get("name", "???")
 
-	# ── 비공격 카드 (DEF / SKILL) : 2탭 (선택 → 사용) ────────
+	# DEF/SKILL: two-tap (select then use)
 	if not is_atk:
 		var card_item_def: Control = null
 		for child in card_hand_container.get_children():
@@ -550,7 +572,7 @@ func _on_card_pressed(card_index: int):
 				break
 		if not card_item_def:
 			return
-		# 이미 선택된 같은 카드 재탭 → 사용 (플레이어 대상: DEF/SKILL)
+		# Same card tapped again -> use (DEF/SKILL)
 		if currently_selected_card_index == card_index and not selecting_target:
 			if currently_selected_card_item:
 				currently_selected_card_item.set_selected(false)
@@ -561,9 +583,9 @@ func _on_card_pressed(card_index: int):
 				card_play_with_animation_requested.emit(item, card, "player", -1)
 			else:
 				request_action("card_played", {"card_index": card_index, "target": -1})
-			add_combat_log("%s 사용" % card_name)
+			add_combat_log("%s \uC0AC\uC6A9" % card_name)  # used
 			return
-		# 첫 탭: 선택 (내용 보임, ATK처럼 위로 올리기)
+		# First tap: select (show, lift like ATK)
 		if currently_selected_card_item:
 			currently_selected_card_item.set_selected(false)
 		_cancel_target_selection()
@@ -576,10 +598,10 @@ func _on_card_pressed(card_index: int):
 			card_item_def.position.y -= 40
 		card_item_def.z_index = 2000
 		_refresh_hand_layout()
-		add_combat_log("%s 선택 — 한번 더 누르면 사용" % card_name)
+		add_combat_log("%s \uC120\uD0DD \u2014 \uD558\uC580 \uB354 \uB204\uB294 \uC0AC\uC6A9" % card_name)
 		return
 
-	# ── 공격 카드 (ATK) : 선택 → 타겟 드래그/탭 ──────────
+	# ATK: select then target (drag/tap)
 	var card_item: Control = null
 	for child in card_hand_container.get_children():
 		if child.card_index == card_index:
@@ -589,21 +611,21 @@ func _on_card_pressed(card_index: int):
 	if not card_item:
 		return
 
-	# 이미 선택된 같은 카드를 재탭 → 취소
+	# Same card tapped again -> cancel
 	if currently_selected_card_index == card_index and selecting_target:
 		currently_selected_card_item.set_selected(false)
 		currently_selected_card_index = -1
 		currently_selected_card_item = null
 		_cancel_target_selection()
 		_refresh_hand_layout()
-		add_combat_log("취소됨")
+		add_combat_log("\uCDE8\uC18C\uB418\uC74C")  # Cancelled
 		return
 
-	# 기존 선택 해제
+	# Clear previous selection
 	if currently_selected_card_item:
 		currently_selected_card_item.set_selected(false)
 
-	# 카드 선택 (위로 올리기)
+	# Select card (lift)
 	currently_selected_card_index = card_index
 	currently_selected_card_item = card_item
 	card_item.set_selected(true)
@@ -614,20 +636,20 @@ func _on_card_pressed(card_index: int):
 	card_item.z_index = 2000
 	_refresh_hand_layout()
 
-	# ★ 카드 객체 직접 저장 (index가 나중에 바뀌어도 안전)
+	# Store card ref (safe if index changes)
 	if new_combat_manager and card is Card:
 		_targeting_card = card
 	else:
 		_targeting_card = null
 
-	# 즉시 타겟 선택 모드 진입 + 드래그 화살표 시작
+	# Enter target mode + drag arrow
 	_enter_target_selection_mode()
 	var card_center_global = card_item.get_global_position() + Vector2(card_item.size.x * 0.5, card_item.size.y * 0.3)
 	_draw_arrow_from = get_global_transform_with_canvas().affine_inverse() * card_center_global
 	_draw_arrow_to = _draw_arrow_from
 	_draw_arrow_visible = true
 	queue_redraw()
-	add_combat_log("%s 선택 — 적을 탭하거나 드래그" % card_name)
+	add_combat_log("%s \uC120\uD0DD \u2014 \uC801\uC744 \uD0ED\uD558\uAC70\uB098 \uB4DC\uB798\uADF8" % card_name)
 
 func _on_card_hovered(card_index: int, card_item: Control):
 	"""Handle card hover"""
@@ -652,15 +674,12 @@ func _on_card_unhovered(card_item: Control):
 # === Targeting ===
 
 func _enter_target_selection_mode():
-	"""타겟 선택 모드 진입 (ATK 카드 전용)"""
+	"""Enter target mode (ATK only)"""
 	selecting_target = true
 	selected_card_index = currently_selected_card_index
 
-signal target_selection_changed(monster_index: int)  # -1=해제, >=0=선택된 몬스터
-signal card_play_with_animation_requested(card_item: Control, card, target_type: String, target_index: int)
-
 func on_monster_clicked(monster_index: int):
-	"""몬스터 클릭 → 1클릭 즉시 공격 발동"""
+	"""Monster click -> attack immediately"""
 	if not selecting_target:
 		return
 
@@ -669,21 +688,21 @@ func on_monster_clicked(monster_index: int):
 		if monster_index < 0 or monster_index >= enemies.size():
 			return
 		if not enemies[monster_index].is_alive():
-			add_combat_log("이미 죽은 대상!")
+			add_combat_log("\uC774\uBBF8 \uC8FD\uC740 \uB300\uC0C1!")  # Already dead
 			return
 	else:
 		var monsters = CombatManager.monsters
 		if monster_index < 0 or monster_index >= monsters.size():
 			return
 		if monsters[monster_index].hp <= 0:
-			add_combat_log("이미 죽은 대상!")
+			add_combat_log("\uC774\uBBF8 \uC8FD\uC740 \uB300\uC0C1!")  # Already dead
 			return
 
-	# ★ 1클릭 즉시 발동 (2클릭 확인 제거)
+	# One-click fire (no double-tap confirm)
 	_play_card_with_target(currently_selected_card_index, monster_index)
 
 func on_monster_drag_dropped(monster_index: int):
-	"""드래그로 몬스터 위에 놓았을 때 → 즉시 해당 몬스터에게 카드 사용 (데미지 + 애니)"""
+	"""On drop on monster -> use card on it (damage + anim)"""
 	if not selecting_target or currently_selected_card_index < 0:
 		return
 	if new_combat_manager:
@@ -711,8 +730,8 @@ func _get_first_alive_monster() -> int:
 	return -1
 
 func _play_card_with_target(card_index: int, target_index: int):
-	"""공격 카드를 몬스터 대상으로 사용"""
-	# ★ _targeting_card / card_item 는 _cancel_target_selection() 호출 전에 캡처 (취소 시 null 초기화됨)
+	"""Use ATK card on monster"""
+	# Capture _targeting_card/card_item before cancel (they get nulled)
 	var card_item = currently_selected_card_item
 	var card: Card = null
 	if _targeting_card != null:
@@ -731,9 +750,9 @@ func _play_card_with_target(card_index: int, target_index: int):
 	if new_combat_manager:
 		if card != null:
 			card_play_with_animation_requested.emit(card_item, card, "monster", target_index)
-			add_combat_log("⚔ %s → 몬스터 #%d" % [card.name, target_index + 1])
+			add_combat_log("\u26CF %s \u2192 #%d" % [card.name, target_index + 1])
 		else:
-			add_combat_log("카드를 찾을 수 없음 (index=%d)" % card_index)
+			add_combat_log("\uCE74\uB4DC\uB97C \uCC3E\uC744 \uC218 \uC5C6\uC74C (index=%d)" % card_index)
 	else:
 		_targeting_card = null
 		request_action("card_played", {"card_index": card_index, "target": target_index})
@@ -748,14 +767,14 @@ func _clear_target_selection():
 	emit_signal("target_selection_changed", -1)
 
 func _cancel_target_selection():
-	"""타겟 선택 취소 + 드래그 화살표 숨김"""
+	"""Cancel target + hide drag arrow"""
 	selecting_target = false
 	selected_card_index = -1
-	_targeting_card = null  # ★ 저장된 카드 참조 초기화
+	_targeting_card = null
 	_clear_target_selection()
 	is_dragging = false
 
-	# 드래그 화살표 숨기기
+	# Hide drag arrow
 	_draw_arrow_visible = false
 	queue_redraw()
 
@@ -766,18 +785,18 @@ func _cancel_target_selection():
 # === Button Handlers ===
 
 func _on_pass_pressed():
-	"""Pass button — ATB: 새 카드 5장/손패→무덤 (10초쿨). TB: 턴 종료"""
+	"""Pass: ATB=draw 5 (10s cooldown). TB=end turn"""
 	if new_combat_manager:
 		if new_combat_manager is CombatManagerATB:
 			if new_combat_manager.is_pass_ready():
 				new_combat_manager.player_pass_atb()
-				add_combat_log("Pass — 새 카드 5장 드로우")
+				add_combat_log("Pass \u2014 \uC0C8 \uCE74\uB4DC 5\uC7A5 \uB4DC\uB85C\uC6B0")
 			else:
-				var remain = new_combat_manager.get_pass_timer_remaining() if new_combat_manager else 0
-				add_combat_log("Pass 대기중 (%.0f초 후 가능)" % remain)
+				var remain = new_combat_manager.get_pass_timer_remaining() if new_combat_manager else 0.0
+				add_combat_log("Pass \uB300\uAE30\uC911 (%.0f\uCD08 \uD6C4 \uAC00\uB2A5)" % remain)
 		elif new_combat_manager.has_method("player_end_turn"):
 			new_combat_manager.player_end_turn()
-			add_combat_log("턴 종료")
+			add_combat_log("\uD2B8\uB80C \uC885\uB8B0")  # Turn end
 	else:
 		request_action("pass", {})
 		add_combat_log("Player passed.")
@@ -788,7 +807,7 @@ func _on_auto_pressed():
 		_auto_enabled = not _auto_enabled
 		var ai = new_combat_manager.get("auto_ai")
 		if ai and ai.has_method("set_mode"):
-			# ATBAutoAI와 TurnBasedAutoAI 모두 AutoMode.FULL=2, MANUAL=0 사용
+			# ATBAutoAI/TurnBasedAutoAI: FULL=2, MANUAL=0
 			if ai is ATBAutoAI:
 				ai.set_mode(ATBAutoAI.AutoMode.FULL if _auto_enabled else ATBAutoAI.AutoMode.MANUAL)
 			elif ai is TurnBasedAutoAI:
@@ -801,6 +820,9 @@ func _on_auto_pressed():
 		else:
 			auto_button.text = "Auto"
 			_apply_button_style(auto_button, UITheme.COLORS.panel)
+		# On auto toggle refresh parry button/card X
+		_update_reaction_button()
+		_update_hand_ui(0)
 	else:
 		request_action("auto_toggle", {})
 		if CombatManager.auto_battle_enabled:
@@ -869,7 +891,7 @@ func _on_energy_timer_updated(progress: float):
 		energy_orb.set_timer_progress(progress)
 
 func _on_energy_timer_progress(progress: float):
-	"""Energy timer progress (new ATB combat - EnergyOrb 외곽 쿨타임 게이지)"""
+	"""Energy timer progress (ATB EnergyOrb cooldown gauge)"""
 	if energy_orb:
 		energy_orb.set_timer_progress(progress)
 
@@ -881,7 +903,7 @@ func _on_hand_changed():
 # === Input Handling (Drag Targeting) ===
 
 func _input(event):
-	# ── ESC / 백 버튼 취소 ────────────────────────────────
+	# ESC / back cancel
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		if selecting_target or currently_selected_card_item:
 			if currently_selected_card_item:
@@ -890,16 +912,16 @@ func _input(event):
 				currently_selected_card_item = null
 			_cancel_target_selection()
 			_refresh_hand_layout()
-			add_combat_log("취소됨")
+			add_combat_log("\uCDE8\uC18C\uB418\uC74C")  # Cancelled
 
-# ── _process : 드래그 화살표 실시간 업데이트 ──────────────
+# _process: drag arrow update
 
 func _process(_delta):
 	if _draw_arrow_visible and selecting_target:
 		_draw_arrow_to = get_global_transform_with_canvas().affine_inverse() * get_global_mouse_position()
 		queue_redraw()
 
-# ── _draw : 화살표 렌더링 (ATK 카드 타겟팅) ──────────────────
+# _draw: arrow (ATK targeting)
 
 func _draw():
 	if not _draw_arrow_visible:
@@ -910,46 +932,64 @@ func _draw():
 	if dist < 10.0:
 		return
 
-	var arrow_color = Color(1.0, 0.85, 0.1, 0.9)  # 노란색
+	var arrow_color = Color(1.0, 0.85, 0.1, 0.9)
 	var line_width  = 4.0
-
-	# 몸통 선
 	draw_line(from, to, arrow_color, line_width, true)
 
-	# 화살촉
+	# Arrowhead
 	var dir  = (to - from).normalized()
 	var perp = Vector2(-dir.y, dir.x)
 	var tip_size = 18.0
 	draw_line(to, to - dir * tip_size + perp * tip_size * 0.55, arrow_color, line_width, true)
 	draw_line(to, to - dir * tip_size - perp * tip_size * 0.55, arrow_color, line_width, true)
 
-# ── 리액션 버튼 갱신 ─────────────────────────────────────
+# Reaction button refresh
+
+func _set_reaction_button_text(t: String) -> void:
+	"""Set reaction label; defer non-ASCII one frame to avoid parse error."""
+	if not reaction_button:
+		return
+	var is_ascii = true
+	for i in range(t.length()):
+		if t.unicode_at(i) > 127:
+			is_ascii = false
+			break
+	if is_ascii:
+		reaction_button.text = t
+	else:
+		call_deferred("_set_reaction_button_text_deferred", t)
+
+func _set_reaction_button_text_deferred(t: String) -> void:
+	if reaction_button:
+		reaction_button.text = t
 
 func _update_reaction_button():
-	"""손패에서 PARRY > DODGE > GUARD 우선순위로 리액션 카드 선정"""
+	"""Pick reaction card by priority PARRY > DODGE > GUARD"""
 	if not reaction_button:
 		return
 	if not new_combat_manager:
-		reaction_button.text = "방어"
+		_set_reaction_button_text(_TXT_GUARD)
 		reaction_button.disabled = true
 		_apply_button_style(reaction_button, UITheme.COLORS.panel)
 		return
 	if not _reaction_window_active:
-		reaction_button.text = "리액션"
+		_set_reaction_button_text(_TXT_REACTION)
 		reaction_button.disabled = true
 		_apply_button_style(reaction_button, UITheme.COLORS.panel)
 		return
 
 	_reaction_card = null
-	var best_priority = -1
+	var best_priority = 0  # PARRY(3)/DODGE(2)/GUARD(1)
 	var priority_map = {"PARRY": 3, "DODGE": 2, "GUARD": 1}
-	# 턴베이스 리액션 윈도우에서는 에너지 소모 없이 패링/회피/가드 사용
+	if _auto_enabled:
+		priority_map["PARRY"] = 0  # Auto: no parry on button (dodge/guard only)
+	# TB reaction window: no energy cost for parry/dodge/guard
 	var no_energy_check = new_combat_manager is CombatManagerTB and _reaction_window_active
 
 	for card in new_hand:
 		if not (card is Card):
 			continue
-		# 이번 윈도우에서 실패한 타입은 제외 (연속으로 다음 옵션 사용)
+		# Exclude types that failed this window (try next option)
 		var excluded = false
 		for exc in _excluded_reaction_types:
 			if card.has_tag(exc):
@@ -959,7 +999,7 @@ func _update_reaction_button():
 			continue
 		var can_afford = no_energy_check or (card.cost <= _get_new_manager_energy())
 		for tag in card.tags:
-			var p: int = priority_map.get(tag, 0)
+			var p = int(priority_map.get(tag, 0))
 			if p > best_priority and can_afford:
 				best_priority = p
 				_reaction_card = card
@@ -970,10 +1010,10 @@ func _update_reaction_button():
 			if tag in priority_map:
 				tag_found = tag
 				break
-		var label_map = {"PARRY": "패링", "DODGE": "회피", "GUARD": "방어"}
-		reaction_button.text = label_map.get(tag_found, "방어")
+		var label_map = {"PARRY": _TXT_PARRY, "DODGE": _TXT_DODGE, "GUARD": _TXT_GUARD}
+		_set_reaction_button_text(label_map.get(tag_found, _TXT_GUARD))
 		reaction_button.disabled = false
-		# 활성: 파란색 계열
+		# Active: blue style
 		var active_style = StyleBoxFlat.new()
 		active_style.bg_color = Color(0.15, 0.42, 0.75)
 		active_style.corner_radius_top_left    = 8
@@ -990,12 +1030,12 @@ func _update_reaction_button():
 		reaction_button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
 		reaction_button.add_theme_color_override("font_color", Color.WHITE)
 	else:
-		reaction_button.text = "방어"
+		_set_reaction_button_text(_TXT_GUARD)
 		reaction_button.disabled = true
 		_apply_button_style(reaction_button, UITheme.COLORS.panel)
 
 func _on_reaction_pressed():
-	"""리액션 버튼 — 패링/회피/방어 카드 즉시 사용"""
+	"""Reaction button: use parry/dodge/guard card"""
 	if _reaction_card == null:
 		return
 	if new_combat_manager:
@@ -1006,20 +1046,20 @@ func _on_reaction_pressed():
 			request_action("card_played", {"card_index": idx, "target": -1})
 	_update_reaction_button()
 
-# ── Auto 버튼 동기화 (combat_started 신호에서 호출) ─────────
+# Auto button sync (on combat_started)
 
 func _on_pass_timer_updated(remaining: float, _duration: float):
-	"""ATB Pass 버튼 활성화 (10초 쿨 완료 시)"""
+	"""ATB Pass enable when 10s cooldown done"""
 	if pass_button and new_combat_manager is CombatManagerATB:
 		pass_button.disabled = (remaining > 0)
 
 func _on_combat_started_sync():
-	"""전투 시작 시 AI 모드에 맞게 Auto 버튼 상태 동기화"""
+	"""Sync Auto button with AI mode on combat start"""
 	if not new_combat_manager:
 		return
 	var ai = new_combat_manager.get("auto_ai")
 	if ai and "mode" in ai:
-		# FULL=2 (ATB/TB 공통)
+		# FULL=2 (ATB/TB)
 		_auto_enabled = (ai.mode == 2)
 		if _auto_enabled:
 			auto_button.text = "Auto: ON"

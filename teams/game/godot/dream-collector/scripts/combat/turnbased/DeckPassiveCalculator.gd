@@ -8,12 +8,12 @@ signal passives_calculated(passives: Array)
 func calculate(deck: Array[Card]) -> Array[Dictionary]:
 	var passives : Array[Dictionary] = []
 
-	var def_count    = _count_type(deck, "DEF")
+	var def_count    = _count_type(deck, "SKILL")
 	var atk_count    = _count_type(deck, "ATK")
 	var arcana_count = _count_where(deck, func(c): return c.is_major_arcana())
 	var parry_count  = _count_where(deck, func(c): return c.has_tag("PARRY"))
 
-	# 달의 기사: DEF 5장 이상
+	# 달의 기사: SKILL 5장 이상
 	if def_count >= 5:
 		passives.append({
 			"name": "달의 기사",
@@ -53,8 +53,8 @@ func calculate(deck: Array[Card]) -> Array[Dictionary]:
 			"value": 1,
 		})
 
-	# 꿈꾸는 자: 스킬 카드 3장 이상
-	var skill_count = _count_type(deck, "SKILL")
+	# 꿈꾸는 자: 파워 카드 3장 이상
+	var skill_count = _count_type(deck, "POWER")
 	if skill_count >= 3:
 		passives.append({
 			"name": "꿈꾸는 자",

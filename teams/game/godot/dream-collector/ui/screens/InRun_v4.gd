@@ -503,9 +503,11 @@ func _play_action_queue_step_animation(old_entries: Array, new_entries: Array):
 			tween.tween_property(c, "modulate:a", 1.0, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 	tween.tween_callback(func():
-		_action_queue_anim_overlay.visible = false
-		for c in _action_queue_anim_overlay.get_children():
-			c.queue_free()
+		if is_instance_valid(_action_queue_anim_overlay):
+			_action_queue_anim_overlay.visible = false
+			for c in _action_queue_anim_overlay.get_children():
+				if is_instance_valid(c):
+					c.queue_free()
 		for i in range(_action_queue_icon_panels.size()):
 			_action_queue_icon_panels[i].visible = true
 		_apply_action_queue_entries(new_entries)
@@ -1530,8 +1532,10 @@ func _process_next_card_animation():
 		tween2.tween_property(dup, "scale", Vector2(0.15, 0.15), 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		tween2.tween_property(dup, "modulate:a", 0.0, 0.35).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		tween2.tween_callback(func():
-			dup.queue_free()
-			manager.player_play_card(card, target_index if target_type == "monster" else -1)
+			if is_instance_valid(dup):
+				dup.queue_free()
+			if is_instance_valid(manager):
+				manager.player_play_card(card, target_index if target_type == "monster" else -1)
 			_process_next_card_animation()
 		)
 		tween2.play()

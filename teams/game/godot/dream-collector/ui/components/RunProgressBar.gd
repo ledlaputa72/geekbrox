@@ -79,7 +79,7 @@ func update_display() -> void:
 	# Calculate positions
 	var bar_width = size.x - (CAPSULE_MARGIN * 2)
 	var node_count = nodes.size()
-	var spacing = bar_width / (node_count - 1) if node_count > 1 else 0
+	var spacing = bar_width / (node_count - 1) if node_count > 1 else 0.0
 	
 	# Create node icons
 	for i in range(node_count):

@@ -155,4 +155,4 @@ text = "Speed: 1.0×"
 [node name="ReactionButton" type="Button" parent="ActionButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "방어"
+text = "Defense"

@@ -354,17 +354,24 @@ func _enemy_perform_action(enemy):
 		# 오토 플레이: 패링 불가, 회피=카드별 확률, 가드=100%
 		if auto_ai and auto_ai.mode == TurnBasedAutoAI.AutoMode.FULL:
 			await get_tree().create_timer(0.3).timeout
-			var hand = hand_system.get_hand() if hand_system else []
-			var energy = energy_system.get_current() if energy_system else 0
-			var card = auto_ai.decide_defense(hand, attack_data, energy)
-			if card:
-				player_play_card(card)
-		await reaction_mgr.reaction_resolved
+			# ★ 타이머 중 유저/시스템이 이미 리액션 해결했으면 스킵
+			if reaction_mgr.reaction_state == "OPEN":
+				var tb_hand = hand_system.get_hand() if hand_system else []
+				var energy = energy_system.get_current() if energy_system else 0
+				var auto_card = auto_ai.decide_defense(tb_hand, attack_data, energy)
+				if auto_card:
+					player_play_card(auto_card)
+		# ★ 이미 해결된 리액션(유저 버튼 클릭 등)이면 await 생략 → 교착 방지
+		if reaction_mgr.reaction_state == "OPEN":
+			await reaction_mgr.reaction_resolved
 	else:
 		await get_tree().create_timer(0.3).timeout
 
 	# 결과 적용
 	var result = reaction_mgr.last_result if reaction_mgr else null
+	# ★ 리액션에 사용된 카드를 손패에서 제거 (이미 제거된 경우 중복 방지)
+	if result and result.card and hand_system and result.card in hand_system.get_hand():
+		hand_system.discard_card(result.card)
 	_apply_action_result(enemy, attack_data, result)
 	if intent_system:
 		intent_system.advance(enemy)

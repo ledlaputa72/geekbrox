@@ -6,7 +6,8 @@ extends Resource
 @export var id: String = ""
 @export var name: String = ""
 @export var cost: int = 1
-@export var type: String = ""       # "ATK" | "DEF" | "SKILL" | "POWER" | "CURSE"
+@export var type: String = ""       # "ATK" | "SKILL" | "POWER" | "CURSE" (메인 카테고리)
+@export var sub_category: String = ""  # 서브 카테고리: SKILL→ GUARD/PARRY/DODGE/ARMOR/HP, ATK→ SINGLE/AOE/DEBUFF 등
 @export var tags: Array[String] = []  # ["PARRY", "DODGE", "GUARD", "MAJOR_ARCANA"]
 @export var rarity: String = "COMMON"  # COMMON | RARE | SPECIAL | LEGENDARY
 @export var description: String = ""
@@ -29,6 +30,16 @@ func has_tag(tag: String) -> bool:
 func is_major_arcana() -> bool:
 	return tags.has("MAJOR_ARCANA")
 
+# 메인/서브 카테고리 표시명 (UI·필터용)
+const SUB_CATEGORY_DISPLAY = {
+	"GUARD": "\uAC00\uB4DC", "PARRY": "\uD328\uB9C1", "DODGE": "\uD68C\uD53C",
+	"ARMOR": "\uC544\uBA38", "HP": "\uCCB4\uB825",
+	"SINGLE": "\uB2E8\uD0C4", "AOE": "\uAD11\uC5ED", "DEBUFF": "\uB514\uBC84\uD504", "BUFF": "\uBC84\uD504", "UTILITY": "\uC720\uD2B9",
+	"DRAW": "\uB4DC\uB85C\uC6B0",
+}
+func get_sub_category_display_name() -> String:
+	return SUB_CATEGORY_DISPLAY.get(sub_category, sub_category) if sub_category else ""
+
 func get_mobile_description() -> String:
 	if short_desc != "":
 		return short_desc
@@ -50,6 +61,7 @@ func duplicate_card() -> Card:
 	c.name = name
 	c.cost = cost
 	c.type = type
+	c.sub_category = sub_category
 	c.tags = tags.duplicate()
 	c.rarity = rarity
 	c.description = description

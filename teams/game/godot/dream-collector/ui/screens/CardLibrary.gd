@@ -7,7 +7,7 @@ extends Control
 # ─── 카드 데이터 ─────────────────────────────────────
 var all_cards: Array = []
 var filtered_cards: Array = []
-var current_filter: String = "all"  # all, attack, defense, skill, power
+var current_filter: String = "all"  # all, attack, skill, power, curse
 
 # ─── UI 노드 참조 ────────────────────────────────────
 @onready var background: ColorRect = $Background
@@ -69,12 +69,16 @@ func setup_signals() -> void:
 	# Top bar buttons
 	deck_button.pressed.connect(_on_deck_pressed)
 	
-	# Filter buttons
+	# Filter buttons (DefenseButton→skill, SkillButton→power, PowerButton→curse)
 	all_button.pressed.connect(_on_filter_pressed.bind("all"))
 	attack_button.pressed.connect(_on_filter_pressed.bind("attack"))
-	defense_button.pressed.connect(_on_filter_pressed.bind("defense"))
-	skill_button.pressed.connect(_on_filter_pressed.bind("skill"))
-	power_button.pressed.connect(_on_filter_pressed.bind("power"))
+	defense_button.pressed.connect(_on_filter_pressed.bind("skill"))
+	skill_button.pressed.connect(_on_filter_pressed.bind("power"))
+	power_button.pressed.connect(_on_filter_pressed.bind("curse"))
+	# 버튼 텍스트 업데이트 (tscn 라벨 오버라이드)
+	defense_button.text = "Skill"
+	skill_button.text = "Power"
+	power_button.text = "Curse"
 	
 	# BottomNav
 	bottom_nav.tab_pressed.connect(_on_tab_pressed)
@@ -84,7 +88,7 @@ func load_card_data() -> void:
 	# 임시 카드 데이터 생성 (85장)
 	# TODO: 실제 게임 데이터에서 로드
 	
-	var card_types = ["attack", "defense", "skill", "power"]
+	var card_types = ["attack", "skill", "power", "curse"]
 	var rarities = ["common", "uncommon", "rare", "epic", "legendary"]
 	
 	for i in range(85):
@@ -106,12 +110,12 @@ func _generate_card_name(type: String, index: int) -> String:
 	match type:
 		"attack":
 			return "Strike %d" % (index + 1)
-		"defense":
-			return "Block %d" % (index + 1)
 		"skill":
-			return "Skill %d" % (index + 1)
+			return "Guard %d" % (index + 1)
 		"power":
 			return "Power %d" % (index + 1)
+		"curse":
+			return "Curse %d" % (index + 1)
 	return "Card %d" % (index + 1)
 
 func _generate_description(type: String, index: int) -> String:
@@ -119,12 +123,12 @@ func _generate_description(type: String, index: int) -> String:
 	match type:
 		"attack":
 			return "Deal %d damage." % base_value
-		"defense":
-			return "Gain %d block." % base_value
 		"skill":
-			return "Draw %d cards." % min(base_value / 5, 3)
+			return "Gain %d block." % base_value
 		"power":
-			return "+%d strength." % min(base_value / 5, 2)
+			return "Draw %d cards." % min(base_value / 5, 3)
+		"curse":
+			return "Apply %d poison." % min(base_value / 5, 2)
 	return "Effect."
 
 # ─── 필터 적용 ───────────────────────────────────────
@@ -152,12 +156,12 @@ func apply_filter(filter_type: String) -> void:
 			all_button.modulate = UITheme.COLORS.primary
 		"attack":
 			attack_button.modulate = UITheme.COLORS.attack
-		"defense":
-			defense_button.modulate = UITheme.COLORS.defense
 		"skill":
-			skill_button.modulate = UITheme.COLORS.skill
+			defense_button.modulate = UITheme.COLORS.skill
 		"power":
-			power_button.modulate = UITheme.COLORS.power
+			skill_button.modulate = UITheme.COLORS.power
+		"curse":
+			power_button.modulate = UITheme.COLORS.curse
 	
 	print("[CardLibrary] 필터 적용: %s - %d장 표시" % [filter_type, filtered_cards.size()])
 

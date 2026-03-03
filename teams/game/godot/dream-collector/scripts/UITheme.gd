@@ -37,9 +37,9 @@ const COLORS = {
 	
 	# Card Type Colors (카드 라이브러리용)
 	"attack": Color("#FF6B6B"),            # 공격 카드 (빨강)
-	"defense": Color("#51CF66"),           # 방어 카드 (초록)
-	"skill": Color("#9775FA"),             # 스킬 카드 (보라)
-	"power": Color("#FFD93D"),             # 파워 카드 (노랑)
+	"skill": Color("#51CF66"),             # 스킬 카드 (초록) — 가드/패링/회피
+	"power": Color("#4DABF7"),             # 파워 카드 (파랑) — 버프/마법
+	"curse": Color("#FFD93D"),             # 커스 카드 (노랑) — 디버프/저주
 	
 	# Rarity Colors
 	"common": Color("#B0B0C8"),            # 일반 (회색)

@@ -94,12 +94,16 @@ func setup_signals() -> void:
 	back_button.pressed.connect(_on_back_pressed)
 	save_button.pressed.connect(_on_save_pressed)
 	
-	# Filter buttons
+	# Filter buttons (DefenseButton→skill, SkillButton→power, PowerButton→curse)
 	all_button.pressed.connect(_on_filter_pressed.bind("all"))
 	attack_button.pressed.connect(_on_filter_pressed.bind("attack"))
-	defense_button.pressed.connect(_on_filter_pressed.bind("defense"))
-	skill_button.pressed.connect(_on_filter_pressed.bind("skill"))
-	power_button.pressed.connect(_on_filter_pressed.bind("power"))
+	defense_button.pressed.connect(_on_filter_pressed.bind("skill"))
+	skill_button.pressed.connect(_on_filter_pressed.bind("power"))
+	power_button.pressed.connect(_on_filter_pressed.bind("curse"))
+	# 버튼 텍스트 업데이트 (tscn 라벨 오버라이드)
+	defense_button.text = "Skill"
+	skill_button.text = "Power"
+	power_button.text = "Curse"
 	
 	# BottomNav
 	bottom_nav.tab_pressed.connect(_on_tab_pressed)
@@ -107,7 +111,7 @@ func setup_signals() -> void:
 # ─── 카드 데이터 로드 ────────────────────────────────
 func load_card_data() -> void:
 	# CardLibrary와 동일한 카드 데이터
-	var card_types = ["attack", "defense", "skill", "power"]
+	var card_types = ["attack", "skill", "power", "curse"]
 	var rarities = ["common", "uncommon", "rare", "epic", "legendary"]
 	
 	for i in range(85):
@@ -129,12 +133,12 @@ func _generate_card_name(type: String, index: int) -> String:
 	match type:
 		"attack":
 			return "Strike %d" % (index + 1)
-		"defense":
-			return "Block %d" % (index + 1)
 		"skill":
-			return "Skill %d" % (index + 1)
+			return "Guard %d" % (index + 1)
 		"power":
 			return "Power %d" % (index + 1)
+		"curse":
+			return "Curse %d" % (index + 1)
 	return "Card %d" % (index + 1)
 
 func _generate_description(type: String, index: int) -> String:
@@ -142,12 +146,12 @@ func _generate_description(type: String, index: int) -> String:
 	match type:
 		"attack":
 			return "Deal %d damage." % base_value
-		"defense":
-			return "Gain %d block." % base_value
 		"skill":
-			return "Draw %d cards." % min(base_value / 5, 3)
+			return "Gain %d block." % base_value
 		"power":
-			return "+%d strength." % min(base_value / 5, 2)
+			return "Draw %d cards." % min(base_value / 5, 3)
+		"curse":
+			return "Apply %d poison." % min(base_value / 5, 2)
 	return "Effect."
 
 # ─── 덱 로드/저장 ────────────────────────────────────
@@ -205,12 +209,12 @@ func apply_filter(filter_type: String) -> void:
 			all_button.modulate = UITheme.COLORS.primary
 		"attack":
 			attack_button.modulate = UITheme.COLORS.attack
-		"defense":
-			defense_button.modulate = UITheme.COLORS.defense
 		"skill":
-			skill_button.modulate = UITheme.COLORS.skill
+			defense_button.modulate = UITheme.COLORS.skill
 		"power":
-			power_button.modulate = UITheme.COLORS.power
+			skill_button.modulate = UITheme.COLORS.power
+		"curse":
+			power_button.modulate = UITheme.COLORS.curse
 
 # ─── 덱 디스플레이 업데이트 ──────────────────────────
 func update_deck_display() -> void:

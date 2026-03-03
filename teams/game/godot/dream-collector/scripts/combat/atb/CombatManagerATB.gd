@@ -235,20 +235,31 @@ func _on_enemy_atb_full(enemy):
 	if intent_system:
 		intent_system.announce_attack(attack)
 
-	# 리액션 윈도우 오픈
-	reaction_open = true
-	if reaction_mgr:
-		reaction_mgr.open_reaction_window(attack)
-		# 오토 플레이: 패링 불가, 회피=카드별 확률, 가드=100%
-		if auto_ai and auto_ai.mode == ATBAutoAI.AutoMode.FULL:
-			await get_tree().create_timer(0.3).timeout
-			_try_auto_reaction()
-		await reaction_mgr.reaction_resolved
+	var result = null
+	# 오토 풀 모드: 리액션 창을 열지 않고 즉시 가드/회피만 적용 (패링 불가)
+	if reaction_mgr and auto_ai and auto_ai.mode == ATBAutoAI.AutoMode.FULL:
+		result = _run_auto_reaction_immediate()
+		if result and result.card and result.card in hand:
+			hand.erase(result.card)
+			discard_pile.append(result.card)
+			emit_signal("hand_updated", hand)
+		reaction_mgr.last_result = result if result else ATBReactionManager.ReactionResult.new("NONE", null)
+		reaction_mgr.last_failed_attempt_type = ""
+		result = reaction_mgr.last_result
 	else:
-		await get_tree().create_timer(0.1).timeout
-
-	reaction_open = false
-	var result = reaction_mgr.last_result if reaction_mgr else null
+		reaction_open = true
+		if reaction_mgr:
+			reaction_mgr.open_reaction_window(attack)
+			if reaction_mgr.reaction_state == "OPEN":
+				await reaction_mgr.reaction_resolved
+		else:
+			await get_tree().create_timer(0.1).timeout
+		reaction_open = false
+		result = reaction_mgr.last_result if reaction_mgr else null
+		if result and result.card and result.card in hand:
+			hand.erase(result.card)
+			discard_pile.append(result.card)
+			emit_signal("hand_updated", hand)
 	_apply_attack_result(enemy, attack, result)
 	if intent_system:
 		intent_system.advance_pattern(enemy)
@@ -331,21 +342,31 @@ func _calculate_damage(attacker, attack: Dictionary, target: Dictionary) -> int:
 	target["block"] = max(0, block - base)
 	return after_block
 
-# ── 오토 리액션 (패링 불가, 회피=카드별 확률, 가드=100%) ─────────────────
-func _try_auto_reaction():
+# ── 오토 리액션: 창 없이 즉시 적용 (패링 불가, 회피=카드별 확률, 가드=100%) ─────────────────
+func _run_auto_reaction_immediate():
+	"""오토 풀 모드 전용. 리액션 창을 열지 않고 가드/회피만 선택해 결과만 반환. 패링 미사용."""
 	var cur_energy = energy_system.get_current() if energy_system else 0
-	# 1) 가드 100% 우선
+	for card in hand:
+		if card.has_tag("GUARD") and card.cost <= cur_energy:
+			return ATBReactionManager.ReactionResult.new("GUARD", card)
+	for card in hand:
+		if card.has_tag("DODGE") and card.cost <= cur_energy:
+			if randf() < card.auto_dodge_success_rate:
+				return ATBReactionManager.ReactionResult.new("DODGE", card)
+	return null  # NONE
+
+func _try_auto_reaction():
+	"""리액션 창이 열린 뒤 0.3초 경과 시 호출 (레거시 경로, 오토 풀은 _run_auto_reaction_immediate 사용)"""
+	var cur_energy = energy_system.get_current() if energy_system else 0
 	for card in hand:
 		if card.has_tag("GUARD") and card.cost <= cur_energy:
 			player_play_card(card)
 			return
-	# 2) 회피: 카드별 확률로 성공 시 사용
 	for card in hand:
 		if card.has_tag("DODGE") and card.cost <= cur_energy:
 			if randf() < card.auto_dodge_success_rate:
 				player_play_card(card)
 				return
-	# 패링은 오토에서 사용하지 않음 → 무반응(NONE)으로 종료
 
 # ── 플레이어 카드 플레이 ──────────────────────────────
 func player_play_card(card: Card, target_index: int = -1):
@@ -404,8 +425,8 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 	# 방어 카드
 	if card.block > 0:
 		var actual_block = card.block
-		# "완벽한 방어" 콤보: DEF 2연속 시 보너스 블록
-		if combo_system and card.type == "DEF":
+		# "완벽한 방어" 콤보: SKILL 2연속 시 보너스 블록
+		if combo_system and card.type == "SKILL":
 			var combo_idx = combo_system._check_combo()
 			if combo_idx == 1:  # 완벽한 방어
 				actual_block += 10

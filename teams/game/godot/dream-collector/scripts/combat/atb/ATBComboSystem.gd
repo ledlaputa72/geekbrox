@@ -49,8 +49,8 @@ func _check_combo() -> int:
 	# 3: 약점 폭로 — VULNERABLE 디버프 후 ATK
 	if _last_vulnerable_then_atk(card_history):
 		return 3
-	# 1: 완벽한 방어 — DEF 2연속 (방어 카드에서도 콤보 발동)
-	if _last_n_type(card_history, 2, "DEF"):
+	# 1: 완벽한 방어 — SKILL 2연속 (스킬 카드에서도 콤보 발동)
+	if _last_n_type(card_history, 2, "SKILL"):
 		return 1
 	return -1
 
@@ -63,8 +63,8 @@ func _get_next_combo_hint() -> String:
 		return "공격 1장 더 → 연타 콤보! (+75%)"
 	if card_history.size() >= 1 and card_history[-1].has_tag("PARRY"):
 		return "공격 카드 → 패링 반격 콤보! (+30%)"
-	if _last_n_type(card_history, 1, "DEF"):
-		return "방어 1장 더 → 완벽한 방어!"
+	if _last_n_type(card_history, 1, "SKILL"):
+		return "스킬 1장 더 → 완벽한 방어!"
 	return ""
 
 # ── 조건 헬퍼 ────────────────────────────────────────
