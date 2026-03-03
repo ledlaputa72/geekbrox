@@ -100,10 +100,14 @@ func connect_combat_manager(manager: Node):
 	if manager.has_signal("pass_timer_updated"):
 		manager.pass_timer_updated.connect(_on_pass_timer_updated)
 
-	# Reaction window open/close tracking
+	# Reaction window: reset and sync with manager state (avoid stale "open" from previous combat)
 	_reaction_window_active = false
+	_reaction_card = null
+	_excluded_reaction_types.clear()
 	if "reaction_mgr" in manager and manager.reaction_mgr:
 		var rm = manager.reaction_mgr
+		if rm.get("reaction_state") == "OPEN":
+			_reaction_window_active = true
 		if rm.has_signal("reaction_window_opened") and not rm.reaction_window_opened.is_connected(_on_reaction_window_opened):
 			rm.reaction_window_opened.connect(_on_reaction_window_opened)
 		if rm.has_signal("reaction_window_closed") and not rm.reaction_window_closed.is_connected(_on_reaction_window_closed):
@@ -171,6 +175,10 @@ func _on_new_energy_updated(current, max_val):
 	_update_reaction_button()
 
 func _on_new_combat_ended_signal(result: String):
+	_reaction_window_active = false
+	_reaction_card = null
+	_excluded_reaction_types.clear()
+	_update_reaction_button()
 	if result == "WIN":
 		add_combat_log("=== VICTORY ===")
 	else:
@@ -220,6 +228,9 @@ func _on_enter():
 
 func _on_exit():
 	"""When UI is deactivated"""
+	_reaction_window_active = false
+	_reaction_card = null
+	_excluded_reaction_types.clear()
 	# Disconnect new manager signals
 	if new_combat_manager:
 		if "reaction_mgr" in new_combat_manager and new_combat_manager.reaction_mgr:
@@ -963,8 +974,17 @@ func _set_reaction_button_text_deferred(t: String) -> void:
 	if reaction_button:
 		reaction_button.text = t
 
+func _is_reaction_window_really_open() -> bool:
+	"""리액션 창이 실제로 열려 있을 때만 true. 시그널 누락 시 reaction_mgr 상태로 동기화."""
+	if not _reaction_window_active:
+		return false
+	if not new_combat_manager or not ("reaction_mgr" in new_combat_manager):
+		return false
+	var rm = new_combat_manager.reaction_mgr
+	return rm != null and rm.get("reaction_state") == "OPEN"
+
 func _update_reaction_button():
-	"""Pick reaction card by priority PARRY > DODGE > GUARD"""
+	"""Pick reaction card by priority PARRY > DODGE > GUARD. Only active when reaction window is really open."""
 	if not reaction_button:
 		return
 	if not new_combat_manager:
@@ -972,7 +992,8 @@ func _update_reaction_button():
 		reaction_button.disabled = true
 		_apply_button_style(reaction_button, UITheme.COLORS.panel)
 		return
-	if not _reaction_window_active:
+	# 리액션 창이 실제로 열려 있을 때만 버튼 활성화 (시그널/상태 불일치 방지)
+	if not _is_reaction_window_really_open():
 		_set_reaction_button_text(_TXT_REACTION)
 		reaction_button.disabled = true
 		_apply_button_style(reaction_button, UITheme.COLORS.panel)
@@ -1035,8 +1056,10 @@ func _update_reaction_button():
 		_apply_button_style(reaction_button, UITheme.COLORS.panel)
 
 func _on_reaction_pressed():
-	"""Reaction button: use parry/dodge/guard card"""
+	"""Reaction button: use parry/dodge/guard card. Only when reaction window is really open."""
 	if _reaction_card == null:
+		return
+	if not _is_reaction_window_really_open():
 		return
 	if new_combat_manager:
 		new_combat_manager.player_play_card(_reaction_card)
