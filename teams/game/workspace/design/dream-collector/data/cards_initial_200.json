@@ -1,0 +1,6655 @@
+[
+  {
+    "id": "card_001",
+    "name": "0. The Fool",
+    "nameKo": "광대",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana 0: The Fool",
+    "descriptionKo": "메이저 아르카나 0: 광대",
+    "flavor": "The fate of destiny turns with 광대",
+    "stats": {
+      "attack": 7,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_001_1",
+        "type": "damage",
+        "value": 8,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_002",
+    "name": "I. The Magician",
+    "nameKo": "마법사",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana I: The Magician",
+    "descriptionKo": "메이저 아르카나 I: 마법사",
+    "flavor": "The fate of destiny turns with 마법사",
+    "stats": {
+      "attack": 2,
+      "defense": 3,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_002_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_003",
+    "name": "II. High Priestess",
+    "nameKo": "고위 여사제",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "buff",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Major Arcana II: High Priestess",
+    "descriptionKo": "메이저 아르카나 II: 고위 여사제",
+    "flavor": "The fate of destiny turns with 고위 여사제",
+    "stats": {
+      "attack": 3,
+      "defense": 1,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_003_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_004",
+    "name": "III. The Empress",
+    "nameKo": "여제",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "debuff",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana III: The Empress",
+    "descriptionKo": "메이저 아르카나 III: 여제",
+    "flavor": "The fate of destiny turns with 여제",
+    "stats": {
+      "attack": 3,
+      "defense": 2,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_004_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_005",
+    "name": "IV. The Emperor",
+    "nameKo": "황제",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana IV: The Emperor",
+    "descriptionKo": "메이저 아르카나 IV: 황제",
+    "flavor": "The fate of destiny turns with 황제",
+    "stats": {
+      "attack": 1,
+      "defense": 1,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_005_1",
+        "type": "buff",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_006",
+    "name": "V. The Hierophant",
+    "nameKo": "교황",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "attack",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Major Arcana V: The Hierophant",
+    "descriptionKo": "메이저 아르카나 V: 교황",
+    "flavor": "The fate of destiny turns with 교황",
+    "stats": {
+      "attack": 6,
+      "defense": 1,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_006_1",
+        "type": "damage",
+        "value": 4,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_007",
+    "name": "VI. The Lovers",
+    "nameKo": "연인",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana VI: The Lovers",
+    "descriptionKo": "메이저 아르카나 VI: 연인",
+    "flavor": "The fate of destiny turns with 연인",
+    "stats": {
+      "attack": 3,
+      "defense": 7,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_007_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_008",
+    "name": "VII. The Chariot",
+    "nameKo": "전차",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "buff",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana VII: The Chariot",
+    "descriptionKo": "메이저 아르카나 VII: 전차",
+    "flavor": "The fate of destiny turns with 전차",
+    "stats": {
+      "attack": 1,
+      "defense": 2,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_008_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_009",
+    "name": "VIII. Strength",
+    "nameKo": "힘",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "debuff",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Major Arcana VIII: Strength",
+    "descriptionKo": "메이저 아르카나 VIII: 힘",
+    "flavor": "The fate of destiny turns with 힘",
+    "stats": {
+      "attack": 1,
+      "defense": 1,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_009_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_010",
+    "name": "IX. The Hermit",
+    "nameKo": "은둔자",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana IX: The Hermit",
+    "descriptionKo": "메이저 아르카나 IX: 은둔자",
+    "flavor": "The fate of destiny turns with 은둔자",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_010_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_011",
+    "name": "X. Wheel of Fortune",
+    "nameKo": "운명의 수레바퀴",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana X: Wheel of Fortune",
+    "descriptionKo": "메이저 아르카나 X: 운명의 수레바퀴",
+    "flavor": "The fate of destiny turns with 운명의 수레바퀴",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_011_1",
+        "type": "damage",
+        "value": 3,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_012",
+    "name": "XI. Justice",
+    "nameKo": "정의",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana XI: Justice",
+    "descriptionKo": "메이저 아르카나 XI: 정의",
+    "flavor": "The fate of destiny turns with 정의",
+    "stats": {
+      "attack": 2,
+      "defense": 8,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_012_1",
+        "type": "buff",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_013",
+    "name": "XII. The Hanged Man",
+    "nameKo": "매달린 남자",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "buff",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana XII: The Hanged Man",
+    "descriptionKo": "메이저 아르카나 XII: 매달린 남자",
+    "flavor": "The fate of destiny turns with 매달린 남자",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_013_1",
+        "type": "buff",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_014",
+    "name": "XIII. Death",
+    "nameKo": "죽음",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "debuff",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana XIII: Death",
+    "descriptionKo": "메이저 아르카나 XIII: 죽음",
+    "flavor": "The fate of destiny turns with 죽음",
+    "stats": {
+      "attack": 1,
+      "defense": 2,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_014_1",
+        "type": "buff",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_015",
+    "name": "XIV. Temperance",
+    "nameKo": "절제",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana XIV: Temperance",
+    "descriptionKo": "메이저 아르카나 XIV: 절제",
+    "flavor": "The fate of destiny turns with 절제",
+    "stats": {
+      "attack": 2,
+      "defense": 3,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_015_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_016",
+    "name": "XV. The Devil",
+    "nameKo": "악마",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "attack",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Major Arcana XV: The Devil",
+    "descriptionKo": "메이저 아르카나 XV: 악마",
+    "flavor": "The fate of destiny turns with 악마",
+    "stats": {
+      "attack": 6,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_016_1",
+        "type": "damage",
+        "value": 3,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_017",
+    "name": "XVI. The Tower",
+    "nameKo": "탑",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "defense",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Major Arcana XVI: The Tower",
+    "descriptionKo": "메이저 아르카나 XVI: 탑",
+    "flavor": "The fate of destiny turns with 탑",
+    "stats": {
+      "attack": 3,
+      "defense": 3,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_017_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_018",
+    "name": "XVII. The Star",
+    "nameKo": "별",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "buff",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana XVII: The Star",
+    "descriptionKo": "메이저 아르카나 XVII: 별",
+    "flavor": "The fate of destiny turns with 별",
+    "stats": {
+      "attack": 1,
+      "defense": 1,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_018_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_019",
+    "name": "XVIII. The Moon",
+    "nameKo": "달",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "debuff",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana XVIII: The Moon",
+    "descriptionKo": "메이저 아르카나 XVIII: 달",
+    "flavor": "The fate of destiny turns with 달",
+    "stats": {
+      "attack": 2,
+      "defense": 3,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_019_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_020",
+    "name": "XIX. The Sun",
+    "nameKo": "태양",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana XIX: The Sun",
+    "descriptionKo": "메이저 아르카나 XIX: 태양",
+    "flavor": "The fate of destiny turns with 태양",
+    "stats": {
+      "attack": 2,
+      "defense": 2,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_020_1",
+        "type": "buff",
+        "value": 8,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_021",
+    "name": "XX. Judgement",
+    "nameKo": "심판",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana XX: Judgement",
+    "descriptionKo": "메이저 아르카나 XX: 심판",
+    "flavor": "The fate of destiny turns with 심판",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_021_1",
+        "type": "damage",
+        "value": 7,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_022",
+    "name": "XXI. The World",
+    "nameKo": "세계",
+    "category": "tarot",
+    "subcategory": "major",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Major Arcana XXI: The World",
+    "descriptionKo": "메이저 아르카나 XXI: 세계",
+    "flavor": "The fate of destiny turns with 세계",
+    "stats": {
+      "attack": 3,
+      "defense": 3,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_022_1",
+        "type": "buff",
+        "value": 8,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_023",
+    "name": "King of Wands",
+    "nameKo": "Wands 왕",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Court card: King of Wands",
+    "descriptionKo": "코트 카드: Wands의 왕",
+    "flavor": "The 왕 of Wands guides your path",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_023_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_024",
+    "name": "Queen of Wands",
+    "nameKo": "Wands 여왕",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Court card: Queen of Wands",
+    "descriptionKo": "코트 카드: Wands의 여왕",
+    "flavor": "The 여왕 of Wands guides your path",
+    "stats": {
+      "attack": 6,
+      "defense": 3,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_024_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_025",
+    "name": "Knight of Wands",
+    "nameKo": "Wands 기사",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Court card: Knight of Wands",
+    "descriptionKo": "코트 카드: Wands의 기사",
+    "flavor": "The 기사 of Wands guides your path",
+    "stats": {
+      "attack": 3,
+      "defense": 4,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_025_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_026",
+    "name": "Page of Wands",
+    "nameKo": "Wands 시종",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Court card: Page of Wands",
+    "descriptionKo": "코트 카드: Wands의 시종",
+    "flavor": "The 시종 of Wands guides your path",
+    "stats": {
+      "attack": 5,
+      "defense": 6,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_026_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_027",
+    "name": "King of Cups",
+    "nameKo": "Cups 왕",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: King of Cups",
+    "descriptionKo": "코트 카드: Cups의 왕",
+    "flavor": "The 왕 of Cups guides your path",
+    "stats": {
+      "attack": 4,
+      "defense": 6,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_027_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_028",
+    "name": "Queen of Cups",
+    "nameKo": "Cups 여왕",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: Queen of Cups",
+    "descriptionKo": "코트 카드: Cups의 여왕",
+    "flavor": "The 여왕 of Cups guides your path",
+    "stats": {
+      "attack": 2,
+      "defense": 2,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_028_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_029",
+    "name": "Knight of Cups",
+    "nameKo": "Cups 기사",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: Knight of Cups",
+    "descriptionKo": "코트 카드: Cups의 기사",
+    "flavor": "The 기사 of Cups guides your path",
+    "stats": {
+      "attack": 6,
+      "defense": 5,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_029_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_030",
+    "name": "Page of Cups",
+    "nameKo": "Cups 시종",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: Page of Cups",
+    "descriptionKo": "코트 카드: Cups의 시종",
+    "flavor": "The 시종 of Cups guides your path",
+    "stats": {
+      "attack": 3,
+      "defense": 2,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_030_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_031",
+    "name": "King of Swords",
+    "nameKo": "Swords 왕",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "heal",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: King of Swords",
+    "descriptionKo": "코트 카드: Swords의 왕",
+    "flavor": "The 왕 of Swords guides your path",
+    "stats": {
+      "attack": 1,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_031_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_032",
+    "name": "Queen of Swords",
+    "nameKo": "Swords 여왕",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "heal",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Court card: Queen of Swords",
+    "descriptionKo": "코트 카드: Swords의 여왕",
+    "flavor": "The 여왕 of Swords guides your path",
+    "stats": {
+      "attack": 6,
+      "defense": 4,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_032_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_033",
+    "name": "Knight of Swords",
+    "nameKo": "Swords 기사",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "heal",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: Knight of Swords",
+    "descriptionKo": "코트 카드: Swords의 기사",
+    "flavor": "The 기사 of Swords guides your path",
+    "stats": {
+      "attack": 4,
+      "defense": 5,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_033_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_034",
+    "name": "Page of Swords",
+    "nameKo": "Swords 시종",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "heal",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: Page of Swords",
+    "descriptionKo": "코트 카드: Swords의 시종",
+    "flavor": "The 시종 of Swords guides your path",
+    "stats": {
+      "attack": 5,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_034_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_035",
+    "name": "King of Pentacles",
+    "nameKo": "Pentacles 왕",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "buff",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: King of Pentacles",
+    "descriptionKo": "코트 카드: Pentacles의 왕",
+    "flavor": "The 왕 of Pentacles guides your path",
+    "stats": {
+      "attack": 6,
+      "defense": 3,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_035_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_036",
+    "name": "Queen of Pentacles",
+    "nameKo": "Pentacles 여왕",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "buff",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: Queen of Pentacles",
+    "descriptionKo": "코트 카드: Pentacles의 여왕",
+    "flavor": "The 여왕 of Pentacles guides your path",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_036_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_037",
+    "name": "Knight of Pentacles",
+    "nameKo": "Pentacles 기사",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "buff",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: Knight of Pentacles",
+    "descriptionKo": "코트 카드: Pentacles의 기사",
+    "flavor": "The 기사 of Pentacles guides your path",
+    "stats": {
+      "attack": 5,
+      "defense": 2,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_037_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_038",
+    "name": "Page of Pentacles",
+    "nameKo": "Pentacles 시종",
+    "category": "tarot",
+    "subcategory": "court",
+    "type": "buff",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Court card: Page of Pentacles",
+    "descriptionKo": "코트 카드: Pentacles의 시종",
+    "flavor": "The 시종 of Pentacles guides your path",
+    "stats": {
+      "attack": 6,
+      "defense": 5,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_038_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_039",
+    "name": "Ace of Wands",
+    "nameKo": "Wands Ace",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Ace of Wands",
+    "descriptionKo": "숫자 카드: Wands의 Ace",
+    "flavor": "Ace brings fortune",
+    "stats": {
+      "attack": 3,
+      "defense": 2,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_039_1",
+        "type": "damage",
+        "value": 1,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_040",
+    "name": "Two of Wands",
+    "nameKo": "Wands Two",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Two of Wands",
+    "descriptionKo": "숫자 카드: Wands의 Two",
+    "flavor": "Two brings fortune",
+    "stats": {
+      "attack": 3,
+      "defense": 4,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_040_1",
+        "type": "damage",
+        "value": 2,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_041",
+    "name": "Three of Wands",
+    "nameKo": "Wands Three",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Three of Wands",
+    "descriptionKo": "숫자 카드: Wands의 Three",
+    "flavor": "Three brings fortune",
+    "stats": {
+      "attack": 3,
+      "defense": 3,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_041_1",
+        "type": "damage",
+        "value": 3,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_042",
+    "name": "Four of Wands",
+    "nameKo": "Wands Four",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Four of Wands",
+    "descriptionKo": "숫자 카드: Wands의 Four",
+    "flavor": "Four brings fortune",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_042_1",
+        "type": "damage",
+        "value": 4,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_043",
+    "name": "Five of Wands",
+    "nameKo": "Wands Five",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Five of Wands",
+    "descriptionKo": "숫자 카드: Wands의 Five",
+    "flavor": "Five brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 1,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_043_1",
+        "type": "damage",
+        "value": 5,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_044",
+    "name": "Six of Wands",
+    "nameKo": "Wands Six",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Six of Wands",
+    "descriptionKo": "숫자 카드: Wands의 Six",
+    "flavor": "Six brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_044_1",
+        "type": "damage",
+        "value": 6,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_045",
+    "name": "Seven of Wands",
+    "nameKo": "Wands Seven",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Seven of Wands",
+    "descriptionKo": "숫자 카드: Wands의 Seven",
+    "flavor": "Seven brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_045_1",
+        "type": "damage",
+        "value": 7,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_046",
+    "name": "Eight of Wands",
+    "nameKo": "Wands Eight",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Eight of Wands",
+    "descriptionKo": "숫자 카드: Wands의 Eight",
+    "flavor": "Eight brings fortune",
+    "stats": {
+      "attack": 3,
+      "defense": 4,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_046_1",
+        "type": "damage",
+        "value": 8,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_047",
+    "name": "Nine of Wands",
+    "nameKo": "Wands Nine",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Nine of Wands",
+    "descriptionKo": "숫자 카드: Wands의 Nine",
+    "flavor": "Nine brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 1,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_047_1",
+        "type": "damage",
+        "value": 9,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_048",
+    "name": "Ten of Wands",
+    "nameKo": "Wands Ten",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Ten of Wands",
+    "descriptionKo": "숫자 카드: Wands의 Ten",
+    "flavor": "Ten brings fortune",
+    "stats": {
+      "attack": 1,
+      "defense": 3,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_048_1",
+        "type": "damage",
+        "value": 10,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_049",
+    "name": "Ace of Cups",
+    "nameKo": "Cups Ace",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Ace of Cups",
+    "descriptionKo": "숫자 카드: Cups의 Ace",
+    "flavor": "Ace brings fortune",
+    "stats": {
+      "attack": 2,
+      "defense": 2,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_049_1",
+        "type": "damage",
+        "value": 1,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_050",
+    "name": "Two of Cups",
+    "nameKo": "Cups Two",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Two of Cups",
+    "descriptionKo": "숫자 카드: Cups의 Two",
+    "flavor": "Two brings fortune",
+    "stats": {
+      "attack": 1,
+      "defense": 2,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_050_1",
+        "type": "damage",
+        "value": 2,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_051",
+    "name": "Three of Cups",
+    "nameKo": "Cups Three",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Three of Cups",
+    "descriptionKo": "숫자 카드: Cups의 Three",
+    "flavor": "Three brings fortune",
+    "stats": {
+      "attack": 3,
+      "defense": 1,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_051_1",
+        "type": "damage",
+        "value": 3,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_052",
+    "name": "Four of Cups",
+    "nameKo": "Cups Four",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Four of Cups",
+    "descriptionKo": "숫자 카드: Cups의 Four",
+    "flavor": "Four brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_052_1",
+        "type": "damage",
+        "value": 4,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_053",
+    "name": "Five of Cups",
+    "nameKo": "Cups Five",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Five of Cups",
+    "descriptionKo": "숫자 카드: Cups의 Five",
+    "flavor": "Five brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_053_1",
+        "type": "damage",
+        "value": 5,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_054",
+    "name": "Six of Cups",
+    "nameKo": "Cups Six",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Six of Cups",
+    "descriptionKo": "숫자 카드: Cups의 Six",
+    "flavor": "Six brings fortune",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_054_1",
+        "type": "damage",
+        "value": 6,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_055",
+    "name": "Seven of Cups",
+    "nameKo": "Cups Seven",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Seven of Cups",
+    "descriptionKo": "숫자 카드: Cups의 Seven",
+    "flavor": "Seven brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_055_1",
+        "type": "damage",
+        "value": 7,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_056",
+    "name": "Eight of Cups",
+    "nameKo": "Cups Eight",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Eight of Cups",
+    "descriptionKo": "숫자 카드: Cups의 Eight",
+    "flavor": "Eight brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_056_1",
+        "type": "damage",
+        "value": 8,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_057",
+    "name": "Nine of Cups",
+    "nameKo": "Cups Nine",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Nine of Cups",
+    "descriptionKo": "숫자 카드: Cups의 Nine",
+    "flavor": "Nine brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_057_1",
+        "type": "damage",
+        "value": 9,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_058",
+    "name": "Ten of Cups",
+    "nameKo": "Cups Ten",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Ten of Cups",
+    "descriptionKo": "숫자 카드: Cups의 Ten",
+    "flavor": "Ten brings fortune",
+    "stats": {
+      "attack": 2,
+      "defense": 2,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_058_1",
+        "type": "damage",
+        "value": 10,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_059",
+    "name": "Ace of Swords",
+    "nameKo": "Swords Ace",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "heal",
+    "rarity": "uncommon",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Ace of Swords",
+    "descriptionKo": "숫자 카드: Swords의 Ace",
+    "flavor": "Ace brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_059_1",
+        "type": "damage",
+        "value": 1,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_060",
+    "name": "Two of Swords",
+    "nameKo": "Swords Two",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "heal",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Two of Swords",
+    "descriptionKo": "숫자 카드: Swords의 Two",
+    "flavor": "Two brings fortune",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_060_1",
+        "type": "damage",
+        "value": 2,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_061",
+    "name": "Three of Swords",
+    "nameKo": "Swords Three",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "heal",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Three of Swords",
+    "descriptionKo": "숫자 카드: Swords의 Three",
+    "flavor": "Three brings fortune",
+    "stats": {
+      "attack": 1,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_061_1",
+        "type": "damage",
+        "value": 3,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_062",
+    "name": "Four of Swords",
+    "nameKo": "Swords Four",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "heal",
+    "rarity": "common",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Four of Swords",
+    "descriptionKo": "숫자 카드: Swords의 Four",
+    "flavor": "Four brings fortune",
+    "stats": {
+      "attack": 2,
+      "defense": 2,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_062_1",
+        "type": "damage",
+        "value": 4,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_063",
+    "name": "Five of Swords",
+    "nameKo": "Swords Five",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "heal",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Five of Swords",
+    "descriptionKo": "숫자 카드: Swords의 Five",
+    "flavor": "Five brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_063_1",
+        "type": "damage",
+        "value": 5,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_064",
+    "name": "Six of Swords",
+    "nameKo": "Swords Six",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "heal",
+    "rarity": "common",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Six of Swords",
+    "descriptionKo": "숫자 카드: Swords의 Six",
+    "flavor": "Six brings fortune",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_064_1",
+        "type": "damage",
+        "value": 6,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_065",
+    "name": "Seven of Swords",
+    "nameKo": "Swords Seven",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "heal",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Seven of Swords",
+    "descriptionKo": "숫자 카드: Swords의 Seven",
+    "flavor": "Seven brings fortune",
+    "stats": {
+      "attack": 3,
+      "defense": 4,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_065_1",
+        "type": "damage",
+        "value": 7,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_066",
+    "name": "Eight of Swords",
+    "nameKo": "Swords Eight",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "heal",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Eight of Swords",
+    "descriptionKo": "숫자 카드: Swords의 Eight",
+    "flavor": "Eight brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_066_1",
+        "type": "damage",
+        "value": 8,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_067",
+    "name": "Nine of Swords",
+    "nameKo": "Swords Nine",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "heal",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Nine of Swords",
+    "descriptionKo": "숫자 카드: Swords의 Nine",
+    "flavor": "Nine brings fortune",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_067_1",
+        "type": "damage",
+        "value": 9,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_068",
+    "name": "Ten of Swords",
+    "nameKo": "Swords Ten",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "heal",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Ten of Swords",
+    "descriptionKo": "숫자 카드: Swords의 Ten",
+    "flavor": "Ten brings fortune",
+    "stats": {
+      "attack": 3,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_068_1",
+        "type": "damage",
+        "value": 10,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_069",
+    "name": "Ace of Pentacles",
+    "nameKo": "Pentacles Ace",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "utility",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Ace of Pentacles",
+    "descriptionKo": "숫자 카드: Pentacles의 Ace",
+    "flavor": "Ace brings fortune",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_069_1",
+        "type": "damage",
+        "value": 1,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_070",
+    "name": "Two of Pentacles",
+    "nameKo": "Pentacles Two",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "utility",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Two of Pentacles",
+    "descriptionKo": "숫자 카드: Pentacles의 Two",
+    "flavor": "Two brings fortune",
+    "stats": {
+      "attack": 1,
+      "defense": 2,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_070_1",
+        "type": "damage",
+        "value": 2,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_071",
+    "name": "Three of Pentacles",
+    "nameKo": "Pentacles Three",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "utility",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Three of Pentacles",
+    "descriptionKo": "숫자 카드: Pentacles의 Three",
+    "flavor": "Three brings fortune",
+    "stats": {
+      "attack": 1,
+      "defense": 2,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_071_1",
+        "type": "damage",
+        "value": 3,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_072",
+    "name": "Four of Pentacles",
+    "nameKo": "Pentacles Four",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "utility",
+    "rarity": "common",
+    "cost": 1,
+    "costType": "mana",
+    "description": "Pip card: Four of Pentacles",
+    "descriptionKo": "숫자 카드: Pentacles의 Four",
+    "flavor": "Four brings fortune",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_072_1",
+        "type": "damage",
+        "value": 4,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_073",
+    "name": "Five of Pentacles",
+    "nameKo": "Pentacles Five",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "utility",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Five of Pentacles",
+    "descriptionKo": "숫자 카드: Pentacles의 Five",
+    "flavor": "Five brings fortune",
+    "stats": {
+      "attack": 3,
+      "defense": 3,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_073_1",
+        "type": "damage",
+        "value": 5,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_074",
+    "name": "Six of Pentacles",
+    "nameKo": "Pentacles Six",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "utility",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Six of Pentacles",
+    "descriptionKo": "숫자 카드: Pentacles의 Six",
+    "flavor": "Six brings fortune",
+    "stats": {
+      "attack": 3,
+      "defense": 2,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_074_1",
+        "type": "damage",
+        "value": 6,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_075",
+    "name": "Seven of Pentacles",
+    "nameKo": "Pentacles Seven",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "utility",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Seven of Pentacles",
+    "descriptionKo": "숫자 카드: Pentacles의 Seven",
+    "flavor": "Seven brings fortune",
+    "stats": {
+      "attack": 2,
+      "defense": 3,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_075_1",
+        "type": "damage",
+        "value": 7,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_076",
+    "name": "Eight of Pentacles",
+    "nameKo": "Pentacles Eight",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "utility",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Pip card: Eight of Pentacles",
+    "descriptionKo": "숫자 카드: Pentacles의 Eight",
+    "flavor": "Eight brings fortune",
+    "stats": {
+      "attack": 1,
+      "defense": 1,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_076_1",
+        "type": "damage",
+        "value": 8,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_077",
+    "name": "Nine of Pentacles",
+    "nameKo": "Pentacles Nine",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "utility",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Nine of Pentacles",
+    "descriptionKo": "숫자 카드: Pentacles의 Nine",
+    "flavor": "Nine brings fortune",
+    "stats": {
+      "attack": 1,
+      "defense": 1,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_077_1",
+        "type": "damage",
+        "value": 9,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_078",
+    "name": "Ten of Pentacles",
+    "nameKo": "Pentacles Ten",
+    "category": "tarot",
+    "subcategory": "pip",
+    "type": "utility",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Pip card: Ten of Pentacles",
+    "descriptionKo": "숫자 카드: Pentacles의 Ten",
+    "flavor": "Ten brings fortune",
+    "stats": {
+      "attack": 3,
+      "defense": 2,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_078_1",
+        "type": "damage",
+        "value": 10,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_079",
+    "name": "Nox_Awakening_1",
+    "nameKo": "녹스의 각성 1",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 1",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 1",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 3,
+      "defense": 3,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_079_1",
+        "type": "buff",
+        "value": 1,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_080",
+    "name": "Nox_Awakening_2",
+    "nameKo": "녹스의 각성 2",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "heal",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 2",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 2",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 5,
+      "defense": 5,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_080_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_081",
+    "name": "Nox_Awakening_3",
+    "nameKo": "녹스의 각성 3",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 4,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 3",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 3",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 7,
+      "defense": 5,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_081_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_082",
+    "name": "Nox_Awakening_4",
+    "nameKo": "녹스의 각성 4",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 4",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 4",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 6,
+      "defense": 3,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_082_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_083",
+    "name": "Nox_Awakening_5",
+    "nameKo": "녹스의 각성 5",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "heal",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 5",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 5",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 4,
+      "defense": 1,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_083_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_084",
+    "name": "Nox_Awakening_6",
+    "nameKo": "녹스의 각성 6",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 4,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 6",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 6",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 6,
+      "defense": 2,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_084_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_085",
+    "name": "Nox_Awakening_7",
+    "nameKo": "녹스의 각성 7",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 7",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 7",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 6,
+      "defense": 2,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_085_1",
+        "type": "buff",
+        "value": 7,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_086",
+    "name": "Nox_Awakening_8",
+    "nameKo": "녹스의 각성 8",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "heal",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 8",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 8",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 7,
+      "defense": 6,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_086_1",
+        "type": "buff",
+        "value": 8,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_087",
+    "name": "Nox_Awakening_9",
+    "nameKo": "녹스의 각성 9",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 4,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 9",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 9",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 5,
+      "defense": 3,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_087_1",
+        "type": "buff",
+        "value": 9,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_088",
+    "name": "Nox_Awakening_10",
+    "nameKo": "녹스의 각성 10",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 10",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 10",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 7,
+      "defense": 4,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_088_1",
+        "type": "buff",
+        "value": 10,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_089",
+    "name": "Nox_Awakening_11",
+    "nameKo": "녹스의 각성 11",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "heal",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 11",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 11",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 2,
+      "defense": 3,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_089_1",
+        "type": "buff",
+        "value": 11,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_090",
+    "name": "Nox_Awakening_12",
+    "nameKo": "녹스의 각성 12",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 4,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 12",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 12",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_090_1",
+        "type": "buff",
+        "value": 12,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_091",
+    "name": "Nox_Awakening_13",
+    "nameKo": "녹스의 각성 13",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 13",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 13",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 7,
+      "defense": 4,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_091_1",
+        "type": "buff",
+        "value": 13,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_092",
+    "name": "Nox_Awakening_14",
+    "nameKo": "녹스의 각성 14",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "heal",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 14",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 14",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_092_1",
+        "type": "buff",
+        "value": 14,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_093",
+    "name": "Nox_Awakening_15",
+    "nameKo": "녹스의 각성 15",
+    "category": "dream_essence",
+    "subcategory": "awakening",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 4,
+    "costType": "soul",
+    "description": "Nox awakens further - Stage 15",
+    "descriptionKo": "녹스가 한층 깨어남 - 단계 15",
+    "flavor": "A fragment of lost memory emerges",
+    "stats": {
+      "attack": 2,
+      "defense": 3,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_093_1",
+        "type": "buff",
+        "value": 15,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [
+      "card_080",
+      "card_081",
+      "card_082"
+    ],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_094",
+    "name": "Forgotten_Dream_1",
+    "nameKo": "잊힌 꿈의 조각 1",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 1",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 1",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_094_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_095",
+    "name": "Forgotten_Dream_2",
+    "nameKo": "잊힌 꿈의 조각 2",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "debuff",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 2",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 2",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 1,
+      "defense": 3,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_095_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_096",
+    "name": "Forgotten_Dream_3",
+    "nameKo": "잊힌 꿈의 조각 3",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "buff",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 3",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 3",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 3,
+      "defense": 5,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_096_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_097",
+    "name": "Forgotten_Dream_4",
+    "nameKo": "잊힌 꿈의 조각 4",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 4",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 4",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 2,
+      "defense": 2,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_097_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_098",
+    "name": "Forgotten_Dream_5",
+    "nameKo": "잊힌 꿈의 조각 5",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "debuff",
+    "rarity": "epic",
+    "cost": 3,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 5",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 5",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 3,
+      "defense": 4,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_098_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_099",
+    "name": "Forgotten_Dream_6",
+    "nameKo": "잊힌 꿈의 조각 6",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "buff",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 6",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 6",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 1,
+      "defense": 4,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_099_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_100",
+    "name": "Forgotten_Dream_7",
+    "nameKo": "잊힌 꿈의 조각 7",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 7",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 7",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_100_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_101",
+    "name": "Forgotten_Dream_8",
+    "nameKo": "잊힌 꿈의 조각 8",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "debuff",
+    "rarity": "epic",
+    "cost": 3,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 8",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 8",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_101_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_102",
+    "name": "Forgotten_Dream_9",
+    "nameKo": "잊힌 꿈의 조각 9",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "buff",
+    "rarity": "uncommon",
+    "cost": 4,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 9",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 9",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 3,
+      "defense": 1,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_102_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_103",
+    "name": "Forgotten_Dream_10",
+    "nameKo": "잊힌 꿈의 조각 10",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 5,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 10",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 10",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 5,
+      "defense": 3,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_103_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_104",
+    "name": "Forgotten_Dream_11",
+    "nameKo": "잊힌 꿈의 조각 11",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "debuff",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 11",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 11",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 2,
+      "defense": 5,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_104_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_105",
+    "name": "Forgotten_Dream_12",
+    "nameKo": "잊힌 꿈의 조각 12",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "buff",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 12",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 12",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 5,
+      "defense": 4,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_105_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_106",
+    "name": "Forgotten_Dream_13",
+    "nameKo": "잊힌 꿈의 조각 13",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 5,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 13",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 13",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 5,
+      "defense": 5,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_106_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_107",
+    "name": "Forgotten_Dream_14",
+    "nameKo": "잊힌 꿈의 조각 14",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "debuff",
+    "rarity": "epic",
+    "cost": 3,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 14",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 14",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 3,
+      "defense": 1,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_107_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_108",
+    "name": "Forgotten_Dream_15",
+    "nameKo": "잊힌 꿈의 조각 15",
+    "category": "dream_essence",
+    "subcategory": "memory",
+    "type": "buff",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "dream",
+    "description": "A memory from the past awakens - Fragment 15",
+    "descriptionKo": "과거의 기억이 되살아남 - 조각 15",
+    "flavor": "What was lost now returns",
+    "stats": {
+      "attack": 3,
+      "defense": 4,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_108_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_109",
+    "name": "Guardian_1",
+    "nameKo": "에테르 수호자 1",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 4,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 1",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 1",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 3,
+      "defense": 8,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_109_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_110",
+    "name": "Guardian_2",
+    "nameKo": "에테르 수호자 2",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 2",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 2",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 3,
+      "defense": 8,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_110_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_111",
+    "name": "Guardian_3",
+    "nameKo": "에테르 수호자 3",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "buff",
+    "rarity": "epic",
+    "cost": 3,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 3",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 3",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 3,
+      "defense": 7,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_111_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_112",
+    "name": "Guardian_4",
+    "nameKo": "에테르 수호자 4",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 4",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 4",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 4,
+      "defense": 8,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_112_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_113",
+    "name": "Guardian_5",
+    "nameKo": "에테르 수호자 5",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 5",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 5",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 3,
+      "defense": 6,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_113_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_114",
+    "name": "Guardian_6",
+    "nameKo": "에테르 수호자 6",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "buff",
+    "rarity": "epic",
+    "cost": 3,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 6",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 6",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 2,
+      "defense": 6,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_114_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_115",
+    "name": "Guardian_7",
+    "nameKo": "에테르 수호자 7",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 7",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 7",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 4,
+      "defense": 8,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_115_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_116",
+    "name": "Guardian_8",
+    "nameKo": "에테르 수호자 8",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 8",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 8",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 2,
+      "defense": 8,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_116_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_117",
+    "name": "Guardian_9",
+    "nameKo": "에테르 수호자 9",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "buff",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 9",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 9",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 3,
+      "defense": 3,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_117_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_118",
+    "name": "Guardian_10",
+    "nameKo": "에테르 수호자 10",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 10",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 10",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_118_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_119",
+    "name": "Guardian_11",
+    "nameKo": "에테르 수호자 11",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 11",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 11",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 2,
+      "defense": 6,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_119_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_120",
+    "name": "Guardian_12",
+    "nameKo": "에테르 수호자 12",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "buff",
+    "rarity": "epic",
+    "cost": 3,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 12",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 12",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 2,
+      "defense": 8,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_120_1",
+        "type": "buff",
+        "value": 3,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_121",
+    "name": "Guardian_13",
+    "nameKo": "에테르 수호자 13",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 13",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 13",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_121_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_122",
+    "name": "Guardian_14",
+    "nameKo": "에테르 수호자 14",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 14",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 14",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_122_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_123",
+    "name": "Guardian_15",
+    "nameKo": "에테르 수호자 15",
+    "category": "dream_essence",
+    "subcategory": "guardian",
+    "type": "buff",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "mana",
+    "description": "An ethereal guardian aids you - Guardian 15",
+    "descriptionKo": "신비한 수호자가 당신을 돕습니다 - 수호자 15",
+    "flavor": "Protective spirits watch over you",
+    "stats": {
+      "attack": 2,
+      "defense": 3,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_123_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_124",
+    "name": "Ultimate_Memory_1",
+    "nameKo": "궁극의 기억 1",
+    "category": "dream_essence",
+    "subcategory": "lost_stories",
+    "type": "utility",
+    "rarity": "legendary",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The ultimate memory emerges - Story 1",
+    "descriptionKo": "궁극의 기억이 나타남 - 이야기 1",
+    "flavor": "The greatest truth lies within",
+    "stats": {
+      "attack": 8,
+      "defense": 10,
+      "speed": 7
+    },
+    "effects": [
+      {
+        "id": "effect_124_1",
+        "type": "buff",
+        "value": 9,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_125",
+    "name": "Ultimate_Memory_2",
+    "nameKo": "궁극의 기억 2",
+    "category": "dream_essence",
+    "subcategory": "lost_stories",
+    "type": "utility",
+    "rarity": "legendary",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The ultimate memory emerges - Story 2",
+    "descriptionKo": "궁극의 기억이 나타남 - 이야기 2",
+    "flavor": "The greatest truth lies within",
+    "stats": {
+      "attack": 9,
+      "defense": 7,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_125_1",
+        "type": "buff",
+        "value": 9,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_126",
+    "name": "Ultimate_Memory_3",
+    "nameKo": "궁극의 기억 3",
+    "category": "dream_essence",
+    "subcategory": "lost_stories",
+    "type": "utility",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The ultimate memory emerges - Story 3",
+    "descriptionKo": "궁극의 기억이 나타남 - 이야기 3",
+    "flavor": "The greatest truth lies within",
+    "stats": {
+      "attack": 10,
+      "defense": 9,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_126_1",
+        "type": "buff",
+        "value": 9,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_127",
+    "name": "Ultimate_Memory_4",
+    "nameKo": "궁극의 기억 4",
+    "category": "dream_essence",
+    "subcategory": "lost_stories",
+    "type": "utility",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The ultimate memory emerges - Story 4",
+    "descriptionKo": "궁극의 기억이 나타남 - 이야기 4",
+    "flavor": "The greatest truth lies within",
+    "stats": {
+      "attack": 8,
+      "defense": 6,
+      "speed": 8
+    },
+    "effects": [
+      {
+        "id": "effect_127_1",
+        "type": "buff",
+        "value": 8,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_128",
+    "name": "Ultimate_Memory_5",
+    "nameKo": "궁극의 기억 5",
+    "category": "dream_essence",
+    "subcategory": "lost_stories",
+    "type": "utility",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The ultimate memory emerges - Story 5",
+    "descriptionKo": "궁극의 기억이 나타남 - 이야기 5",
+    "flavor": "The greatest truth lies within",
+    "stats": {
+      "attack": 8,
+      "defense": 7,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_128_1",
+        "type": "buff",
+        "value": 10,
+        "target": "ally",
+        "duration": 3
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_129",
+    "name": "Fire_Force_1",
+    "nameKo": "불 세력 1",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - attack",
+    "descriptionKo": "불 원소의 힘 해방 - attack",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 5,
+      "defense": 2,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_129_1",
+        "type": "damage",
+        "value": 6,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_130",
+    "name": "Fire_Force_2",
+    "nameKo": "불 세력 2",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "attack",
+    "rarity": "common",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - attack",
+    "descriptionKo": "불 원소의 힘 해방 - attack",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_130_1",
+        "type": "damage",
+        "value": 5,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_131",
+    "name": "Fire_Force_3",
+    "nameKo": "불 세력 3",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "buff",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - buff",
+    "descriptionKo": "불 원소의 힘 해방 - buff",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 1,
+      "defense": 2,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_131_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_132",
+    "name": "Fire_Force_4",
+    "nameKo": "불 세력 4",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "buff",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - buff",
+    "descriptionKo": "불 원소의 힘 해방 - buff",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 2,
+      "defense": 2,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_132_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_133",
+    "name": "Fire_Force_5",
+    "nameKo": "불 세력 5",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - attack",
+    "descriptionKo": "불 원소의 힘 해방 - attack",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 6,
+      "defense": 4,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_133_1",
+        "type": "damage",
+        "value": 3,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_134",
+    "name": "Fire_Force_6",
+    "nameKo": "불 세력 6",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "buff",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - buff",
+    "descriptionKo": "불 원소의 힘 해방 - buff",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 1,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_134_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_135",
+    "name": "Fire_Force_7",
+    "nameKo": "불 세력 7",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - attack",
+    "descriptionKo": "불 원소의 힘 해방 - attack",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_135_1",
+        "type": "damage",
+        "value": 6,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_136",
+    "name": "Fire_Force_8",
+    "nameKo": "불 세력 8",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "attack",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - attack",
+    "descriptionKo": "불 원소의 힘 해방 - attack",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 7,
+      "defense": 2,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_136_1",
+        "type": "damage",
+        "value": 4,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_137",
+    "name": "Fire_Force_9",
+    "nameKo": "불 세력 9",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "debuff",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - debuff",
+    "descriptionKo": "불 원소의 힘 해방 - debuff",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 1,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_137_1",
+        "type": "debuff",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_138",
+    "name": "Fire_Force_10",
+    "nameKo": "불 세력 10",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "debuff",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - debuff",
+    "descriptionKo": "불 원소의 힘 해방 - debuff",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_138_1",
+        "type": "debuff",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_139",
+    "name": "Fire_Force_11",
+    "nameKo": "불 세력 11",
+    "category": "elemental",
+    "subcategory": "fire",
+    "type": "utility",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "mana",
+    "description": "Fire elemental force unleashed - utility",
+    "descriptionKo": "불 원소의 힘 해방 - utility",
+    "flavor": "The power of 불 flows through you",
+    "stats": {
+      "attack": 1,
+      "defense": 4,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_139_1",
+        "type": "utility",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_140",
+    "name": "Water_Force_1",
+    "nameKo": "물 세력 1",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - defense",
+    "descriptionKo": "물 원소의 힘 해방 - defense",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_140_1",
+        "type": "defense",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_141",
+    "name": "Water_Force_2",
+    "nameKo": "물 세력 2",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - defense",
+    "descriptionKo": "물 원소의 힘 해방 - defense",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 4,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_141_1",
+        "type": "defense",
+        "value": 6,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_142",
+    "name": "Water_Force_3",
+    "nameKo": "물 세력 3",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "heal",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - heal",
+    "descriptionKo": "물 원소의 힘 해방 - heal",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_142_1",
+        "type": "heal",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_143",
+    "name": "Water_Force_4",
+    "nameKo": "물 세력 4",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "heal",
+    "rarity": "common",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - heal",
+    "descriptionKo": "물 원소의 힘 해방 - heal",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 1,
+      "defense": 1,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_143_1",
+        "type": "heal",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_144",
+    "name": "Water_Force_5",
+    "nameKo": "물 세력 5",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - defense",
+    "descriptionKo": "물 원소의 힘 해방 - defense",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 1,
+      "defense": 8,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_144_1",
+        "type": "defense",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_145",
+    "name": "Water_Force_6",
+    "nameKo": "물 세력 6",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "heal",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - heal",
+    "descriptionKo": "물 원소의 힘 해방 - heal",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 2,
+      "defense": 2,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_145_1",
+        "type": "heal",
+        "value": 6,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_146",
+    "name": "Water_Force_7",
+    "nameKo": "물 세력 7",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "defense",
+    "rarity": "common",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - defense",
+    "descriptionKo": "물 원소의 힘 해방 - defense",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 2,
+      "defense": 5,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_146_1",
+        "type": "defense",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_147",
+    "name": "Water_Force_8",
+    "nameKo": "물 세력 8",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - defense",
+    "descriptionKo": "물 원소의 힘 해방 - defense",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 1,
+      "defense": 8,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_147_1",
+        "type": "defense",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_148",
+    "name": "Water_Force_9",
+    "nameKo": "물 세력 9",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "debuff",
+    "rarity": "common",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - debuff",
+    "descriptionKo": "물 원소의 힘 해방 - debuff",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 1,
+      "defense": 3,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_148_1",
+        "type": "debuff",
+        "value": 6,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_149",
+    "name": "Water_Force_10",
+    "nameKo": "물 세력 10",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "debuff",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - debuff",
+    "descriptionKo": "물 원소의 힘 해방 - debuff",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 2,
+      "defense": 1,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_149_1",
+        "type": "debuff",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_150",
+    "name": "Water_Force_11",
+    "nameKo": "물 세력 11",
+    "category": "elemental",
+    "subcategory": "water",
+    "type": "utility",
+    "rarity": "common",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Water elemental force unleashed - utility",
+    "descriptionKo": "물 원소의 힘 해방 - utility",
+    "flavor": "The power of 물 flows through you",
+    "stats": {
+      "attack": 3,
+      "defense": 1,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_150_1",
+        "type": "utility",
+        "value": 3,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_151",
+    "name": "Wind_Force_1",
+    "nameKo": "바람 세력 1",
+    "category": "elemental",
+    "subcategory": "wind",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Wind elemental force unleashed - attack",
+    "descriptionKo": "바람 원소의 힘 해방 - attack",
+    "flavor": "The power of 바람 flows through you",
+    "stats": {
+      "attack": 5,
+      "defense": 3,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_151_1",
+        "type": "damage",
+        "value": 7,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_152",
+    "name": "Wind_Force_2",
+    "nameKo": "바람 세력 2",
+    "category": "elemental",
+    "subcategory": "wind",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Wind elemental force unleashed - utility",
+    "descriptionKo": "바람 원소의 힘 해방 - utility",
+    "flavor": "The power of 바람 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 4,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_152_1",
+        "type": "utility",
+        "value": 6,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_153",
+    "name": "Wind_Force_3",
+    "nameKo": "바람 세력 3",
+    "category": "elemental",
+    "subcategory": "wind",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Wind elemental force unleashed - attack",
+    "descriptionKo": "바람 원소의 힘 해방 - attack",
+    "flavor": "The power of 바람 flows through you",
+    "stats": {
+      "attack": 8,
+      "defense": 4,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_153_1",
+        "type": "damage",
+        "value": 4,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_154",
+    "name": "Wind_Force_4",
+    "nameKo": "바람 세력 4",
+    "category": "elemental",
+    "subcategory": "wind",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Wind elemental force unleashed - utility",
+    "descriptionKo": "바람 원소의 힘 해방 - utility",
+    "flavor": "The power of 바람 flows through you",
+    "stats": {
+      "attack": 3,
+      "defense": 4,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_154_1",
+        "type": "utility",
+        "value": 6,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_155",
+    "name": "Wind_Force_5",
+    "nameKo": "바람 세력 5",
+    "category": "elemental",
+    "subcategory": "wind",
+    "type": "attack",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "mana",
+    "description": "Wind elemental force unleashed - attack",
+    "descriptionKo": "바람 원소의 힘 해방 - attack",
+    "flavor": "The power of 바람 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_155_1",
+        "type": "damage",
+        "value": 3,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_156",
+    "name": "Wind_Force_6",
+    "nameKo": "바람 세력 6",
+    "category": "elemental",
+    "subcategory": "wind",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Wind elemental force unleashed - utility",
+    "descriptionKo": "바람 원소의 힘 해방 - utility",
+    "flavor": "The power of 바람 flows through you",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_156_1",
+        "type": "utility",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_157",
+    "name": "Wind_Force_7",
+    "nameKo": "바람 세력 7",
+    "category": "elemental",
+    "subcategory": "wind",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Wind elemental force unleashed - attack",
+    "descriptionKo": "바람 원소의 힘 해방 - attack",
+    "flavor": "The power of 바람 flows through you",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_157_1",
+        "type": "damage",
+        "value": 4,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_158",
+    "name": "Wind_Force_8",
+    "nameKo": "바람 세력 8",
+    "category": "elemental",
+    "subcategory": "wind",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Wind elemental force unleashed - attack",
+    "descriptionKo": "바람 원소의 힘 해방 - attack",
+    "flavor": "The power of 바람 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_158_1",
+        "type": "damage",
+        "value": 5,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_159",
+    "name": "Wind_Force_9",
+    "nameKo": "바람 세력 9",
+    "category": "elemental",
+    "subcategory": "wind",
+    "type": "debuff",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "mana",
+    "description": "Wind elemental force unleashed - debuff",
+    "descriptionKo": "바람 원소의 힘 해방 - debuff",
+    "flavor": "The power of 바람 flows through you",
+    "stats": {
+      "attack": 3,
+      "defense": 1,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_159_1",
+        "type": "debuff",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_160",
+    "name": "Wind_Force_10",
+    "nameKo": "바람 세력 10",
+    "category": "elemental",
+    "subcategory": "wind",
+    "type": "debuff",
+    "rarity": "common",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Wind elemental force unleashed - debuff",
+    "descriptionKo": "바람 원소의 힘 해방 - debuff",
+    "flavor": "The power of 바람 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 4,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_160_1",
+        "type": "debuff",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_161",
+    "name": "Earth_Force_1",
+    "nameKo": "흙 세력 1",
+    "category": "elemental",
+    "subcategory": "earth",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Earth elemental force unleashed - defense",
+    "descriptionKo": "흙 원소의 힘 해방 - defense",
+    "flavor": "The power of 흙 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 5,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_161_1",
+        "type": "defense",
+        "value": 3,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_162",
+    "name": "Earth_Force_2",
+    "nameKo": "흙 세력 2",
+    "category": "elemental",
+    "subcategory": "earth",
+    "type": "buff",
+    "rarity": "rare",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Earth elemental force unleashed - buff",
+    "descriptionKo": "흙 원소의 힘 해방 - buff",
+    "flavor": "The power of 흙 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_162_1",
+        "type": "buff",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_163",
+    "name": "Earth_Force_3",
+    "nameKo": "흙 세력 3",
+    "category": "elemental",
+    "subcategory": "earth",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Earth elemental force unleashed - defense",
+    "descriptionKo": "흙 원소의 힘 해방 - defense",
+    "flavor": "The power of 흙 flows through you",
+    "stats": {
+      "attack": 3,
+      "defense": 5,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_163_1",
+        "type": "defense",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_164",
+    "name": "Earth_Force_4",
+    "nameKo": "흙 세력 4",
+    "category": "elemental",
+    "subcategory": "earth",
+    "type": "buff",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Earth elemental force unleashed - buff",
+    "descriptionKo": "흙 원소의 힘 해방 - buff",
+    "flavor": "The power of 흙 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_164_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_165",
+    "name": "Earth_Force_5",
+    "nameKo": "흙 세력 5",
+    "category": "elemental",
+    "subcategory": "earth",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Earth elemental force unleashed - defense",
+    "descriptionKo": "흙 원소의 힘 해방 - defense",
+    "flavor": "The power of 흙 flows through you",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_165_1",
+        "type": "defense",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_166",
+    "name": "Earth_Force_6",
+    "nameKo": "흙 세력 6",
+    "category": "elemental",
+    "subcategory": "earth",
+    "type": "buff",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "mana",
+    "description": "Earth elemental force unleashed - buff",
+    "descriptionKo": "흙 원소의 힘 해방 - buff",
+    "flavor": "The power of 흙 flows through you",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_166_1",
+        "type": "buff",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_167",
+    "name": "Earth_Force_7",
+    "nameKo": "흙 세력 7",
+    "category": "elemental",
+    "subcategory": "earth",
+    "type": "defense",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "mana",
+    "description": "Earth elemental force unleashed - defense",
+    "descriptionKo": "흙 원소의 힘 해방 - defense",
+    "flavor": "The power of 흙 flows through you",
+    "stats": {
+      "attack": 3,
+      "defense": 2,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_167_1",
+        "type": "defense",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_168",
+    "name": "Earth_Force_8",
+    "nameKo": "흙 세력 8",
+    "category": "elemental",
+    "subcategory": "earth",
+    "type": "defense",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Earth elemental force unleashed - defense",
+    "descriptionKo": "흙 원소의 힘 해방 - defense",
+    "flavor": "The power of 흙 flows through you",
+    "stats": {
+      "attack": 2,
+      "defense": 4,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_168_1",
+        "type": "defense",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_169",
+    "name": "Earth_Force_9",
+    "nameKo": "흙 세력 9",
+    "category": "elemental",
+    "subcategory": "earth",
+    "type": "debuff",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "mana",
+    "description": "Earth elemental force unleashed - debuff",
+    "descriptionKo": "흙 원소의 힘 해방 - debuff",
+    "flavor": "The power of 흙 flows through you",
+    "stats": {
+      "attack": 1,
+      "defense": 1,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_169_1",
+        "type": "debuff",
+        "value": 5,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_170",
+    "name": "Earth_Force_10",
+    "nameKo": "흙 세력 10",
+    "category": "elemental",
+    "subcategory": "earth",
+    "type": "debuff",
+    "rarity": "uncommon",
+    "cost": 4,
+    "costType": "mana",
+    "description": "Earth elemental force unleashed - debuff",
+    "descriptionKo": "흙 원소의 힘 해방 - debuff",
+    "flavor": "The power of 흙 flows through you",
+    "stats": {
+      "attack": 4,
+      "defense": 1,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_170_1",
+        "type": "debuff",
+        "value": 7,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_171",
+    "name": "Zodiac_Aries",
+    "nameKo": "황도대 양자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "utility",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "dream",
+    "description": "The power of Aries awakens",
+    "descriptionKo": "양자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 6,
+      "defense": 4,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_171_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-01-15",
+    "rotationEndDate": "2026-04-15"
+  },
+  {
+    "id": "card_172",
+    "name": "Zodiac_Taurus",
+    "nameKo": "황도대 황소자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "attack",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "dream",
+    "description": "The power of Taurus awakens",
+    "descriptionKo": "황소자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 3,
+      "defense": 5,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_172_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-02-15",
+    "rotationEndDate": "2026-05-15"
+  },
+  {
+    "id": "card_173",
+    "name": "Zodiac_Gemini",
+    "nameKo": "황도대 쌍둥이자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "attack",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The power of Gemini awakens",
+    "descriptionKo": "쌍둥이자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_173_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_174",
+    "name": "Zodiac_Cancer",
+    "nameKo": "황도대 게자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "dream",
+    "description": "The power of Cancer awakens",
+    "descriptionKo": "게자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 7,
+      "defense": 5,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_174_1",
+        "type": "buff",
+        "value": 8,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-04-15",
+    "rotationEndDate": "2026-07-15"
+  },
+  {
+    "id": "card_175",
+    "name": "Zodiac_Leo",
+    "nameKo": "황도대 사자자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "utility",
+    "rarity": "epic",
+    "cost": 3,
+    "costType": "dream",
+    "description": "The power of Leo awakens",
+    "descriptionKo": "사자자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 6,
+      "defense": 5,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_175_1",
+        "type": "buff",
+        "value": 8,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-05-15",
+    "rotationEndDate": "2026-08-15"
+  },
+  {
+    "id": "card_176",
+    "name": "Zodiac_Virgo",
+    "nameKo": "황도대 처녀자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "attack",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "dream",
+    "description": "The power of Virgo awakens",
+    "descriptionKo": "처녀자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 7,
+      "defense": 7,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_176_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-06-15",
+    "rotationEndDate": "2026-09-15"
+  },
+  {
+    "id": "card_177",
+    "name": "Zodiac_Libra",
+    "nameKo": "황도대 천칭자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "buff",
+    "rarity": "epic",
+    "cost": 3,
+    "costType": "dream",
+    "description": "The power of Libra awakens",
+    "descriptionKo": "천칭자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 8,
+      "defense": 2,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_177_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-07-15",
+    "rotationEndDate": "2026-10-15"
+  },
+  {
+    "id": "card_178",
+    "name": "Zodiac_Scorpio",
+    "nameKo": "황도대 전갈자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "attack",
+    "rarity": "rare",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The power of Scorpio awakens",
+    "descriptionKo": "전갈자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_178_1",
+        "type": "buff",
+        "value": 7,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-08-15",
+    "rotationEndDate": "2026-11-15"
+  },
+  {
+    "id": "card_179",
+    "name": "Zodiac_Sagittarius",
+    "nameKo": "황도대 궁수자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "utility",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The power of Sagittarius awakens",
+    "descriptionKo": "궁수자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 5,
+      "defense": 2,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_179_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-09-15",
+    "rotationEndDate": "2026-12-15"
+  },
+  {
+    "id": "card_180",
+    "name": "Zodiac_Capricorn",
+    "nameKo": "황도대 염소자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "utility",
+    "rarity": "epic",
+    "cost": 4,
+    "costType": "dream",
+    "description": "The power of Capricorn awakens",
+    "descriptionKo": "염소자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 3,
+      "defense": 7,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_180_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-10-15",
+    "rotationEndDate": "2026-13-15"
+  },
+  {
+    "id": "card_181",
+    "name": "Zodiac_Aquarius",
+    "nameKo": "황도대 물병자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "defense",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The power of Aquarius awakens",
+    "descriptionKo": "물병자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 6,
+      "defense": 2,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_181_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-11-15",
+    "rotationEndDate": "2026-14-15"
+  },
+  {
+    "id": "card_182",
+    "name": "Zodiac_Pisces",
+    "nameKo": "황도대 물고기자리",
+    "category": "celestial",
+    "subcategory": "zodiac",
+    "type": "buff",
+    "rarity": "epic",
+    "cost": 3,
+    "costType": "dream",
+    "description": "The power of Pisces awakens",
+    "descriptionKo": "물고기자리의 힘이 깨어남",
+    "flavor": "Celestial destiny aligns with the stars",
+    "stats": {
+      "attack": 4,
+      "defense": 2,
+      "speed": 2
+    },
+    "effects": [
+      {
+        "id": "effect_182_1",
+        "type": "buff",
+        "value": 5,
+        "target": "ally",
+        "duration": 2
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-12-15",
+    "rotationEndDate": "2026-15-15"
+  },
+  {
+    "id": "card_183",
+    "name": "Lunar_New_Moon",
+    "nameKo": "달의 신월",
+    "category": "celestial",
+    "subcategory": "lunar",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "dream",
+    "description": "The 신월 grants power level 1",
+    "descriptionKo": "신월가 힘 1를 부여함",
+    "flavor": "Lunar cycles govern all mysteries",
+    "stats": {
+      "attack": 6,
+      "defense": 4,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_183_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_184",
+    "name": "Lunar_Waxing_Crescent",
+    "nameKo": "달의 초승달",
+    "category": "celestial",
+    "subcategory": "lunar",
+    "type": "utility",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "dream",
+    "description": "The 초승달 grants power level 1",
+    "descriptionKo": "초승달가 힘 1를 부여함",
+    "flavor": "Lunar cycles govern all mysteries",
+    "stats": {
+      "attack": 4,
+      "defense": 5,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_184_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_185",
+    "name": "Lunar_First_Quarter",
+    "nameKo": "달의 상현달",
+    "category": "celestial",
+    "subcategory": "lunar",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "dream",
+    "description": "The 상현달 grants power level 2",
+    "descriptionKo": "상현달가 힘 2를 부여함",
+    "flavor": "Lunar cycles govern all mysteries",
+    "stats": {
+      "attack": 5,
+      "defense": 2,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_185_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_186",
+    "name": "Lunar_Waxing_Gibbous",
+    "nameKo": "달의 증광달",
+    "category": "celestial",
+    "subcategory": "lunar",
+    "type": "utility",
+    "rarity": "uncommon",
+    "cost": 3,
+    "costType": "dream",
+    "description": "The 증광달 grants power level 2",
+    "descriptionKo": "증광달가 힘 2를 부여함",
+    "flavor": "Lunar cycles govern all mysteries",
+    "stats": {
+      "attack": 4,
+      "defense": 6,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_186_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_187",
+    "name": "Lunar_Full_Moon",
+    "nameKo": "달의 보름달",
+    "category": "celestial",
+    "subcategory": "lunar",
+    "type": "attack",
+    "rarity": "uncommon",
+    "cost": 2,
+    "costType": "dream",
+    "description": "The 보름달 grants power level 3",
+    "descriptionKo": "보름달가 힘 3를 부여함",
+    "flavor": "Lunar cycles govern all mysteries",
+    "stats": {
+      "attack": 6,
+      "defense": 6,
+      "speed": 1
+    },
+    "effects": [
+      {
+        "id": "effect_187_1",
+        "type": "buff",
+        "value": 6,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_188",
+    "name": "Lunar_Waning_Gibbous",
+    "nameKo": "달의 감광달",
+    "category": "celestial",
+    "subcategory": "lunar",
+    "type": "utility",
+    "rarity": "rare",
+    "cost": 3,
+    "costType": "dream",
+    "description": "The 감광달 grants power level 2",
+    "descriptionKo": "감광달가 힘 2를 부여함",
+    "flavor": "Lunar cycles govern all mysteries",
+    "stats": {
+      "attack": 2,
+      "defense": 3,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_188_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_189",
+    "name": "Lunar_Last_Quarter",
+    "nameKo": "달의 하현달",
+    "category": "celestial",
+    "subcategory": "lunar",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "dream",
+    "description": "The 하현달 grants power level 2",
+    "descriptionKo": "하현달가 힘 2를 부여함",
+    "flavor": "Lunar cycles govern all mysteries",
+    "stats": {
+      "attack": 4,
+      "defense": 3,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_189_1",
+        "type": "buff",
+        "value": 4,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_190",
+    "name": "Lunar_Waning_Crescent",
+    "nameKo": "달의 그믐달",
+    "category": "celestial",
+    "subcategory": "lunar",
+    "type": "defense",
+    "rarity": "rare",
+    "cost": 4,
+    "costType": "dream",
+    "description": "The 그믐달 grants power level 1",
+    "descriptionKo": "그믐달가 힘 1를 부여함",
+    "flavor": "Lunar cycles govern all mysteries",
+    "stats": {
+      "attack": 2,
+      "defense": 5,
+      "speed": 3
+    },
+    "effects": [
+      {
+        "id": "effect_190_1",
+        "type": "buff",
+        "value": 2,
+        "target": "ally",
+        "duration": 1
+      }
+    ],
+    "availability": "gacha",
+    "monetization": "free",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null
+  },
+  {
+    "id": "card_191",
+    "name": "Mythical_Phoenix_Reborn",
+    "nameKo": "신화 피닉스",
+    "category": "celestial",
+    "subcategory": "mythical",
+    "type": "attack",
+    "rarity": "legendary",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The legendary 피닉스 awakens",
+    "descriptionKo": "전설의 피닉스가 깨어남",
+    "flavor": "Ancient power beyond mortal comprehension",
+    "stats": {
+      "attack": 9,
+      "defense": 7,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_191_1",
+        "type": "damage",
+        "value": 9,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_192",
+    "name": "Mythical_Dragon_Eternal",
+    "nameKo": "신화 용",
+    "category": "celestial",
+    "subcategory": "mythical",
+    "type": "attack",
+    "rarity": "legendary",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The legendary 용 awakens",
+    "descriptionKo": "전설의 용가 깨어남",
+    "flavor": "Ancient power beyond mortal comprehension",
+    "stats": {
+      "attack": 10,
+      "defense": 10,
+      "speed": 7
+    },
+    "effects": [
+      {
+        "id": "effect_192_1",
+        "type": "damage",
+        "value": 10,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_193",
+    "name": "Mythical_Basilisk_Petrify",
+    "nameKo": "신화 바실리스크",
+    "category": "celestial",
+    "subcategory": "mythical",
+    "type": "debuff",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The legendary 바실리스크 awakens",
+    "descriptionKo": "전설의 바실리스크가 깨어남",
+    "flavor": "Ancient power beyond mortal comprehension",
+    "stats": {
+      "attack": 10,
+      "defense": 9,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_193_1",
+        "type": "damage",
+        "value": 11,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_194",
+    "name": "Mythical_Hydra_Regenerate",
+    "nameKo": "신화 하이드라",
+    "category": "celestial",
+    "subcategory": "mythical",
+    "type": "heal",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The legendary 하이드라 awakens",
+    "descriptionKo": "전설의 하이드라가 깨어남",
+    "flavor": "Ancient power beyond mortal comprehension",
+    "stats": {
+      "attack": 9,
+      "defense": 7,
+      "speed": 6
+    },
+    "effects": [
+      {
+        "id": "effect_194_1",
+        "type": "damage",
+        "value": 8,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_195",
+    "name": "Mythical_Kraken_Abyss",
+    "nameKo": "신화 크라켄",
+    "category": "celestial",
+    "subcategory": "mythical",
+    "type": "attack",
+    "rarity": "legendary",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The legendary 크라켄 awakens",
+    "descriptionKo": "전설의 크라켄가 깨어남",
+    "flavor": "Ancient power beyond mortal comprehension",
+    "stats": {
+      "attack": 7,
+      "defense": 10,
+      "speed": 8
+    },
+    "effects": [
+      {
+        "id": "effect_195_1",
+        "type": "damage",
+        "value": 11,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_196",
+    "name": "Mythical_Sphinx_Riddle",
+    "nameKo": "신화 스핑크스",
+    "category": "celestial",
+    "subcategory": "mythical",
+    "type": "utility",
+    "rarity": "legendary",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The legendary 스핑크스 awakens",
+    "descriptionKo": "전설의 스핑크스가 깨어남",
+    "flavor": "Ancient power beyond mortal comprehension",
+    "stats": {
+      "attack": 7,
+      "defense": 6,
+      "speed": 8
+    },
+    "effects": [
+      {
+        "id": "effect_196_1",
+        "type": "damage",
+        "value": 10,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_197",
+    "name": "Mythical_Gryphon_Guardian",
+    "nameKo": "신화 그리핀",
+    "category": "celestial",
+    "subcategory": "mythical",
+    "type": "defense",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The legendary 그리핀 awakens",
+    "descriptionKo": "전설의 그리핀가 깨어남",
+    "flavor": "Ancient power beyond mortal comprehension",
+    "stats": {
+      "attack": 10,
+      "defense": 10,
+      "speed": 7
+    },
+    "effects": [
+      {
+        "id": "effect_197_1",
+        "type": "damage",
+        "value": 8,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_198",
+    "name": "Mythical_Minotaur_Labyrinth",
+    "nameKo": "신화 미노타우로스",
+    "category": "celestial",
+    "subcategory": "mythical",
+    "type": "attack",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The legendary 미노타우로스 awakens",
+    "descriptionKo": "전설의 미노타우로스가 깨어남",
+    "flavor": "Ancient power beyond mortal comprehension",
+    "stats": {
+      "attack": 9,
+      "defense": 9,
+      "speed": 5
+    },
+    "effects": [
+      {
+        "id": "effect_198_1",
+        "type": "damage",
+        "value": 10,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_199",
+    "name": "Mythical_Pegasus_Flight",
+    "nameKo": "신화 페가수스",
+    "category": "celestial",
+    "subcategory": "mythical",
+    "type": "utility",
+    "rarity": "legendary",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The legendary 페가수스 awakens",
+    "descriptionKo": "전설의 페가수스가 깨어남",
+    "flavor": "Ancient power beyond mortal comprehension",
+    "stats": {
+      "attack": 10,
+      "defense": 5,
+      "speed": 4
+    },
+    "effects": [
+      {
+        "id": "effect_199_1",
+        "type": "damage",
+        "value": 12,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  },
+  {
+    "id": "card_200",
+    "name": "Mythical_Chimera_Chaos",
+    "nameKo": "신화 키메라",
+    "category": "celestial",
+    "subcategory": "mythical",
+    "type": "debuff",
+    "rarity": "epic",
+    "cost": 5,
+    "costType": "dream",
+    "description": "The legendary 키메라 awakens",
+    "descriptionKo": "전설의 키메라가 깨어남",
+    "flavor": "Ancient power beyond mortal comprehension",
+    "stats": {
+      "attack": 8,
+      "defense": 7,
+      "speed": 8
+    },
+    "effects": [
+      {
+        "id": "effect_200_1",
+        "type": "damage",
+        "value": 8,
+        "target": "single",
+        "duration": 1
+      }
+    ],
+    "availability": "limited",
+    "monetization": "premium",
+    "synergy": [],
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": "2026-06-15"
+  }
+]

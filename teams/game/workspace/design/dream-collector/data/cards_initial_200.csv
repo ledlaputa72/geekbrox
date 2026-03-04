@@ -1,0 +1,201 @@
+id,name,nameKo,category,subcategory,type,rarity,cost,costType,attack,defense,speed,description,availability,monetization
+card_001,0. The Fool,광대,tarot,major,attack,rare,3,mana,7,1,1,Major Arcana 0: The Fool,gacha,free
+card_002,I. The Magician,마법사,tarot,major,defense,rare,3,mana,2,3,2,Major Arcana I: The Magician,gacha,free
+card_003,II. High Priestess,고위 여사제,tarot,major,buff,epic,4,mana,3,1,5,Major Arcana II: High Priestess,gacha,free
+card_004,III. The Empress,여제,tarot,major,debuff,rare,3,mana,3,2,1,Major Arcana III: The Empress,gacha,free
+card_005,IV. The Emperor,황제,tarot,major,utility,rare,3,mana,1,1,2,Major Arcana IV: The Emperor,gacha,free
+card_006,V. The Hierophant,교황,tarot,major,attack,epic,4,mana,6,1,5,Major Arcana V: The Hierophant,gacha,free
+card_007,VI. The Lovers,연인,tarot,major,defense,rare,3,mana,3,7,5,Major Arcana VI: The Lovers,gacha,free
+card_008,VII. The Chariot,전차,tarot,major,buff,rare,3,mana,1,2,5,Major Arcana VII: The Chariot,gacha,free
+card_009,VIII. Strength,힘,tarot,major,debuff,epic,4,mana,1,1,4,Major Arcana VIII: Strength,gacha,free
+card_010,IX. The Hermit,은둔자,tarot,major,utility,rare,3,mana,2,1,2,Major Arcana IX: The Hermit,gacha,free
+card_011,X. Wheel of Fortune,운명의 수레바퀴,tarot,major,attack,rare,3,mana,2,1,4,Major Arcana X: Wheel of Fortune,gacha,free
+card_012,XI. Justice,정의,tarot,major,defense,rare,3,mana,2,8,3,Major Arcana XI: Justice,gacha,free
+card_013,XII. The Hanged Man,매달린 남자,tarot,major,buff,rare,3,mana,2,1,4,Major Arcana XII: The Hanged Man,gacha,free
+card_014,XIII. Death,죽음,tarot,major,debuff,rare,3,mana,1,2,1,Major Arcana XIII: Death,gacha,free
+card_015,XIV. Temperance,절제,tarot,major,utility,rare,3,mana,2,3,5,Major Arcana XIV: Temperance,gacha,free
+card_016,XV. The Devil,악마,tarot,major,attack,epic,4,mana,6,1,1,Major Arcana XV: The Devil,gacha,free
+card_017,XVI. The Tower,탑,tarot,major,defense,epic,4,mana,3,3,3,Major Arcana XVI: The Tower,gacha,free
+card_018,XVII. The Star,별,tarot,major,buff,rare,3,mana,1,1,4,Major Arcana XVII: The Star,gacha,free
+card_019,XVIII. The Moon,달,tarot,major,debuff,rare,3,mana,2,3,3,Major Arcana XVIII: The Moon,gacha,free
+card_020,XIX. The Sun,태양,tarot,major,utility,rare,3,mana,2,2,2,Major Arcana XIX: The Sun,gacha,free
+card_021,XX. Judgement,심판,tarot,major,attack,rare,3,mana,4,3,1,Major Arcana XX: Judgement,gacha,free
+card_022,XXI. The World,세계,tarot,major,defense,rare,3,mana,3,3,5,Major Arcana XXI: The World,gacha,free
+card_023,King of Wands,Wands 왕,tarot,court,attack,rare,2,mana,2,4,4,Court card: King of Wands,gacha,free
+card_024,Queen of Wands,Wands 여왕,tarot,court,attack,rare,2,mana,6,3,1,Court card: Queen of Wands,gacha,free
+card_025,Knight of Wands,Wands 기사,tarot,court,attack,uncommon,2,mana,3,4,3,Court card: Knight of Wands,gacha,free
+card_026,Page of Wands,Wands 시종,tarot,court,attack,uncommon,2,mana,5,6,3,Court card: Page of Wands,gacha,free
+card_027,King of Cups,Cups 왕,tarot,court,defense,rare,3,mana,4,6,4,Court card: King of Cups,gacha,free
+card_028,Queen of Cups,Cups 여왕,tarot,court,defense,rare,3,mana,2,2,5,Court card: Queen of Cups,gacha,free
+card_029,Knight of Cups,Cups 기사,tarot,court,defense,uncommon,3,mana,6,5,4,Court card: Knight of Cups,gacha,free
+card_030,Page of Cups,Cups 시종,tarot,court,defense,uncommon,3,mana,3,2,2,Court card: Page of Cups,gacha,free
+card_031,King of Swords,Swords 왕,tarot,court,heal,rare,3,mana,1,1,1,Court card: King of Swords,gacha,free
+card_032,Queen of Swords,Swords 여왕,tarot,court,heal,rare,2,mana,6,4,5,Court card: Queen of Swords,gacha,free
+card_033,Knight of Swords,Swords 기사,tarot,court,heal,uncommon,3,mana,4,5,4,Court card: Knight of Swords,gacha,free
+card_034,Page of Swords,Swords 시종,tarot,court,heal,uncommon,3,mana,5,1,1,Court card: Page of Swords,gacha,free
+card_035,King of Pentacles,Pentacles 왕,tarot,court,buff,rare,3,mana,6,3,1,Court card: King of Pentacles,gacha,free
+card_036,Queen of Pentacles,Pentacles 여왕,tarot,court,buff,rare,3,mana,2,4,1,Court card: Queen of Pentacles,gacha,free
+card_037,Knight of Pentacles,Pentacles 기사,tarot,court,buff,uncommon,3,mana,5,2,5,Court card: Knight of Pentacles,gacha,free
+card_038,Page of Pentacles,Pentacles 시종,tarot,court,buff,uncommon,3,mana,6,5,5,Court card: Page of Pentacles,gacha,free
+card_039,Ace of Wands,Wands Ace,tarot,pip,attack,uncommon,1,mana,3,2,1,Pip card: Ace of Wands,gacha,free
+card_040,Two of Wands,Wands Two,tarot,pip,attack,common,3,mana,3,4,1,Pip card: Two of Wands,gacha,free
+card_041,Three of Wands,Wands Three,tarot,pip,attack,common,1,mana,3,3,2,Pip card: Three of Wands,gacha,free
+card_042,Four of Wands,Wands Four,tarot,pip,attack,common,1,mana,2,1,1,Pip card: Four of Wands,gacha,free
+card_043,Five of Wands,Wands Five,tarot,pip,attack,common,3,mana,4,1,2,Pip card: Five of Wands,gacha,free
+card_044,Six of Wands,Wands Six,tarot,pip,attack,common,1,mana,4,2,3,Pip card: Six of Wands,gacha,free
+card_045,Seven of Wands,Wands Seven,tarot,pip,attack,common,3,mana,4,2,2,Pip card: Seven of Wands,gacha,free
+card_046,Eight of Wands,Wands Eight,tarot,pip,attack,common,3,mana,3,4,3,Pip card: Eight of Wands,gacha,free
+card_047,Nine of Wands,Wands Nine,tarot,pip,attack,common,2,mana,4,1,2,Pip card: Nine of Wands,gacha,free
+card_048,Ten of Wands,Wands Ten,tarot,pip,attack,uncommon,1,mana,1,3,1,Pip card: Ten of Wands,gacha,free
+card_049,Ace of Cups,Cups Ace,tarot,pip,defense,uncommon,3,mana,2,2,1,Pip card: Ace of Cups,gacha,free
+card_050,Two of Cups,Cups Two,tarot,pip,defense,common,1,mana,1,2,1,Pip card: Two of Cups,gacha,free
+card_051,Three of Cups,Cups Three,tarot,pip,defense,common,1,mana,3,1,2,Pip card: Three of Cups,gacha,free
+card_052,Four of Cups,Cups Four,tarot,pip,defense,common,2,mana,4,2,2,Pip card: Four of Cups,gacha,free
+card_053,Five of Cups,Cups Five,tarot,pip,defense,common,3,mana,4,2,4,Pip card: Five of Cups,gacha,free
+card_054,Six of Cups,Cups Six,tarot,pip,defense,common,2,mana,2,1,1,Pip card: Six of Cups,gacha,free
+card_055,Seven of Cups,Cups Seven,tarot,pip,defense,common,3,mana,4,3,4,Pip card: Seven of Cups,gacha,free
+card_056,Eight of Cups,Cups Eight,tarot,pip,defense,common,2,mana,4,1,1,Pip card: Eight of Cups,gacha,free
+card_057,Nine of Cups,Cups Nine,tarot,pip,defense,common,1,mana,4,3,1,Pip card: Nine of Cups,gacha,free
+card_058,Ten of Cups,Cups Ten,tarot,pip,defense,uncommon,1,mana,2,2,4,Pip card: Ten of Cups,gacha,free
+card_059,Ace of Swords,Swords Ace,tarot,pip,heal,uncommon,1,mana,4,2,3,Pip card: Ace of Swords,gacha,free
+card_060,Two of Swords,Swords Two,tarot,pip,heal,common,2,mana,2,1,4,Pip card: Two of Swords,gacha,free
+card_061,Three of Swords,Swords Three,tarot,pip,heal,common,3,mana,1,1,1,Pip card: Three of Swords,gacha,free
+card_062,Four of Swords,Swords Four,tarot,pip,heal,common,1,mana,2,2,4,Pip card: Four of Swords,gacha,free
+card_063,Five of Swords,Swords Five,tarot,pip,heal,common,2,mana,4,2,4,Pip card: Five of Swords,gacha,free
+card_064,Six of Swords,Swords Six,tarot,pip,heal,common,1,mana,2,4,1,Pip card: Six of Swords,gacha,free
+card_065,Seven of Swords,Swords Seven,tarot,pip,heal,common,2,mana,3,4,3,Pip card: Seven of Swords,gacha,free
+card_066,Eight of Swords,Swords Eight,tarot,pip,heal,common,2,mana,4,2,2,Pip card: Eight of Swords,gacha,free
+card_067,Nine of Swords,Swords Nine,tarot,pip,heal,common,2,mana,2,1,1,Pip card: Nine of Swords,gacha,free
+card_068,Ten of Swords,Swords Ten,tarot,pip,heal,uncommon,3,mana,3,1,1,Pip card: Ten of Swords,gacha,free
+card_069,Ace of Pentacles,Pentacles Ace,tarot,pip,utility,uncommon,3,mana,4,2,1,Pip card: Ace of Pentacles,gacha,free
+card_070,Two of Pentacles,Pentacles Two,tarot,pip,utility,common,3,mana,1,2,1,Pip card: Two of Pentacles,gacha,free
+card_071,Three of Pentacles,Pentacles Three,tarot,pip,utility,common,3,mana,1,2,4,Pip card: Three of Pentacles,gacha,free
+card_072,Four of Pentacles,Pentacles Four,tarot,pip,utility,common,1,mana,2,1,1,Pip card: Four of Pentacles,gacha,free
+card_073,Five of Pentacles,Pentacles Five,tarot,pip,utility,common,2,mana,3,3,2,Pip card: Five of Pentacles,gacha,free
+card_074,Six of Pentacles,Pentacles Six,tarot,pip,utility,common,3,mana,3,2,3,Pip card: Six of Pentacles,gacha,free
+card_075,Seven of Pentacles,Pentacles Seven,tarot,pip,utility,common,2,mana,2,3,4,Pip card: Seven of Pentacles,gacha,free
+card_076,Eight of Pentacles,Pentacles Eight,tarot,pip,utility,common,2,mana,1,1,4,Pip card: Eight of Pentacles,gacha,free
+card_077,Nine of Pentacles,Pentacles Nine,tarot,pip,utility,common,3,mana,1,1,2,Pip card: Nine of Pentacles,gacha,free
+card_078,Ten of Pentacles,Pentacles Ten,tarot,pip,utility,uncommon,3,mana,3,2,3,Pip card: Ten of Pentacles,gacha,free
+card_079,Nox_Awakening_1,녹스의 각성 1,dream_essence,awakening,defense,rare,2,soul,3,3,4,Nox awakens further - Stage 1,gacha,free
+card_080,Nox_Awakening_2,녹스의 각성 2,dream_essence,awakening,heal,uncommon,2,soul,5,5,4,Nox awakens further - Stage 2,gacha,free
+card_081,Nox_Awakening_3,녹스의 각성 3,dream_essence,awakening,attack,common,4,soul,7,5,2,Nox awakens further - Stage 3,gacha,free
+card_082,Nox_Awakening_4,녹스의 각성 4,dream_essence,awakening,defense,rare,4,soul,6,3,2,Nox awakens further - Stage 4,gacha,free
+card_083,Nox_Awakening_5,녹스의 각성 5,dream_essence,awakening,heal,uncommon,2,soul,4,1,2,Nox awakens further - Stage 5,gacha,free
+card_084,Nox_Awakening_6,녹스의 각성 6,dream_essence,awakening,attack,common,4,soul,6,2,4,Nox awakens further - Stage 6,gacha,free
+card_085,Nox_Awakening_7,녹스의 각성 7,dream_essence,awakening,defense,rare,3,soul,6,2,4,Nox awakens further - Stage 7,gacha,free
+card_086,Nox_Awakening_8,녹스의 각성 8,dream_essence,awakening,heal,uncommon,2,soul,7,6,4,Nox awakens further - Stage 8,gacha,free
+card_087,Nox_Awakening_9,녹스의 각성 9,dream_essence,awakening,attack,common,4,soul,5,3,2,Nox awakens further - Stage 9,gacha,free
+card_088,Nox_Awakening_10,녹스의 각성 10,dream_essence,awakening,defense,rare,2,soul,7,4,4,Nox awakens further - Stage 10,gacha,free
+card_089,Nox_Awakening_11,녹스의 각성 11,dream_essence,awakening,heal,uncommon,2,soul,2,3,3,Nox awakens further - Stage 11,gacha,free
+card_090,Nox_Awakening_12,녹스의 각성 12,dream_essence,awakening,attack,common,4,soul,4,2,5,Nox awakens further - Stage 12,gacha,free
+card_091,Nox_Awakening_13,녹스의 각성 13,dream_essence,awakening,defense,rare,4,soul,7,4,6,Nox awakens further - Stage 13,gacha,free
+card_092,Nox_Awakening_14,녹스의 각성 14,dream_essence,awakening,heal,uncommon,2,soul,2,1,3,Nox awakens further - Stage 14,gacha,free
+card_093,Nox_Awakening_15,녹스의 각성 15,dream_essence,awakening,attack,common,4,soul,2,3,6,Nox awakens further - Stage 15,gacha,free
+card_094,Forgotten_Dream_1,잊힌 꿈의 조각 1,dream_essence,memory,utility,rare,3,dream,4,2,1,A memory from the past awakens - Fragment 1,gacha,premium
+card_095,Forgotten_Dream_2,잊힌 꿈의 조각 2,dream_essence,memory,debuff,epic,4,dream,1,3,2,A memory from the past awakens - Fragment 2,gacha,premium
+card_096,Forgotten_Dream_3,잊힌 꿈의 조각 3,dream_essence,memory,buff,uncommon,2,dream,3,5,4,A memory from the past awakens - Fragment 3,gacha,premium
+card_097,Forgotten_Dream_4,잊힌 꿈의 조각 4,dream_essence,memory,utility,rare,3,dream,2,2,4,A memory from the past awakens - Fragment 4,gacha,premium
+card_098,Forgotten_Dream_5,잊힌 꿈의 조각 5,dream_essence,memory,debuff,epic,3,dream,3,4,2,A memory from the past awakens - Fragment 5,gacha,premium
+card_099,Forgotten_Dream_6,잊힌 꿈의 조각 6,dream_essence,memory,buff,uncommon,3,dream,1,4,1,A memory from the past awakens - Fragment 6,gacha,premium
+card_100,Forgotten_Dream_7,잊힌 꿈의 조각 7,dream_essence,memory,utility,rare,3,dream,2,4,3,A memory from the past awakens - Fragment 7,gacha,premium
+card_101,Forgotten_Dream_8,잊힌 꿈의 조각 8,dream_essence,memory,debuff,epic,3,dream,2,1,2,A memory from the past awakens - Fragment 8,gacha,premium
+card_102,Forgotten_Dream_9,잊힌 꿈의 조각 9,dream_essence,memory,buff,uncommon,4,dream,3,1,3,A memory from the past awakens - Fragment 9,gacha,premium
+card_103,Forgotten_Dream_10,잊힌 꿈의 조각 10,dream_essence,memory,utility,rare,5,dream,5,3,1,A memory from the past awakens - Fragment 10,gacha,premium
+card_104,Forgotten_Dream_11,잊힌 꿈의 조각 11,dream_essence,memory,debuff,epic,4,dream,2,5,3,A memory from the past awakens - Fragment 11,gacha,premium
+card_105,Forgotten_Dream_12,잊힌 꿈의 조각 12,dream_essence,memory,buff,uncommon,2,dream,5,4,3,A memory from the past awakens - Fragment 12,gacha,premium
+card_106,Forgotten_Dream_13,잊힌 꿈의 조각 13,dream_essence,memory,utility,rare,5,dream,5,5,1,A memory from the past awakens - Fragment 13,gacha,premium
+card_107,Forgotten_Dream_14,잊힌 꿈의 조각 14,dream_essence,memory,debuff,epic,3,dream,3,1,4,A memory from the past awakens - Fragment 14,gacha,premium
+card_108,Forgotten_Dream_15,잊힌 꿈의 조각 15,dream_essence,memory,buff,uncommon,3,dream,3,4,1,A memory from the past awakens - Fragment 15,gacha,premium
+card_109,Guardian_1,에테르 수호자 1,dream_essence,guardian,defense,uncommon,4,mana,3,8,1,An ethereal guardian aids you - Guardian 1,gacha,free
+card_110,Guardian_2,에테르 수호자 2,dream_essence,guardian,utility,rare,3,mana,3,8,4,An ethereal guardian aids you - Guardian 2,gacha,free
+card_111,Guardian_3,에테르 수호자 3,dream_essence,guardian,buff,epic,3,mana,3,7,2,An ethereal guardian aids you - Guardian 3,gacha,free
+card_112,Guardian_4,에테르 수호자 4,dream_essence,guardian,defense,uncommon,3,mana,4,8,2,An ethereal guardian aids you - Guardian 4,gacha,free
+card_113,Guardian_5,에테르 수호자 5,dream_essence,guardian,utility,rare,4,mana,3,6,1,An ethereal guardian aids you - Guardian 5,gacha,free
+card_114,Guardian_6,에테르 수호자 6,dream_essence,guardian,buff,epic,3,mana,2,6,3,An ethereal guardian aids you - Guardian 6,gacha,free
+card_115,Guardian_7,에테르 수호자 7,dream_essence,guardian,defense,uncommon,3,mana,4,8,2,An ethereal guardian aids you - Guardian 7,gacha,free
+card_116,Guardian_8,에테르 수호자 8,dream_essence,guardian,utility,rare,3,mana,2,8,1,An ethereal guardian aids you - Guardian 8,gacha,free
+card_117,Guardian_9,에테르 수호자 9,dream_essence,guardian,buff,epic,4,mana,3,3,2,An ethereal guardian aids you - Guardian 9,gacha,free
+card_118,Guardian_10,에테르 수호자 10,dream_essence,guardian,defense,uncommon,3,mana,2,4,2,An ethereal guardian aids you - Guardian 10,gacha,free
+card_119,Guardian_11,에테르 수호자 11,dream_essence,guardian,utility,rare,2,mana,2,6,1,An ethereal guardian aids you - Guardian 11,gacha,free
+card_120,Guardian_12,에테르 수호자 12,dream_essence,guardian,buff,epic,3,mana,2,8,4,An ethereal guardian aids you - Guardian 12,gacha,free
+card_121,Guardian_13,에테르 수호자 13,dream_essence,guardian,defense,uncommon,3,mana,2,4,1,An ethereal guardian aids you - Guardian 13,gacha,free
+card_122,Guardian_14,에테르 수호자 14,dream_essence,guardian,utility,rare,3,mana,2,4,4,An ethereal guardian aids you - Guardian 14,gacha,free
+card_123,Guardian_15,에테르 수호자 15,dream_essence,guardian,buff,epic,4,mana,2,3,4,An ethereal guardian aids you - Guardian 15,gacha,free
+card_124,Ultimate_Memory_1,궁극의 기억 1,dream_essence,lost_stories,utility,legendary,5,dream,8,10,7,The ultimate memory emerges - Story 1,limited,premium
+card_125,Ultimate_Memory_2,궁극의 기억 2,dream_essence,lost_stories,utility,legendary,5,dream,9,7,6,The ultimate memory emerges - Story 2,limited,premium
+card_126,Ultimate_Memory_3,궁극의 기억 3,dream_essence,lost_stories,utility,epic,5,dream,10,9,6,The ultimate memory emerges - Story 3,limited,premium
+card_127,Ultimate_Memory_4,궁극의 기억 4,dream_essence,lost_stories,utility,epic,5,dream,8,6,8,The ultimate memory emerges - Story 4,limited,premium
+card_128,Ultimate_Memory_5,궁극의 기억 5,dream_essence,lost_stories,utility,epic,5,dream,8,7,4,The ultimate memory emerges - Story 5,limited,premium
+card_129,Fire_Force_1,불 세력 1,elemental,fire,attack,rare,4,mana,5,2,3,Fire elemental force unleashed - attack,gacha,free
+card_130,Fire_Force_2,불 세력 2,elemental,fire,attack,common,4,mana,4,2,3,Fire elemental force unleashed - attack,gacha,free
+card_131,Fire_Force_3,불 세력 3,elemental,fire,buff,rare,4,mana,1,2,2,Fire elemental force unleashed - buff,gacha,free
+card_132,Fire_Force_4,불 세력 4,elemental,fire,buff,rare,4,mana,2,2,1,Fire elemental force unleashed - buff,gacha,free
+card_133,Fire_Force_5,불 세력 5,elemental,fire,attack,rare,3,mana,6,4,4,Fire elemental force unleashed - attack,gacha,free
+card_134,Fire_Force_6,불 세력 6,elemental,fire,buff,uncommon,3,mana,4,1,5,Fire elemental force unleashed - buff,gacha,free
+card_135,Fire_Force_7,불 세력 7,elemental,fire,attack,rare,2,mana,4,3,4,Fire elemental force unleashed - attack,gacha,free
+card_136,Fire_Force_8,불 세력 8,elemental,fire,attack,epic,5,mana,7,2,4,Fire elemental force unleashed - attack,gacha,free
+card_137,Fire_Force_9,불 세력 9,elemental,fire,debuff,rare,3,mana,4,1,4,Fire elemental force unleashed - debuff,gacha,free
+card_138,Fire_Force_10,불 세력 10,elemental,fire,debuff,rare,4,mana,2,4,2,Fire elemental force unleashed - debuff,gacha,free
+card_139,Fire_Force_11,불 세력 11,elemental,fire,utility,epic,5,mana,1,4,5,Fire elemental force unleashed - utility,gacha,free
+card_140,Water_Force_1,물 세력 1,elemental,water,defense,common,2,mana,4,3,4,Water elemental force unleashed - defense,gacha,free
+card_141,Water_Force_2,물 세력 2,elemental,water,defense,common,3,mana,4,4,2,Water elemental force unleashed - defense,gacha,free
+card_142,Water_Force_3,물 세력 3,elemental,water,heal,rare,3,mana,4,3,4,Water elemental force unleashed - heal,gacha,free
+card_143,Water_Force_4,물 세력 4,elemental,water,heal,common,3,mana,1,1,3,Water elemental force unleashed - heal,gacha,free
+card_144,Water_Force_5,물 세력 5,elemental,water,defense,common,4,mana,1,8,1,Water elemental force unleashed - defense,gacha,free
+card_145,Water_Force_6,물 세력 6,elemental,water,heal,uncommon,2,mana,2,2,2,Water elemental force unleashed - heal,gacha,free
+card_146,Water_Force_7,물 세력 7,elemental,water,defense,common,4,mana,2,5,6,Water elemental force unleashed - defense,gacha,free
+card_147,Water_Force_8,물 세력 8,elemental,water,defense,rare,2,mana,1,8,2,Water elemental force unleashed - defense,gacha,free
+card_148,Water_Force_9,물 세력 9,elemental,water,debuff,common,4,mana,1,3,5,Water elemental force unleashed - debuff,gacha,free
+card_149,Water_Force_10,물 세력 10,elemental,water,debuff,rare,4,mana,2,1,5,Water elemental force unleashed - debuff,gacha,free
+card_150,Water_Force_11,물 세력 11,elemental,water,utility,common,4,mana,3,1,5,Water elemental force unleashed - utility,gacha,free
+card_151,Wind_Force_1,바람 세력 1,elemental,wind,attack,rare,4,mana,5,3,1,Wind elemental force unleashed - attack,gacha,free
+card_152,Wind_Force_2,바람 세력 2,elemental,wind,utility,rare,2,mana,4,4,1,Wind elemental force unleashed - utility,gacha,free
+card_153,Wind_Force_3,바람 세력 3,elemental,wind,attack,rare,4,mana,8,4,6,Wind elemental force unleashed - attack,gacha,free
+card_154,Wind_Force_4,바람 세력 4,elemental,wind,utility,rare,2,mana,3,4,4,Wind elemental force unleashed - utility,gacha,free
+card_155,Wind_Force_5,바람 세력 5,elemental,wind,attack,epic,5,mana,4,3,2,Wind elemental force unleashed - attack,gacha,free
+card_156,Wind_Force_6,바람 세력 6,elemental,wind,utility,rare,3,mana,2,4,5,Wind elemental force unleashed - utility,gacha,free
+card_157,Wind_Force_7,바람 세력 7,elemental,wind,attack,rare,3,mana,2,4,3,Wind elemental force unleashed - attack,gacha,free
+card_158,Wind_Force_8,바람 세력 8,elemental,wind,attack,rare,2,mana,4,3,3,Wind elemental force unleashed - attack,gacha,free
+card_159,Wind_Force_9,바람 세력 9,elemental,wind,debuff,epic,5,mana,3,1,5,Wind elemental force unleashed - debuff,gacha,free
+card_160,Wind_Force_10,바람 세력 10,elemental,wind,debuff,common,2,mana,4,4,5,Wind elemental force unleashed - debuff,gacha,free
+card_161,Earth_Force_1,흙 세력 1,elemental,earth,defense,rare,4,mana,4,5,1,Earth elemental force unleashed - defense,gacha,free
+card_162,Earth_Force_2,흙 세력 2,elemental,earth,buff,rare,2,mana,4,2,3,Earth elemental force unleashed - buff,gacha,free
+card_163,Earth_Force_3,흙 세력 3,elemental,earth,defense,rare,3,mana,3,5,6,Earth elemental force unleashed - defense,gacha,free
+card_164,Earth_Force_4,흙 세력 4,elemental,earth,buff,rare,3,mana,4,3,3,Earth elemental force unleashed - buff,gacha,free
+card_165,Earth_Force_5,흙 세력 5,elemental,earth,defense,uncommon,2,mana,2,4,1,Earth elemental force unleashed - defense,gacha,free
+card_166,Earth_Force_6,흙 세력 6,elemental,earth,buff,uncommon,2,mana,2,4,3,Earth elemental force unleashed - buff,gacha,free
+card_167,Earth_Force_7,흙 세력 7,elemental,earth,defense,epic,5,mana,3,2,2,Earth elemental force unleashed - defense,gacha,free
+card_168,Earth_Force_8,흙 세력 8,elemental,earth,defense,uncommon,3,mana,2,4,1,Earth elemental force unleashed - defense,gacha,free
+card_169,Earth_Force_9,흙 세력 9,elemental,earth,debuff,uncommon,3,mana,1,1,5,Earth elemental force unleashed - debuff,gacha,free
+card_170,Earth_Force_10,흙 세력 10,elemental,earth,debuff,uncommon,4,mana,4,1,1,Earth elemental force unleashed - debuff,gacha,free
+card_171,Zodiac_Aries,황도대 양자리,celestial,zodiac,utility,epic,4,dream,6,4,3,The power of Aries awakens,limited,premium
+card_172,Zodiac_Taurus,황도대 황소자리,celestial,zodiac,attack,epic,4,dream,3,5,5,The power of Taurus awakens,limited,premium
+card_173,Zodiac_Gemini,황도대 쌍둥이자리,celestial,zodiac,attack,epic,5,dream,4,3,6,The power of Gemini awakens,limited,premium
+card_174,Zodiac_Cancer,황도대 게자리,celestial,zodiac,attack,rare,3,dream,7,5,6,The power of Cancer awakens,limited,premium
+card_175,Zodiac_Leo,황도대 사자자리,celestial,zodiac,utility,epic,3,dream,6,5,4,The power of Leo awakens,limited,premium
+card_176,Zodiac_Virgo,황도대 처녀자리,celestial,zodiac,attack,epic,4,dream,7,7,2,The power of Virgo awakens,limited,premium
+card_177,Zodiac_Libra,황도대 천칭자리,celestial,zodiac,buff,epic,3,dream,8,2,3,The power of Libra awakens,limited,premium
+card_178,Zodiac_Scorpio,황도대 전갈자리,celestial,zodiac,attack,rare,5,dream,4,2,5,The power of Scorpio awakens,limited,premium
+card_179,Zodiac_Sagittarius,황도대 궁수자리,celestial,zodiac,utility,epic,5,dream,5,2,3,The power of Sagittarius awakens,limited,premium
+card_180,Zodiac_Capricorn,황도대 염소자리,celestial,zodiac,utility,epic,4,dream,3,7,3,The power of Capricorn awakens,limited,premium
+card_181,Zodiac_Aquarius,황도대 물병자리,celestial,zodiac,defense,epic,5,dream,6,2,6,The power of Aquarius awakens,limited,premium
+card_182,Zodiac_Pisces,황도대 물고기자리,celestial,zodiac,buff,epic,3,dream,4,2,2,The power of Pisces awakens,limited,premium
+card_183,Lunar_New_Moon,달의 신월,celestial,lunar,utility,rare,4,dream,6,4,4,The 신월 grants power level 1,gacha,free
+card_184,Lunar_Waxing_Crescent,달의 초승달,celestial,lunar,utility,uncommon,3,dream,4,5,3,The 초승달 grants power level 1,gacha,free
+card_185,Lunar_First_Quarter,달의 상현달,celestial,lunar,defense,rare,4,dream,5,2,5,The 상현달 grants power level 2,gacha,free
+card_186,Lunar_Waxing_Gibbous,달의 증광달,celestial,lunar,utility,uncommon,3,dream,4,6,3,The 증광달 grants power level 2,gacha,free
+card_187,Lunar_Full_Moon,달의 보름달,celestial,lunar,attack,uncommon,2,dream,6,6,1,The 보름달 grants power level 3,gacha,free
+card_188,Lunar_Waning_Gibbous,달의 감광달,celestial,lunar,utility,rare,3,dream,2,3,4,The 감광달 grants power level 2,gacha,free
+card_189,Lunar_Last_Quarter,달의 하현달,celestial,lunar,defense,rare,4,dream,4,3,5,The 하현달 grants power level 2,gacha,free
+card_190,Lunar_Waning_Crescent,달의 그믐달,celestial,lunar,defense,rare,4,dream,2,5,3,The 그믐달 grants power level 1,gacha,free
+card_191,Mythical_Phoenix_Reborn,신화 피닉스,celestial,mythical,attack,legendary,5,dream,9,7,4,The legendary 피닉스 awakens,limited,premium
+card_192,Mythical_Dragon_Eternal,신화 용,celestial,mythical,attack,legendary,5,dream,10,10,7,The legendary 용 awakens,limited,premium
+card_193,Mythical_Basilisk_Petrify,신화 바실리스크,celestial,mythical,debuff,epic,5,dream,10,9,4,The legendary 바실리스크 awakens,limited,premium
+card_194,Mythical_Hydra_Regenerate,신화 하이드라,celestial,mythical,heal,epic,5,dream,9,7,6,The legendary 하이드라 awakens,limited,premium
+card_195,Mythical_Kraken_Abyss,신화 크라켄,celestial,mythical,attack,legendary,5,dream,7,10,8,The legendary 크라켄 awakens,limited,premium
+card_196,Mythical_Sphinx_Riddle,신화 스핑크스,celestial,mythical,utility,legendary,5,dream,7,6,8,The legendary 스핑크스 awakens,limited,premium
+card_197,Mythical_Gryphon_Guardian,신화 그리핀,celestial,mythical,defense,epic,5,dream,10,10,7,The legendary 그리핀 awakens,limited,premium
+card_198,Mythical_Minotaur_Labyrinth,신화 미노타우로스,celestial,mythical,attack,epic,5,dream,9,9,5,The legendary 미노타우로스 awakens,limited,premium
+card_199,Mythical_Pegasus_Flight,신화 페가수스,celestial,mythical,utility,legendary,5,dream,10,5,4,The legendary 페가수스 awakens,limited,premium
+card_200,Mythical_Chimera_Chaos,신화 키메라,celestial,mythical,debuff,epic,5,dream,8,7,8,The legendary 키메라 awakens,limited,premium
