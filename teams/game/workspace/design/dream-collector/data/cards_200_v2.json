@@ -1,0 +1,6089 @@
+[
+  {
+    "id": "ATK-SGL_001",
+    "name": "Ace of Blades",
+    "nameKo": "검의 에이스",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "단일 적에게 직접 데미지",
+    "descriptionKo": "단일 적에게 직접 데미지",
+    "flavor": "A SGL attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 7,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_002",
+    "name": "Lightning Bolt",
+    "nameKo": "번개",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "번개로 단일 적을 타격",
+    "descriptionKo": "번개로 단일 적을 타격",
+    "flavor": "A SGL attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 8,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_003",
+    "name": "Sharp Blade",
+    "nameKo": "칼날",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "날카로운 칼날 공격",
+    "descriptionKo": "날카로운 칼날 공격",
+    "flavor": "A SGL attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 9,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_004",
+    "name": "Mighty Strike",
+    "nameKo": "강타",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "강력한 타격",
+    "descriptionKo": "강력한 타격",
+    "flavor": "A SGL attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 10,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_005",
+    "name": "The Sun",
+    "nameKo": "태양",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "태양의 빛으로 공격",
+    "descriptionKo": "태양의 빛으로 공격",
+    "flavor": "A SGL attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 11,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_006",
+    "name": "The Emperor",
+    "nameKo": "황제",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "황제의 명령으로 공격",
+    "descriptionKo": "황제의 명령으로 공격",
+    "flavor": "A SGL attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 12,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_007",
+    "name": "Mystical Swordsman",
+    "nameKo": "마검사",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "마법 검사의 공격",
+    "descriptionKo": "마법 검사의 공격",
+    "flavor": "A SGL attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 13,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_008",
+    "name": "Heart Pierce",
+    "nameKo": "심장 관통",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "RARE",
+    "cost": 4,
+    "costType": "energy",
+    "description": "심장을 관통하는 공격",
+    "descriptionKo": "심장을 관통하는 공격",
+    "flavor": "A SGL attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 14,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_009",
+    "name": "Starlight Blade",
+    "nameKo": "별의 검",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "RARE",
+    "cost": 5,
+    "costType": "energy",
+    "description": "별빛 검",
+    "descriptionKo": "별빛 검",
+    "flavor": "A SGL attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 16,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_010",
+    "name": "Gravity",
+    "nameKo": "중력",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "COMMON",
+    "cost": 6,
+    "costType": "energy",
+    "description": "중력 공격",
+    "descriptionKo": "중력 공격",
+    "flavor": "A SGL attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 18,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_011",
+    "name": "Holy Cut",
+    "nameKo": "신성 절단",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "RARE",
+    "cost": 7,
+    "costType": "energy",
+    "description": "신성한 절단",
+    "descriptionKo": "신성한 절단",
+    "flavor": "A SGL attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 20,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_012",
+    "name": "Soul Drain",
+    "nameKo": "영혼 박탈",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "COMMON",
+    "cost": 8,
+    "costType": "energy",
+    "description": "영혼을 빨아들이는 공격",
+    "descriptionKo": "영혼을 빨아들이는 공격",
+    "flavor": "A SGL attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 22,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_013",
+    "name": "Final Blow",
+    "nameKo": "최후의 일격",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "COMMON",
+    "cost": 9,
+    "costType": "energy",
+    "description": "최후의 결정타",
+    "descriptionKo": "최후의 결정타",
+    "flavor": "A SGL attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 24,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_014",
+    "name": "Infinite Spiral",
+    "nameKo": "무한 나선",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "COMMON",
+    "cost": 10,
+    "costType": "energy",
+    "description": "무한한 나선 공격",
+    "descriptionKo": "무한한 나선 공격",
+    "flavor": "A SGL attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 26,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-SGL_015",
+    "name": "Ultimate Wrath",
+    "nameKo": "궁극의 분노",
+    "type": "ATTACK",
+    "subtype": "SGL",
+    "rarity": "RARE",
+    "cost": 11,
+    "costType": "energy",
+    "description": "궁극의 분노",
+    "descriptionKo": "궁극의 분노",
+    "flavor": "A SGL attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 28,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SGL type attack"
+  },
+  {
+    "id": "ATK-MLT_001",
+    "name": "Double Slash",
+    "nameKo": "이중 베기",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "두 번의 베기",
+    "descriptionKo": "두 번의 베기",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "AOE"
+    ],
+    "stats": {
+      "damage": 6,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_002",
+    "name": "Magician",
+    "nameKo": "마법사",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "SPECIAL",
+    "cost": 2,
+    "costType": "energy",
+    "description": "마법 공격",
+    "descriptionKo": "마법 공격",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "AOE"
+    ],
+    "stats": {
+      "damage": 8,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_003",
+    "name": "Devil",
+    "nameKo": "악마",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "악마의 힘",
+    "descriptionKo": "악마의 힘",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "AOE"
+    ],
+    "stats": {
+      "damage": 10,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_004",
+    "name": "Explosion",
+    "nameKo": "폭발",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "폭발 공격",
+    "descriptionKo": "폭발 공격",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "AOE"
+    ],
+    "stats": {
+      "damage": 12,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_005",
+    "name": "Dual Wield",
+    "nameKo": "쌍검술",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "쌍검 공격",
+    "descriptionKo": "쌍검 공격",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "AOE"
+    ],
+    "stats": {
+      "damage": 14,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_006",
+    "name": "Chain Lightning",
+    "nameKo": "광역 번개",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "연쇄 번개",
+    "descriptionKo": "연쇄 번개",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "AOE"
+    ],
+    "stats": {
+      "damage": 16,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_007",
+    "name": "Wind Slash",
+    "nameKo": "바람 가르기",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "바람을 가르는 공격",
+    "descriptionKo": "바람을 가르는 공격",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "MAJOR_ARCANA",
+      "AOE"
+    ],
+    "stats": {
+      "damage": 18,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_008",
+    "name": "Inferno Rush",
+    "nameKo": "화염 폭주",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "화염 폭주",
+    "descriptionKo": "화염 폭주",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "MAJOR_ARCANA",
+      "AOE"
+    ],
+    "stats": {
+      "damage": 20,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_009",
+    "name": "Multi Cut",
+    "nameKo": "다중 절단",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "COMMON",
+    "cost": 4,
+    "costType": "energy",
+    "description": "다중 절단",
+    "descriptionKo": "다중 절단",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "MAJOR_ARCANA",
+      "AOE"
+    ],
+    "stats": {
+      "damage": 20,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_010",
+    "name": "Meteor",
+    "nameKo": "메테오",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "COMMON",
+    "cost": 4,
+    "costType": "energy",
+    "description": "유성 공격",
+    "descriptionKo": "유성 공격",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "AOE"
+    ],
+    "stats": {
+      "damage": 22,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_011",
+    "name": "Mass Magic",
+    "nameKo": "전체 마법",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "COMMON",
+    "cost": 4,
+    "costType": "energy",
+    "description": "전체 마법",
+    "descriptionKo": "전체 마법",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "AOE"
+    ],
+    "stats": {
+      "damage": 24,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-MLT_012",
+    "name": "Sword of Ruin",
+    "nameKo": "멸망의 검",
+    "type": "ATTACK",
+    "subtype": "MLT",
+    "rarity": "SPECIAL",
+    "cost": 4,
+    "costType": "energy",
+    "description": "멸망의 검",
+    "descriptionKo": "멸망의 검",
+    "flavor": "A MLT attack card.",
+    "tags": [
+      "MAJOR_ARCANA",
+      "AOE"
+    ],
+    "stats": {
+      "damage": 26,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "MLT type attack"
+  },
+  {
+    "id": "ATK-RCK_001",
+    "name": "The Tower",
+    "nameKo": "탑",
+    "type": "ATTACK",
+    "subtype": "RCK",
+    "rarity": "SPECIAL",
+    "cost": 2,
+    "costType": "energy",
+    "description": "탑이 무너지는 공격",
+    "descriptionKo": "탑이 무너지는 공격",
+    "flavor": "A RCK attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 17,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RCK type attack"
+  },
+  {
+    "id": "ATK-RCK_002",
+    "name": "Abyss Hand",
+    "nameKo": "심연의 손길",
+    "type": "ATTACK",
+    "subtype": "RCK",
+    "rarity": "SPECIAL",
+    "cost": 2,
+    "costType": "energy",
+    "description": "심연에서 솟아나는 손",
+    "descriptionKo": "심연에서 솟아나는 손",
+    "flavor": "A RCK attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 19,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RCK type attack"
+  },
+  {
+    "id": "ATK-RCK_003",
+    "name": "Cursed Path",
+    "nameKo": "저주의 경로",
+    "type": "ATTACK",
+    "subtype": "RCK",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "저주의 길",
+    "descriptionKo": "저주의 길",
+    "flavor": "A RCK attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 21,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RCK type attack"
+  },
+  {
+    "id": "ATK-RCK_004",
+    "name": "All or Nothing",
+    "nameKo": "최후의 모든것",
+    "type": "ATTACK",
+    "subtype": "RCK",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "모든 것을 건 공격",
+    "descriptionKo": "모든 것을 건 공격",
+    "flavor": "A RCK attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 23,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RCK type attack"
+  },
+  {
+    "id": "ATK-RCK_005",
+    "name": "Dance of Death",
+    "nameKo": "죽음의 춤",
+    "type": "ATTACK",
+    "subtype": "RCK",
+    "rarity": "SPECIAL",
+    "cost": 4,
+    "costType": "energy",
+    "description": "죽음의 춤",
+    "descriptionKo": "죽음의 춤",
+    "flavor": "A RCK attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 25,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RCK type attack"
+  },
+  {
+    "id": "ATK-CMP_001",
+    "name": "The World",
+    "nameKo": "세계",
+    "type": "ATTACK",
+    "subtype": "CMP",
+    "rarity": "SPECIAL",
+    "cost": 2,
+    "costType": "energy",
+    "description": "세계를 아우르는 공격",
+    "descriptionKo": "세계를 아우르는 공격",
+    "flavor": "A CMP attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 9,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "CMP type attack"
+  },
+  {
+    "id": "ATK-CMP_002",
+    "name": "The Star",
+    "nameKo": "별",
+    "type": "ATTACK",
+    "subtype": "CMP",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "별의 가호",
+    "descriptionKo": "별의 가호",
+    "flavor": "A CMP attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 11,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "CMP type attack"
+  },
+  {
+    "id": "ATK-CMP_003",
+    "name": "Wisdom Strike",
+    "nameKo": "지혜의 일격",
+    "type": "ATTACK",
+    "subtype": "CMP",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "지혜로운 일격",
+    "descriptionKo": "지혜로운 일격",
+    "flavor": "A CMP attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 13,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "CMP type attack"
+  },
+  {
+    "id": "ATK-CMP_004",
+    "name": "Recovery Slash",
+    "nameKo": "회복 참격",
+    "type": "ATTACK",
+    "subtype": "CMP",
+    "rarity": "LEGENDARY",
+    "cost": 3,
+    "costType": "energy",
+    "description": "회복하며 공격",
+    "descriptionKo": "회복하며 공격",
+    "flavor": "A CMP attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 13,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "CMP type attack"
+  },
+  {
+    "id": "ATK-CMP_005",
+    "name": "Hunter's Mark",
+    "nameKo": "사냥꾼의 표식",
+    "type": "ATTACK",
+    "subtype": "CMP",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "사냥꾼의 표식",
+    "descriptionKo": "사냥꾼의 표식",
+    "flavor": "A CMP attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 14,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "CMP type attack"
+  },
+  {
+    "id": "ATK-CMP_006",
+    "name": "Mirror Reflection",
+    "nameKo": "거울 반사",
+    "type": "ATTACK",
+    "subtype": "CMP",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "거울 반사",
+    "descriptionKo": "거울 반사",
+    "flavor": "A CMP attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 15,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "CMP type attack"
+  },
+  {
+    "id": "ATK-CMP_007",
+    "name": "Blessed Sword",
+    "nameKo": "축복의 검",
+    "type": "ATTACK",
+    "subtype": "CMP",
+    "rarity": "RARE",
+    "cost": 5,
+    "costType": "energy",
+    "description": "축복받은 검",
+    "descriptionKo": "축복받은 검",
+    "flavor": "A CMP attack card.",
+    "tags": [],
+    "stats": {
+      "damage": 18,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "CMP type attack"
+  },
+  {
+    "id": "ATK-CMP_008",
+    "name": "Soul Guide",
+    "nameKo": "영혼의 인도",
+    "type": "ATTACK",
+    "subtype": "CMP",
+    "rarity": "RARE",
+    "cost": 6,
+    "costType": "energy",
+    "description": "영혼의 인도",
+    "descriptionKo": "영혼의 인도",
+    "flavor": "A CMP attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 20,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "CMP type attack"
+  },
+  {
+    "id": "ATK-CMP_009",
+    "name": "Dimension Slash",
+    "nameKo": "차원의 베임",
+    "type": "ATTACK",
+    "subtype": "CMP",
+    "rarity": "RARE",
+    "cost": 7,
+    "costType": "energy",
+    "description": "차원을 베는 공격",
+    "descriptionKo": "차원을 베는 공격",
+    "flavor": "A CMP attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 22,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "CMP type attack"
+  },
+  {
+    "id": "ATK-CMP_010",
+    "name": "Divine Judgment",
+    "nameKo": "신의 심판",
+    "type": "ATTACK",
+    "subtype": "CMP",
+    "rarity": "LEGENDARY",
+    "cost": 8,
+    "costType": "energy",
+    "description": "신의 심판",
+    "descriptionKo": "신의 심판",
+    "flavor": "A CMP attack card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 24,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "CMP type attack"
+  },
+  {
+    "id": "SKL-GRD_001",
+    "name": "Shield King",
+    "nameKo": "방패의 왕",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "왕의 방패",
+    "descriptionKo": "왕의 방패",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 6,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_002",
+    "name": "Iron Wall",
+    "nameKo": "철벽",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "철벽 방어",
+    "descriptionKo": "철벽 방어",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 7,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_003",
+    "name": "The Empress",
+    "nameKo": "여황제",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "여황제의 보호",
+    "descriptionKo": "여황제의 보호",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 8,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_004",
+    "name": "The Hierophant",
+    "nameKo": "교황",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "교황의 축복",
+    "descriptionKo": "교황의 축복",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 9,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_005",
+    "name": "The Moon",
+    "nameKo": "달",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "달빛 방어",
+    "descriptionKo": "달빛 방어",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 10,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_006",
+    "name": "Justice",
+    "nameKo": "정의",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "정의의 방패",
+    "descriptionKo": "정의의 방패",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 9,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_007",
+    "name": "The Hermit",
+    "nameKo": "은둔자",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "은둔자의 지혜",
+    "descriptionKo": "은둔자의 지혜",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 10,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_008",
+    "name": "Temperance",
+    "nameKo": "절제",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "절제하는 방어",
+    "descriptionKo": "절제하는 방어",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 11,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_009",
+    "name": "Great Shield",
+    "nameKo": "큰 방패",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "큰 방패",
+    "descriptionKo": "큰 방패",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 12,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_010",
+    "name": "Stone Armor",
+    "nameKo": "돌 갑옷",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "돌 갑옷",
+    "descriptionKo": "돌 갑옷",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 13,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_011",
+    "name": "Guardian Wall",
+    "nameKo": "수호자의 벽",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "수호자의 벽",
+    "descriptionKo": "수호자의 벽",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 14,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_012",
+    "name": "Steel Chest",
+    "nameKo": "강철 가슴",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "강철 가슴",
+    "descriptionKo": "강철 가슴",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 15,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_013",
+    "name": "Golden Protection",
+    "nameKo": "황금 보호",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "황금 보호",
+    "descriptionKo": "황금 보호",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 16,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_014",
+    "name": "Light Shield",
+    "nameKo": "빛의 방패",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "빛의 방패",
+    "descriptionKo": "빛의 방패",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 17,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_015",
+    "name": "Magical Barrier",
+    "nameKo": "마법 보호",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "마법 보호",
+    "descriptionKo": "마법 보호",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 18,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_016",
+    "name": "Reflection Shield",
+    "nameKo": "반사 방패",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "반사 방패",
+    "descriptionKo": "반사 방패",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 19,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_017",
+    "name": "Perfect Defense",
+    "nameKo": "완벽 수비",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "완벽한 수비",
+    "descriptionKo": "완벽한 수비",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 20,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_018",
+    "name": "Earth Wall",
+    "nameKo": "흙의 벽",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "흙의 벽",
+    "descriptionKo": "흙의 벽",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 21,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_019",
+    "name": "Ice Armor",
+    "nameKo": "얼음 갑옷",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "얼음 갑옷",
+    "descriptionKo": "얼음 갑옷",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 22,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-GRD_020",
+    "name": "Wood Protection",
+    "nameKo": "나무 보호",
+    "type": "SKILL",
+    "subtype": "GRD",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "나무 보호",
+    "descriptionKo": "나무 보호",
+    "flavor": "A GUARD skill.",
+    "tags": [
+      "GUARD"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 23,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "GRD type skill"
+  },
+  {
+    "id": "SKL-PAR_001",
+    "name": "Dream Parry",
+    "nameKo": "꿈의 쳐내기",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "COMMON",
+    "cost": 0,
+    "costType": "energy",
+    "description": "꿈처럼 패링",
+    "descriptionKo": "꿈처럼 패링",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_002",
+    "name": "Moment of Reflection",
+    "nameKo": "반사의 순간",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "SPECIAL",
+    "cost": 0,
+    "costType": "energy",
+    "description": "반사의 순간",
+    "descriptionKo": "반사의 순간",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_003",
+    "name": "Awakening Parry",
+    "nameKo": "각성의 쳐내기",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "SPECIAL",
+    "cost": 0,
+    "costType": "energy",
+    "description": "각성의 패링",
+    "descriptionKo": "각성의 패링",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_004",
+    "name": "Moonlight Counter",
+    "nameKo": "달빛 반격",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "COMMON",
+    "cost": 0,
+    "costType": "energy",
+    "description": "달빛 반격",
+    "descriptionKo": "달빛 반격",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_005",
+    "name": "Perfect Guard",
+    "nameKo": "완벽한 방어",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "SPECIAL",
+    "cost": 0,
+    "costType": "energy",
+    "description": "완벽한 방어",
+    "descriptionKo": "완벽한 방어",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_006",
+    "name": "Blade Dance",
+    "nameKo": "검의 춤",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "RARE",
+    "cost": 0,
+    "costType": "energy",
+    "description": "검의 춤",
+    "descriptionKo": "검의 춤",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_007",
+    "name": "Reaction Art",
+    "nameKo": "반응의 기술",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "RARE",
+    "cost": 0,
+    "costType": "energy",
+    "description": "반응의 기술",
+    "descriptionKo": "반응의 기술",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_008",
+    "name": "Swift Parry",
+    "nameKo": "신속한 패링",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "COMMON",
+    "cost": 0,
+    "costType": "energy",
+    "description": "신속한 패링",
+    "descriptionKo": "신속한 패링",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_009",
+    "name": "Precise Guard",
+    "nameKo": "정확한 방어",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "정확한 방어",
+    "descriptionKo": "정확한 방어",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_010",
+    "name": "Iron Will",
+    "nameKo": "강철의 의지",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "강철의 의지",
+    "descriptionKo": "강철의 의지",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_011",
+    "name": "Guardian Strike",
+    "nameKo": "수호의 일격",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "수호의 일격",
+    "descriptionKo": "수호의 일격",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_012",
+    "name": "Counter Art",
+    "nameKo": "반격의 기술",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "반격의 기술",
+    "descriptionKo": "반격의 기술",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_013",
+    "name": "Magic Reflection",
+    "nameKo": "마법 반사",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "마법 반사",
+    "descriptionKo": "마법 반사",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_014",
+    "name": "Starlight Parry",
+    "nameKo": "별빛 패링",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "별빛 패링",
+    "descriptionKo": "별빛 패링",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_015",
+    "name": "Soul Defense",
+    "nameKo": "영혼의 방어",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "영혼의 방어",
+    "descriptionKo": "영혼의 방어",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_016",
+    "name": "Instinct Dodge",
+    "nameKo": "본능의 회피",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "본능의 회피",
+    "descriptionKo": "본능의 회피",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_017",
+    "name": "Quick Response",
+    "nameKo": "신속한 반응",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "신속한 반응",
+    "descriptionKo": "신속한 반응",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_018",
+    "name": "Absolute Defense",
+    "nameKo": "절대 방어",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "절대 방어",
+    "descriptionKo": "절대 방어",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_019",
+    "name": "Light Blade",
+    "nameKo": "빛의 검",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "빛의 검",
+    "descriptionKo": "빛의 검",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-PAR_020",
+    "name": "Destiny Evade",
+    "nameKo": "운명의 회피",
+    "type": "SKILL",
+    "subtype": "PAR",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "운명의 회피",
+    "descriptionKo": "운명의 회피",
+    "flavor": "A PARRY skill.",
+    "tags": [
+      "PARRY",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PAR type skill"
+  },
+  {
+    "id": "SKL-DOD_001",
+    "name": "Dream Step",
+    "nameKo": "꿈의 스텝",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 0,
+    "costType": "energy",
+    "description": "꿈의 스텝",
+    "descriptionKo": "꿈의 스텝",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_002",
+    "name": "Afterimage",
+    "nameKo": "잔상",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "RARE",
+    "cost": 0,
+    "costType": "energy",
+    "description": "잔상",
+    "descriptionKo": "잔상",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_003",
+    "name": "Twilight Leap",
+    "nameKo": "황혼의 도약",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 0,
+    "costType": "energy",
+    "description": "황혼의 도약",
+    "descriptionKo": "황혼의 도약",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_004",
+    "name": "Smoke Screen",
+    "nameKo": "연막",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "RARE",
+    "cost": 0,
+    "costType": "energy",
+    "description": "연막",
+    "descriptionKo": "연막",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_005",
+    "name": "Half Step Forward",
+    "nameKo": "반보 앞으로",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "RARE",
+    "cost": 0,
+    "costType": "energy",
+    "description": "반보 앞으로",
+    "descriptionKo": "반보 앞으로",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_006",
+    "name": "Quick Step",
+    "nameKo": "빠른 발걸음",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 0,
+    "costType": "energy",
+    "description": "빠른 발걸음",
+    "descriptionKo": "빠른 발걸음",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_007",
+    "name": "Shadow Movement",
+    "nameKo": "그림자 이동",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 0,
+    "costType": "energy",
+    "description": "그림자 이동",
+    "descriptionKo": "그림자 이동",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_008",
+    "name": "Sudden Dodge",
+    "nameKo": "갑작스러운 회피",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "RARE",
+    "cost": 0,
+    "costType": "energy",
+    "description": "갑작스러운 회피",
+    "descriptionKo": "갑작스러운 회피",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_009",
+    "name": "Agile Movement",
+    "nameKo": "신속한 몸놀림",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "신속한 몸놀림",
+    "descriptionKo": "신속한 몸놀림",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_010",
+    "name": "Wind-like Movement",
+    "nameKo": "바람 같은 움직임",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "바람 같은 움직임",
+    "descriptionKo": "바람 같은 움직임",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_011",
+    "name": "Water Flow",
+    "nameKo": "물 같은 흐름",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "물 같은 흐름",
+    "descriptionKo": "물 같은 흐름",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_012",
+    "name": "Zigzag Movement",
+    "nameKo": "갈지자 이동",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "갈지자 이동",
+    "descriptionKo": "갈지자 이동",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_013",
+    "name": "Whirlwind",
+    "nameKo": "소용돌이",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "소용돌이",
+    "descriptionKo": "소용돌이",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_014",
+    "name": "Light Leap",
+    "nameKo": "빛의 도약",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "빛의 도약",
+    "descriptionKo": "빛의 도약",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_015",
+    "name": "Dimensional Shift",
+    "nameKo": "차원 이동",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "차원 이동",
+    "descriptionKo": "차원 이동",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE",
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_016",
+    "name": "Time Distortion",
+    "nameKo": "시간 왜곡",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "시간 왜곡",
+    "descriptionKo": "시간 왜곡",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_017",
+    "name": "Space Escape",
+    "nameKo": "공간 벗어나기",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "공간 벗어나기",
+    "descriptionKo": "공간 벗어나기",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_018",
+    "name": "Illusory Body",
+    "nameKo": "환상의 몸",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "환상의 몸",
+    "descriptionKo": "환상의 몸",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_019",
+    "name": "Perfect Dodge",
+    "nameKo": "완벽한 회피",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "완벽한 회피",
+    "descriptionKo": "완벽한 회피",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "SKL-DOD_020",
+    "name": "Destiny Evade",
+    "nameKo": "운명의 회피",
+    "type": "SKILL",
+    "subtype": "DOD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "운명의 회피",
+    "descriptionKo": "운명의 회피",
+    "flavor": "A DODGE skill.",
+    "tags": [
+      "DODGE"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DOD type skill"
+  },
+  {
+    "id": "PWR-DRW_001",
+    "name": "The Fool",
+    "nameKo": "바보",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "바보의 여행",
+    "descriptionKo": "바보의 여행",
+    "flavor": "A DRW power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_002",
+    "name": "Moon Mirage",
+    "nameKo": "달의 환영",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "달의 환영",
+    "descriptionKo": "달의 환영",
+    "flavor": "A DRW power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_003",
+    "name": "Source of Knowledge",
+    "nameKo": "지식의 원천",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "SPECIAL",
+    "cost": 0,
+    "costType": "energy",
+    "description": "지식의 원천",
+    "descriptionKo": "지식의 원천",
+    "flavor": "A DRW power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_004",
+    "name": "Lucky Star",
+    "nameKo": "행운의 별",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "행운의 별",
+    "descriptionKo": "행운의 별",
+    "flavor": "A DRW power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_005",
+    "name": "Card Weight",
+    "nameKo": "카드의 무게",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "카드의 무게",
+    "descriptionKo": "카드의 무게",
+    "flavor": "A DRW power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_006",
+    "name": "Dream Flow",
+    "nameKo": "꿈의 흐름",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "SPECIAL",
+    "cost": 0,
+    "costType": "energy",
+    "description": "꿈의 흐름",
+    "descriptionKo": "꿈의 흐름",
+    "flavor": "A DRW power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_007",
+    "name": "Inspiration",
+    "nameKo": "영감",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "영감",
+    "descriptionKo": "영감",
+    "flavor": "A DRW power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_008",
+    "name": "New Beginning",
+    "nameKo": "새로운 시작",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "새로운 시작",
+    "descriptionKo": "새로운 시작",
+    "flavor": "A DRW power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_009",
+    "name": "Gate of Infinity",
+    "nameKo": "무한의 문",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "RARE",
+    "cost": 0,
+    "costType": "energy",
+    "description": "무한의 문",
+    "descriptionKo": "무한의 문",
+    "flavor": "A DRW power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_010",
+    "name": "Stars' Whisper",
+    "nameKo": "별들의 속삭임",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "별들의 속삭임",
+    "descriptionKo": "별들의 속삭임",
+    "flavor": "A DRW power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_011",
+    "name": "Thought Movement",
+    "nameKo": "사고의 이동",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "사고의 이동",
+    "descriptionKo": "사고의 이동",
+    "flavor": "A DRW power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-DRW_012",
+    "name": "Memory Recovery",
+    "nameKo": "기억의 회복",
+    "type": "POWER",
+    "subtype": "DRW",
+    "rarity": "SPECIAL",
+    "cost": 0,
+    "costType": "energy",
+    "description": "기억의 회복",
+    "descriptionKo": "기억의 회복",
+    "flavor": "A DRW power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DRW type power"
+  },
+  {
+    "id": "PWR-ATK_001",
+    "name": "Strength",
+    "nameKo": "힘",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "SPECIAL",
+    "cost": 2,
+    "costType": "energy",
+    "description": "힘의 증가",
+    "descriptionKo": "힘의 증가",
+    "flavor": "A ATK power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_002",
+    "name": "Agility",
+    "nameKo": "민첩",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "민첩의 증가",
+    "descriptionKo": "민첩의 증가",
+    "flavor": "A ATK power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_003",
+    "name": "Fighting Spirit",
+    "nameKo": "투지",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "투지",
+    "descriptionKo": "투지",
+    "flavor": "A ATK power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_004",
+    "name": "Fervor",
+    "nameKo": "격정",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "격정",
+    "descriptionKo": "격정",
+    "flavor": "A ATK power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_005",
+    "name": "Battle Instinct",
+    "nameKo": "전투 본능",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "전투 본능",
+    "descriptionKo": "전투 본능",
+    "flavor": "A ATK power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_006",
+    "name": "Warrior's Cry",
+    "nameKo": "전사의 외침",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "전사의 외침",
+    "descriptionKo": "전사의 외침",
+    "flavor": "A ATK power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_007",
+    "name": "Holy Light",
+    "nameKo": "신성한 빛",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "신성한 빛",
+    "descriptionKo": "신성한 빛",
+    "flavor": "A ATK power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_008",
+    "name": "Mana Surge",
+    "nameKo": "마력 상승",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "마력 상승",
+    "descriptionKo": "마력 상승",
+    "flavor": "A ATK power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_009",
+    "name": "Bloodlust",
+    "nameKo": "혈기",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "혈기",
+    "descriptionKo": "혈기",
+    "flavor": "A ATK power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_010",
+    "name": "Explosion Prelude",
+    "nameKo": "폭발의 선제",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "폭발의 선제",
+    "descriptionKo": "폭발의 선제",
+    "flavor": "A ATK power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_011",
+    "name": "Attack Radiance",
+    "nameKo": "공격의 광채",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "공격의 광채",
+    "descriptionKo": "공격의 광채",
+    "flavor": "A ATK power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_012",
+    "name": "Weapon Awakening",
+    "nameKo": "무기의 깨어남",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "무기의 깨어남",
+    "descriptionKo": "무기의 깨어남",
+    "flavor": "A ATK power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_013",
+    "name": "Possibility of Victory",
+    "nameKo": "승리의 가능성",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "승리의 가능성",
+    "descriptionKo": "승리의 가능성",
+    "flavor": "A ATK power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_014",
+    "name": "Infinite Power",
+    "nameKo": "무한의 힘",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "무한의 힘",
+    "descriptionKo": "무한의 힘",
+    "flavor": "A ATK power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-ATK_015",
+    "name": "Ultimate Power",
+    "nameKo": "궁극의 힘",
+    "type": "POWER",
+    "subtype": "ATK",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "궁극의 힘",
+    "descriptionKo": "궁극의 힘",
+    "flavor": "A ATK power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "ATK type power"
+  },
+  {
+    "id": "PWR-DEF_001",
+    "name": "Recovery Magic",
+    "nameKo": "회복의 마법",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "SPECIAL",
+    "cost": 2,
+    "costType": "energy",
+    "description": "회복의 마법",
+    "descriptionKo": "회복의 마법",
+    "flavor": "A DEF power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_002",
+    "name": "Concentration",
+    "nameKo": "집중력",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "집중력",
+    "descriptionKo": "집중력",
+    "flavor": "A DEF power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_003",
+    "name": "Protection Magic",
+    "nameKo": "수호의 마법",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "수호의 마법",
+    "descriptionKo": "수호의 마법",
+    "flavor": "A DEF power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_004",
+    "name": "Holy Armor",
+    "nameKo": "신성한 갑옷",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "신성한 갑옷",
+    "descriptionKo": "신성한 갑옷",
+    "flavor": "A DEF power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_005",
+    "name": "Earth Protection",
+    "nameKo": "흙의 보호",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "흙의 보호",
+    "descriptionKo": "흙의 보호",
+    "flavor": "A DEF power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_006",
+    "name": "Water Healing",
+    "nameKo": "물의 치유",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "물의 치유",
+    "descriptionKo": "물의 치유",
+    "flavor": "A DEF power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_007",
+    "name": "Vitality",
+    "nameKo": "생명력",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "생명력",
+    "descriptionKo": "생명력",
+    "flavor": "A DEF power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_008",
+    "name": "Recovery Power",
+    "nameKo": "회복력",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "회복력",
+    "descriptionKo": "회복력",
+    "flavor": "A DEF power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_009",
+    "name": "Defense Enhancement",
+    "nameKo": "방어력 강화",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "방어력 강화",
+    "descriptionKo": "방어력 강화",
+    "flavor": "A DEF power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_010",
+    "name": "Body Improvement",
+    "nameKo": "체질 개선",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "체질 개선",
+    "descriptionKo": "체질 개선",
+    "flavor": "A DEF power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_011",
+    "name": "Regeneration",
+    "nameKo": "재생",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "재생",
+    "descriptionKo": "재생",
+    "flavor": "A DEF power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-DEF_012",
+    "name": "Body Fortification",
+    "nameKo": "신체 강화",
+    "type": "POWER",
+    "subtype": "DEF",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "신체 강화",
+    "descriptionKo": "신체 강화",
+    "flavor": "A DEF power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "DEF type power"
+  },
+  {
+    "id": "PWR-SUS_001",
+    "name": "Blessing",
+    "nameKo": "축복",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "축복",
+    "descriptionKo": "축복",
+    "flavor": "A SUS power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "PWR-SUS_002",
+    "name": "Regeneration",
+    "nameKo": "재생",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "LEGENDARY",
+    "cost": 4,
+    "costType": "energy",
+    "description": "재생",
+    "descriptionKo": "재생",
+    "flavor": "A SUS power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "PWR-SUS_003",
+    "name": "Magic Enhancement",
+    "nameKo": "마법 강화",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "마법 강화",
+    "descriptionKo": "마법 강화",
+    "flavor": "A SUS power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "PWR-SUS_004",
+    "name": "Attack Chain",
+    "nameKo": "공격의 연계",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "공격의 연계",
+    "descriptionKo": "공격의 연계",
+    "flavor": "A SUS power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "PWR-SUS_005",
+    "name": "Defense Cycle",
+    "nameKo": "방어의 순환",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "SPECIAL",
+    "cost": 4,
+    "costType": "energy",
+    "description": "방어의 순환",
+    "descriptionKo": "방어의 순환",
+    "flavor": "A SUS power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "PWR-SUS_006",
+    "name": "Perfect Balance",
+    "nameKo": "완벽한 균형",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "완벽한 균형",
+    "descriptionKo": "완벽한 균형",
+    "flavor": "A SUS power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "PWR-SUS_007",
+    "name": "Battle Flow",
+    "nameKo": "전투 흐름",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "전투 흐름",
+    "descriptionKo": "전투 흐름",
+    "flavor": "A SUS power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "PWR-SUS_008",
+    "name": "Will to Victory",
+    "nameKo": "승리의 의지",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "RARE",
+    "cost": 4,
+    "costType": "energy",
+    "description": "승리의 의지",
+    "descriptionKo": "승리의 의지",
+    "flavor": "A SUS power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "PWR-SUS_009",
+    "name": "Infinite Cycle",
+    "nameKo": "무한 순환",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "LEGENDARY",
+    "cost": 2,
+    "costType": "energy",
+    "description": "무한 순환",
+    "descriptionKo": "무한 순환",
+    "flavor": "A SUS power card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "PWR-SUS_010",
+    "name": "Soul Resonance",
+    "nameKo": "영혼의 공명",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "영혼의 공명",
+    "descriptionKo": "영혼의 공명",
+    "flavor": "A SUS power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "PWR-SUS_011",
+    "name": "Thread of Destiny",
+    "nameKo": "운명의 실",
+    "type": "POWER",
+    "subtype": "SUS",
+    "rarity": "SPECIAL",
+    "cost": 4,
+    "costType": "energy",
+    "description": "운명의 실",
+    "descriptionKo": "운명의 실",
+    "flavor": "A SUS power card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SUS type power"
+  },
+  {
+    "id": "CRS-STA_001",
+    "name": "Weakness",
+    "nameKo": "약화",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "약화",
+    "descriptionKo": "약화",
+    "flavor": "A STA curse card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_002",
+    "name": "Confusion",
+    "nameKo": "혼란",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "혼란",
+    "descriptionKo": "혼란",
+    "flavor": "A STA curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_003",
+    "name": "Dullness",
+    "nameKo": "둔화",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "둔화",
+    "descriptionKo": "둔화",
+    "flavor": "A STA curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_004",
+    "name": "Lethargy",
+    "nameKo": "무기력",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "무기력",
+    "descriptionKo": "무기력",
+    "flavor": "A STA curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_005",
+    "name": "Fear",
+    "nameKo": "두려움",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "두려움",
+    "descriptionKo": "두려움",
+    "flavor": "A STA curse card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_006",
+    "name": "Despair",
+    "nameKo": "절망",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "절망",
+    "descriptionKo": "절망",
+    "flavor": "A STA curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_007",
+    "name": "Poison",
+    "nameKo": "중독",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "중독",
+    "descriptionKo": "중독",
+    "flavor": "A STA curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_008",
+    "name": "Blow",
+    "nameKo": "타격",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "타격",
+    "descriptionKo": "타격",
+    "flavor": "A STA curse card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_009",
+    "name": "Paralysis",
+    "nameKo": "마비",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "마비",
+    "descriptionKo": "마비",
+    "flavor": "A STA curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_010",
+    "name": "Chill",
+    "nameKo": "냉기",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "냉기",
+    "descriptionKo": "냉기",
+    "flavor": "A STA curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_011",
+    "name": "Burn",
+    "nameKo": "화상",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "화상",
+    "descriptionKo": "화상",
+    "flavor": "A STA curse card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-STA_012",
+    "name": "Bleeding",
+    "nameKo": "출혈",
+    "type": "CURSE",
+    "subtype": "STA",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "출혈",
+    "descriptionKo": "출혈",
+    "flavor": "A STA curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "STA type curse"
+  },
+  {
+    "id": "CRS-SPD_001",
+    "name": "Restraint",
+    "nameKo": "속박",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "속박",
+    "descriptionKo": "속박",
+    "flavor": "A SPD curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_002",
+    "name": "Chain",
+    "nameKo": "연쇄",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "연쇄",
+    "descriptionKo": "연쇄",
+    "flavor": "A SPD curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_003",
+    "name": "Delay",
+    "nameKo": "지연",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "지연",
+    "descriptionKo": "지연",
+    "flavor": "A SPD curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_004",
+    "name": "Stop",
+    "nameKo": "정지",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "정지",
+    "descriptionKo": "정지",
+    "flavor": "A SPD curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_005",
+    "name": "Petrification",
+    "nameKo": "경화",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "경화",
+    "descriptionKo": "경화",
+    "flavor": "A SPD curse card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_006",
+    "name": "Freezing",
+    "nameKo": "동결",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "COMMON",
+    "cost": 1,
+    "costType": "energy",
+    "description": "동결",
+    "descriptionKo": "동결",
+    "flavor": "A SPD curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_007",
+    "name": "Silence",
+    "nameKo": "침묵",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "침묵",
+    "descriptionKo": "침묵",
+    "flavor": "A SPD curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_008",
+    "name": "Seal",
+    "nameKo": "봉인",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "봉인",
+    "descriptionKo": "봉인",
+    "flavor": "A SPD curse card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_009",
+    "name": "Shock",
+    "nameKo": "충격",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "충격",
+    "descriptionKo": "충격",
+    "flavor": "A SPD curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_010",
+    "name": "Stun",
+    "nameKo": "기절",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "COMMON",
+    "cost": 2,
+    "costType": "energy",
+    "description": "기절",
+    "descriptionKo": "기절",
+    "flavor": "A SPD curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_011",
+    "name": "Sleep",
+    "nameKo": "수면",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "COMMON",
+    "cost": 3,
+    "costType": "energy",
+    "description": "수면",
+    "descriptionKo": "수면",
+    "flavor": "A SPD curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-SPD_012",
+    "name": "Coma",
+    "nameKo": "혼수",
+    "type": "CURSE",
+    "subtype": "SPD",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "혼수",
+    "descriptionKo": "혼수",
+    "flavor": "A SPD curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "SPD type curse"
+  },
+  {
+    "id": "CRS-PEN_001",
+    "name": "Defense Ignore",
+    "nameKo": "방어 무시",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "방어 무시",
+    "descriptionKo": "방어 무시",
+    "flavor": "A PEN curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_002",
+    "name": "Weakness Enhancement",
+    "nameKo": "약화 강화",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "RARE",
+    "cost": 4,
+    "costType": "energy",
+    "description": "약화 강화",
+    "descriptionKo": "약화 강화",
+    "flavor": "A PEN curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_003",
+    "name": "Resistance Break",
+    "nameKo": "저항 파괴",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "저항 파괴",
+    "descriptionKo": "저항 파괴",
+    "flavor": "A PEN curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_004",
+    "name": "Weak Point Exploit",
+    "nameKo": "약점 공략",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "약점 공략",
+    "descriptionKo": "약점 공략",
+    "flavor": "A PEN curse card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_005",
+    "name": "Deep Wound",
+    "nameKo": "깊은 상처",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "RARE",
+    "cost": 4,
+    "costType": "energy",
+    "description": "깊은 상처",
+    "descriptionKo": "깊은 상처",
+    "flavor": "A PEN curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_006",
+    "name": "Fatal Wound",
+    "nameKo": "치명상",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "치명상",
+    "descriptionKo": "치명상",
+    "flavor": "A PEN curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_007",
+    "name": "Internal Damage",
+    "nameKo": "심부 손상",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "RARE",
+    "cost": 3,
+    "costType": "energy",
+    "description": "심부 손상",
+    "descriptionKo": "심부 손상",
+    "flavor": "A PEN curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_008",
+    "name": "Mana Drain",
+    "nameKo": "마력 흡수",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "SPECIAL",
+    "cost": 4,
+    "costType": "energy",
+    "description": "마력 흡수",
+    "descriptionKo": "마력 흡수",
+    "flavor": "A PEN curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_009",
+    "name": "Life Drain",
+    "nameKo": "생명 흡수",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "SPECIAL",
+    "cost": 2,
+    "costType": "energy",
+    "description": "생명 흡수",
+    "descriptionKo": "생명 흡수",
+    "flavor": "A PEN curse card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_010",
+    "name": "Soul Erosion",
+    "nameKo": "영혼 침식",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "SPECIAL",
+    "cost": 3,
+    "costType": "energy",
+    "description": "영혼 침식",
+    "descriptionKo": "영혼 침식",
+    "flavor": "A PEN curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_011",
+    "name": "Absolute Weakness",
+    "nameKo": "절대 약화",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "SPECIAL",
+    "cost": 4,
+    "costType": "energy",
+    "description": "절대 약화",
+    "descriptionKo": "절대 약화",
+    "flavor": "A PEN curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-PEN_012",
+    "name": "Total Destruction",
+    "nameKo": "완전 파괴",
+    "type": "CURSE",
+    "subtype": "PEN",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "완전 파괴",
+    "descriptionKo": "완전 파괴",
+    "flavor": "A PEN curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "PEN type curse"
+  },
+  {
+    "id": "CRS-RSK_001",
+    "name": "Vulnerability",
+    "nameKo": "취약",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "취약",
+    "descriptionKo": "취약",
+    "flavor": "A RSK curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_002",
+    "name": "Provoke Anger",
+    "nameKo": "분노 유발",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "SPECIAL",
+    "cost": 2,
+    "costType": "energy",
+    "description": "분노 유발",
+    "descriptionKo": "분노 유발",
+    "flavor": "A RSK curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_003",
+    "name": "Self Harm",
+    "nameKo": "자해 유발",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "RARE",
+    "cost": 0,
+    "costType": "energy",
+    "description": "자해 유발",
+    "descriptionKo": "자해 유발",
+    "flavor": "A RSK curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_004",
+    "name": "Danger Amplification",
+    "nameKo": "위험 증폭",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "위험 증폭",
+    "descriptionKo": "위험 증폭",
+    "flavor": "A RSK curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_005",
+    "name": "Malice",
+    "nameKo": "악의",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "RARE",
+    "cost": 2,
+    "costType": "energy",
+    "description": "악의",
+    "descriptionKo": "악의",
+    "flavor": "A RSK curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_006",
+    "name": "Curse",
+    "nameKo": "저주",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "RARE",
+    "cost": 0,
+    "costType": "energy",
+    "description": "저주",
+    "descriptionKo": "저주",
+    "flavor": "A RSK curse card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_007",
+    "name": "Corruption",
+    "nameKo": "타락",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "SPECIAL",
+    "cost": 1,
+    "costType": "energy",
+    "description": "타락",
+    "descriptionKo": "타락",
+    "flavor": "A RSK curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_008",
+    "name": "Madness",
+    "nameKo": "광기",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "SPECIAL",
+    "cost": 2,
+    "costType": "energy",
+    "description": "광기",
+    "descriptionKo": "광기",
+    "flavor": "A RSK curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_009",
+    "name": "Despair",
+    "nameKo": "절망감",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "SPECIAL",
+    "cost": 0,
+    "costType": "energy",
+    "description": "절망감",
+    "descriptionKo": "절망감",
+    "flavor": "A RSK curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_010",
+    "name": "Death Premonition",
+    "nameKo": "죽음의 예감",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "RARE",
+    "cost": 1,
+    "costType": "energy",
+    "description": "죽음의 예감",
+    "descriptionKo": "죽음의 예감",
+    "flavor": "A RSK curse card.",
+    "tags": [
+      "MAJOR_ARCANA"
+    ],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_011",
+    "name": "Final Comment",
+    "nameKo": "최후의 댓글",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "SPECIAL",
+    "cost": 2,
+    "costType": "energy",
+    "description": "최후의 댓글",
+    "descriptionKo": "최후의 댓글",
+    "flavor": "A RSK curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  },
+  {
+    "id": "CRS-RSK_012",
+    "name": "Infinite Pain",
+    "nameKo": "무한 고통",
+    "type": "CURSE",
+    "subtype": "RSK",
+    "rarity": "RARE",
+    "cost": 0,
+    "costType": "energy",
+    "description": "무한 고통",
+    "descriptionKo": "무한 고통",
+    "flavor": "A RSK curse card.",
+    "tags": [],
+    "stats": {
+      "damage": 0,
+      "block": 0,
+      "heal": 0
+    },
+    "effects": [],
+    "availability": "base",
+    "monetization": "free",
+    "releaseDate": "2026-03-15",
+    "rotationEndDate": null,
+    "gameType": [
+      "ATB",
+      "TB"
+    ],
+    "notes": "RSK type curse"
+  }
+]

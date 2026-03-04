@@ -1,0 +1,201 @@
+id,name,nameKo,type,subtype,rarity,cost,costType,tags,damage,block,heal,availability,monetization,gameType
+ATK-SGL_001,Ace of Blades,검의 에이스,ATTACK,SGL,COMMON,1,energy,,7,0,0,base,free,ATB|TB
+ATK-SGL_002,Lightning Bolt,번개,ATTACK,SGL,COMMON,1,energy,MAJOR_ARCANA,8,0,0,base,free,ATB|TB
+ATK-SGL_003,Sharp Blade,칼날,ATTACK,SGL,RARE,1,energy,,9,0,0,base,free,ATB|TB
+ATK-SGL_004,Mighty Strike,강타,ATTACK,SGL,COMMON,2,energy,,10,0,0,base,free,ATB|TB
+ATK-SGL_005,The Sun,태양,ATTACK,SGL,COMMON,2,energy,MAJOR_ARCANA,11,0,0,base,free,ATB|TB
+ATK-SGL_006,The Emperor,황제,ATTACK,SGL,RARE,2,energy,MAJOR_ARCANA,12,0,0,base,free,ATB|TB
+ATK-SGL_007,Mystical Swordsman,마검사,ATTACK,SGL,COMMON,2,energy,MAJOR_ARCANA,13,0,0,base,free,ATB|TB
+ATK-SGL_008,Heart Pierce,심장 관통,ATTACK,SGL,RARE,4,energy,,14,0,0,base,free,ATB|TB
+ATK-SGL_009,Starlight Blade,별의 검,ATTACK,SGL,RARE,5,energy,MAJOR_ARCANA,16,0,0,base,free,ATB|TB
+ATK-SGL_010,Gravity,중력,ATTACK,SGL,COMMON,6,energy,,18,0,0,base,free,ATB|TB
+ATK-SGL_011,Holy Cut,신성 절단,ATTACK,SGL,RARE,7,energy,,20,0,0,base,free,ATB|TB
+ATK-SGL_012,Soul Drain,영혼 박탈,ATTACK,SGL,COMMON,8,energy,MAJOR_ARCANA,22,0,0,base,free,ATB|TB
+ATK-SGL_013,Final Blow,최후의 일격,ATTACK,SGL,COMMON,9,energy,,24,0,0,base,free,ATB|TB
+ATK-SGL_014,Infinite Spiral,무한 나선,ATTACK,SGL,COMMON,10,energy,MAJOR_ARCANA,26,0,0,base,free,ATB|TB
+ATK-SGL_015,Ultimate Wrath,궁극의 분노,ATTACK,SGL,RARE,11,energy,,28,0,0,base,free,ATB|TB
+ATK-MLT_001,Double Slash,이중 베기,ATTACK,MLT,RARE,2,energy,AOE,6,0,0,base,free,ATB|TB
+ATK-MLT_002,Magician,마법사,ATTACK,MLT,SPECIAL,2,energy,AOE,8,0,0,base,free,ATB|TB
+ATK-MLT_003,Devil,악마,ATTACK,MLT,RARE,2,energy,AOE,10,0,0,base,free,ATB|TB
+ATK-MLT_004,Explosion,폭발,ATTACK,MLT,RARE,2,energy,AOE,12,0,0,base,free,ATB|TB
+ATK-MLT_005,Dual Wield,쌍검술,ATTACK,MLT,RARE,3,energy,AOE,14,0,0,base,free,ATB|TB
+ATK-MLT_006,Chain Lightning,광역 번개,ATTACK,MLT,COMMON,3,energy,AOE,16,0,0,base,free,ATB|TB
+ATK-MLT_007,Wind Slash,바람 가르기,ATTACK,MLT,COMMON,3,energy,MAJOR_ARCANA|AOE,18,0,0,base,free,ATB|TB
+ATK-MLT_008,Inferno Rush,화염 폭주,ATTACK,MLT,COMMON,3,energy,MAJOR_ARCANA|AOE,20,0,0,base,free,ATB|TB
+ATK-MLT_009,Multi Cut,다중 절단,ATTACK,MLT,COMMON,4,energy,MAJOR_ARCANA|AOE,20,0,0,base,free,ATB|TB
+ATK-MLT_010,Meteor,메테오,ATTACK,MLT,COMMON,4,energy,AOE,22,0,0,base,free,ATB|TB
+ATK-MLT_011,Mass Magic,전체 마법,ATTACK,MLT,COMMON,4,energy,AOE,24,0,0,base,free,ATB|TB
+ATK-MLT_012,Sword of Ruin,멸망의 검,ATTACK,MLT,SPECIAL,4,energy,MAJOR_ARCANA|AOE,26,0,0,base,free,ATB|TB
+ATK-RCK_001,The Tower,탑,ATTACK,RCK,SPECIAL,2,energy,MAJOR_ARCANA,17,0,0,base,free,ATB|TB
+ATK-RCK_002,Abyss Hand,심연의 손길,ATTACK,RCK,SPECIAL,2,energy,MAJOR_ARCANA,19,0,0,base,free,ATB|TB
+ATK-RCK_003,Cursed Path,저주의 경로,ATTACK,RCK,RARE,3,energy,MAJOR_ARCANA,21,0,0,base,free,ATB|TB
+ATK-RCK_004,All or Nothing,최후의 모든것,ATTACK,RCK,SPECIAL,3,energy,,23,0,0,base,free,ATB|TB
+ATK-RCK_005,Dance of Death,죽음의 춤,ATTACK,RCK,SPECIAL,4,energy,MAJOR_ARCANA,25,0,0,base,free,ATB|TB
+ATK-CMP_001,The World,세계,ATTACK,CMP,SPECIAL,2,energy,,9,0,0,base,free,ATB|TB
+ATK-CMP_002,The Star,별,ATTACK,CMP,RARE,3,energy,MAJOR_ARCANA,11,0,0,base,free,ATB|TB
+ATK-CMP_003,Wisdom Strike,지혜의 일격,ATTACK,CMP,RARE,3,energy,MAJOR_ARCANA,13,0,0,base,free,ATB|TB
+ATK-CMP_004,Recovery Slash,회복 참격,ATTACK,CMP,LEGENDARY,3,energy,MAJOR_ARCANA,13,0,0,base,free,ATB|TB
+ATK-CMP_005,Hunter's Mark,사냥꾼의 표식,ATTACK,CMP,RARE,3,energy,,14,0,0,base,free,ATB|TB
+ATK-CMP_006,Mirror Reflection,거울 반사,ATTACK,CMP,RARE,3,energy,MAJOR_ARCANA,15,0,0,base,free,ATB|TB
+ATK-CMP_007,Blessed Sword,축복의 검,ATTACK,CMP,RARE,5,energy,,18,0,0,base,free,ATB|TB
+ATK-CMP_008,Soul Guide,영혼의 인도,ATTACK,CMP,RARE,6,energy,MAJOR_ARCANA,20,0,0,base,free,ATB|TB
+ATK-CMP_009,Dimension Slash,차원의 베임,ATTACK,CMP,RARE,7,energy,MAJOR_ARCANA,22,0,0,base,free,ATB|TB
+ATK-CMP_010,Divine Judgment,신의 심판,ATTACK,CMP,LEGENDARY,8,energy,MAJOR_ARCANA,24,0,0,base,free,ATB|TB
+SKL-GRD_001,Shield King,방패의 왕,SKILL,GRD,COMMON,1,energy,GUARD|MAJOR_ARCANA,0,6,0,base,free,ATB|TB
+SKL-GRD_002,Iron Wall,철벽,SKILL,GRD,COMMON,1,energy,GUARD,0,7,0,base,free,ATB|TB
+SKL-GRD_003,The Empress,여황제,SKILL,GRD,COMMON,1,energy,GUARD|MAJOR_ARCANA,0,8,0,base,free,ATB|TB
+SKL-GRD_004,The Hierophant,교황,SKILL,GRD,RARE,1,energy,GUARD|MAJOR_ARCANA,0,9,0,base,free,ATB|TB
+SKL-GRD_005,The Moon,달,SKILL,GRD,COMMON,1,energy,GUARD,0,10,0,base,free,ATB|TB
+SKL-GRD_006,Justice,정의,SKILL,GRD,COMMON,2,energy,GUARD|MAJOR_ARCANA,0,9,0,base,free,ATB|TB
+SKL-GRD_007,The Hermit,은둔자,SKILL,GRD,COMMON,2,energy,GUARD,0,10,0,base,free,ATB|TB
+SKL-GRD_008,Temperance,절제,SKILL,GRD,RARE,2,energy,GUARD,0,11,0,base,free,ATB|TB
+SKL-GRD_009,Great Shield,큰 방패,SKILL,GRD,RARE,2,energy,GUARD|MAJOR_ARCANA,0,12,0,base,free,ATB|TB
+SKL-GRD_010,Stone Armor,돌 갑옷,SKILL,GRD,COMMON,2,energy,GUARD,0,13,0,base,free,ATB|TB
+SKL-GRD_011,Guardian Wall,수호자의 벽,SKILL,GRD,RARE,2,energy,GUARD|MAJOR_ARCANA,0,14,0,base,free,ATB|TB
+SKL-GRD_012,Steel Chest,강철 가슴,SKILL,GRD,COMMON,2,energy,GUARD|MAJOR_ARCANA,0,15,0,base,free,ATB|TB
+SKL-GRD_013,Golden Protection,황금 보호,SKILL,GRD,SPECIAL,3,energy,GUARD,0,16,0,base,free,ATB|TB
+SKL-GRD_014,Light Shield,빛의 방패,SKILL,GRD,COMMON,3,energy,GUARD,0,17,0,base,free,ATB|TB
+SKL-GRD_015,Magical Barrier,마법 보호,SKILL,GRD,COMMON,3,energy,GUARD,0,18,0,base,free,ATB|TB
+SKL-GRD_016,Reflection Shield,반사 방패,SKILL,GRD,RARE,3,energy,GUARD,0,19,0,base,free,ATB|TB
+SKL-GRD_017,Perfect Defense,완벽 수비,SKILL,GRD,RARE,3,energy,GUARD|MAJOR_ARCANA,0,20,0,base,free,ATB|TB
+SKL-GRD_018,Earth Wall,흙의 벽,SKILL,GRD,COMMON,3,energy,GUARD,0,21,0,base,free,ATB|TB
+SKL-GRD_019,Ice Armor,얼음 갑옷,SKILL,GRD,COMMON,3,energy,GUARD,0,22,0,base,free,ATB|TB
+SKL-GRD_020,Wood Protection,나무 보호,SKILL,GRD,COMMON,3,energy,GUARD,0,23,0,base,free,ATB|TB
+SKL-PAR_001,Dream Parry,꿈의 쳐내기,SKILL,PAR,COMMON,0,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_002,Moment of Reflection,반사의 순간,SKILL,PAR,SPECIAL,0,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_003,Awakening Parry,각성의 쳐내기,SKILL,PAR,SPECIAL,0,energy,PARRY,0,0,0,base,free,ATB|TB
+SKL-PAR_004,Moonlight Counter,달빛 반격,SKILL,PAR,COMMON,0,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_005,Perfect Guard,완벽한 방어,SKILL,PAR,SPECIAL,0,energy,PARRY,0,0,0,base,free,ATB|TB
+SKL-PAR_006,Blade Dance,검의 춤,SKILL,PAR,RARE,0,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_007,Reaction Art,반응의 기술,SKILL,PAR,RARE,0,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_008,Swift Parry,신속한 패링,SKILL,PAR,COMMON,0,energy,PARRY,0,0,0,base,free,ATB|TB
+SKL-PAR_009,Precise Guard,정확한 방어,SKILL,PAR,RARE,1,energy,PARRY,0,0,0,base,free,ATB|TB
+SKL-PAR_010,Iron Will,강철의 의지,SKILL,PAR,SPECIAL,1,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_011,Guardian Strike,수호의 일격,SKILL,PAR,COMMON,1,energy,PARRY,0,0,0,base,free,ATB|TB
+SKL-PAR_012,Counter Art,반격의 기술,SKILL,PAR,RARE,1,energy,PARRY,0,0,0,base,free,ATB|TB
+SKL-PAR_013,Magic Reflection,마법 반사,SKILL,PAR,COMMON,1,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_014,Starlight Parry,별빛 패링,SKILL,PAR,RARE,1,energy,PARRY,0,0,0,base,free,ATB|TB
+SKL-PAR_015,Soul Defense,영혼의 방어,SKILL,PAR,RARE,1,energy,PARRY,0,0,0,base,free,ATB|TB
+SKL-PAR_016,Instinct Dodge,본능의 회피,SKILL,PAR,COMMON,1,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_017,Quick Response,신속한 반응,SKILL,PAR,RARE,1,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_018,Absolute Defense,절대 방어,SKILL,PAR,COMMON,1,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_019,Light Blade,빛의 검,SKILL,PAR,RARE,1,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-PAR_020,Destiny Evade,운명의 회피,SKILL,PAR,SPECIAL,1,energy,PARRY|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-DOD_001,Dream Step,꿈의 스텝,SKILL,DOD,COMMON,0,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_002,Afterimage,잔상,SKILL,DOD,RARE,0,energy,DODGE|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-DOD_003,Twilight Leap,황혼의 도약,SKILL,DOD,COMMON,0,energy,DODGE|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-DOD_004,Smoke Screen,연막,SKILL,DOD,RARE,0,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_005,Half Step Forward,반보 앞으로,SKILL,DOD,RARE,0,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_006,Quick Step,빠른 발걸음,SKILL,DOD,COMMON,0,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_007,Shadow Movement,그림자 이동,SKILL,DOD,COMMON,0,energy,DODGE|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-DOD_008,Sudden Dodge,갑작스러운 회피,SKILL,DOD,RARE,0,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_009,Agile Movement,신속한 몸놀림,SKILL,DOD,RARE,1,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_010,Wind-like Movement,바람 같은 움직임,SKILL,DOD,COMMON,1,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_011,Water Flow,물 같은 흐름,SKILL,DOD,COMMON,1,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_012,Zigzag Movement,갈지자 이동,SKILL,DOD,COMMON,1,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_013,Whirlwind,소용돌이,SKILL,DOD,COMMON,1,energy,DODGE|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-DOD_014,Light Leap,빛의 도약,SKILL,DOD,COMMON,1,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_015,Dimensional Shift,차원 이동,SKILL,DOD,SPECIAL,1,energy,DODGE|MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+SKL-DOD_016,Time Distortion,시간 왜곡,SKILL,DOD,SPECIAL,1,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_017,Space Escape,공간 벗어나기,SKILL,DOD,COMMON,1,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_018,Illusory Body,환상의 몸,SKILL,DOD,RARE,1,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_019,Perfect Dodge,완벽한 회피,SKILL,DOD,SPECIAL,1,energy,DODGE,0,0,0,base,free,ATB|TB
+SKL-DOD_020,Destiny Evade,운명의 회피,SKILL,DOD,COMMON,1,energy,DODGE,0,0,0,base,free,ATB|TB
+PWR-DRW_001,The Fool,바보,POWER,DRW,RARE,1,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DRW_002,Moon Mirage,달의 환영,POWER,DRW,COMMON,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DRW_003,Source of Knowledge,지식의 원천,POWER,DRW,SPECIAL,0,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DRW_004,Lucky Star,행운의 별,POWER,DRW,SPECIAL,1,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DRW_005,Card Weight,카드의 무게,POWER,DRW,RARE,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DRW_006,Dream Flow,꿈의 흐름,POWER,DRW,SPECIAL,0,energy,,0,0,0,base,free,ATB|TB
+PWR-DRW_007,Inspiration,영감,POWER,DRW,SPECIAL,1,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DRW_008,New Beginning,새로운 시작,POWER,DRW,RARE,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DRW_009,Gate of Infinity,무한의 문,POWER,DRW,RARE,0,energy,,0,0,0,base,free,ATB|TB
+PWR-DRW_010,Stars' Whisper,별들의 속삭임,POWER,DRW,SPECIAL,1,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DRW_011,Thought Movement,사고의 이동,POWER,DRW,RARE,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DRW_012,Memory Recovery,기억의 회복,POWER,DRW,SPECIAL,0,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-ATK_001,Strength,힘,POWER,ATK,SPECIAL,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-ATK_002,Agility,민첩,POWER,ATK,COMMON,3,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-ATK_003,Fighting Spirit,투지,POWER,ATK,RARE,1,energy,,0,0,0,base,free,ATB|TB
+PWR-ATK_004,Fervor,격정,POWER,ATK,COMMON,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-ATK_005,Battle Instinct,전투 본능,POWER,ATK,COMMON,3,energy,,0,0,0,base,free,ATB|TB
+PWR-ATK_006,Warrior's Cry,전사의 외침,POWER,ATK,RARE,1,energy,,0,0,0,base,free,ATB|TB
+PWR-ATK_007,Holy Light,신성한 빛,POWER,ATK,RARE,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-ATK_008,Mana Surge,마력 상승,POWER,ATK,SPECIAL,3,energy,,0,0,0,base,free,ATB|TB
+PWR-ATK_009,Bloodlust,혈기,POWER,ATK,RARE,1,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-ATK_010,Explosion Prelude,폭발의 선제,POWER,ATK,RARE,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-ATK_011,Attack Radiance,공격의 광채,POWER,ATK,COMMON,3,energy,,0,0,0,base,free,ATB|TB
+PWR-ATK_012,Weapon Awakening,무기의 깨어남,POWER,ATK,RARE,1,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-ATK_013,Possibility of Victory,승리의 가능성,POWER,ATK,RARE,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-ATK_014,Infinite Power,무한의 힘,POWER,ATK,SPECIAL,3,energy,,0,0,0,base,free,ATB|TB
+PWR-ATK_015,Ultimate Power,궁극의 힘,POWER,ATK,COMMON,1,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DEF_001,Recovery Magic,회복의 마법,POWER,DEF,SPECIAL,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DEF_002,Concentration,집중력,POWER,DEF,SPECIAL,3,energy,,0,0,0,base,free,ATB|TB
+PWR-DEF_003,Protection Magic,수호의 마법,POWER,DEF,COMMON,1,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DEF_004,Holy Armor,신성한 갑옷,POWER,DEF,RARE,2,energy,,0,0,0,base,free,ATB|TB
+PWR-DEF_005,Earth Protection,흙의 보호,POWER,DEF,SPECIAL,3,energy,,0,0,0,base,free,ATB|TB
+PWR-DEF_006,Water Healing,물의 치유,POWER,DEF,COMMON,1,energy,,0,0,0,base,free,ATB|TB
+PWR-DEF_007,Vitality,생명력,POWER,DEF,COMMON,2,energy,,0,0,0,base,free,ATB|TB
+PWR-DEF_008,Recovery Power,회복력,POWER,DEF,SPECIAL,3,energy,,0,0,0,base,free,ATB|TB
+PWR-DEF_009,Defense Enhancement,방어력 강화,POWER,DEF,COMMON,1,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DEF_010,Body Improvement,체질 개선,POWER,DEF,RARE,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DEF_011,Regeneration,재생,POWER,DEF,RARE,3,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-DEF_012,Body Fortification,신체 강화,POWER,DEF,COMMON,1,energy,,0,0,0,base,free,ATB|TB
+PWR-SUS_001,Blessing,축복,POWER,SUS,RARE,3,energy,,0,0,0,base,free,ATB|TB
+PWR-SUS_002,Regeneration,재생,POWER,SUS,LEGENDARY,4,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-SUS_003,Magic Enhancement,마법 강화,POWER,SUS,RARE,2,energy,,0,0,0,base,free,ATB|TB
+PWR-SUS_004,Attack Chain,공격의 연계,POWER,SUS,RARE,3,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-SUS_005,Defense Cycle,방어의 순환,POWER,SUS,SPECIAL,4,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-SUS_006,Perfect Balance,완벽한 균형,POWER,SUS,RARE,2,energy,,0,0,0,base,free,ATB|TB
+PWR-SUS_007,Battle Flow,전투 흐름,POWER,SUS,SPECIAL,3,energy,,0,0,0,base,free,ATB|TB
+PWR-SUS_008,Will to Victory,승리의 의지,POWER,SUS,RARE,4,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-SUS_009,Infinite Cycle,무한 순환,POWER,SUS,LEGENDARY,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+PWR-SUS_010,Soul Resonance,영혼의 공명,POWER,SUS,SPECIAL,3,energy,,0,0,0,base,free,ATB|TB
+PWR-SUS_011,Thread of Destiny,운명의 실,POWER,SUS,SPECIAL,4,energy,,0,0,0,base,free,ATB|TB
+CRS-STA_001,Weakness,약화,CURSE,STA,COMMON,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+CRS-STA_002,Confusion,혼란,CURSE,STA,RARE,3,energy,,0,0,0,base,free,ATB|TB
+CRS-STA_003,Dullness,둔화,CURSE,STA,RARE,1,energy,,0,0,0,base,free,ATB|TB
+CRS-STA_004,Lethargy,무기력,CURSE,STA,COMMON,2,energy,,0,0,0,base,free,ATB|TB
+CRS-STA_005,Fear,두려움,CURSE,STA,COMMON,3,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+CRS-STA_006,Despair,절망,CURSE,STA,RARE,1,energy,,0,0,0,base,free,ATB|TB
+CRS-STA_007,Poison,중독,CURSE,STA,RARE,2,energy,,0,0,0,base,free,ATB|TB
+CRS-STA_008,Blow,타격,CURSE,STA,SPECIAL,3,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+CRS-STA_009,Paralysis,마비,CURSE,STA,SPECIAL,1,energy,,0,0,0,base,free,ATB|TB
+CRS-STA_010,Chill,냉기,CURSE,STA,RARE,2,energy,,0,0,0,base,free,ATB|TB
+CRS-STA_011,Burn,화상,CURSE,STA,RARE,3,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+CRS-STA_012,Bleeding,출혈,CURSE,STA,SPECIAL,1,energy,,0,0,0,base,free,ATB|TB
+CRS-SPD_001,Restraint,속박,CURSE,SPD,RARE,2,energy,,0,0,0,base,free,ATB|TB
+CRS-SPD_002,Chain,연쇄,CURSE,SPD,COMMON,3,energy,,0,0,0,base,free,ATB|TB
+CRS-SPD_003,Delay,지연,CURSE,SPD,COMMON,1,energy,,0,0,0,base,free,ATB|TB
+CRS-SPD_004,Stop,정지,CURSE,SPD,RARE,2,energy,,0,0,0,base,free,ATB|TB
+CRS-SPD_005,Petrification,경화,CURSE,SPD,RARE,3,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+CRS-SPD_006,Freezing,동결,CURSE,SPD,COMMON,1,energy,,0,0,0,base,free,ATB|TB
+CRS-SPD_007,Silence,침묵,CURSE,SPD,COMMON,2,energy,,0,0,0,base,free,ATB|TB
+CRS-SPD_008,Seal,봉인,CURSE,SPD,COMMON,3,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+CRS-SPD_009,Shock,충격,CURSE,SPD,RARE,1,energy,,0,0,0,base,free,ATB|TB
+CRS-SPD_010,Stun,기절,CURSE,SPD,COMMON,2,energy,,0,0,0,base,free,ATB|TB
+CRS-SPD_011,Sleep,수면,CURSE,SPD,COMMON,3,energy,,0,0,0,base,free,ATB|TB
+CRS-SPD_012,Coma,혼수,CURSE,SPD,RARE,1,energy,,0,0,0,base,free,ATB|TB
+CRS-PEN_001,Defense Ignore,방어 무시,CURSE,PEN,RARE,3,energy,,0,0,0,base,free,ATB|TB
+CRS-PEN_002,Weakness Enhancement,약화 강화,CURSE,PEN,RARE,4,energy,,0,0,0,base,free,ATB|TB
+CRS-PEN_003,Resistance Break,저항 파괴,CURSE,PEN,RARE,2,energy,,0,0,0,base,free,ATB|TB
+CRS-PEN_004,Weak Point Exploit,약점 공략,CURSE,PEN,RARE,3,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+CRS-PEN_005,Deep Wound,깊은 상처,CURSE,PEN,RARE,4,energy,,0,0,0,base,free,ATB|TB
+CRS-PEN_006,Fatal Wound,치명상,CURSE,PEN,RARE,2,energy,,0,0,0,base,free,ATB|TB
+CRS-PEN_007,Internal Damage,심부 손상,CURSE,PEN,RARE,3,energy,,0,0,0,base,free,ATB|TB
+CRS-PEN_008,Mana Drain,마력 흡수,CURSE,PEN,SPECIAL,4,energy,,0,0,0,base,free,ATB|TB
+CRS-PEN_009,Life Drain,생명 흡수,CURSE,PEN,SPECIAL,2,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+CRS-PEN_010,Soul Erosion,영혼 침식,CURSE,PEN,SPECIAL,3,energy,,0,0,0,base,free,ATB|TB
+CRS-PEN_011,Absolute Weakness,절대 약화,CURSE,PEN,SPECIAL,4,energy,,0,0,0,base,free,ATB|TB
+CRS-PEN_012,Total Destruction,완전 파괴,CURSE,PEN,RARE,2,energy,,0,0,0,base,free,ATB|TB
+CRS-RSK_001,Vulnerability,취약,CURSE,RSK,RARE,1,energy,,0,0,0,base,free,ATB|TB
+CRS-RSK_002,Provoke Anger,분노 유발,CURSE,RSK,SPECIAL,2,energy,,0,0,0,base,free,ATB|TB
+CRS-RSK_003,Self Harm,자해 유발,CURSE,RSK,RARE,0,energy,,0,0,0,base,free,ATB|TB
+CRS-RSK_004,Danger Amplification,위험 증폭,CURSE,RSK,RARE,1,energy,,0,0,0,base,free,ATB|TB
+CRS-RSK_005,Malice,악의,CURSE,RSK,RARE,2,energy,,0,0,0,base,free,ATB|TB
+CRS-RSK_006,Curse,저주,CURSE,RSK,RARE,0,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+CRS-RSK_007,Corruption,타락,CURSE,RSK,SPECIAL,1,energy,,0,0,0,base,free,ATB|TB
+CRS-RSK_008,Madness,광기,CURSE,RSK,SPECIAL,2,energy,,0,0,0,base,free,ATB|TB
+CRS-RSK_009,Despair,절망감,CURSE,RSK,SPECIAL,0,energy,,0,0,0,base,free,ATB|TB
+CRS-RSK_010,Death Premonition,죽음의 예감,CURSE,RSK,RARE,1,energy,MAJOR_ARCANA,0,0,0,base,free,ATB|TB
+CRS-RSK_011,Final Comment,최후의 댓글,CURSE,RSK,SPECIAL,2,energy,,0,0,0,base,free,ATB|TB
+CRS-RSK_012,Infinite Pain,무한 고통,CURSE,RSK,RARE,0,energy,,0,0,0,base,free,ATB|TB
