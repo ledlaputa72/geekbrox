@@ -756,7 +756,7 @@ func _create_hero_permanent():
 		"hp": 200,
 		"max_hp": 200,
 	})
-	hero_node.position = Vector2(5, 150)
+	hero_node.position = Vector2(5, 130)
 	hero_area.add_child(hero_node)
 
 	hero_node.character_clicked.connect(_on_hero_clicked)
@@ -1363,6 +1363,16 @@ func _on_new_combat_ended(result: String):
 		active_combat_scene = null
 	_on_combat_ended(result == "WIN")
 
+func _get_current_combat_manager():
+	"""현재 전투 씬의 CombatManagerATB 또는 CombatManagerTB 반환"""
+	if not active_combat_scene or not is_instance_valid(active_combat_scene):
+		return null
+	var mgr = active_combat_scene.get_node_or_null("CombatManagerATB")
+	if mgr:
+		return mgr
+	return active_combat_scene.get_node_or_null("CombatManagerTB")
+
+
 func _on_new_player_hp_changed(hp: int, _max_hp: int, block: int = 0):
 	if hero_node:
 		# 초기 동기화 프레임에서는 숫자 표시 생략
@@ -1380,6 +1390,13 @@ func _on_new_player_hp_changed(hp: int, _max_hp: int, block: int = 0):
 			_last_player_block = block
 		hero_node.update_hp(hp)
 		hero_node.update_block(block)
+		# 스프라이트 아래 버프/디버프·블록 상태 표시
+		if hero_node.has_method("update_status_effects"):
+			var status = {}
+			var mgr = _get_current_combat_manager()
+			if mgr and "player_data" in mgr:
+				status = mgr.player_data.get("status_effects", {})
+			hero_node.update_status_effects(status, block)
 
 func _on_new_enemy_hp_changed(enemy_idx: int, hp: int, max_hp: int):
 	if enemy_idx >= 0 and enemy_idx < _combat_monster_character_indices.size():
@@ -1397,6 +1414,15 @@ func _on_new_enemy_hp_changed(enemy_idx: int, hp: int, max_hp: int):
 				else:
 					_last_enemy_hp[enemy_idx] = hp
 				node.update_hp(hp, 0, false, max_hp)
+				# 몬스터 스프라이트 아래 버프/디버프 상태 표시
+				if node.has_method("update_status_effects"):
+					var status = {}
+					var mgr = _get_current_combat_manager()
+					if mgr and "enemies" in mgr and enemy_idx >= 0 and enemy_idx < mgr.enemies.size():
+						var enemy = mgr.enemies[enemy_idx]
+						if enemy and "status_effects" in enemy:
+							status = enemy.status_effects
+					node.update_status_effects(status, 0)
 
 func _on_new_damage_dealt(entity_type: String, index: int, damage: int, is_healing: bool):
 	"""새 전투 시스템 damage_dealt → 데미지 숫자 + 애니메이션"""
@@ -1423,22 +1449,24 @@ func _on_new_damage_dealt(entity_type: String, index: int, damage: int, is_heali
 
 
 func _on_new_reaction_feedback(text: String, result_type: String, _enemy_idx: int):
-	"""리액션 성공/실패 텍스트를 플레이어 머리 위로 표시"""
-	if not hero_node or not hero_node.has_method("show_floating_text"):
-		return
-	var c = Color.WHITE
-	match result_type:
-		"PARRY":
-			c = Color(0.2, 1.0, 0.35, 1.0)
-		"DODGE":
-			c = Color(1.0, 0.95, 0.2, 1.0)
-		"GUARD":
-			c = Color(0.35, 0.75, 1.0, 1.0)
-		"PARRY_FAIL", "DODGE_FAIL":
-			c = Color(1.0, 0.25, 0.25, 1.0)
-		_:
-			c = Color.WHITE
-	hero_node.show_floating_text(text, c, 18)
+	"""리액션 성공/실패 텍스트를 플레이어 머리 위로 표시 + 스프라이트 아래 배지"""
+	if hero_node:
+		if hero_node.has_method("show_floating_text"):
+			var c = Color.WHITE
+			match result_type:
+				"PARRY":
+					c = Color(0.2, 1.0, 0.35, 1.0)
+				"DODGE":
+					c = Color(1.0, 0.95, 0.2, 1.0)
+				"GUARD":
+					c = Color(0.35, 0.75, 1.0, 1.0)
+				"PARRY_FAIL", "DODGE_FAIL":
+					c = Color(1.0, 0.25, 0.25, 1.0)
+				_:
+					c = Color.WHITE
+			hero_node.show_floating_text(text, c, 18)
+		if hero_node.has_method("show_reaction_badge"):
+			hero_node.show_reaction_badge(result_type, 1.5)
 
 func _on_card_play_animation_requested(card_item: Control, card, target_type: String, target_index: int):
 	"""카드 사용 시 비행 애니메이션: 카드 → 대상(플레이어/몬스터)으로 날아가며 축소·페이드 후 적용"""

@@ -106,6 +106,7 @@ func start_combat(p_data: Dictionary, enemy_list: Array, card_deck: Array[Card])
 		deck_passive.apply_passives(passives, self)
 		emit_signal("deck_passive_activated", passives)
 
+	battle_log("=== \uC804\uD22C \uC2DC\uC791 (\uC801 %d\uB9C8\uB9AC) ===" % enemy_list.size())  # 전투 시작 (적 N마리)
 	if DEBUG_COMBAT:
 		print("[TB] 보스 전투 시작 적 %d마리" % enemies.size())
 	emit_signal("combat_started")
@@ -182,6 +183,7 @@ func player_play_card(card: Card, target_index: int = -1):
 		return
 
 	energy_system.spend(card.cost)
+	battle_log("[%s] \uC0AC\uC6A9 (\uCF54\uC2A4\uD2B8 %d)" % [card.name, card.cost])  # [카드명] 사용 (코스트 N)
 	_resolve_card_effect(card, target_index)
 	if hand_system:
 		hand_system.discard_card(card)
@@ -210,6 +212,7 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 					var idx = enemies.find(enemy)
 					emit_signal("damage_dealt", "monster", idx, dmg, false)
 					emit_signal("enemy_hp_changed", idx, enemy.current_hp, enemy.max_hp)
+					battle_log("  \u2192 \uC801 #%d \uD53C\uD574 %d (%s)" % [idx + 1, dmg, enemy.display_name if "display_name" in enemy else "?"])
 		else:
 			var target_enemy = null
 			if target_index >= 0 and target_index < enemies.size() and enemies[target_index].is_alive():
@@ -226,6 +229,7 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 				var idx = enemies.find(target_enemy)
 				emit_signal("damage_dealt", "monster", idx, dmg, false)
 				emit_signal("enemy_hp_changed", idx, target_enemy.current_hp, target_enemy.max_hp)
+				battle_log("  \u2192 \uC801 #%d \uD53C\uD574 %d (%s)" % [idx + 1, dmg, target_enemy.display_name if "display_name" in target_enemy else "?"])
 
 	# 방어 카드
 	if card.block > 0:
@@ -235,6 +239,7 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 		actual_block += dex
 		player_data["block"] = player_data.get("block", 0) + actual_block
 		emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
+		battle_log("  \u2192 \uBE14\uB85D +%d (\uD604\uC7AC \uD53C\uD574 \uBCF4\uD638 %d)" % [actual_block, player_data.get("block", 0)])
 
 	# 상태이상
 	for eff in card.status_effects:
@@ -245,13 +250,16 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 			for enemy in enemies:
 				if enemy.is_alive():
 					StatusEffectSystem.apply_to(enemy, eff_type, eff_val)
+					battle_log("  \u2192 \uC801 \uC0C8\uD0DC\uC774\uC0C1 %s +%d" % [eff_type, eff_val])
 		elif target_type == "self":
 			var p_status = player_data.get("status_effects", {})
 			p_status[eff_type] = p_status.get(eff_type, 0) + eff_val
 			player_data["status_effects"] = p_status
+			battle_log("  \u2192 \uC790\uC2E0 %s +%d" % [eff_type, eff_val])
 
 	# 드로우
 	if card.draw > 0 and hand_system:
+		battle_log("  \u2192 \uB4DC\uB85C\uC6B0 +%d\uC7A5" % card.draw)
 		hand_system.draw_cards(card.draw)
 
 func _calc_player_damage(base: int, enemy) -> int:
@@ -465,6 +473,7 @@ func _end_combat(result: String):
 		return
 	combat_active = false
 	current_phase = TurnPhase.CHECK_END
+	battle_log("=== \uC804\uD22C \uC885\uB8B0: %s ===" % ("\uC2B9\uB9AC" if result == "WIN" else "\uD328\uB294"))  # 전투 종료: 승리/패배
 	if DEBUG_COMBAT and battle_diary:
 		var report = battle_diary.compile_report()
 		print("[TB] 전투 종료: %s 턴 %d" % [result, turn_count])

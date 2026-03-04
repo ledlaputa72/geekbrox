@@ -47,6 +47,11 @@ var sprite_animator: PlayerSpriteAnimator = null
 var turn_shadow: Panel = null
 var alert_label: Label = null
 
+# ─── 스프라이트 아래 상태 표시 (버프/디버프/리액션) ───
+var status_container: HBoxContainer = null   # 버프·디버프 아이콘/텍스트
+var reaction_badge: Label = null             # 패링/회피/가드 적용 상태 (잠깐 표시)
+var _reaction_badge_timer: float = 0.0
+
 # ─── 크기 설정 ────────────────────────────────────────
 const HERO_SIZE = Vector2(100, 150)
 const MONSTER_SIZE = Vector2(80, 120)
@@ -92,6 +97,7 @@ func _create_ui():
 
 	_create_turn_indicator_ui()
 	_create_hp_bar()
+	_create_status_display_ui()
 	_create_click_button()
 
 
@@ -189,6 +195,36 @@ func _create_hp_bar():
 		hp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		hp_label.add_theme_font_size_override("font_size", 10)
 		add_child(hp_label)
+
+
+func _create_status_display_ui():
+	"""스프라이트 아래: 버프/디버프 스택 + 리액션 배지"""
+	status_container = HBoxContainer.new()
+	status_container.name = "StatusContainer"
+	status_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	status_container.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	status_container.offset_top = -28
+	status_container.offset_bottom = -14
+	status_container.offset_left = 4
+	status_container.offset_right = -4
+	status_container.add_theme_constant_override("separation", 2)
+	status_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	add_child(status_container)
+
+	reaction_badge = Label.new()
+	reaction_badge.name = "ReactionBadge"
+	reaction_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	reaction_badge.visible = false
+	reaction_badge.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	reaction_badge.offset_top = -42
+	reaction_badge.offset_bottom = -28
+	reaction_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	reaction_badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	reaction_badge.add_theme_font_size_override("font_size", 11)
+	reaction_badge.add_theme_color_override("font_color", Color(1.0, 0.95, 0.3, 1.0))
+	reaction_badge.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	reaction_badge.add_theme_constant_override("outline_size", 2)
+	add_child(reaction_badge)
 
 
 func _create_click_button():
@@ -476,6 +512,117 @@ func update_block(block_val: int):
 	"""아머(블록) 수치 갱신 (Hero 전용)"""
 	if block_label:
 		block_label.text = "🛡%d" % block_val
+
+
+# ─── 스프라이트 아래 상태 표시 (원형 + 알파벳 1글자) ─────────────────────────
+
+# 상태별 원 안에 쓸 영어 1글자
+const STATUS_LETTER = {
+	"VULNERABLE": "V", "WEAK": "W", "POISON": "P", "STRENGTH": "S",
+	"DEXTERITY": "D", "BURNING": "B", "ENTANGLED": "E", "HEAL": "H"
+}
+# 상태별 원 배경색 (디버프=빨강계, 버프=초록계, 블록=파랑)
+const STATUS_CIRCLE_COLOR = {
+	"VULNERABLE": Color(0.85, 0.2, 0.2, 1.0),
+	"WEAK": Color(0.9, 0.35, 0.25, 1.0),
+	"POISON": Color(0.4, 0.75, 0.25, 1.0),
+	"BURNING": Color(0.95, 0.5, 0.1, 1.0),
+	"ENTANGLED": Color(0.5, 0.35, 0.6, 1.0),
+	"STRENGTH": Color(0.25, 0.7, 0.35, 1.0),
+	"DEXTERITY": Color(0.2, 0.65, 0.85, 1.0),
+	"HEAL": Color(0.3, 0.9, 0.5, 1.0),
+	"BLOCK": Color(0.35, 0.6, 0.95, 1.0)
+}
+
+const STATUS_ICON_SIZE = 18
+
+func _make_status_icon(letter: String, circle_color: Color) -> Control:
+	"""원형 배경 + 알파벳 1글자 아이콘 생성"""
+	var panel = Panel.new()
+	panel.custom_minimum_size = Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE)
+	panel.size = Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE)
+	var style = StyleBoxFlat.new()
+	style.bg_color = circle_color
+	style.corner_radius_top_left = STATUS_ICON_SIZE / 2
+	style.corner_radius_top_right = STATUS_ICON_SIZE / 2
+	style.corner_radius_bottom_left = STATUS_ICON_SIZE / 2
+	style.corner_radius_bottom_right = STATUS_ICON_SIZE / 2
+	style.border_width_left = 1
+	style.border_width_right = 1
+	style.border_width_top = 1
+	style.border_width_bottom = 1
+	style.border_color = Color(0, 0, 0, 0.4)
+	panel.add_theme_stylebox_override("panel", style)
+	var lbl = Label.new()
+	lbl.text = letter
+	lbl.add_theme_font_size_override("font_size", 11)
+	lbl.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	lbl.offset_left = 0
+	lbl.offset_top = 0
+	lbl.offset_right = 0
+	lbl.offset_bottom = 0
+	panel.add_child(lbl)
+	return panel
+
+
+func update_status_effects(status_dict: Dictionary, block_val: int = 0):
+	"""버프/디버프를 원형+알파벳 1글자 아이콘으로 표시. block_val은 Hero 전용."""
+	if not status_container:
+		return
+	for child in status_container.get_children():
+		child.queue_free()
+	var shown = 0
+	if block_val > 0 and character_type == "hero":
+		var icon = _make_status_icon("B", STATUS_CIRCLE_COLOR.get("BLOCK", Color(0.35, 0.6, 0.95, 1.0)))
+		status_container.add_child(icon)
+		shown += 1
+	for status_name in status_dict:
+		var stacks = int(status_dict[status_name])
+		if stacks <= 0:
+			continue
+		var letter = STATUS_LETTER.get(status_name, status_name.substr(0, 1) if status_name.length() > 0 else "?")
+		var circle_color = STATUS_CIRCLE_COLOR.get(status_name, Color(0.5, 0.5, 0.5, 1.0))
+		var icon = _make_status_icon(letter, circle_color)
+		status_container.add_child(icon)
+		shown += 1
+	status_container.visible = shown > 0
+
+
+func show_reaction_badge(reaction_type: String, duration: float = 1.5):
+	"""패링/회피/가드 적용 상태를 잠시 표시 (스프라이트 아래)"""
+	if not reaction_badge:
+		return
+	var text = ""
+	match reaction_type:
+		"PARRY", "PARRY_SUCCESS":
+			text = "\uD328\uB9C1 \uC131\uACF5"  # 패링 성공
+		"DODGE", "DODGE_SUCCESS":
+			text = "\uD68C\uD53C \uC131\uACF5"  # 회피 성공
+		"GUARD":
+			text = "\uAC00\uB4DC \uC801\uC6A9"  # 가드 적용
+		"PARRY_FAIL":
+			text = "\uD328\uB9C1 \uC2E4\uD328"
+		"DODGE_FAIL":
+			text = "\uD68C\uD53C \uC2E4\uD328"
+		_:
+			text = str(reaction_type)
+	reaction_badge.text = text
+	reaction_badge.visible = true
+	_reaction_badge_timer = duration
+	if reaction_type in ["PARRY_FAIL", "DODGE_FAIL"]:
+		reaction_badge.add_theme_color_override("font_color", Color(1.0, 0.3, 0.3, 1.0))
+	else:
+		reaction_badge.add_theme_color_override("font_color", Color(0.3, 1.0, 0.5, 1.0))
+
+
+func _process(delta: float):
+	if _reaction_badge_timer > 0:
+		_reaction_badge_timer -= delta
+		if _reaction_badge_timer <= 0 and reaction_badge:
+			reaction_badge.visible = false
 
 
 func fly_in_from_right(target_pos: Vector2, duration: float = 0.5):

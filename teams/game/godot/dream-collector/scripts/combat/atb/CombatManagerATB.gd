@@ -108,6 +108,7 @@ func start_combat(p_data: Dictionary, enemy_list: Array, card_deck: Array[Card])
 	if auto_ai:
 		auto_ai.set_mode(ATBAutoAI.AutoMode.MANUAL)
 
+	battle_log("=== \uC804\uD22C \uC2DC\uC791 (\uC801 %d\uB9C8\uB9AC) ===" % enemy_list.size())  # 전투 시작 (적 N마리)
 	emit_signal("combat_started")
 	emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
 	# UI 초기 HP 동기화 (InRun_v4 character_nodes ↔ enemies 매핑)
@@ -380,6 +381,7 @@ func player_play_card(card: Card, target_index: int = -1):
 	energy_system.spend(card.cost)
 	if combo_system:
 		combo_system.register_card(card)
+	battle_log("[%s] \uC0AC\uC6A9 (\uCF54\uC2A4\uD2B8 %d)" % [card.name, card.cost])  # [카드명] 사용 (코스트 N)
 	_resolve_card_effect(card, target_index)
 	hand.erase(card)
 	discard_pile.append(card)
@@ -404,6 +406,7 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 					var idx = enemies.find(enemy)
 					emit_signal("damage_dealt", "monster", idx, actual, false)
 					emit_signal("enemy_hp_changed", idx, enemy.current_hp, enemy.max_hp)
+					battle_log("  \u2192 \uC801 #%d \uD53C\uD574 %d (%s)" % [idx + 1, actual, enemy.display_name if "display_name" in enemy else "?"])  # → 적 #N 피해 dmg
 		else:
 			# 단일 대상: target_index 우선, 없으면 첫 번째 살아있는 적
 			var target_enemy = null
@@ -421,6 +424,7 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 				var idx = enemies.find(target_enemy)
 				emit_signal("damage_dealt", "monster", idx, actual, false)
 				emit_signal("enemy_hp_changed", idx, target_enemy.current_hp, target_enemy.max_hp)
+				battle_log("  \u2192 \uC801 #%d \uD53C\uD574 %d (%s)" % [idx + 1, actual, target_enemy.display_name if "display_name" in target_enemy else "?"])
 
 	# 방어 카드
 	if card.block > 0:
@@ -433,6 +437,7 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 				combo_system.emit_signal("combo_triggered", "완벽한 방어", 10)
 		player_data["block"] = player_data.get("block", 0) + actual_block
 		emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
+		battle_log("  \u2192 \uBE14\uB85D +%d (\uD604\uC7AC \uD53C\uD574 \uBCF4\uD638 %d)" % [actual_block, player_data.get("block", 0)])  # → 블록 +N (현재 피해 보호 M)
 
 	# 상태이상
 	for eff in card.status_effects:
@@ -443,13 +448,16 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 			for enemy in enemies:
 				if enemy.is_alive():
 					StatusEffectSystem.apply_to(enemy, eff_type, eff_val)
+					battle_log("  \u2192 \uC801 \uC0C8\uD0DC\uC774\uC0C1 %s +%d" % [eff_type, eff_val])  # → 적 상태이상 X +N
 		elif target_type == "self":
 			var p_status = player_data.get("status_effects", {})
 			p_status[eff_type] = p_status.get(eff_type, 0) + eff_val
 			player_data["status_effects"] = p_status
+			battle_log("  \u2192 \uC790\uC2E0 %s +%d" % [eff_type, eff_val])  # → 자신 X +N
 
 	# 드로우
 	if card.draw > 0:
+		battle_log("  \u2192 \uB4DC\uB85C\uC6B0 +%d\uC7A5" % card.draw)  # → 드로우 +N장
 		_draw_cards(card.draw)
 
 func _calculate_player_damage(_card: Card, enemy, base: int) -> int:
@@ -496,6 +504,7 @@ func _end_combat(result: String):
 	if not combat_active:
 		return
 	combat_active = false
+	battle_log("=== \uC804\uD22C \uC885\uB8B0: %s ===" % ("\uC2B9\uB9AC" if result == "WIN" else "\uD328\uB294"))  # 전투 종료: 승리/패배
 	if DEBUG_COMBAT and battle_diary:
 		var report = battle_diary.compile_report()
 		print("[ATB] 전투 종료: %s | 시간: %.1fs" % [result, report.duration])
