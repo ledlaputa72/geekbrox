@@ -1,0 +1,235 @@
+# Dream Collector - Cursor IDE Rules
+
+## Project Overview
+- **Game:** Dream Collector (꿈수집가)
+- **Engine:** Godot 4.x
+- **Genre:** Roguelike + Idle Game
+- **Status:** Design Complete (100%), Implementation Ready (95%)
+
+---
+
+## 📖 Core Design References
+
+All game design specifications are in: `teams/game/workspace/design/dream-collector/`
+
+### Essential Reading (In Order)
+1. **CARD_200_DETAILED_DESIGN_GUIDE.md** - 200 card system (ATTACK/SKILL/POWER/CURSE)
+2. **CHARACTER_EQUIPMENT_SYSTEM.md** - 4-slot equipment system (66 items)
+3. **PROGRESSION_SYSTEM_REDESIGNED.md** - Infinite levels (Lv 1-1000+) with auto stat distribution
+4. **GACHA_ENHANCEMENT_FINAL_SIMPLIFIED.md** - Dual gacha system (Equipment/Cards)
+
+### Supporting References
+- EQUIPMENT_IMPLEMENTATION_DESIGN.md - GDScript implementation details
+- COMBAT_BALANCE_SIMULATION_REPORT.md - Balance validation (Grade A+)
+- MONETIZATION_BALANCE_SIMULATION_REPORT.md - Economy validation (Grade A)
+
+---
+
+## 🎮 Core Systems (No Trait System)
+
+### ❌ EXCLUDED
+- Trait Mastery System (마스터리) - All 5 types removed
+- Trait Points - No automatic bonus distribution
+- Character Stat Point Distribution - Automatic only
+
+### ✅ INCLUDED (4 Systems)
+
+#### 1. Card System (200 types)
+- Types: ATTACK (42) / SKILL (60) / POWER (50) / CURSE (48)
+- Rarity: COMMON 40% → RARE 35% → SPECIAL 15% → LEGENDARY 10%
+- Enhancement: Same card ×2 (or + Gold)
+- Success Rate: 100%
+- Max Level: +10 (auto stop)
+- Reference: CARD_200_DETAILED_DESIGN_GUIDE.md
+
+#### 2. Equipment Enhancement (66 items, 4 slots)
+- Slots: Weapon / Armor / Accessory / Off-Hand
+- Enhancement: Same equipment ×2 + Gold
+- Success Rate: 100% (no failures)
+- Max Level: +10
+- P2W Ratio: 1.86x (target: 1.5x)
+- Reference: CHARACTER_EQUIPMENT_SYSTEM.md
+
+#### 3. Progression System (Infinite Levels)
+- Level Range: Lv 1 ~ 1000+ (endless)
+- EXP Formula: 100 × (current_level ^ 1.2)
+- Auto Stat Distribution (NO player choice):
+  * ATK: +1.5 per level
+  * DEF: +1 per level
+  * HP: +5 per level
+  * SPD: +0.3 per level
+- Milestone Rewards (Currency + Content Unlock):
+  * Early (Lv 1-20): Every 2 levels
+  * Mid (Lv 21-50): Every 5 levels
+  * Late (Lv 51+): Increasing intervals
+- Reference: PROGRESSION_SYSTEM_REDESIGNED.md
+
+#### 4. Gacha System
+- Types: Equipment Gacha (50D) + Card Gacha (50D)
+- Drop Rates:
+  * Equipment: 55% COMMON, 30% RARE, 13% SPECIAL, 2% LEGENDARY
+  * Cards: 45% COMMON, 35% RARE, 15% SPECIAL, 5% LEGENDARY
+- Guarantee: 50-pull (RARE) / 100-pull (SPECIAL) / 150-pull (LEGENDARY)
+- Reference: GACHA_ENHANCEMENT_FINAL_SIMPLIFIED.md
+
+---
+
+## 🎯 Implementation Order
+
+### Phase 1: Core Systems (Week 1)
+1. Card.gd + CardDatabase.gd
+2. Equipment.gd + EquipmentDatabase.gd
+3. LevelSystem.gd with auto stat distribution
+
+### Phase 2: Mechanics (Week 2)
+4. CardEnhanceSystem.gd (100% success)
+5. EquipmentEnhanceUI.gd
+6. MilestoneRewardSystem.gd
+7. ContentUnlockManager.gd
+
+### Phase 3: Gacha & Economy (Week 2-3)
+8. GachaSystem.gd
+9. DropRateTable.gd
+10. GachaUI.gd
+11. EconomyManager.gd
+
+### Phase 4: Integration (Week 3)
+12. Full game loop integration
+13. UI/UX polish
+14. Testing
+
+---
+
+## 📊 Data Files
+
+- **Complete Card Database:** `teams/game/workspace/design/dream-collector/data/cards_200_v2.json` (124 KB)
+- **CSV Export:** `teams/game/workspace/design/dream-collector/data/cards_200_v2.csv`
+
+Both files contain all 200 cards with complete metadata:
+- ID, Name, Type (ATTACK/SKILL/POWER/CURSE)
+- Rarity (COMMON/RARE/SPECIAL/LEGENDARY)
+- Description, Cost, Effects
+
+---
+
+## 🔧 GDScript Class Requirements
+
+### Essential Classes
+```
+Card.gd - Card data + methods
+CardDatabase.gd - Load/manage 200 cards
+CardEnhanceSystem.gd - Enhancement logic (100% success)
+Equipment.gd - Equipment data + methods
+EquipmentDatabase.gd - Load/manage 66 equipment
+EquipmentEnhanceUI.gd - Enhancement UI
+LevelSystem.gd - XP/level with auto stats
+MilestoneRewardSystem.gd - Milestone triggers + rewards
+ContentUnlockManager.gd - Content unlock by level
+GachaSystem.gd - Gacha pull logic
+DropRateTable.gd - Rarity drop rates
+GachaUI.gd - Gacha UI + animations
+EconomyManager.gd - Gold/Diamond management
+```
+
+---
+
+## 💡 Key Design Principles
+
+### Automatic Progression
+- Player has NO stat point choices
+- All growth is automatic on level up
+- Goal: Simple, low-maintenance gameplay
+
+### 100% Success Rates
+- No failure mechanics on enhancement
+- All upgrades are guaranteed
+- Clear cost → clear reward relationship
+
+### Infinite Growth
+- No level cap (endless progression)
+- Consistent monetization (more gacha to progress faster)
+- Endless content (new milestones at Lv 75, 100, 150, 200, 500, 1000)
+
+### Dual Gacha System
+- Equipment & Cards are separate pools
+- Both have same base cost (50D)
+- Both follow same rarity distribution
+- Allows independent balancing
+
+---
+
+## ⚠️ Common Pitfalls (Avoid!)
+
+```
+❌ Adding Trait Mastery back (EXCLUDED on purpose)
+❌ Manual stat point distribution (Use auto-only)
+❌ Enhancement failure mechanics (100% success only)
+❌ Cross-enhancement (equipment↔cards is FORBIDDEN)
+❌ Hidden complexity (All formulas must be transparent)
+```
+
+---
+
+## 🎓 Balance Reference
+
+| Metric | Current | Target | Status |
+|--------|---------|--------|--------|
+| Combat Balance | 92/100 (A+) | 90+/100 | ✅ Achieved |
+| Economy Balance | 91/100 (A) | 90+/100 | ✅ Achieved |
+| Overall Design | 89/100 (A-) | 85+/100 | ✅ Achieved |
+| Equipment P2W | 1.86x | 1.5x | 🔄 Post-launch |
+
+---
+
+## 📞 Quick References
+
+**For card questions:**
+- @file:teams/game/workspace/design/dream-collector/CARD_200_DETAILED_DESIGN_GUIDE.md
+
+**For equipment questions:**
+- @file:teams/game/workspace/design/dream-collector/CHARACTER_EQUIPMENT_SYSTEM.md
+
+**For progression questions:**
+- @file:teams/game/workspace/design/dream-collector/PROGRESSION_SYSTEM_REDESIGNED.md
+
+**For gacha questions:**
+- @file:teams/game/workspace/design/dream-collector/GACHA_ENHANCEMENT_FINAL_SIMPLIFIED.md
+
+**For implementation details:**
+- @file:teams/game/workspace/design/dream-collector/EQUIPMENT_IMPLEMENTATION_DESIGN.md
+
+---
+
+## ✅ Implementation Checklist
+
+```
+[ ] Read all 4 core design documents
+[ ] Understand auto stat distribution (no player choices)
+[ ] Confirm 100% enhancement success rate
+[ ] Verify no trait system implementation
+[ ] Review balance reports
+[ ] Examine cards_200_v2.json structure
+[ ] Plan GDScript class structure
+[ ] Start Card.gd + CardDatabase.gd
+```
+
+---
+
+## 🚀 Ready to Start?
+
+1. Read: CARD_200_DETAILED_DESIGN_GUIDE.md (30 min)
+2. Read: CHARACTER_EQUIPMENT_SYSTEM.md (30 min)
+3. Read: PROGRESSION_SYSTEM_REDESIGNED.md (20 min)
+4. Read: GACHA_ENHANCEMENT_FINAL_SIMPLIFIED.md (20 min)
+5. Implement Phase 1
+6. Reference other docs as needed
+
+**Total prep time: ~2 hours → Ready to code!**
+
+---
+
+**Design Status:** ✅ 100% Complete  
+**Implementation Ready:** ✅ 95%  
+**Last Updated:** 2026-03-04  
+
+Good luck! 🎮
