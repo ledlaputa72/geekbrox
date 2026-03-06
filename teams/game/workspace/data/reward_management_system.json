@@ -1,0 +1,435 @@
+{
+  "rewardManagementSystem": {
+    "version": "1.0",
+    "lastUpdated": "2026-03-06T12:00:00Z",
+    "metadata": {
+      "gameTitle": "Dream Collector",
+      "economicPhase": "Launch Phase (Month 1-3)",
+      "totalRewardBudget": "Monthly 100,000,000 KRW (estimated)",
+      "description": "게임내 모든 보상을 관리하는 통합 시스템"
+    },
+    "gameEconomy": {
+      "currencies": {
+        "gold": {
+          "name": "골드",
+          "type": "soft_currency",
+          "acquirable": true,
+          "tradeable": false,
+          "description": "기본 게임 화폐. 게임 진행으로 자동 획득",
+          "monthlyTotalAllocation": {
+            "expectedTotal": 2000000,
+            "bySource": {
+              "monster_drops": 800000,
+              "quests": 400000,
+              "login_rewards": 300000,
+              "events": 500000
+            }
+          }
+        },
+        "gems": {
+          "name": "보석",
+          "type": "hard_currency",
+          "acquirable": false,
+          "tradeable": false,
+          "description": "프리미엄 화폐. 유료 구매 또는 극한정 무료 획득",
+          "monthlyTotalAllocation": {
+            "freeGemsExpected": 200,
+            "bySource": {
+              "login_rewards": 70,
+              "quests": 50,
+              "season_pass_free": 80
+            },
+            "monetizationTarget": {
+              "monthlyRevenueTarget": 100000000,
+              "averageARPU": 4000,
+              "conversionRate": 0.04,
+              "averageARPPU": 100000
+            }
+          }
+        }
+      },
+      "totalRewardAllocationByTier": {
+        "description": "등급별 총 보상 지급량 (월간 기준)",
+        "by_item_tier": {
+          "common": {
+            "totalQuantity": 300,
+            "acquiredFrom": ["monster_drops (60%)", "quests (30%)", "login_rewards (10%)"],
+            "dropRate": "60%",
+            "expectedPlayersWithEach": "50% (평균 6개)"
+          },
+          "uncommon": {
+            "totalQuantity": 100,
+            "acquiredFrom": ["monster_drops (25%)", "quests (40%)", "gacha (35%)"],
+            "dropRate": "25%",
+            "expectedPlayersWithEach": "30% (평균 3개)"
+          },
+          "rare": {
+            "totalQuantity": 30,
+            "acquiredFrom": ["monster_drops (12%)", "quests (20%)", "gacha (50%)", "events (18%)"],
+            "dropRate": "12%",
+            "expectedPlayersWithEach": "15% (평균 1-2개)"
+          },
+          "epic": {
+            "totalQuantity": 8,
+            "acquiredFrom": ["gacha_gems (80%)", "events (20%)"],
+            "dropRate": "2.5%",
+            "expectedPlayersWithEach": "5% (극후반 플레이어만)"
+          },
+          "legendary": {
+            "totalQuantity": 2,
+            "acquiredFrom": ["gacha_gems (70%)", "events (30%)"],
+            "dropRate": "0.5%",
+            "expectedPlayersWithEach": "1% (최고급 플레이어만)"
+          }
+        }
+      }
+    },
+    "rewardSources": {
+      "1_monster_drops": {
+        "id": "monster_drops",
+        "name": "몬스터 드롭",
+        "type": "gameplay",
+        "frequency": "continuous",
+        "file": "monster_drop_table.json",
+        "monthlyExpectedValue": {
+          "gold": 800000,
+          "items": 150,
+          "distribution": "Common 60%, Uncommon 25%, Rare 12%, Epic 2.5%, Legendary 0.5%"
+        },
+        "balanceMetrics": {
+          "averageDropValue": "골드 가치 기준 1,000원/아이템",
+          "progressionImpact": "높음 (직접 파워 상승)",
+          "playerSatisfaction": "높음 (즉시 보상)"
+        }
+      },
+      "2_quest_rewards": {
+        "id": "quest_rewards",
+        "name": "퀘스트 보상",
+        "type": "gameplay",
+        "frequency": "daily/weekly/event",
+        "file": "quest_reward_table.json",
+        "monthlyExpectedValue": {
+          "gold": 400000,
+          "gems": 50,
+          "items": 80,
+          "distribution": "퀘스트별 다양"
+        },
+        "balanceMetrics": {
+          "dailyQuestValue": "약 80골드/개",
+          "weeklyQuestValue": "약 350골드/개",
+          "progressionImpact": "중간 (단계적 진행)",
+          "playerSatisfaction": "중간-높음 (목표 달성감)"
+        }
+      },
+      "3_gacha_rewards": {
+        "id": "gacha_rewards",
+        "name": "뽑기 보상",
+        "type": "monetization",
+        "frequency": "on-demand",
+        "file": "gacha_config.json",
+        "monthlyExpectedValue": {
+          "gold_gacha": "월 25만 골드 → 500회 뽑기 → 60-150개 아이템",
+          "gem_gacha": "월 200 보석(무료) + 2,500-12,500(유료) → 4-250회 뽑기",
+          "distribution": "Gacha 확률 시스템 따름"
+        },
+        "balanceMetrics": {
+          "gachaValue": "골드 뽑기 1회 1,000원, 보석 뽑기 1회 2,500원",
+          "pitySystem": "골드 50회, 보석 90회(Epic)/180회(Legendary)",
+          "progressionImpact": "높음 (비용 대비)",
+          "playerSatisfaction": "중간-낮음 (확률 기반, 운에 의존)"
+        }
+      },
+      "4_login_rewards": {
+        "id": "login_rewards",
+        "name": "로그인 보상",
+        "type": "retention",
+        "frequency": "daily",
+        "monthlyExpectedValue": {
+          "gold": 300000,
+          "gems": 70,
+          "items": 20,
+          "description": "월간 30일 기준 누적 보상"
+        },
+        "balanceMetrics": {
+          "dailyValue": "약 10,000골드/일",
+          "7dayMilestone": "Uncommon 아이템 1개",
+          "30dayMilestone": "보석 200개 + 특별 아이템",
+          "progressionImpact": "낮음 (시간 기반)",
+          "playerRetention": "높음 (매일 로그인 유도)"
+        }
+      },
+      "5_event_rewards": {
+        "id": "event_rewards",
+        "name": "이벤트 보상",
+        "type": "engagement",
+        "frequency": "periodic",
+        "monthlyExpectedValue": {
+          "gold": 500000,
+          "gems": 50,
+          "items": 30,
+          "description": "월 2-3회 이벤트, 각 이벤트 1주-2주 기간"
+        },
+        "balanceMetrics": {
+          "eventValue": "Rare 아이템 1-2개 + 보석 100개 기준",
+          "limitedItems": "이벤트 한정 아이템 (수집 가치)",
+          "progressionImpact": "중간 (선택 참여)",
+          "playerEngagement": "높음 (한정성으로 FOMO 유도)"
+        }
+      },
+      "6_milestone_rewards": {
+        "id": "milestone_rewards",
+        "name": "마일스톤 보상",
+        "type": "progression",
+        "frequency": "one-time per milestone",
+        "monthlyExpectedValue": {
+          "varied": "레벨 달성 시기에 따라 다름",
+          "description": "Lv20, Lv50, Lv100 등 주요 지점"
+        },
+        "balanceMetrics": {
+          "lv20Reward": "Rare 아이템 1개",
+          "lv50Reward": "Epic 아이템 1개",
+          "lv100Reward": "Legendary 아이템 1개 (게임 내 최고값)",
+          "progressionImpact": "매우 높음 (목표 달성감)",
+          "longTermEngagement": "매우 높음 (장기 플레이 유도)"
+        }
+      }
+    },
+    "balanceMetrics": {
+      "inflationRate": {
+        "description": "월간 골드 인플레이션 감시",
+        "target": "5-10% / 월",
+        "warning": "15% 초과",
+        "critical": "25% 초과",
+        "adjustment": "지출처 추가 또는 보상 감소"
+      },
+      "playerProgression": {
+        "description": "플레이어별 진행도 분포",
+        "metrics": {
+          "averageLevel": "목표 Lv35",
+          "medianLevel": "목표 Lv25",
+          "maxLevel": "Lv100+",
+          "rarecItemOwnership": "평균 3-5개"
+        }
+      },
+      "rewardDifficulty": {
+        "description": "각 등급 아이템 획득 난이도",
+        "common": "매우 쉬움 (2시간)",
+        "uncommon": "쉬움 (5시간)",
+        "rare": "보통 (15시간)",
+        "epic": "어려움 (50시간 또는 유료)",
+        "legendary": "매우 어려움 (150+시간 또는 유료)"
+      },
+      "monetization": {
+        "description": "과금 기반 보상 지급",
+        "freeToPlayValue": "월간 약 2억원 상당의 보상 무료 제공",
+        "paidValue": "유료로만 경쟁력 있는 보상 제공",
+        "paymentWall": "Epic/Legendary는 유료 거의 필수 (또는 극후반 플레이)"
+      }
+    },
+    "operationalPolicies": {
+      "monthlyOperationPlans": {
+        "month_1": {
+          "focus": "신규 플레이어 확보",
+          "strategy": [
+            "온보딩 보상 강화 (신입 환영 패키지)",
+            "쉬운 초반 콘텐츠, 많은 보상",
+            "일일 로그인 보상 높음"
+          ],
+          "expectedMetrics": {
+            "newUsers": 10000,
+            "retention7d": "50%",
+            "retention30d": "30%"
+          }
+        },
+        "month_2": {
+          "focus": "초기 리텐션 관리",
+          "strategy": [
+            "일일/주간 퀘스트 정상화",
+            "시즌 패스 출시 (60일 1시즌)",
+            "길드 시스템 활성화"
+          ],
+          "expectedMetrics": {
+            "DAU": 8000,
+            "MAU": 20000,
+            "ARPU": 3000
+          }
+        },
+        "month_3": {
+          "focus": "콘텐츠 추가 및 수익화",
+          "strategy": [
+            "시즌 이벤트 시작",
+            "콜라보 이벤트 추가",
+            "보상 밸런싱 (인플레이션 확인)"
+          ],
+          "expectedMetrics": {
+            "DAU": 15000,
+            "ARPPU": 100000,
+            "conversionRate": "5%"
+          }
+        }
+      },
+      "inflationManagement": {
+        "warningSignals": [
+          "평균 골드 보유량 월 50% 이상 증가",
+          "상인 물품 판매 가격 상승 필요",
+          "Rare 아이템 획득 시간 단축"
+        ],
+        "responseMeasures": [
+          "1) 보상 감소 (5-10% / 주)",
+          "2) 지출처 증가 (강화/진화 시스템)",
+          "3) 점진적 조정 (즉시 조정 피하기)"
+        ],
+        "recommendedApproach": "조치 2+3 조합 (플레이어 불만 최소화)"
+      }
+    },
+    "kpiMonitoring": {
+      "coreKPIs": {
+        "revenue": {
+          "ARPU": {
+            "name": "평균 플레이어 수익",
+            "target": 4000,
+            "currency": "KRW",
+            "frequency": "monthly"
+          },
+          "ARPPU": {
+            "name": "과금자 평균 수익",
+            "target": 100000,
+            "currency": "KRW",
+            "frequency": "monthly"
+          },
+          "conversionRate": {
+            "name": "과금율",
+            "target": 0.05,
+            "unit": "%",
+            "frequency": "monthly"
+          }
+        },
+        "players": {
+          "DAU": {
+            "name": "일일 활성 사용자",
+            "target": 15000,
+            "frequency": "daily"
+          },
+          "MAU": {
+            "name": "월간 활성 사용자",
+            "target": 30000,
+            "frequency": "monthly"
+          },
+          "retention7d": {
+            "name": "7일 리텐션",
+            "target": 0.5,
+            "unit": "%",
+            "frequency": "weekly"
+          },
+          "retention30d": {
+            "name": "30일 리텐션",
+            "target": 0.3,
+            "unit": "%",
+            "frequency": "monthly"
+          }
+        },
+        "gameplay": {
+          "avgPlaytime": {
+            "name": "평균 플레이 시간",
+            "target": 40,
+            "unit": "hours/month",
+            "frequency": "monthly"
+          },
+          "avgLevel": {
+            "name": "평균 플레이어 레벨",
+            "target": 35,
+            "frequency": "monthly"
+          },
+          "stageProgress": {
+            "name": "평균 스테이지 진행도",
+            "target": 25,
+            "frequency": "monthly"
+          },
+          "eventParticipation": {
+            "name": "이벤트 참여율",
+            "target": 0.7,
+            "unit": "%",
+            "frequency": "per_event"
+          }
+        },
+        "economy": {
+          "avgGoldHolding": {
+            "name": "평균 골드 보유량",
+            "target": 300000,
+            "range": "100,000-500,000",
+            "frequency": "weekly"
+          },
+          "avgItemOwned": {
+            "name": "평균 아이템 개수",
+            "target": 35,
+            "range": "20-50",
+            "frequency": "weekly"
+          },
+          "rareItemRate": {
+            "name": "평균 Rare 아이템 보유",
+            "target": 4,
+            "range": "3-5",
+            "frequency": "weekly"
+          },
+          "inflationRate": {
+            "name": "월간 인플레이션율",
+            "target": 0.075,
+            "unit": "%/month",
+            "warning": 0.15,
+            "critical": 0.25,
+            "frequency": "monthly"
+          }
+        }
+      },
+      "weeklyCheckList": {
+        "monday": [
+          "[ ] 지난주 ARPU 확인",
+          "[ ] 신규 유입 추이 분석",
+          "[ ] 리텐션 곡선 확인"
+        ],
+        "wednesday": [
+          "[ ] 보상 지급 로그 검토",
+          "[ ] 비정상 거래 감시",
+          "[ ] 골드 유통량 모니터링"
+        ],
+        "friday": [
+          "[ ] 주간 종합 보고서",
+          "[ ] 다음주 이벤트 준비",
+          "[ ] 밸런싱 필요 여부 판단"
+        ]
+      },
+      "monthlyReviewMeeting": [
+        "월간 목표 대비 달성도",
+        "경제 밸런스 평가",
+        "인플레이션 상황 검토",
+        "다음 달 이벤트 최종 확인",
+        "플레이어 피드백 검토",
+        "보상 조정 필요 여부 판단"
+      ]
+    },
+    "dataIntegration": {
+      "linkedFiles": [
+        "monster_drop_table.json",
+        "quest_reward_table.json",
+        "gacha_config.json",
+        "login_rewards.json",
+        "event_rewards.json",
+        "milestone_rewards.json",
+        "merchant_inventory.json",
+        "GAME_ECONOMY_MANAGEMENT.md"
+      ],
+      "updateFrequency": {
+        "realtime": ["monster_drops", "gacha_rewards"],
+        "daily": ["login_rewards", "active_events"],
+        "weekly": ["quest_rewards", "kpi_metrics"],
+        "monthly": ["season_passes", "event_rotation", "balance_patches"]
+      },
+      "dataValidation": {
+        "totalMonthlyReward": "제약 조건: 월간 총 보상액 ≤ 예산",
+        "currencyBalance": "제약 조건: 골드/보석 획득 ≤ 소비",
+        "inflationCheck": "제약 조건: 인플레이션율 ≤ 15%",
+        "playerProgression": "제약 조건: 평균 진행도 ≥ 목표"
+      }
+    }
+  }
+}

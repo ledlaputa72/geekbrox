@@ -40,8 +40,8 @@ func apply_combo_bonus(base_damage: int) -> int:
 
 func _check_combo() -> int:
 	# 콤보 판정은 register_card 이후에 호출되므로 card_history에 현재 카드 포함됨
-	# 0: 연타 — ATK 3연속
-	if _last_n_type(card_history, 3, "ATK"):
+	# 0: 연타 — ATTACK 3연속
+	if _last_n_type(card_history, 3, "ATTACK") or _last_n_type(card_history, 3, "ATK"):
 		return 0
 	# 2: 패링 반격 — PARRY 후 ATK
 	if _last_parry_then_atk(card_history):
@@ -59,7 +59,7 @@ func _update_hint():
 	emit_signal("combo_hint_updated", hint)
 
 func _get_next_combo_hint() -> String:
-	if _last_n_type(card_history, 2, "ATK"):
+	if _last_n_type(card_history, 2, "ATTACK") or _last_n_type(card_history, 2, "ATK"):
 		return "공격 1장 더 → 연타 콤보! (+75%)"
 	if card_history.size() >= 1 and card_history[-1].has_tag("PARRY"):
 		return "공격 카드 → 패링 반격 콤보! (+30%)"
@@ -77,14 +77,14 @@ func _last_n_type(history: Array, n: int, type: String) -> bool:
 
 func _last_parry_then_atk(history: Array) -> bool:
 	if history.size() < 2: return false
-	return history[-1].type == "ATK" and history[-2].has_tag("PARRY")
+	return (history[-1].type == "ATK" or history[-1].type == "ATTACK") and history[-2].has_tag("PARRY")
 
 func _last_vulnerable_then_atk(history: Array) -> bool:
 	if history.size() < 2: return false
 	var has_vuln = false
 	for eff in history[-2].status_effects:
 		if eff.get("type", "") == "VULNERABLE": has_vuln = true
-	return has_vuln and history[-1].type == "ATK"
+	return has_vuln and (history[-1].type == "ATK" or history[-1].type == "ATTACK")
 
 func reset():
 	card_history.clear()

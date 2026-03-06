@@ -37,7 +37,7 @@ var background_offset: float = 0.0
 @onready var home_tab: Button = $BottomNav/HomeTab
 @onready var cards_tab: Button = $BottomNav/CardsTab
 @onready var upgrade_tab: Button = $BottomNav/UpgradeTab
-@onready var progress_tab: Button = $BottomNav/ProgressTab
+@onready var character_tab: Button = $BottomNav/CharacterTab
 @onready var shop_tab: Button = $BottomNav/ShopTab
 
 var tab_buttons: Array = []
@@ -51,7 +51,7 @@ var currently_expanded_item = null  # Track currently expanded DreamItem for acc
 
 # ─── 초기화 ──────────────────────────────────────────
 func _ready() -> void:
-	tab_buttons = [home_tab, cards_tab, upgrade_tab, progress_tab, shop_tab]
+	tab_buttons = [home_tab, cards_tab, upgrade_tab, character_tab, shop_tab]
 	
 	apply_styles()
 	setup_hero_character()
@@ -60,7 +60,7 @@ func _ready() -> void:
 	update_display()
 	set_active_tab(0)
 	
-	print("[MainLobbyUI] 메인 로비 준비 완료")
+	print("[MainLobbyUI] Main lobby ready.")
 
 func setup_hero_character():
 	"""Setup hero sprite in viewport (HomeHeroSprite — 걷기 애니메이션)"""
@@ -142,7 +142,7 @@ func setup_signals() -> void:
 	home_tab.pressed.connect(_on_tab_pressed.bind(0))
 	cards_tab.pressed.connect(_on_tab_pressed.bind(1))
 	upgrade_tab.pressed.connect(_on_tab_pressed.bind(2))
-	progress_tab.pressed.connect(_on_tab_pressed.bind(3))
+	character_tab.pressed.connect(_on_tab_pressed.bind(3))
 	shop_tab.pressed.connect(_on_tab_pressed.bind(4))
 
 # ─── 지난 꿈들 로드 ──────────────────────────────────
@@ -260,8 +260,8 @@ func _on_tab_pressed(tab_index: int) -> void:
 		2:  # Upgrade
 			print("[MainLobbyUI] Upgrade Tree로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/UpgradeTree.tscn")
-		3:  # Progress
-			print("[MainLobbyUI] Progress (미구현)")
+		3:  # Character (Equipment)
+			get_tree().change_scene_to_file("res://ui/screens/CharacterScreen.tscn")
 		4:  # Shop
 			print("[MainLobbyUI] Shop으로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")

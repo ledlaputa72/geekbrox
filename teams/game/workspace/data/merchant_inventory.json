@@ -1,0 +1,373 @@
+{
+  "merchants": [
+    {
+      "merchantId": "merchant_normal_village",
+      "merchantName": "마을 상인",
+      "merchantType": "normal",
+      "merchantLocation": "Village - 중앙 광장",
+      "description": "기본적인 아이템을 판매하는 상인입니다.",
+      "inventory": [
+        {
+          "slot": 1,
+          "itemId": "weapon_crystal_sword_common_lv1",
+          "itemName": "크리스탈 검",
+          "tier": "common",
+          "quantity": 5,
+          "price": {
+            "currency": "gold",
+            "basePrice": 1000,
+            "actualPrice": 1000
+          },
+          "restockSchedule": {
+            "resetCycle": "daily",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-06T00:00:00Z"
+          },
+          "limitPerPlayer": 3,
+          "totalLimitPerSeason": null
+        },
+        {
+          "slot": 2,
+          "itemId": "armor_leather_armor_common_lv1",
+          "itemName": "가죽 갑옷",
+          "tier": "common",
+          "quantity": 5,
+          "price": {
+            "currency": "gold",
+            "basePrice": 1000,
+            "actualPrice": 1000
+          },
+          "restockSchedule": {
+            "resetCycle": "daily",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-06T00:00:00Z"
+          },
+          "limitPerPlayer": 3,
+          "totalLimitPerSeason": null
+        },
+        {
+          "slot": 3,
+          "itemId": "ring_stat_boost_common_lv1",
+          "itemName": "스탯 강화 반지",
+          "tier": "common",
+          "quantity": 5,
+          "price": {
+            "currency": "gold",
+            "basePrice": 800,
+            "actualPrice": 800
+          },
+          "restockSchedule": {
+            "resetCycle": "daily",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-06T00:00:00Z"
+          },
+          "limitPerPlayer": 3,
+          "totalLimitPerSeason": null
+        },
+        {
+          "slot": 4,
+          "itemId": "necklace_attack_common_lv1",
+          "itemName": "공격 목걸이",
+          "tier": "common",
+          "quantity": 5,
+          "price": {
+            "currency": "gold",
+            "basePrice": 800,
+            "actualPrice": 800
+          },
+          "restockSchedule": {
+            "resetCycle": "daily",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-06T00:00:00Z"
+          },
+          "limitPerPlayer": 3,
+          "totalLimitPerSeason": null
+        },
+        {
+          "slot": 5,
+          "itemId": "weapon_iron_axe_common_lv1",
+          "itemName": "철 도끼",
+          "tier": "common",
+          "quantity": 3,
+          "price": {
+            "currency": "gold",
+            "basePrice": 1100,
+            "actualPrice": 1100
+          },
+          "restockSchedule": {
+            "resetCycle": "daily",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-06T00:00:00Z"
+          },
+          "limitPerPlayer": 2,
+          "totalLimitPerSeason": null
+        }
+      ],
+      "accessRequirement": {
+        "minLevel": 1,
+        "requireStageClear": null,
+        "requireGuildLevel": null
+      }
+    },
+    {
+      "merchantId": "merchant_rare_dungeon",
+      "merchantName": "던전 상인",
+      "merchantType": "rare",
+      "merchantLocation": "Dungeon - 깊은곳",
+      "description": "희귀한 아이템을 판매하는 전문 상인입니다. 더 나은 장비를 원한다면 찾아오세요.",
+      "inventory": [
+        {
+          "slot": 1,
+          "itemId": "weapon_flame_sword_uncommon_lv3",
+          "itemName": "불꽃 검",
+          "tier": "uncommon",
+          "quantity": 2,
+          "price": {
+            "currency": "gold",
+            "basePrice": 8000,
+            "actualPrice": 8000
+          },
+          "restockSchedule": {
+            "resetCycle": "weekly",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-01T00:00:00Z"
+          },
+          "limitPerPlayer": 1,
+          "totalLimitPerSeason": 5
+        },
+        {
+          "slot": 2,
+          "itemId": "armor_fire_tunic_uncommon_lv3",
+          "itemName": "화염 튜닉",
+          "tier": "uncommon",
+          "quantity": 2,
+          "price": {
+            "currency": "gold",
+            "basePrice": 8000,
+            "actualPrice": 8000
+          },
+          "restockSchedule": {
+            "resetCycle": "weekly",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-01T00:00:00Z"
+          },
+          "limitPerPlayer": 1,
+          "totalLimitPerSeason": 5
+        },
+        {
+          "slot": 3,
+          "itemId": "ring_weapon_boost_uncommon_lv3",
+          "itemName": "무기 강화 반지",
+          "tier": "uncommon",
+          "quantity": 2,
+          "price": {
+            "currency": "gold",
+            "basePrice": 7000,
+            "actualPrice": 7000
+          },
+          "restockSchedule": {
+            "resetCycle": "weekly",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-01T00:00:00Z"
+          },
+          "limitPerPlayer": 1,
+          "totalLimitPerSeason": 5
+        },
+        {
+          "slot": 4,
+          "itemId": "weapon_shadow_dagger_rare_lv5",
+          "itemName": "어둠 단검",
+          "tier": "rare",
+          "quantity": 1,
+          "price": {
+            "currency": "gold",
+            "basePrice": 25000,
+            "actualPrice": 30000
+          },
+          "restockSchedule": {
+            "resetCycle": "monthly",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-01T00:00:00Z"
+          },
+          "limitPerPlayer": 1,
+          "totalLimitPerSeason": 1
+        }
+      ],
+      "accessRequirement": {
+        "minLevel": 10,
+        "requireStageClear": 5,
+        "requireGuildLevel": null
+      }
+    },
+    {
+      "merchantId": "merchant_black_market",
+      "merchantName": "흑시장",
+      "merchantType": "black_market",
+      "merchantLocation": "Underground - 숨겨진 곳",
+      "description": "가장 강력한 장비를 원한다면... 가격은 비싸지만 가치가 있습니다.",
+      "inventory": [
+        {
+          "slot": 1,
+          "itemId": "weapon_dark_blade_epic_lv7",
+          "itemName": "어둠의 검",
+          "tier": "epic",
+          "quantity": 1,
+          "price": {
+            "currency": "gold",
+            "basePrice": 100000,
+            "actualPrice": 150000
+          },
+          "restockSchedule": {
+            "resetCycle": "monthly",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-01T00:00:00Z"
+          },
+          "limitPerPlayer": 1,
+          "totalLimitPerSeason": 1
+        },
+        {
+          "slot": 2,
+          "itemId": "ring_crit_master_epic_lv7",
+          "itemName": "회심 마스터 반지",
+          "tier": "epic",
+          "quantity": 1,
+          "price": {
+            "currency": "gold",
+            "basePrice": 90000,
+            "actualPrice": 135000
+          },
+          "restockSchedule": {
+            "resetCycle": "monthly",
+            "restockTime": "00:00",
+            "lastRestockTime": "2026-03-01T00:00:00Z"
+          },
+          "limitPerPlayer": 1,
+          "totalLimitPerSeason": 1
+        }
+      ],
+      "accessRequirement": {
+        "minLevel": 40,
+        "requireStageClear": 30,
+        "requireGuildLevel": null
+      }
+    },
+    {
+      "merchantId": "merchant_guild_shop",
+      "merchantName": "길드 숍",
+      "merchantType": "guild",
+      "merchantLocation": "Guild Hall",
+      "description": "길드원들을 위한 특별한 상점입니다. 길드 포인트로 구매하세요.",
+      "inventory": [
+        {
+          "slot": 1,
+          "itemId": "weapon_flame_sword_uncommon_lv3",
+          "itemName": "불꽃 검",
+          "tier": "uncommon",
+          "quantity": 999,
+          "price": {
+            "currency": "guild_points",
+            "basePrice": 500,
+            "actualPrice": 450
+          },
+          "restockSchedule": {
+            "resetCycle": "never",
+            "restockTime": null,
+            "lastRestockTime": null
+          },
+          "limitPerPlayer": null,
+          "totalLimitPerSeason": null
+        },
+        {
+          "slot": 2,
+          "itemId": "ring_weapon_boost_uncommon_lv3",
+          "itemName": "무기 강화 반지",
+          "tier": "uncommon",
+          "quantity": 999,
+          "price": {
+            "currency": "guild_points",
+            "basePrice": 500,
+            "actualPrice": 450
+          },
+          "restockSchedule": {
+            "resetCycle": "never",
+            "restockTime": null,
+            "lastRestockTime": null
+          },
+          "limitPerPlayer": null,
+          "totalLimitPerSeason": null
+        },
+        {
+          "slot": 3,
+          "itemId": "weapon_shadow_dagger_rare_lv5",
+          "itemName": "어둠 단검",
+          "tier": "rare",
+          "quantity": 999,
+          "price": {
+            "currency": "guild_points",
+            "basePrice": 2000,
+            "actualPrice": 1800
+          },
+          "restockSchedule": {
+            "resetCycle": "never",
+            "restockTime": null,
+            "lastRestockTime": null
+          },
+          "limitPerPlayer": null,
+          "totalLimitPerSeason": null
+        },
+        {
+          "slot": 4,
+          "itemId": "armor_light_robe_rare_lv6",
+          "itemName": "빛의 로브",
+          "tier": "rare",
+          "quantity": 999,
+          "price": {
+            "currency": "guild_points",
+            "basePrice": 2000,
+            "actualPrice": 1800
+          },
+          "restockSchedule": {
+            "resetCycle": "never",
+            "restockTime": null,
+            "lastRestockTime": null
+          },
+          "limitPerPlayer": null,
+          "totalLimitPerSeason": null
+        }
+      ],
+      "accessRequirement": {
+        "minLevel": 1,
+        "requireStageClear": null,
+        "requireGuildLevel": 1
+      }
+    }
+  ],
+  "_summary": {
+    "total_merchants": 4,
+    "by_type": {
+      "normal": 1,
+      "rare": 1,
+      "black_market": 1,
+      "guild": 1
+    },
+    "inventory_summary": {
+      "total_unique_items": 12,
+      "common_tier": 5,
+      "uncommon_tier": 4,
+      "rare_tier": 2,
+      "epic_tier": 1
+    },
+    "price_strategy": {
+      "normal_markup": "1.0x (정가)",
+      "rare_markup": "1.2x (20% 프리미엄)",
+      "black_market_markup": "1.5x (50% 프리미엄)",
+      "guild_discount": "0.9x (10% 할인)"
+    },
+    "restock_frequency": {
+      "normal": "매일",
+      "rare": "매주",
+      "black_market": "매월",
+      "guild": "상시"
+    }
+  }
+}

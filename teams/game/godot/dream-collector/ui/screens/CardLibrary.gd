@@ -201,8 +201,8 @@ func _on_tab_pressed(tab_index: int) -> void:
 		2:  # Upgrade
 			print("[CardLibrary] Upgrade Tree로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/UpgradeTree.tscn")
-		3:  # Progress (미구현)
-			print("[CardLibrary] Progress (미구현)")
+		3:  # Character (Equipment)
+			get_tree().change_scene_to_file("res://ui/screens/CharacterScreen.tscn")
 		4:  # Shop
 			print("[CardLibrary] Shop으로 이동")
 			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")

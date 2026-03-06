@@ -1,0 +1,1258 @@
+{
+  "armors": [
+    {
+      "id": "armor_leather_armor_common_lv1",
+      "name": "가죽 갑옷",
+      "name_en": "Leather Armor",
+      "type": "armor",
+      "tier": "common",
+      "level": 1,
+      "icon": "🧤",
+      "rarity_color": "#6B7280",
+      "description": "가죽으로 만든 기본 갑옷. 초보자용이다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 15,
+        "hp": 50,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 3,
+        "parry_rate": 3,
+        "dream_collect": 0,
+        "status_resist": 1,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_leather_armor_lv1",
+        "name": "기본 방어",
+        "description": "받는 피해 10% 감소",
+        "type": "defensive",
+        "manaCost": 10,
+        "cooldown": 0,
+        "effect": {
+          "effectType": "damage_reduction",
+          "damageReduction": 10,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_leather_armor_001",
+          "name": "방어력 +5%",
+          "description": "받는 피해 5% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 5,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_leather_armor_002",
+          "name": "회피율 +5%",
+          "description": "적의 공격 회피율 +5%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 5,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_cloth_robe_common_lv1",
+      "name": "천 로브",
+      "name_en": "Cloth Robe",
+      "type": "armor",
+      "tier": "common",
+      "level": 1,
+      "icon": "👔",
+      "rarity_color": "#6B7280",
+      "description": "천으로 만든 가벼운 로브. 초보자용이다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 13,
+        "hp": 45,
+        "mana": 5,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 5,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_cloth_robe_lv1",
+        "name": "마법 보호",
+        "description": "마나 보호. 받는 마법 피해 15% 감소",
+        "type": "defensive",
+        "manaCost": 9,
+        "cooldown": 0,
+        "effect": {
+          "effectType": "magic_defense",
+          "magicDefense": 15,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_cloth_robe_001",
+          "name": "회피율 +7%",
+          "description": "적의 공격 회피율 +7%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 7,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_cloth_robe_002",
+          "name": "마나 +5",
+          "description": "최대 마나 5 증가",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana",
+            "value": 5,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_basic_mail_common_lv1",
+      "name": "기본 메일",
+      "name_en": "Basic Mail",
+      "type": "armor",
+      "tier": "common",
+      "level": 1,
+      "icon": "🔐",
+      "rarity_color": "#6B7280",
+      "description": "금속 메일로 만든 기본 갑옷. 튼튼하다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 17,
+        "hp": 55,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 4,
+        "dream_collect": 0,
+        "status_resist": 2,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_basic_mail_lv1",
+        "name": "금속 보호",
+        "description": "받는 피해 12% 감소",
+        "type": "defensive",
+        "manaCost": 11,
+        "cooldown": 0,
+        "effect": {
+          "effectType": "damage_reduction",
+          "damageReduction": 12,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_basic_mail_001",
+          "name": "방어력 +6%",
+          "description": "받는 피해 6% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 6,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_basic_mail_002",
+          "name": "최대 HP +25",
+          "description": "최대 체력 25 증가",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "hp",
+            "value": 25,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_padded_vest_common_lv2",
+      "name": "패딩 조끼",
+      "name_en": "Padded Vest",
+      "type": "armor",
+      "tier": "common",
+      "level": 2,
+      "icon": "🎽",
+      "rarity_color": "#6B7280",
+      "description": "패딩이 들어간 조끼. 가볍고 실용적이다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 16,
+        "hp": 60,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 4,
+        "parry_rate": 2,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_padded_vest_lv2",
+        "name": "쿠션 방어",
+        "description": "받는 피해 11% 감소",
+        "type": "defensive",
+        "manaCost": 10,
+        "cooldown": 0,
+        "effect": {
+          "effectType": "damage_reduction",
+          "damageReduction": 11,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_padded_vest_001",
+          "name": "최대 HP +40",
+          "description": "최대 체력 40 증가",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "hp",
+            "value": 40,
+            "unit": "fixed"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_padded_vest_002",
+          "name": "방어력 +4%",
+          "description": "받는 피해 4% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 4,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_bronze_plate_common_lv2",
+      "name": "청동 판갑옷",
+      "name_en": "Bronze Plate",
+      "type": "armor",
+      "tier": "common",
+      "level": 2,
+      "icon": "⚙️",
+      "rarity_color": "#6B7280",
+      "description": "청동 판으로 만든 갑옷. 기본보다 강화된 버전이다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 18,
+        "hp": 58,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 5,
+        "dream_collect": 0,
+        "status_resist": 1,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_bronze_plate_lv2",
+        "name": "강화 방어",
+        "description": "받는 피해 13% 감소",
+        "type": "defensive",
+        "manaCost": 12,
+        "cooldown": 0,
+        "effect": {
+          "effectType": "damage_reduction",
+          "damageReduction": 13,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_bronze_plate_001",
+          "name": "방어력 +7%",
+          "description": "받는 피해 7% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 7,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_bronze_plate_002",
+          "name": "패링율 +5%",
+          "description": "패링 성공 확률 +5%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "parry_rate",
+            "value": 5,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_simple_vest_common_lv2",
+      "name": "단순 조끼",
+      "name_en": "Simple Vest",
+      "type": "armor",
+      "tier": "common",
+      "level": 2,
+      "icon": "👕",
+      "rarity_color": "#6B7280",
+      "description": "단순하지만 실용적인 조끼. 다목적 사용 가능하다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 14,
+        "hp": 52,
+        "mana": 3,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 5,
+        "parry_rate": 1,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_simple_vest_lv2",
+        "name": "균형 방어",
+        "description": "받는 피해 10% 감소, 회피율 +3%",
+        "type": "defensive",
+        "manaCost": 10,
+        "cooldown": 0,
+        "effect": {
+          "effectType": "balanced_defense",
+          "damageReduction": 10,
+          "evasionBonus": 3,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_simple_vest_001",
+          "name": "회피율 +8%",
+          "description": "적의 공격 회피율 +8%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 8,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_simple_vest_002",
+          "name": "마나 +3",
+          "description": "최대 마나 3 증가",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana",
+            "value": 3,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_iron_tunic_common_lv2",
+      "name": "철 튜닉",
+      "name_en": "Iron Tunic",
+      "type": "armor",
+      "tier": "common",
+      "level": 2,
+      "icon": "🪖",
+      "rarity_color": "#6B7280",
+      "description": "철로 강화된 튜닉. 무겁지만 튼튼하다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 19,
+        "hp": 62,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 6,
+        "dream_collect": 0,
+        "status_resist": 2,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_iron_tunic_lv2",
+        "name": "철의 보호",
+        "description": "받는 피해 14% 감소",
+        "type": "defensive",
+        "manaCost": 13,
+        "cooldown": 0,
+        "effect": {
+          "effectType": "damage_reduction",
+          "damageReduction": 14,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_iron_tunic_001",
+          "name": "방어력 +8%",
+          "description": "받는 피해 8% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 8,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_iron_tunic_002",
+          "name": "최대 HP +35",
+          "description": "최대 체력 35 증가",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "hp",
+            "value": 35,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_fire_tunic_uncommon_lv3",
+      "name": "화염 튜닉",
+      "name_en": "Flame Tunic",
+      "type": "armor",
+      "tier": "uncommon",
+      "level": 3,
+      "icon": "🔥",
+      "rarity_color": "#10B981",
+      "description": "불 마법으로 강화된 튜닉. 따뜻함을 느낀다.",
+      "baseStat": {
+        "atk": 5,
+        "def": 28,
+        "hp": 85,
+        "mana": 5,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 4,
+        "dream_collect": 3,
+        "status_resist": 10,
+        "auto_regen": 1
+      },
+      "skill": {
+        "id": "skill_flame_tunic_lv3",
+        "name": "화염 방어",
+        "description": "받는 불 피해 40% 감소, 적에게 불 피해 반사 20%",
+        "type": "defensive",
+        "manaCost": 14,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "fire_resistance",
+          "fireReduction": 40,
+          "fireReflect": 20,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_flame_tunic_001",
+          "name": "불 저항 +30%",
+          "description": "받는 불 피해 30% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "fire_resistance",
+            "value": 30,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_flame_tunic_002",
+          "name": "꿈 수집 +10%",
+          "description": "전투 후 꿈 수집 +10%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "dream_collect",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_ice_mail_uncommon_lv3",
+      "name": "얼음 메일",
+      "name_en": "Ice Mail",
+      "type": "armor",
+      "tier": "uncommon",
+      "level": 3,
+      "icon": "❄️",
+      "rarity_color": "#10B981",
+      "description": "얼음 마법으로 강화된 메일. 추위가 전해진다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 30,
+        "hp": 90,
+        "mana": 10,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 3,
+        "parry_rate": 5,
+        "dream_collect": 0,
+        "status_resist": 15,
+        "auto_regen": 1
+      },
+      "skill": {
+        "id": "skill_ice_mail_lv3",
+        "name": "얼음 방어",
+        "description": "받는 피해 18% 감소, 적을 얼음 상태로",
+        "type": "defensive",
+        "manaCost": 16,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "ice_defense",
+          "damageReduction": 18,
+          "freezeEnemy": true,
+          "freezeDuration": 1,
+          "probability": 65
+        }
+      },
+      "options": [
+        {
+          "id": "option_ice_mail_001",
+          "name": "얼음 저항 +35%",
+          "description": "받는 얼음 피해 35% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "ice_resistance",
+            "value": 35,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_ice_mail_002",
+          "name": "방어력 +12%",
+          "description": "받는 피해 12% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_wind_cloak_uncommon_lv3",
+      "name": "바람 망토",
+      "name_en": "Wind Cloak",
+      "type": "armor",
+      "tier": "uncommon",
+      "level": 3,
+      "icon": "🧥",
+      "rarity_color": "#10B981",
+      "description": "바람 마법으로 강화된 망토. 회피 능력이 뛰어나다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 24,
+        "hp": 75,
+        "mana": 8,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 12,
+        "parry_rate": 3,
+        "dream_collect": 0,
+        "status_resist": 5,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_wind_cloak_lv3",
+        "name": "바람 회피",
+        "description": "다음 공격 회피율 +35%, 2턴 지속",
+        "type": "defensive",
+        "manaCost": 15,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "evasion_buff",
+          "evasionBonus": 35,
+          "duration": 2,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_wind_cloak_001",
+          "name": "회피율 +18%",
+          "description": "적의 공격 회피율 +18%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 18,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_wind_cloak_002",
+          "name": "이동 속도 +10%",
+          "description": "행동 속도 +10%",
+          "type": "utility",
+          "effect": {
+            "type": "speed_bonus",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_earth_plate_uncommon_lv4",
+      "name": "대지 판갑옷",
+      "name_en": "Earth Plate",
+      "type": "armor",
+      "tier": "uncommon",
+      "level": 4,
+      "icon": "🪨",
+      "rarity_color": "#10B981",
+      "description": "대지 마법으로 강화된 판갑옷. 무거우면서도 안정적이다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 32,
+        "hp": 95,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 8,
+        "dream_collect": 0,
+        "status_resist": 8,
+        "auto_regen": 1
+      },
+      "skill": {
+        "id": "skill_earth_plate_lv4",
+        "name": "대지 보호",
+        "description": "받는 피해 20% 감소, 방어력 +15%",
+        "type": "defensive",
+        "manaCost": 17,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "earth_protection",
+          "damageReduction": 20,
+          "defenseBonus": 15,
+          "duration": 2,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_earth_plate_001",
+          "name": "방어력 +15%",
+          "description": "받는 피해 15% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 15,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_earth_plate_002",
+          "name": "최대 HP +50",
+          "description": "최대 체력 50 증가",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "hp",
+            "value": 50,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_earth_plate_003",
+          "name": "패링율 +8%",
+          "description": "패링 성공 확률 +8%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "parry_rate",
+            "value": 8,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_shadow_cloak_uncommon_lv4",
+      "name": "어둠 망토",
+      "name_en": "Shadow Cloak",
+      "type": "armor",
+      "tier": "uncommon",
+      "level": 4,
+      "icon": "🌑",
+      "rarity_color": "#10B981",
+      "description": "어둠 에너지로 만든 망토. 회피 기반 방어다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 22,
+        "hp": 70,
+        "mana": 12,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 14,
+        "parry_rate": 2,
+        "dream_collect": 2,
+        "status_resist": 6,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_shadow_cloak_lv4",
+        "name": "어둠 회피",
+        "description": "다음 공격 회피율 +40%, 2턴 지속",
+        "type": "defensive",
+        "manaCost": 16,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "evasion_buff",
+          "evasionBonus": 40,
+          "duration": 2,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_shadow_cloak_001",
+          "name": "회피율 +20%",
+          "description": "적의 공격 회피율 +20%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_shadow_cloak_002",
+          "name": "회피 시 반격 +15%",
+          "description": "회피 후 반격 데미지 +15%",
+          "type": "offensive",
+          "effect": {
+            "type": "skill_bonus",
+            "skillId": "skill_shadow_cloak_lv4",
+            "value": 15,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_dragon_plate_rare_lv5",
+      "name": "용의 갑옷",
+      "name_en": "Dragon Armor",
+      "type": "armor",
+      "tier": "rare",
+      "level": 5,
+      "icon": "🛡️",
+      "rarity_color": "#3B82F6",
+      "description": "용의 가죽으로 만든 갑옷. 매우 단단하고 강력하다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 40,
+        "hp": 150,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 8,
+        "dream_collect": 0,
+        "status_resist": 10,
+        "auto_regen": 3
+      },
+      "skill": {
+        "id": "skill_dragon_plate_lv5",
+        "name": "용의 방어",
+        "description": "다음 공격을 패링하고 반격 데미지 150%",
+        "type": "defensive",
+        "manaCost": 18,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "parry_and_counter",
+          "counterDamagePercent": 150,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_dragon_plate_001",
+          "name": "방어력 +15%",
+          "description": "받는 피해 15% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 15,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_dragon_plate_002",
+          "name": "최대 HP +100",
+          "description": "최대 체력 100 증가",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "hp",
+            "value": 100,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_dragon_plate_003",
+          "name": "반격 데미지 +20%",
+          "description": "패링 후 반격 데미지 +20%",
+          "type": "defensive",
+          "effect": {
+            "type": "skill_bonus",
+            "skillId": "skill_dragon_plate_lv5",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_mirror_mail_rare_lv5",
+      "name": "거울 메일",
+      "name_en": "Mirror Mail",
+      "type": "armor",
+      "tier": "rare",
+      "level": 5,
+      "icon": "🪞",
+      "rarity_color": "#3B82F6",
+      "description": "거울 같은 표면의 메일 갑옷. 공격을 반사한다.",
+      "baseStat": {
+        "atk": 5,
+        "def": 38,
+        "hp": 110,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 8,
+        "parry_rate": 12,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 2
+      },
+      "skill": {
+        "id": "skill_mirror_mail_lv5",
+        "name": "거울 반사",
+        "description": "받는 데미지 20%를 적에게 반사",
+        "type": "defensive",
+        "manaCost": 16,
+        "cooldown": 1,
+        "effect": {
+          "effectType": "reflect_damage",
+          "reflectPercent": 20,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_mirror_mail_001",
+          "name": "반사 데미지 +25%",
+          "description": "반사되는 데미지 +25%",
+          "type": "defensive",
+          "effect": {
+            "type": "skill_bonus",
+            "skillId": "skill_mirror_mail_lv5",
+            "value": 25,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_mirror_mail_002",
+          "name": "방어력 +12%",
+          "description": "받는 피해 12% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_stone_golem_rare_lv6",
+      "name": "돌골렘 갑옷",
+      "name_en": "Stone Golem Armor",
+      "type": "armor",
+      "tier": "rare",
+      "level": 6,
+      "icon": "🗿",
+      "rarity_color": "#3B82F6",
+      "description": "돌로 된 골렘의 외형을 본떠 만든 갑옷. 거의 깨지지 않는다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 45,
+        "hp": 165,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 10,
+        "dream_collect": 0,
+        "status_resist": 12,
+        "auto_regen": 3
+      },
+      "skill": {
+        "id": "skill_stone_golem_lv6",
+        "name": "돌의 일격",
+        "description": "반격 데미지 200%를 적에게 반사",
+        "type": "defensive",
+        "manaCost": 20,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "counter_reflect",
+          "reflectDamagePercent": 200,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_stone_golem_001",
+          "name": "최대 HP +120",
+          "description": "최대 체력 120 증가",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "hp",
+            "value": 120,
+            "unit": "fixed"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_stone_golem_002",
+          "name": "방어력 +18%",
+          "description": "받는 피해 18% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 18,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_light_robe_rare_lv6",
+      "name": "빛의 로브",
+      "name_en": "Light Robe",
+      "type": "armor",
+      "tier": "rare",
+      "level": 6,
+      "icon": "👔",
+      "rarity_color": "#3B82F6",
+      "description": "빛의 에너지로 만든 로브. 매우 가볍고 편하다.",
+      "baseStat": {
+        "atk": 8,
+        "def": 35,
+        "hp": 100,
+        "mana": 15,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 10,
+        "parry_rate": 5,
+        "dream_collect": 3,
+        "status_resist": 15,
+        "auto_regen": 2
+      },
+      "skill": {
+        "id": "skill_light_robe_lv6",
+        "name": "빛의 보호",
+        "description": "아군 모두 피해 15% 감소, 3턴 지속",
+        "type": "defensive",
+        "manaCost": 22,
+        "cooldown": 3,
+        "effect": {
+          "effectType": "group_protection",
+          "damageReduction": 15,
+          "targetAll": true,
+          "duration": 3,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_light_robe_001",
+          "name": "회피율 +15%",
+          "description": "적의 공격 회피율 +15%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 15,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_light_robe_002",
+          "name": "꿈 수집 +12%",
+          "description": "전투 후 꿈 수집 +12%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "dream_collect",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_holy_plate_epic_lv7",
+      "name": "성스러운 판갑옷",
+      "name_en": "Holy Plate Armor",
+      "type": "armor",
+      "tier": "epic",
+      "level": 7,
+      "icon": "✨",
+      "rarity_color": "#A855F7",
+      "description": "신성한 빛으로 강화된 판갑옷. 모든 피해를 용납하지 않는다.",
+      "baseStat": {
+        "atk": 15,
+        "def": 65,
+        "hp": 220,
+        "mana": 15,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 12,
+        "dream_collect": 3,
+        "status_resist": 25,
+        "auto_regen": 4
+      },
+      "skill": {
+        "id": "skill_holy_plate_lv7",
+        "name": "신성한 보호",
+        "description": "받는 피해 25% 감소, 아군 회복 40, 3턴 지속",
+        "type": "defensive",
+        "manaCost": 28,
+        "cooldown": 3,
+        "effect": {
+          "effectType": "protect_and_heal",
+          "damageReduction": 25,
+          "healAmount": 40,
+          "duration": 3,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_holy_plate_001",
+          "name": "모든 스탯 +12%",
+          "description": "공격력, 방어력, 체력 모두 +12%",
+          "type": "utility",
+          "effect": {
+            "type": "all_stat_bonus",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_holy_plate_002",
+          "name": "최대 HP +150",
+          "description": "최대 체력 150 증가",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "hp",
+            "value": 150,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_holy_plate_003",
+          "name": "방어력 +22%",
+          "description": "받는 피해 22% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 22,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "armor_void_armor_legendary_lv9",
+      "name": "공허 갑옷",
+      "name_en": "Void Armor",
+      "type": "armor",
+      "tier": "legendary",
+      "level": 9,
+      "icon": "☠️",
+      "rarity_color": "#FBBF24",
+      "description": "공허의 힘이 깃든 갑옷. 모든 것을 삼키는 어둠이 감싼다.",
+      "baseStat": {
+        "atk": 10,
+        "def": 80,
+        "hp": 280,
+        "mana": 30,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 15,
+        "parry_rate": 18,
+        "dream_collect": 10,
+        "status_resist": 35,
+        "auto_regen": 5
+      },
+      "skill": {
+        "id": "skill_void_armor_lv9",
+        "name": "공허의 방패",
+        "description": "받는 피해 35% 감소, 흡수 효율 +50%, 4턴 지속",
+        "type": "defensive",
+        "manaCost": 35,
+        "cooldown": 4,
+        "effect": {
+          "effectType": "void_protection",
+          "damageReduction": 35,
+          "absorbEfficiency": 50,
+          "duration": 4,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_void_armor_001",
+          "name": "모든 스탯 +20%",
+          "description": "공격력, 방어력, 체력 모두 +20%",
+          "type": "utility",
+          "effect": {
+            "type": "all_stat_bonus",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_void_armor_002",
+          "name": "방어력 +35%",
+          "description": "받는 피해 35% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 35,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_void_armor_003",
+          "name": "꿈 수집 +20%",
+          "description": "전투 후 꿈 수집 +20%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "dream_collect",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    }
+  ],
+  "_summary": {
+    "total_armors": 20,
+    "tier_distribution": {
+      "common": 7,
+      "uncommon": 6,
+      "rare": 4,
+      "epic": 2,
+      "legendary": 1
+    }
+  }
+}

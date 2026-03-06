@@ -1,0 +1,573 @@
+{
+  "loginRewards": [
+    {
+      "day": 1,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 100,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 2,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 100,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 3,
+      "rewardType": "gold_and_item",
+      "reward": {
+        "gold": 150,
+        "items": [
+          {
+            "itemId": "ring_stat_boost_common_lv1",
+            "itemName": "스탯 강화 반지",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 4,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 120,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 5,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 120,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 6,
+      "rewardType": "gold_and_item",
+      "reward": {
+        "gold": 150,
+        "items": [
+          {
+            "itemId": "necklace_attack_common_lv1",
+            "itemName": "공격 목걸이",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 7,
+      "rewardType": "all",
+      "reward": {
+        "gold": 500,
+        "items": [
+          {
+            "itemId": "armor_leather_armor_common_lv1",
+            "itemName": "가죽 갑옷",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 10
+      },
+      "specialCondition": {
+        "isSpecialDay": true,
+        "specialDayDesc": "Weekly Milestone Reward"
+      }
+    },
+    {
+      "day": 8,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 150,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 9,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 150,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 10,
+      "rewardType": "gold_and_item",
+      "reward": {
+        "gold": 200,
+        "items": [
+          {
+            "itemId": "ring_atk_boost_common_lv1",
+            "itemName": "공격력 반지",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 11,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 150,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 12,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 150,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 13,
+      "rewardType": "gold_and_item",
+      "reward": {
+        "gold": 200,
+        "items": [
+          {
+            "itemId": "weapon_flame_sword_uncommon_lv3",
+            "itemName": "불꽃 검",
+            "tier": "uncommon",
+            "quantity": 1
+          }
+        ],
+        "gems": 5
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 14,
+      "rewardType": "all",
+      "reward": {
+        "gold": 800,
+        "items": [
+          {
+            "itemId": "ring_def_boost_common_lv1",
+            "itemName": "방어력 반지",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 25
+      },
+      "specialCondition": {
+        "isSpecialDay": true,
+        "specialDayDesc": "2nd Week Milestone Reward"
+      }
+    },
+    {
+      "day": 15,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 200,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 16,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 200,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 17,
+      "rewardType": "gold_and_item",
+      "reward": {
+        "gold": 250,
+        "items": [
+          {
+            "itemId": "necklace_skill_common_lv1",
+            "itemName": "스킬 목걸이",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 18,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 200,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 19,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 200,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 20,
+      "rewardType": "gold_and_item",
+      "reward": {
+        "gold": 250,
+        "items": [
+          {
+            "itemId": "armor_cloth_robe_common_lv1",
+            "itemName": "천 로브",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 5
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 21,
+      "rewardType": "all",
+      "reward": {
+        "gold": 1000,
+        "items": [
+          {
+            "itemId": "ring_hp_boost_common_lv1",
+            "itemName": "체력 반지",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 40
+      },
+      "specialCondition": {
+        "isSpecialDay": true,
+        "specialDayDesc": "3rd Week Milestone Reward"
+      }
+    },
+    {
+      "day": 22,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 250,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 23,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 250,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 24,
+      "rewardType": "gold_and_item",
+      "reward": {
+        "gold": 300,
+        "items": [
+          {
+            "itemId": "necklace_power_common_lv1",
+            "itemName": "파워 목걸이",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 5
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 25,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 250,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 26,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 250,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 27,
+      "rewardType": "gold_and_item",
+      "reward": {
+        "gold": 300,
+        "items": [
+          {
+            "itemId": "ring_mana_ring_common_lv2",
+            "itemName": "마나 반지",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 5
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 28,
+      "rewardType": "all",
+      "reward": {
+        "gold": 1200,
+        "items": [
+          {
+            "itemId": "weapon_ice_spear_uncommon_lv3",
+            "itemName": "얼음 창",
+            "tier": "uncommon",
+            "quantity": 1
+          }
+        ],
+        "gems": 50
+      },
+      "specialCondition": {
+        "isSpecialDay": true,
+        "specialDayDesc": "4th Week Milestone Reward"
+      }
+    },
+    {
+      "day": 29,
+      "rewardType": "gold",
+      "reward": {
+        "gold": 300,
+        "items": [],
+        "gems": 0
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 30,
+      "rewardType": "gold_and_item",
+      "reward": {
+        "gold": 300,
+        "items": [
+          {
+            "itemId": "necklace_curse_common_lv1",
+            "itemName": "저주 목걸이",
+            "tier": "common",
+            "quantity": 1
+          }
+        ],
+        "gems": 10
+      },
+      "specialCondition": {
+        "isSpecialDay": false,
+        "specialDayDesc": null
+      }
+    },
+    {
+      "day": 31,
+      "rewardType": "all",
+      "reward": {
+        "gold": 2000,
+        "items": [
+          {
+            "itemId": "armor_fire_tunic_uncommon_lv3",
+            "itemName": "화염 튜닉",
+            "tier": "uncommon",
+            "quantity": 1
+          },
+          {
+            "itemId": "ring_weapon_boost_uncommon_lv3",
+            "itemName": "무기 강화 반지",
+            "tier": "uncommon",
+            "quantity": 1
+          }
+        ],
+        "gems": 150
+      },
+      "specialCondition": {
+        "isSpecialDay": true,
+        "specialDayDesc": "Monthly Completion Milestone - GRAND PRIZE"
+      }
+    }
+  ],
+  "resetCycle": "monthly",
+  "accumulativeMilestone": [
+    {
+      "cumulativeDays": 7,
+      "milestoneReward": {
+        "itemId": "armor_leather_armor_common_lv1",
+        "itemName": "가죽 갑옷",
+        "tier": "common",
+        "gems": 10
+      }
+    },
+    {
+      "cumulativeDays": 14,
+      "milestoneReward": {
+        "itemId": "ring_def_boost_common_lv1",
+        "itemName": "방어력 반지",
+        "tier": "common",
+        "gems": 25
+      }
+    },
+    {
+      "cumulativeDays": 21,
+      "milestoneReward": {
+        "itemId": "ring_hp_boost_common_lv1",
+        "itemName": "체력 반지",
+        "tier": "common",
+        "gems": 40
+      }
+    },
+    {
+      "cumulativeDays": 30,
+      "milestoneReward": {
+        "items": [
+          {
+            "itemId": "armor_fire_tunic_uncommon_lv3",
+            "itemName": "화염 튜닉",
+            "tier": "uncommon"
+          },
+          {
+            "itemId": "ring_weapon_boost_uncommon_lv3",
+            "itemName": "무기 강화 반지",
+            "tier": "uncommon"
+          }
+        ],
+        "gems": 150
+      }
+    }
+  ],
+  "_summary": {
+    "total_days": 31,
+    "weekly_milestones": 4,
+    "monthly_total": {
+      "gold": 6000,
+      "gems": 360,
+      "items": 13,
+      "distribution": "Common 9 + Uncommon 4"
+    },
+    "daily_average": {
+      "gold": 193,
+      "gems": 11.6
+    }
+  }
+}

@@ -1,0 +1,1134 @@
+{
+  "weapons": [
+    {
+      "id": "weapon_crystal_sword_common_lv1",
+      "name": "크리스탈 검",
+      "name_en": "Crystal Sword",
+      "type": "weapon",
+      "tier": "common",
+      "level": 1,
+      "icon": "💎",
+      "rarity_color": "#6B7280",
+      "description": "크리스탈로 만든 기본 검. 초보자용 무기다.",
+      "baseStat": {
+        "atk": 15,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 2,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_crystal_sword_lv1",
+        "name": "기본 베기",
+        "description": "공격력 100% 데미지",
+        "type": "offensive",
+        "manaCost": 10,
+        "cooldown": 0,
+        "effect": {
+          "damagePercent": 100,
+          "additionalEffect": null,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_crystal_sword_001",
+          "name": "공격력 +5%",
+          "description": "모든 공격 데미지 +5%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 5,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_crystal_sword_002",
+          "name": "마나 회복 +5%",
+          "description": "턴마다 마나 회복 +5%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana_regen",
+            "value": 5,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_iron_axe_common_lv1",
+      "name": "철 도끼",
+      "name_en": "Iron Axe",
+      "type": "weapon",
+      "tier": "common",
+      "level": 1,
+      "icon": "🪓",
+      "rarity_color": "#6B7280",
+      "description": "철로 만든 무거운 도끼. 초보자용 무기다.",
+      "baseStat": {
+        "atk": 16,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 1,
+        "crit_damage": 5,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_iron_axe_lv1",
+        "name": "힘껏 베기",
+        "description": "공격력 110% 데미지",
+        "type": "offensive",
+        "manaCost": 12,
+        "cooldown": 0,
+        "effect": {
+          "damagePercent": 110,
+          "additionalEffect": null,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_iron_axe_001",
+          "name": "공격력 +7%",
+          "description": "모든 공격 데미지 +7%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 7,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_iron_axe_002",
+          "name": "회심율 +3%",
+          "description": "회심 히트 확률 +3%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "crit_rate",
+            "value": 3,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_wooden_spear_common_lv1",
+      "name": "목재 창",
+      "name_en": "Wooden Spear",
+      "type": "weapon",
+      "tier": "common",
+      "level": 1,
+      "icon": "🔱",
+      "rarity_color": "#6B7280",
+      "description": "목재로 만든 가벼운 창. 초보자용 무기다.",
+      "baseStat": {
+        "atk": 14,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 2,
+        "crit_damage": 0,
+        "evasion_rate": 2,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_wooden_spear_lv1",
+        "name": "찌르기",
+        "description": "공격력 95% 데미지",
+        "type": "offensive",
+        "manaCost": 9,
+        "cooldown": 0,
+        "effect": {
+          "damagePercent": 95,
+          "additionalEffect": null,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_wooden_spear_001",
+          "name": "회피율 +5%",
+          "description": "적의 공격 회피율 +5%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 5,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_wooden_spear_002",
+          "name": "공격력 +3%",
+          "description": "모든 공격 데미지 +3%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 3,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_stone_hammer_common_lv2",
+      "name": "돌 망치",
+      "name_en": "Stone Hammer",
+      "type": "weapon",
+      "tier": "common",
+      "level": 2,
+      "icon": "🪨",
+      "rarity_color": "#6B7280",
+      "description": "돌로 만든 무거운 망치. 초보자용 무기다.",
+      "baseStat": {
+        "atk": 17,
+        "def": 2,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 1,
+        "crit_damage": 3,
+        "evasion_rate": 0,
+        "parry_rate": 2,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_stone_hammer_lv2",
+        "name": "내려찍기",
+        "description": "공격력 115% 데미지",
+        "type": "offensive",
+        "manaCost": 13,
+        "cooldown": 0,
+        "effect": {
+          "damagePercent": 115,
+          "additionalEffect": null,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_stone_hammer_001",
+          "name": "공격력 +8%",
+          "description": "모든 공격 데미지 +8%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 8,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_stone_hammer_002",
+          "name": "방어력 +3%",
+          "description": "받는 피해 3% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 3,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_bronze_sword_common_lv2",
+      "name": "청동 검",
+      "name_en": "Bronze Sword",
+      "type": "weapon",
+      "tier": "common",
+      "level": 2,
+      "icon": "⚔️",
+      "rarity_color": "#6B7280",
+      "description": "청동으로 만든 기본 검. 약간의 강화가 된 버전이다.",
+      "baseStat": {
+        "atk": 18,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 2,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_bronze_sword_lv2",
+        "name": "강화된 베기",
+        "description": "공격력 110% 데미지",
+        "type": "offensive",
+        "manaCost": 11,
+        "cooldown": 0,
+        "effect": {
+          "damagePercent": 110,
+          "additionalEffect": null,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_bronze_sword_001",
+          "name": "공격력 +6%",
+          "description": "모든 공격 데미지 +6%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 6,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_bronze_sword_002",
+          "name": "회복 +3%",
+          "description": "전투 후 체력 회복 +3%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "hp_recovery",
+            "value": 3,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_copper_dagger_common_lv2",
+      "name": "구리 단검",
+      "name_en": "Copper Dagger",
+      "type": "weapon",
+      "tier": "common",
+      "level": 2,
+      "icon": "🗡️",
+      "rarity_color": "#6B7280",
+      "description": "구리로 만든 가벼운 단검. 회피 기반 무기다.",
+      "baseStat": {
+        "atk": 13,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 4,
+        "crit_damage": 0,
+        "evasion_rate": 4,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_copper_dagger_lv2",
+        "name": "빠른 찌르기",
+        "description": "공격력 100% 데미지",
+        "type": "offensive",
+        "manaCost": 10,
+        "cooldown": 0,
+        "effect": {
+          "damagePercent": 100,
+          "additionalEffect": null,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_copper_dagger_001",
+          "name": "회피율 +6%",
+          "description": "적의 공격 회피율 +6%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 6,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_copper_dagger_002",
+          "name": "회심율 +2%",
+          "description": "회심 히트 확률 +2%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "crit_rate",
+            "value": 2,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_bone_staff_common_lv2",
+      "name": "뼈 지팡이",
+      "name_en": "Bone Staff",
+      "type": "weapon",
+      "tier": "common",
+      "level": 2,
+      "icon": "💀",
+      "rarity_color": "#6B7280",
+      "description": "뼈로 만든 지팡이. 마법 기반 무기다.",
+      "baseStat": {
+        "atk": 15,
+        "def": 0,
+        "hp": 0,
+        "mana": 5,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_bone_staff_lv2",
+        "name": "마법 방출",
+        "description": "공격력 105% 데미지",
+        "type": "offensive",
+        "manaCost": 12,
+        "cooldown": 0,
+        "effect": {
+          "damagePercent": 105,
+          "additionalEffect": null,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_bone_staff_001",
+          "name": "마나 +5",
+          "description": "최대 마나 5 증가",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana",
+            "value": 5,
+            "unit": "fixed"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_bone_staff_002",
+          "name": "마나 회복 +8%",
+          "description": "턴마다 마나 회복 +8%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana_regen",
+            "value": 8,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_flame_sword_uncommon_lv3",
+      "name": "불꽃 검",
+      "name_en": "Flame Sword",
+      "type": "weapon",
+      "tier": "uncommon",
+      "level": 3,
+      "icon": "🔥",
+      "rarity_color": "#10B981",
+      "description": "불 마법으로 강화된 검. 기본보다 강하다.",
+      "baseStat": {
+        "atk": 24,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 3,
+        "crit_damage": 5,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 5,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_flame_sword_lv3",
+        "name": "화염 베기",
+        "description": "공격력 130% 데미지. 추가로 불 피해 +10",
+        "type": "offensive",
+        "manaCost": 14,
+        "cooldown": 1,
+        "effect": {
+          "damagePercent": 130,
+          "additionalEffect": "fire_damage_10",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_flame_sword_001",
+          "name": "공격력 +10%",
+          "description": "모든 공격 데미지 +10%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_flame_sword_002",
+          "name": "불 저항 +15%",
+          "description": "받는 불 피해 15% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "fire_resistance",
+            "value": 15,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_ice_spear_uncommon_lv3",
+      "name": "얼음 창",
+      "name_en": "Ice Spear",
+      "type": "weapon",
+      "tier": "uncommon",
+      "level": 3,
+      "icon": "❄️",
+      "rarity_color": "#10B981",
+      "description": "얼음 마법으로 강화된 창. 적을 동결시킨다.",
+      "baseStat": {
+        "atk": 22,
+        "def": 0,
+        "hp": 0,
+        "mana": 5,
+        "crit_rate": 2,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 5,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_ice_spear_lv3",
+        "name": "얼음 창",
+        "description": "공격력 125% 데미지. 적을 2턴간 얼음 상태로",
+        "type": "offensive",
+        "manaCost": 16,
+        "cooldown": 2,
+        "effect": {
+          "damagePercent": 125,
+          "additionalEffect": "freeze_2turns",
+          "duration": 2,
+          "probability": 70
+        }
+      },
+      "options": [
+        {
+          "id": "option_ice_spear_001",
+          "name": "공격력 +8%",
+          "description": "모든 공격 데미지 +8%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 8,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_ice_spear_002",
+          "name": "얼음 저항 +15%",
+          "description": "받는 얼음 피해 15% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "ice_resistance",
+            "value": 15,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_wind_bow_uncommon_lv3",
+      "name": "바람 활",
+      "name_en": "Wind Bow",
+      "type": "weapon",
+      "tier": "uncommon",
+      "level": 3,
+      "icon": "🏹",
+      "rarity_color": "#10B981",
+      "description": "바람 마법으로 강화된 활. 빠른 공격이 가능하다.",
+      "baseStat": {
+        "atk": 23,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 4,
+        "crit_damage": 0,
+        "evasion_rate": 5,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_wind_bow_lv3",
+        "name": "회오리 화살",
+        "description": "공격력 135% 데미지. 다음 턴 회피율 +10%",
+        "type": "offensive",
+        "manaCost": 13,
+        "cooldown": 1,
+        "effect": {
+          "damagePercent": 135,
+          "additionalEffect": "evasion_buff_10",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_wind_bow_001",
+          "name": "회피율 +8%",
+          "description": "적의 공격 회피율 +8%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 8,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_wind_bow_002",
+          "name": "공격 속도 +12%",
+          "description": "행동 속도 +12%",
+          "type": "utility",
+          "effect": {
+            "type": "speed_bonus",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_earth_hammer_uncommon_lv4",
+      "name": "대지 망치",
+      "name_en": "Earth Hammer",
+      "type": "weapon",
+      "tier": "uncommon",
+      "level": 4,
+      "icon": "🪨",
+      "rarity_color": "#10B981",
+      "description": "대지 마법으로 강화된 망치. 무거운 느낌이다.",
+      "baseStat": {
+        "atk": 26,
+        "def": 3,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 2,
+        "crit_damage": 8,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_earth_hammer_lv4",
+        "name": "지진 타격",
+        "description": "공격력 140% 데미지. 범위 2칸 적에게 70% 피해",
+        "type": "offensive",
+        "manaCost": 15,
+        "cooldown": 1,
+        "effect": {
+          "damagePercent": 140,
+          "additionalEffect": "area_damage_70",
+          "areaRange": 2,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_earth_hammer_001",
+          "name": "공격력 +12%",
+          "description": "모든 공격 데미지 +12%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_earth_hammer_002",
+          "name": "방어력 +5%",
+          "description": "받는 피해 5% 감소",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "def",
+            "value": 5,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_shadow_dagger_rare_lv5",
+      "name": "어둠 단검",
+      "name_en": "Shadow Dagger",
+      "type": "weapon",
+      "tier": "rare",
+      "level": 5,
+      "icon": "🗡️",
+      "rarity_color": "#3B82F6",
+      "description": "어둠에 숨은 단검. 빠른 연격이 가능하다.",
+      "baseStat": {
+        "atk": 38,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 10,
+        "crit_damage": 12,
+        "evasion_rate": 8,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_shadow_dagger_lv5",
+        "name": "어둠 베기",
+        "description": "공격력 180% 데미지. 회심 확률 +20%",
+        "type": "offensive",
+        "manaCost": 18,
+        "cooldown": 1,
+        "effect": {
+          "damagePercent": 180,
+          "additionalEffect": "crit_chance_20",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_shadow_dagger_001",
+          "name": "회심율 +15%",
+          "description": "회심 히트 확률 +15%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "crit_rate",
+            "value": 15,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_shadow_dagger_002",
+          "name": "회피율 +12%",
+          "description": "적의 공격 회피율 +12%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_shadow_dagger_003",
+          "name": "공격력 +15%",
+          "description": "모든 공격 데미지 +15%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 15,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_mana_staff_rare_lv5",
+      "name": "마나 지팡이",
+      "name_en": "Mana Staff",
+      "type": "weapon",
+      "tier": "rare",
+      "level": 5,
+      "icon": "🔮",
+      "rarity_color": "#3B82F6",
+      "description": "마나 에너지를 담은 지팡이. 강력한 마법 공격이 가능하다.",
+      "baseStat": {
+        "atk": 40,
+        "def": 0,
+        "hp": 0,
+        "mana": 25,
+        "crit_rate": 3,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 5,
+        "status_resist": 8,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_mana_staff_lv5",
+        "name": "마나 폭발",
+        "description": "공격력 200% 데미지. 마나 소비량만큼 데미지 추가",
+        "type": "offensive",
+        "manaCost": 22,
+        "cooldown": 2,
+        "effect": {
+          "damagePercent": 200,
+          "additionalEffect": "mana_based_damage",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_mana_staff_001",
+          "name": "최대 마나 +25",
+          "description": "최대 마나 25 증가",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana",
+            "value": 25,
+            "unit": "fixed"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_mana_staff_002",
+          "name": "마나 회복 +18%",
+          "description": "턴마다 마나 회복 +18%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana_regen",
+            "value": 18,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_mana_staff_003",
+          "name": "꿈 수집 +12%",
+          "description": "전투 후 꿈 수집 +12%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "dream_collect",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_thunder_axe_rare_lv6",
+      "name": "번개 도끼",
+      "name_en": "Thunder Axe",
+      "type": "weapon",
+      "tier": "rare",
+      "level": 6,
+      "icon": "⚡",
+      "rarity_color": "#3B82F6",
+      "description": "번개 마법으로 강화된 도끼. 연쇄 공격이 가능하다.",
+      "baseStat": {
+        "atk": 42,
+        "def": 0,
+        "hp": 0,
+        "mana": 8,
+        "crit_rate": 5,
+        "crit_damage": 10,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_thunder_axe_lv6",
+        "name": "연쇄 번개",
+        "description": "공격력 210% 데미지. 최대 3개 적에게 순차 공격",
+        "type": "offensive",
+        "manaCost": 20,
+        "cooldown": 2,
+        "effect": {
+          "damagePercent": 210,
+          "additionalEffect": "chain_attack_3",
+          "chainCount": 3,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_thunder_axe_001",
+          "name": "공격력 +18%",
+          "description": "모든 공격 데미지 +18%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 18,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_thunder_axe_002",
+          "name": "연쇄 범위 +1",
+          "description": "연쇄 공격 범위 +1 추가",
+          "type": "offensive",
+          "effect": {
+            "type": "skill_bonus",
+            "skillId": "skill_thunder_axe_lv6",
+            "value": 1,
+            "unit": "count"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_thunder_axe_003",
+          "name": "마나 회복 +12%",
+          "description": "턴마다 마나 회복 +12%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana_regen",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_dark_blade_epic_lv7",
+      "name": "어둠의 검",
+      "name_en": "Dark Blade",
+      "type": "weapon",
+      "tier": "epic",
+      "level": 7,
+      "icon": "🌑",
+      "rarity_color": "#A855F7",
+      "description": "어둠의 힘이 깃든 검. 매우 강력한 공격력을 지녔다.",
+      "baseStat": {
+        "atk": 58,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 12,
+        "crit_damage": 22,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_dark_blade_lv7",
+        "name": "어둠의 낫질",
+        "description": "공격력 240% 데미지. 적의 공격력 -30% (2턴)",
+        "type": "offensive",
+        "manaCost": 28,
+        "cooldown": 3,
+        "effect": {
+          "damagePercent": 240,
+          "additionalEffect": "atk_debuff_30_2turns",
+          "duration": 2,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_dark_blade_001",
+          "name": "회심 피해 +28%",
+          "description": "회심 히트 시 데미지 +28%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "crit_damage",
+            "value": 28,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_dark_blade_002",
+          "name": "흡수 (데미지의 12% HP 회복)",
+          "description": "가한 데미지의 12%를 HP로 회복",
+          "type": "utility",
+          "effect": {
+            "type": "lifesteal",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_dark_blade_003",
+          "name": "공격력 +22%",
+          "description": "모든 공격 데미지 +22%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 22,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "weapon_holy_sword_legendary_lv9",
+      "name": "성검",
+      "name_en": "Holy Sword",
+      "type": "weapon",
+      "tier": "legendary",
+      "level": 9,
+      "icon": "✨",
+      "rarity_color": "#FBBF24",
+      "description": "신의 축복이 깃든 검. 모든 능력에 어둠을 밝히는 힘이 있다.",
+      "baseStat": {
+        "atk": 78,
+        "def": 8,
+        "hp": 40,
+        "mana": 15,
+        "crit_rate": 18,
+        "crit_damage": 35,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 8,
+        "status_resist": 12,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_holy_sword_lv9",
+        "name": "신성한 심판",
+        "description": "공격력 280% 데미지. 적의 상태이상 제거하고 2배 피해",
+        "type": "offensive",
+        "manaCost": 32,
+        "cooldown": 3,
+        "effect": {
+          "damagePercent": 280,
+          "additionalEffect": "dispel_and_double_damage",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_holy_sword_001",
+          "name": "모든 스탯 +12%",
+          "description": "공격력, 방어력, 체력 모두 +12%",
+          "type": "utility",
+          "effect": {
+            "type": "all_stat_bonus",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_holy_sword_002",
+          "name": "꿈 수집 +25%",
+          "description": "전투 후 꿈 수집 +25%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "dream_collect",
+            "value": 25,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_holy_sword_003",
+          "name": "상태이상 저항 +20%",
+          "description": "모든 상태이상 저항 +20%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "status_resist",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    }
+  ],
+  "_summary": {
+    "total_weapons": 20,
+    "tier_distribution": {
+      "common": 7,
+      "uncommon": 6,
+      "rare": 4,
+      "epic": 2,
+      "legendary": 1
+    }
+  }
+}

@@ -1,0 +1,1556 @@
+{
+  "necklaces": [
+    {
+      "id": "necklace_attack_common_lv1",
+      "name": "공격 목걸이",
+      "name_en": "Attack Necklace",
+      "type": "necklace",
+      "tier": "common",
+      "level": 1,
+      "icon": "🔥",
+      "rarity_color": "#6B7280",
+      "description": "ATTACK 카드를 강화하는 목걸이. 초보자용이다.",
+      "baseStat": {
+        "atk": 5,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 1,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_attack_necklace_lv1",
+        "name": "공격 강화",
+        "description": "ATTACK 카드 효율 +20%",
+        "type": "offensive",
+        "manaCost": 10,
+        "cooldown": 0,
+        "effect": {
+          "effectType": "attack_card_boost",
+          "cardBoost": 20,
+          "cardType": "ATTACK",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_attack_necklace_001",
+          "name": "ATTACK 강화 +10%",
+          "description": "ATTACK 카드 효율 +10%",
+          "type": "offensive",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "ATTACK",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_attack_necklace_002",
+          "name": "공격력 +5%",
+          "description": "모든 공격 데미지 +5%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 5,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_skill_common_lv1",
+      "name": "스킬 목걸이",
+      "name_en": "Skill Necklace",
+      "type": "necklace",
+      "tier": "common",
+      "level": 1,
+      "icon": "✨",
+      "rarity_color": "#6B7280",
+      "description": "SKILL 카드를 강화하는 목걸이. 초보자용이다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 2,
+        "hp": 10,
+        "mana": 5,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_skill_necklace_lv1",
+        "name": "스킬 강화",
+        "description": "SKILL 카드 효율 +20%",
+        "type": "utility",
+        "manaCost": 11,
+        "cooldown": 0,
+        "effect": {
+          "effectType": "skill_card_boost",
+          "cardBoost": 20,
+          "cardType": "SKILL",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_skill_necklace_001",
+          "name": "SKILL 강화 +10%",
+          "description": "SKILL 카드 효율 +10%",
+          "type": "utility",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "SKILL",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_skill_necklace_002",
+          "name": "마나 +3",
+          "description": "최대 마나 3 증가",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana",
+            "value": 3,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_power_common_lv1",
+      "name": "파워 목걸이",
+      "name_en": "Power Necklace",
+      "type": "necklace",
+      "tier": "common",
+      "level": 1,
+      "icon": "☄️",
+      "rarity_color": "#6B7280",
+      "description": "POWER 카드를 강화하는 목걸이. 초보자용이다.",
+      "baseStat": {
+        "atk": 3,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_power_necklace_lv1",
+        "name": "파워 강화",
+        "description": "POWER 카드 효율 +20%",
+        "type": "offensive",
+        "manaCost": 12,
+        "cooldown": 1,
+        "effect": {
+          "effectType": "power_card_boost",
+          "cardBoost": 20,
+          "cardType": "POWER",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_power_necklace_001",
+          "name": "POWER 강화 +10%",
+          "description": "POWER 카드 효율 +10%",
+          "type": "offensive",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "POWER",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_power_necklace_002",
+          "name": "공격력 +4%",
+          "description": "모든 공격 데미지 +4%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 4,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_curse_common_lv1",
+      "name": "저주 목걸이",
+      "name_en": "Curse Necklace",
+      "type": "necklace",
+      "tier": "common",
+      "level": 1,
+      "icon": "☠️",
+      "rarity_color": "#6B7280",
+      "description": "CURSE 카드를 강화하는 목걸이. 초보자용이다.",
+      "baseStat": {
+        "atk": 0,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_curse_necklace_lv1",
+        "name": "저주 강화",
+        "description": "CURSE 카드 효율 +20%, 상대 저항 -10%",
+        "type": "offensive",
+        "manaCost": 11,
+        "cooldown": 1,
+        "effect": {
+          "effectType": "curse_card_boost",
+          "cardBoost": 20,
+          "cardType": "CURSE",
+          "enemyResistDebuff": 10,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_curse_necklace_001",
+          "name": "CURSE 강화 +10%",
+          "description": "CURSE 카드 효율 +10%",
+          "type": "offensive",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "CURSE",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_curse_necklace_002",
+          "name": "상태이상 확률 +5%",
+          "description": "상태이상 적용 확률 +5%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "status_apply_rate",
+            "value": 5,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_dream_common_lv2",
+      "name": "꿈 수집 목걸이",
+      "name_en": "Dream Collection Necklace",
+      "type": "necklace",
+      "tier": "common",
+      "level": 2,
+      "icon": "💫",
+      "rarity_color": "#6B7280",
+      "description": "꿈 수집을 강화하는 목걸이.",
+      "baseStat": {
+        "atk": 0,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 5,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_dream_necklace_lv2",
+        "name": "꿈 극대화",
+        "description": "꿈 수집 +30%",
+        "type": "utility",
+        "manaCost": 9,
+        "cooldown": 0,
+        "effect": {
+          "effectType": "dream_maximize",
+          "dreamBoost": 30,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_dream_necklace_001",
+          "name": "꿈 수집 +15%",
+          "description": "전투 후 꿈 수집 +15%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "dream_collect",
+            "value": 15,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_dream_necklace_002",
+          "name": "경험치 +8%",
+          "description": "획득 경험치 +8%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "exp_boost",
+            "value": 8,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_parry_common_lv2",
+      "name": "패링 목걸이",
+      "name_en": "Parry Necklace",
+      "type": "necklace",
+      "tier": "common",
+      "level": 2,
+      "icon": "🛡️",
+      "rarity_color": "#6B7280",
+      "description": "패링 능력을 강화하는 목걸이.",
+      "baseStat": {
+        "atk": 0,
+        "def": 3,
+        "hp": 10,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 5,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_parry_necklace_lv2",
+        "name": "패링 강화",
+        "description": "패링율 +30%, 패링 반격 +50%",
+        "type": "defensive",
+        "manaCost": 10,
+        "cooldown": 1,
+        "effect": {
+          "effectType": "parry_boost",
+          "parryBonus": 30,
+          "counterBonus": 50,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_parry_necklace_001",
+          "name": "패링율 +10%",
+          "description": "패링 성공 확률 +10%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "parry_rate",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_parry_necklace_002",
+          "name": "패링 반격 +20%",
+          "description": "패링 후 반격 데미지 +20%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "parry_counter",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_evasion_common_lv2",
+      "name": "회피 목걸이",
+      "name_en": "Evasion Necklace",
+      "type": "necklace",
+      "tier": "common",
+      "level": 2,
+      "icon": "🏃",
+      "rarity_color": "#6B7280",
+      "description": "회피 능력을 강화하는 목걸이.",
+      "baseStat": {
+        "atk": 0,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 6,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_evasion_necklace_lv2",
+        "name": "회피 강화",
+        "description": "회피율 +30%, 회피 반격 +50%",
+        "type": "defensive",
+        "manaCost": 9,
+        "cooldown": 1,
+        "effect": {
+          "effectType": "evasion_boost",
+          "evasionBonus": 30,
+          "counterBonus": 50,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_evasion_necklace_001",
+          "name": "회피율 +12%",
+          "description": "적의 공격 회피율 +12%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_evasion_necklace_002",
+          "name": "이동 속도 +10%",
+          "description": "행동 속도 +10%",
+          "type": "utility",
+          "effect": {
+            "type": "speed_bonus",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_balanced_uncommon_lv3",
+      "name": "균형 목걸이",
+      "name_en": "Balanced Necklace",
+      "type": "necklace",
+      "tier": "uncommon",
+      "level": 3,
+      "icon": "⚖️",
+      "rarity_color": "#10B981",
+      "description": "모든 카드 타입을 균형있게 강화하는 목걸이.",
+      "baseStat": {
+        "atk": 3,
+        "def": 3,
+        "hp": 20,
+        "mana": 3,
+        "crit_rate": 1,
+        "crit_damage": 1,
+        "evasion_rate": 1,
+        "parry_rate": 1,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_balanced_necklace_lv3",
+        "name": "균형 강화",
+        "description": "모든 카드 효율 +15%",
+        "type": "utility",
+        "manaCost": 12,
+        "cooldown": 1,
+        "effect": {
+          "effectType": "all_cards_boost",
+          "cardBoost": 15,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_balanced_necklace_001",
+          "name": "모든 카드 강화 +10%",
+          "description": "ATTACK/SKILL/POWER/CURSE 카드 효율 +10%",
+          "type": "utility",
+          "effect": {
+            "type": "all_cards_bonus",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_balanced_necklace_002",
+          "name": "최대 HP +25",
+          "description": "최대 체력 25 증가",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "hp",
+            "value": 25,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_attack_boost_uncommon_lv3",
+      "name": "강화된 공격 목걸이",
+      "name_en": "Enhanced Attack Necklace",
+      "type": "necklace",
+      "tier": "uncommon",
+      "level": 3,
+      "icon": "🔥",
+      "rarity_color": "#10B981",
+      "description": "ATTACK 카드를 강력하게 강화하는 목걸이.",
+      "baseStat": {
+        "atk": 8,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 2,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_attack_boost_lv3",
+        "name": "공격 극대화",
+        "description": "ATTACK 카드 효율 +30%",
+        "type": "offensive",
+        "manaCost": 12,
+        "cooldown": 1,
+        "effect": {
+          "effectType": "attack_card_boost",
+          "cardBoost": 30,
+          "cardType": "ATTACK",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_attack_boost_001",
+          "name": "ATTACK 강화 +20%",
+          "description": "ATTACK 카드 효율 +20%",
+          "type": "offensive",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "ATTACK",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_attack_boost_002",
+          "name": "공격력 +10%",
+          "description": "모든 공격 데미지 +10%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_attack_boost_003",
+          "name": "회심율 +6%",
+          "description": "회심 히트 확률 +6%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "crit_rate",
+            "value": 6,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_skill_boost_uncommon_lv3",
+      "name": "강화된 스킬 목걸이",
+      "name_en": "Enhanced Skill Necklace",
+      "type": "necklace",
+      "tier": "uncommon",
+      "level": 3,
+      "icon": "✨",
+      "rarity_color": "#10B981",
+      "description": "SKILL 카드를 강력하게 강화하는 목걸이.",
+      "baseStat": {
+        "atk": 0,
+        "def": 3,
+        "hp": 15,
+        "mana": 10,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_skill_boost_lv3",
+        "name": "스킬 극대화",
+        "description": "SKILL 카드 효율 +30%",
+        "type": "utility",
+        "manaCost": 13,
+        "cooldown": 1,
+        "effect": {
+          "effectType": "skill_card_boost",
+          "cardBoost": 30,
+          "cardType": "SKILL",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_skill_boost_001",
+          "name": "SKILL 강화 +20%",
+          "description": "SKILL 카드 효율 +20%",
+          "type": "utility",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "SKILL",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_skill_boost_002",
+          "name": "최대 마나 +15",
+          "description": "최대 마나 15 증가",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana",
+            "value": 15,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_power_boost_uncommon_lv4",
+      "name": "강화된 파워 목걸이",
+      "name_en": "Enhanced Power Necklace",
+      "type": "necklace",
+      "tier": "uncommon",
+      "level": 4,
+      "icon": "☄️",
+      "rarity_color": "#10B981",
+      "description": "POWER 카드를 강력하게 강화하는 목걸이.",
+      "baseStat": {
+        "atk": 6,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_power_boost_lv4",
+        "name": "파워 극대화",
+        "description": "POWER 카드 효율 +35%",
+        "type": "offensive",
+        "manaCost": 14,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "power_card_boost",
+          "cardBoost": 35,
+          "cardType": "POWER",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_power_boost_001",
+          "name": "POWER 강화 +25%",
+          "description": "POWER 카드 효율 +25%",
+          "type": "offensive",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "POWER",
+            "value": 25,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_power_boost_002",
+          "name": "공격력 +12%",
+          "description": "모든 공격 데미지 +12%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_curse_resist_uncommon_lv4",
+      "name": "저주 저항 목걸이",
+      "name_en": "Curse Resist Necklace",
+      "type": "necklace",
+      "tier": "uncommon",
+      "level": 4,
+      "icon": "☠️",
+      "rarity_color": "#10B981",
+      "description": "CURSE 카드의 영향을 감소하고 강화하는 목걸이.",
+      "baseStat": {
+        "atk": 0,
+        "def": 2,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 10,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_curse_resist_lv4",
+        "name": "저주 강화",
+        "description": "CURSE 카드 효율 +30%, 상대 저항 -15%",
+        "type": "offensive",
+        "manaCost": 13,
+        "cooldown": 1,
+        "effect": {
+          "effectType": "curse_card_boost",
+          "cardBoost": 30,
+          "cardType": "CURSE",
+          "enemyResistDebuff": 15,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_curse_resist_001",
+          "name": "CURSE 강화 +20%",
+          "description": "CURSE 카드 효율 +20%",
+          "type": "offensive",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "CURSE",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_curse_resist_002",
+          "name": "상태이상 저항 +12%",
+          "description": "모든 상태이상 저항 +12%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "status_resist",
+            "value": 12,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_attack_master_rare_lv5",
+      "name": "공격 마스터 목걸이",
+      "name_en": "Attack Master Necklace",
+      "type": "necklace",
+      "tier": "rare",
+      "level": 5,
+      "icon": "🔥",
+      "rarity_color": "#3B82F6",
+      "description": "ATTACK 카드를 극대화하는 목걸이.",
+      "baseStat": {
+        "atk": 15,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 5,
+        "crit_damage": 5,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_attack_master_lv5",
+        "name": "공격 폭발",
+        "description": "ATTACK 카드 효율 +50%",
+        "type": "offensive",
+        "manaCost": 16,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "attack_card_boost",
+          "cardBoost": 50,
+          "cardType": "ATTACK",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_attack_master_001",
+          "name": "ATTACK 강화 +35%",
+          "description": "ATTACK 카드 효율 +35%",
+          "type": "offensive",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "ATTACK",
+            "value": 35,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_attack_master_002",
+          "name": "공격력 +18%",
+          "description": "모든 공격 데미지 +18%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 18,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_attack_master_003",
+          "name": "회심율 +10%",
+          "description": "회심 히트 확률 +10%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "crit_rate",
+            "value": 10,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_skill_master_rare_lv5",
+      "name": "스킬 마스터 목걸이",
+      "name_en": "Skill Master Necklace",
+      "type": "necklace",
+      "tier": "rare",
+      "level": 5,
+      "icon": "✨",
+      "rarity_color": "#3B82F6",
+      "description": "SKILL 카드를 극대화하는 목걸이.",
+      "baseStat": {
+        "atk": 0,
+        "def": 5,
+        "hp": 30,
+        "mana": 15,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_skill_master_lv5",
+        "name": "스킬 폭발",
+        "description": "SKILL 카드 효율 +50%",
+        "type": "utility",
+        "manaCost": 18,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "skill_card_boost",
+          "cardBoost": 50,
+          "cardType": "SKILL",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_skill_master_001",
+          "name": "SKILL 강화 +35%",
+          "description": "SKILL 카드 효율 +35%",
+          "type": "utility",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "SKILL",
+            "value": 35,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_skill_master_002",
+          "name": "최대 마나 +30",
+          "description": "최대 마나 30 증가",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "mana",
+            "value": 30,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_power_master_rare_lv6",
+      "name": "파워 마스터 목걸이",
+      "name_en": "Power Master Necklace",
+      "type": "necklace",
+      "tier": "rare",
+      "level": 6,
+      "icon": "☄️",
+      "rarity_color": "#3B82F6",
+      "description": "POWER 카드를 극대화하는 목걸이.",
+      "baseStat": {
+        "atk": 12,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_power_master_lv6",
+        "name": "파워 폭발",
+        "description": "POWER 카드 효율 +50%",
+        "type": "offensive",
+        "manaCost": 20,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "power_card_boost",
+          "cardBoost": 50,
+          "cardType": "POWER",
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_power_master_001",
+          "name": "POWER 강화 +40%",
+          "description": "POWER 카드 효율 +40%",
+          "type": "offensive",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "POWER",
+            "value": 40,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_power_master_002",
+          "name": "공격력 +20%",
+          "description": "모든 공격 데미지 +20%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "atk",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_power_master_003",
+          "name": "불가피한 피해",
+          "description": "POWER 카드 피해는 회피 불가",
+          "type": "offensive",
+          "effect": {
+            "type": "special_property",
+            "property": "unavoidable",
+            "value": 100,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_curse_master_rare_lv6",
+      "name": "저주 마스터 목걸이",
+      "name_en": "Curse Master Necklace",
+      "type": "necklace",
+      "tier": "rare",
+      "level": 6,
+      "icon": "☠️",
+      "rarity_color": "#3B82F6",
+      "description": "CURSE 카드를 극대화하는 목걸이.",
+      "baseStat": {
+        "atk": 0,
+        "def": 0,
+        "hp": 0,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_curse_master_lv6",
+        "name": "저주 폭발",
+        "description": "CURSE 카드 효율 +50%, 상대 저항 -25%",
+        "type": "offensive",
+        "manaCost": 18,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "curse_card_boost",
+          "cardBoost": 50,
+          "cardType": "CURSE",
+          "enemyResistDebuff": 25,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_curse_master_001",
+          "name": "CURSE 강화 +40%",
+          "description": "CURSE 카드 효율 +40%",
+          "type": "offensive",
+          "effect": {
+            "type": "card_bonus",
+            "cardType": "CURSE",
+            "value": 40,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_curse_master_002",
+          "name": "상태이상 확률 +25%",
+          "description": "상태이상 적용 확률 +25%",
+          "type": "offensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "status_apply_rate",
+            "value": 25,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_parry_master_rare_lv6",
+      "name": "패링 마스터 목걸이",
+      "name_en": "Parry Master Necklace",
+      "type": "necklace",
+      "tier": "rare",
+      "level": 6,
+      "icon": "🛡️",
+      "rarity_color": "#3B82F6",
+      "description": "패링 능력을 극대화하는 목걸이.",
+      "baseStat": {
+        "atk": 0,
+        "def": 8,
+        "hp": 50,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 0,
+        "parry_rate": 15,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_parry_master_lv6",
+        "name": "완벽한 패링",
+        "description": "패링율 +50%, 패링 반격 +100%",
+        "type": "defensive",
+        "manaCost": 16,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "parry_boost",
+          "parryBonus": 50,
+          "counterBonus": 100,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_parry_master_001",
+          "name": "패링율 +30%",
+          "description": "패링 성공 확률 +30%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "parry_rate",
+            "value": 30,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_parry_master_002",
+          "name": "패링 반격 +50%",
+          "description": "패링 후 반격 데미지 +50%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "parry_counter",
+            "value": 50,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_evasion_master_rare_lv6",
+      "name": "회피 마스터 목걸이",
+      "name_en": "Evasion Master Necklace",
+      "type": "necklace",
+      "tier": "rare",
+      "level": 6,
+      "icon": "🏃",
+      "rarity_color": "#3B82F6",
+      "description": "회피 능력을 극대화하는 목걸이.",
+      "baseStat": {
+        "atk": 0,
+        "def": 0,
+        "hp": 20,
+        "mana": 0,
+        "crit_rate": 0,
+        "crit_damage": 0,
+        "evasion_rate": 20,
+        "parry_rate": 0,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_evasion_master_lv6",
+        "name": "완벽한 회피",
+        "description": "회피율 +50%, 회피 반격 +100%",
+        "type": "defensive",
+        "manaCost": 15,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "evasion_boost",
+          "evasionBonus": 50,
+          "counterBonus": 100,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_evasion_master_001",
+          "name": "회피율 +35%",
+          "description": "적의 공격 회피율 +35%",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "evasion_rate",
+            "value": 35,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_evasion_master_002",
+          "name": "이동 속도 +20%",
+          "description": "행동 속도 +20%",
+          "type": "utility",
+          "effect": {
+            "type": "speed_bonus",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_all_cards_epic_lv7",
+      "name": "모든 카드 극대화 목걸이",
+      "name_en": "All Cards Maximizer",
+      "type": "necklace",
+      "tier": "epic",
+      "level": 7,
+      "icon": "💎",
+      "rarity_color": "#A855F7",
+      "description": "모든 카드 타입을 극대화하는 목걸이.",
+      "baseStat": {
+        "atk": 10,
+        "def": 10,
+        "hp": 80,
+        "mana": 15,
+        "crit_rate": 5,
+        "crit_damage": 5,
+        "evasion_rate": 5,
+        "parry_rate": 5,
+        "dream_collect": 0,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_all_cards_epic_lv7",
+        "name": "전력 투구",
+        "description": "모든 카드 효율 +40%",
+        "type": "utility",
+        "manaCost": 22,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "all_cards_boost",
+          "cardBoost": 40,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_all_cards_epic_001",
+          "name": "모든 카드 강화 +30%",
+          "description": "ATTACK/SKILL/POWER/CURSE 카드 효율 +30%",
+          "type": "utility",
+          "effect": {
+            "type": "all_cards_bonus",
+            "value": 30,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_all_cards_epic_002",
+          "name": "모든 스탯 +15%",
+          "description": "공격력, 방어력, 체력 모두 +15%",
+          "type": "utility",
+          "effect": {
+            "type": "all_stat_bonus",
+            "value": 15,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_all_cards_epic_003",
+          "name": "최대 HP +100",
+          "description": "최대 체력 100 증가",
+          "type": "defensive",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "hp",
+            "value": 100,
+            "unit": "fixed"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_dream_epic_lv8",
+      "name": "꿈의 목걸이",
+      "name_en": "Dream Necklace",
+      "type": "necklace",
+      "tier": "epic",
+      "level": 8,
+      "icon": "🌠",
+      "rarity_color": "#A855F7",
+      "description": "모든 카드와 꿈 수집을 강화하는 목걸이.",
+      "baseStat": {
+        "atk": 8,
+        "def": 8,
+        "hp": 70,
+        "mana": 20,
+        "crit_rate": 3,
+        "crit_damage": 3,
+        "evasion_rate": 3,
+        "parry_rate": 3,
+        "dream_collect": 20,
+        "status_resist": 0,
+        "auto_regen": 0
+      },
+      "skill": {
+        "id": "skill_dream_epic_lv8",
+        "name": "꿈의 극대화",
+        "description": "모든 카드 효율 +35%, 꿈 수집 +50%",
+        "type": "utility",
+        "manaCost": 20,
+        "cooldown": 1,
+        "effect": {
+          "effectType": "dream_and_cards_boost",
+          "cardBoost": 35,
+          "dreamBoost": 50,
+          "duration": 1,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_dream_epic_001",
+          "name": "모든 카드 강화 +25%",
+          "description": "ATTACK/SKILL/POWER/CURSE 카드 효율 +25%",
+          "type": "utility",
+          "effect": {
+            "type": "all_cards_bonus",
+            "value": 25,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_dream_epic_002",
+          "name": "꿈 수집 +45%",
+          "description": "전투 후 꿈 수집 +45%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "dream_collect",
+            "value": 45,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_dream_epic_003",
+          "name": "경험치 +30%",
+          "description": "획득 경험치 +30%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "exp_boost",
+            "value": 30,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_balance_master_epic_lv8",
+      "name": "완벽한 균형 목걸이",
+      "name_en": "Perfect Balance Necklace",
+      "type": "necklace",
+      "tier": "epic",
+      "level": 8,
+      "icon": "⚖️",
+      "rarity_color": "#A855F7",
+      "description": "모든 능력을 완벽하게 균형있게 강화하는 목걸이.",
+      "baseStat": {
+        "atk": 12,
+        "def": 12,
+        "hp": 100,
+        "mana": 12,
+        "crit_rate": 6,
+        "crit_damage": 6,
+        "evasion_rate": 6,
+        "parry_rate": 6,
+        "dream_collect": 5,
+        "status_resist": 5,
+        "auto_regen": 1
+      },
+      "skill": {
+        "id": "skill_balance_master_epic_lv8",
+        "name": "완벽한 균형",
+        "description": "모든 스탯 +20%, 모든 카드 효율 +20%",
+        "type": "utility",
+        "manaCost": 24,
+        "cooldown": 2,
+        "effect": {
+          "effectType": "perfect_balance",
+          "allStatBonus": 20,
+          "allCardBoost": 20,
+          "duration": 2,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_balance_master_epic_001",
+          "name": "모든 스탯 +20%",
+          "description": "공격력, 방어력, 체력 모두 +20%",
+          "type": "utility",
+          "effect": {
+            "type": "all_stat_bonus",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_balance_master_epic_002",
+          "name": "모든 카드 강화 +20%",
+          "description": "ATTACK/SKILL/POWER/CURSE 카드 효율 +20%",
+          "type": "utility",
+          "effect": {
+            "type": "all_cards_bonus",
+            "value": 20,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "id": "necklace_ultimate_legendary_lv9",
+      "name": "궁극의 목걸이",
+      "name_en": "Ultimate Necklace",
+      "type": "necklace",
+      "tier": "legendary",
+      "level": 9,
+      "icon": "👑",
+      "rarity_color": "#FBBF24",
+      "description": "모든 카드와 능력을 극대화하는 전설의 목걸이.",
+      "baseStat": {
+        "atk": 20,
+        "def": 20,
+        "hp": 150,
+        "mana": 30,
+        "crit_rate": 12,
+        "crit_damage": 12,
+        "evasion_rate": 12,
+        "parry_rate": 12,
+        "dream_collect": 15,
+        "status_resist": 15,
+        "auto_regen": 2
+      },
+      "skill": {
+        "id": "skill_ultimate_legendary_lv9",
+        "name": "궁극의 강화",
+        "description": "모든 스탯 +30%, 모든 카드 효율 +50%",
+        "type": "utility",
+        "manaCost": 30,
+        "cooldown": 3,
+        "effect": {
+          "effectType": "ultimate_power",
+          "allStatBonus": 30,
+          "allCardBoost": 50,
+          "duration": 2,
+          "probability": 100
+        }
+      },
+      "options": [
+        {
+          "id": "option_ultimate_legendary_001",
+          "name": "모든 스탯 +30%",
+          "description": "공격력, 방어력, 체력 모두 +30%",
+          "type": "utility",
+          "effect": {
+            "type": "all_stat_bonus",
+            "value": 30,
+            "unit": "percent"
+          },
+          "isSelected": true
+        },
+        {
+          "id": "option_ultimate_legendary_002",
+          "name": "모든 카드 강화 +40%",
+          "description": "ATTACK/SKILL/POWER/CURSE 카드 효율 +40%",
+          "type": "utility",
+          "effect": {
+            "type": "all_cards_bonus",
+            "value": 40,
+            "unit": "percent"
+          },
+          "isSelected": false
+        },
+        {
+          "id": "option_ultimate_legendary_003",
+          "name": "꿈 수집 +60%",
+          "description": "전투 후 꿈 수집 +60%",
+          "type": "utility",
+          "effect": {
+            "type": "stat_bonus",
+            "stat": "dream_collect",
+            "value": 60,
+            "unit": "percent"
+          },
+          "isSelected": false
+        }
+      ]
+    }
+  ],
+  "_summary": {
+    "total_necklaces": 25,
+    "tier_distribution": {
+      "common": 8,
+      "uncommon": 6,
+      "rare": 7,
+      "epic": 3,
+      "legendary": 1
+    }
+  }
+}

@@ -46,7 +46,7 @@ signal deck_saved(deck_size: int)
 
 # ─── 초기화 ─────────────────────────────────────────
 func _ready() -> void:
-	print("[GameManager] Dream Collector v%s 시작" % VERSION)
+	print("[GameManager] Dream Collector v%s started." % VERSION)
 	SaveSystem.load_game()
 	IdleSystem.start()
 
@@ -54,8 +54,6 @@ func _ready() -> void:
 func add_reveries(amount: float) -> void:
 	reveries += amount
 	emit_signal("reveries_changed", reveries)
-	if reveries >= 10000.0 and prestige_count == 0:
-		print("[GameManager] 프레스티지 조건 달성!")
 
 # ─── Reveries 소비 ───────────────────────────────────
 func spend_reveries(amount: float) -> bool:
@@ -70,7 +68,7 @@ func add_gems(amount: int) -> void:
 	gems += amount
 	gems_changed.emit(gems)
 	SaveSystem.save_game()  # Auto-save on currency change
-	print("[GameManager] Gems +%d (현재: %d)" % [amount, gems])
+	print("[GameManager] Gems +%d (current: %d)" % [amount, gems])
 
 # ─── Gems 소비 ───────────────────────────────────────
 func spend_gems(amount: int) -> bool:
@@ -88,7 +86,7 @@ func add_energy(amount: int) -> void:
 	energy += amount
 	energy_changed.emit(energy)
 	SaveSystem.save_game()  # Auto-save on currency change
-	print("[GameManager] Energy +%d (현재: %d)" % [amount, energy])
+	print("[GameManager] Energy +%d (current: %d)" % [amount, energy])
 
 # ─── Energy 소비 ─────────────────────────────────────
 func spend_energy(amount: int) -> bool:
@@ -225,11 +223,11 @@ func has_boss_node() -> bool:
 # ─── 런 시작 ─────────────────────────────────────────
 func start_run() -> void:
 	if current_run_active:
-		print("[GameManager] 이미 런이 진행 중입니다.")
+		print("[GameManager] Run already in progress.")
 		return
 	current_run_active = true
 	emit_signal("run_started")
-	print("[GameManager] 런 시작! (총 %d번째)" % (total_runs_completed + 1))
+	print("[GameManager] Run started! (#%d)" % (total_runs_completed + 1))
 
 # ─── 런 완료 ─────────────────────────────────────────
 func complete_run(success: bool) -> void:
@@ -238,12 +236,12 @@ func complete_run(success: bool) -> void:
 		total_runs_completed += 1
 	emit_signal("run_completed", success)
 	SaveSystem.save_game()
-	print("[GameManager] 런 %s (성공: %s)" % [total_runs_completed, success])
+	print("[GameManager] Run %s (success: %s)" % [total_runs_completed, success])
 
 # ─── 프레스티지 ──────────────────────────────────────
 func prestige() -> void:
 	if reveries < 10000.0:
-		print("[GameManager] 프레스티지 조건 미달 (필요: 10,000)")
+		print("[GameManager] Prestige condition not met (need: 10,000)")
 		return
 	prestige_count += 1
 	dream_shards += 1
@@ -251,14 +249,14 @@ func prestige() -> void:
 	base_collection_rate *= 1.25  # 프레스티지마다 25% 보너스
 	emit_signal("prestige_triggered")
 	SaveSystem.save_game()
-	print("[GameManager] 프레스티지! (횟수: %d, 수집 속도: %.1f/h)" % [prestige_count, base_collection_rate])
+	print("[GameManager] Prestige! (count: %d, rate: %.1f/h)" % [prestige_count, base_collection_rate])
 
 # ─── 덱 저장 ─────────────────────────────────────────
 func save_deck(deck: Array) -> void:
 	current_deck = deck.duplicate(true)
 	SaveSystem.save_game()
 	emit_signal("deck_saved", current_deck.size())
-	print("[GameManager] 덱 저장됨: %d장" % current_deck.size())
+	print("[GameManager] Deck saved: %d cards" % current_deck.size())
 
 # ─── 덱 로드 ─────────────────────────────────────────
 func get_current_deck() -> Array:

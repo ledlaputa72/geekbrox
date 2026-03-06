@@ -196,13 +196,14 @@ func player_play_card(card: Card, target_index: int = -1):
 	_check_battle_end()
 
 func _resolve_card_effect(card: Card, target_index: int = -1):
-	# 공격 카드
-	if card.type == "ATK":
-		var base_dmg = card.damage
+	# 공격 카드 (ATK=레거시, ATTACK=cards_200_v2)
+	var is_attack = (card.type == "ATK" or card.type == "ATTACK")
+	if is_attack:
+		var base_dmg = card.get_effective_damage() if card.has_method("get_effective_damage") else card.damage
 		if not first_atk_used and first_atk_bonus > 0:
 			base_dmg += first_atk_bonus
 			first_atk_used = true
-		var is_aoe = card.has_tag("AOE")
+		var is_aoe = card.has_tag("AOE") or (card.subtype == "AoE")
 		if is_aoe:
 			for enemy in enemies:
 				if enemy.is_alive():

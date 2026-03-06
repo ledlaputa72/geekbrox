@@ -1,0 +1,307 @@
+[gd_scene load_steps=5 format=3 uid="uid://character_screen_equip"]
+
+[ext_resource type="Script" path="res://ui/screens/CharacterScreen.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bottomnav_component" path="res://ui/components/BottomNav.tscn" id="2_bottomnav"]
+[ext_resource type="PackedScene" uid="uid://equipment_slot_char" path="res://ui/components/EquipmentSlot.tscn" id="3_slot"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_character_bg"]
+bg_color = Color(0.98, 0.92, 0.8, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.45, 0.9, 1)
+
+[node name="CharacterScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.102, 0.102, 0.18, 1)
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 48.0
+grow_horizontal = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Character"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrencyBar" type="HBoxContainer" parent="Header"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="GemsPanel" type="HBoxContainer" parent="Header/CurrencyBar"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="GemsIcon" type="Label" parent="Header/CurrencyBar/GemsPanel"]
+layout_mode = 2
+text = "💎"
+
+[node name="GemsLabel" type="Label" parent="Header/CurrencyBar/GemsPanel"]
+layout_mode = 2
+text = "0"
+
+[node name="GoldPanel" type="HBoxContainer" parent="Header/CurrencyBar"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="GoldIcon" type="Label" parent="Header/CurrencyBar/GoldPanel"]
+layout_mode = 2
+text = "🪙"
+
+[node name="GoldLabel" type="Label" parent="Header/CurrencyBar/GoldPanel"]
+layout_mode = 2
+text = "0"
+
+[node name="EnergyPanel" type="HBoxContainer" parent="Header/CurrencyBar"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="EnergyIcon" type="Label" parent="Header/CurrencyBar/EnergyPanel"]
+layout_mode = 2
+text = "⚡"
+
+[node name="EnergyLabel" type="Label" parent="Header/CurrencyBar/EnergyPanel"]
+layout_mode = 2
+text = "0/100"
+
+[node name="Section_Character" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 336.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_character_bg")
+
+[node name="CharacterVBox" type="VBoxContainer" parent="Section_Character"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LevelLabel" type="Label" parent="Section_Character/CharacterVBox"]
+layout_mode = 2
+text = "Lv.1"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+
+[node name="EquipmentLayout" type="HBoxContainer" parent="Section_Character/CharacterVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="LeftSlots" type="VBoxContainer" parent="Section_Character/CharacterVBox/EquipmentLayout"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="SlotWeapon" parent="Section_Character/CharacterVBox/EquipmentLayout/LeftSlots" instance=ExtResource("3_slot")]
+slot_id = "slot_weapon"
+slot_type = "weapon"
+slot_label = "⚔"
+
+[node name="SlotRing1" parent="Section_Character/CharacterVBox/EquipmentLayout/LeftSlots" instance=ExtResource("3_slot")]
+slot_id = "slot_ring_1"
+slot_type = "ring"
+slot_label = "💍"
+
+[node name="SlotNecklace1" parent="Section_Character/CharacterVBox/EquipmentLayout/LeftSlots" instance=ExtResource("3_slot")]
+slot_id = "slot_necklace_1"
+slot_type = "necklace"
+slot_label = "📿"
+
+[node name="CharacterDisplay" type="CenterContainer" parent="Section_Character/CharacterVBox/EquipmentLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(140, 140)
+
+[node name="CharacterSprite" type="ColorRect" parent="Section_Character/CharacterVBox/EquipmentLayout/CharacterDisplay"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.35, 0.4, 0.5, 1)
+
+[node name="RightSlots" type="VBoxContainer" parent="Section_Character/CharacterVBox/EquipmentLayout"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="SlotArmor" parent="Section_Character/CharacterVBox/EquipmentLayout/RightSlots" instance=ExtResource("3_slot")]
+slot_id = "slot_armor"
+slot_type = "armor"
+slot_label = "🛡"
+
+[node name="SlotRing2" parent="Section_Character/CharacterVBox/EquipmentLayout/RightSlots" instance=ExtResource("3_slot")]
+slot_id = "slot_ring_2"
+slot_type = "ring"
+slot_label = "💍"
+
+[node name="SlotNecklace2" parent="Section_Character/CharacterVBox/EquipmentLayout/RightSlots" instance=ExtResource("3_slot")]
+slot_id = "slot_necklace_2"
+slot_type = "necklace"
+slot_label = "📿"
+
+[node name="CombatPowerRow" type="HBoxContainer" parent="Section_Character/CharacterVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="CombatPowerIcon" type="Label" parent="Section_Character/CharacterVBox/CombatPowerRow"]
+layout_mode = 2
+text = "⚔"
+theme_override_colors/font_color = Color(0.95, 0.8, 0.2, 1)
+
+[node name="CombatPowerLabel" type="Label" parent="Section_Character/CharacterVBox/CombatPowerRow"]
+layout_mode = 2
+text = "전투력"
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.75, 0.75, 0.8, 1)
+
+[node name="CombatPowerValue" type="Label" parent="Section_Character/CharacterVBox/CombatPowerRow"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.95, 0.8, 0.2, 1)
+
+[node name="StatsRow" type="HBoxContainer" parent="Section_Character/CharacterVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="HpStat" type="HBoxContainer" parent="Section_Character/CharacterVBox/StatsRow"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="HpIcon" type="Label" parent="Section_Character/CharacterVBox/StatsRow/HpStat"]
+layout_mode = 2
+text = "❤"
+theme_override_colors/font_color = Color(0.9, 0.35, 0.35, 1)
+
+[node name="HpValue" type="Label" parent="Section_Character/CharacterVBox/StatsRow/HpStat"]
+layout_mode = 2
+text = "100"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+
+[node name="AtkStat" type="HBoxContainer" parent="Section_Character/CharacterVBox/StatsRow"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="AtkIcon" type="Label" parent="Section_Character/CharacterVBox/StatsRow/AtkStat"]
+layout_mode = 2
+text = "⚔"
+theme_override_colors/font_color = Color(0.95, 0.75, 0.2, 1)
+
+[node name="AtkValue" type="Label" parent="Section_Character/CharacterVBox/StatsRow/AtkStat"]
+layout_mode = 2
+text = "40"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+
+[node name="DefStat" type="HBoxContainer" parent="Section_Character/CharacterVBox/StatsRow"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="DefIcon" type="Label" parent="Section_Character/CharacterVBox/StatsRow/DefStat"]
+layout_mode = 2
+text = "🛡"
+theme_override_colors/font_color = Color(0.3, 0.7, 0.9, 1)
+
+[node name="DefValue" type="Label" parent="Section_Character/CharacterVBox/StatsRow/DefStat"]
+layout_mode = 2
+text = "10"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+
+[node name="SpdStat" type="HBoxContainer" parent="Section_Character/CharacterVBox/StatsRow"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="SpdIcon" type="Label" parent="Section_Character/CharacterVBox/StatsRow/SpdStat"]
+layout_mode = 2
+text = "💨"
+theme_override_colors/font_color = Color(0.5, 0.9, 0.7, 1)
+
+[node name="SpdValue" type="Label" parent="Section_Character/CharacterVBox/StatsRow/SpdStat"]
+layout_mode = 2
+text = "10"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+
+[node name="InventoryHeader" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 336.0
+offset_left = 10.0
+offset_right = -10.0
+offset_bottom = 416.0
+grow_horizontal = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="InventoryTitleLabel" type="Label" parent="InventoryHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "보유 장비"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+vertical_alignment = 1
+
+[node name="SortButton" type="Button" parent="InventoryHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 32)
+text = "등급순 ▾"
+theme_override_font_sizes/font_size = 11
+
+[node name="Section_Inventory" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 416.0
+offset_left = 0.0
+offset_right = 0.0
+offset_bottom = -74.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InventoryScroll" type="ScrollContainer" parent="Section_Inventory"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ItemGrid" type="GridContainer" parent="Section_Inventory/InventoryScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 5
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+
+[node name="BottomNav" parent="." instance=ExtResource("2_bottomnav")]
+layout_mode = 1

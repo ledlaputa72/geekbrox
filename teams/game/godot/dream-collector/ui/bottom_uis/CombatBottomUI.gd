@@ -567,7 +567,7 @@ func _on_card_pressed(card_index: int):
 	var is_atk: bool
 	var card_name: String
 	if new_combat_manager and card is Card:
-		is_atk = (card.type == "ATK")
+		is_atk = (card.type == "ATK" or card.type == "ATTACK")
 		card_name = card.name
 	else:
 		var display_type = card.get("type", "Attack")

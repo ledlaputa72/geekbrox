@@ -1619,9 +1619,9 @@ func _create_test_monster_nodes(is_boss: bool) -> Array:
 	return result
 
 func _get_starter_deck() -> Array[Card]:
-	"""전투용 덱 반환 — 총 30장 (ATK10+DEF8+PARRY5+DODGE5+SKILL2)"""
+	"""전투용 덱 반환 — 총 45장 (공격 50%, 200종 중 구성)"""
 	if has_node("/root/CardDatabase"):
-		return CardDatabase.get_full_deck_30()
+		return CardDatabase.get_run_deck_45()
 
 	# ── 인라인 30장 스타터 덱 ──────────────────────────────────────
 	# 형식: [id, 이름, 코스트, 타입, 피해, 블록, 드로우, 장수]
@@ -1672,12 +1672,8 @@ func _get_starter_deck() -> Array[Card]:
 				c.tags.append("GUARD")
 			deck.append(c)
 
-	print("[InRun_v4] 스타터 덱 구성: %d장 (ATK:%d DEF:%d SKILL:%d)" % [
-		deck.size(),
-		deck.filter(func(x): return x.type == "ATK").size(),
-		deck.filter(func(x): return x.type == "DEF").size(),
-		deck.filter(func(x): return x.type == "SKILL").size(),
-	])
+	var atk_count = deck.filter(func(x): return x.type == "ATK" or x.type == "ATTACK").size()
+	print("[InRun_v4] Starter deck: %d cards (ATTACK: %d)" % [deck.size(), atk_count])
 	return deck
 
 func switch_to_shop():

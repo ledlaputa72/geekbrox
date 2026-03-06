@@ -1,0 +1,690 @@
+{
+  "monsters": [
+    {
+      "monsterId": "slime_lv1",
+      "monsterName": "약한 슬라임",
+      "monsterNameEn": "Weak Slime",
+      "level": 1,
+      "monsterType": "slime",
+      "stageRange": [1, 2],
+      "baseReward": {
+        "gold": 10,
+        "goldVariation": [5, 20],
+        "experience": 5
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_crystal_sword_common_lv1",
+          "itemName": "크리스탈 검",
+          "probability": 8,
+          "tier": "common"
+        },
+        {
+          "itemId": "armor_leather_armor_common_lv1",
+          "itemName": "가죽 갑옷",
+          "probability": 8,
+          "tier": "common"
+        },
+        {
+          "itemId": "ring_stat_boost_common_lv1",
+          "itemName": "스탯 강화 반지",
+          "probability": 10,
+          "tier": "common"
+        },
+        {
+          "itemId": "necklace_attack_common_lv1",
+          "itemName": "공격 목걸이",
+          "probability": 8,
+          "tier": "common"
+        }
+      ]
+    },
+    {
+      "monsterId": "goblin_lv2",
+      "monsterName": "고블린",
+      "monsterNameEn": "Goblin",
+      "level": 2,
+      "monsterType": "goblin",
+      "stageRange": [2, 3],
+      "baseReward": {
+        "gold": 15,
+        "goldVariation": [8, 25],
+        "experience": 10
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_iron_axe_common_lv1",
+          "itemName": "철 도끼",
+          "probability": 10,
+          "tier": "common"
+        },
+        {
+          "itemId": "armor_cloth_robe_common_lv1",
+          "itemName": "천 로브",
+          "probability": 10,
+          "tier": "common"
+        },
+        {
+          "itemId": "ring_atk_boost_common_lv1",
+          "itemName": "공격력 반지",
+          "probability": 9,
+          "tier": "common"
+        },
+        {
+          "itemId": "necklace_skill_common_lv1",
+          "itemName": "스킬 목걸이",
+          "probability": 10,
+          "tier": "common"
+        }
+      ]
+    },
+    {
+      "monsterId": "spider_lv3",
+      "monsterName": "거미",
+      "monsterNameEn": "Spider",
+      "level": 3,
+      "monsterType": "spider",
+      "stageRange": [3, 4],
+      "baseReward": {
+        "gold": 20,
+        "goldVariation": [10, 30],
+        "experience": 15
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_wooden_spear_common_lv1",
+          "itemName": "목재 창",
+          "probability": 9,
+          "tier": "common"
+        },
+        {
+          "itemId": "armor_basic_mail_common_lv1",
+          "itemName": "기본 메일",
+          "probability": 9,
+          "tier": "common"
+        },
+        {
+          "itemId": "ring_def_boost_common_lv1",
+          "itemName": "방어력 반지",
+          "probability": 10,
+          "tier": "common"
+        },
+        {
+          "itemId": "necklace_power_common_lv1",
+          "itemName": "파워 목걸이",
+          "probability": 9,
+          "tier": "common"
+        },
+        {
+          "itemId": "armor_padded_vest_common_lv2",
+          "itemName": "패딩 조끼",
+          "probability": 5,
+          "tier": "common"
+        }
+      ]
+    },
+    {
+      "monsterId": "skeleton_lv4",
+      "monsterName": "해골 전사",
+      "monsterNameEn": "Skeleton Warrior",
+      "level": 4,
+      "monsterType": "skeleton",
+      "stageRange": [4, 5],
+      "baseReward": {
+        "gold": 25,
+        "goldVariation": [12, 35],
+        "experience": 20
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_stone_hammer_common_lv2",
+          "itemName": "돌 망치",
+          "probability": 10,
+          "tier": "common"
+        },
+        {
+          "itemId": "armor_bronze_plate_common_lv2",
+          "itemName": "청동 판갑옷",
+          "probability": 10,
+          "tier": "common"
+        },
+        {
+          "itemId": "ring_hp_boost_common_lv1",
+          "itemName": "체력 반지",
+          "probability": 10,
+          "tier": "common"
+        },
+        {
+          "itemId": "necklace_curse_common_lv1",
+          "itemName": "저주 목걸이",
+          "probability": 10,
+          "tier": "common"
+        },
+        {
+          "itemId": "weapon_bronze_sword_common_lv2",
+          "itemName": "청동 검",
+          "probability": 8,
+          "tier": "common"
+        }
+      ]
+    },
+    {
+      "monsterId": "orc_lv5",
+      "monsterName": "오크",
+      "monsterNameEn": "Orc",
+      "level": 5,
+      "monsterType": "orc",
+      "stageRange": [5, 6],
+      "baseReward": {
+        "gold": 30,
+        "goldVariation": [15, 40],
+        "experience": 25
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_copper_dagger_common_lv2",
+          "itemName": "구리 단검",
+          "probability": 9,
+          "tier": "common"
+        },
+        {
+          "itemId": "armor_simple_vest_common_lv2",
+          "itemName": "단순 조끼",
+          "probability": 9,
+          "tier": "common"
+        },
+        {
+          "itemId": "ring_mana_ring_common_lv2",
+          "itemName": "마나 반지",
+          "probability": 10,
+          "tier": "common"
+        },
+        {
+          "itemId": "necklace_dream_common_lv2",
+          "itemName": "꿈 수집 목걸이",
+          "probability": 10,
+          "tier": "common"
+        },
+        {
+          "itemId": "ring_crit_ring_common_lv2",
+          "itemName": "회심 반지",
+          "probability": 8,
+          "tier": "common"
+        },
+        {
+          "itemId": "weapon_flame_sword_uncommon_lv3",
+          "itemName": "불꽃 검",
+          "probability": 15,
+          "tier": "uncommon"
+        }
+      ]
+    },
+    {
+      "monsterId": "dark_knight_lv6",
+      "monsterName": "어둠의 기사",
+      "monsterNameEn": "Dark Knight",
+      "level": 6,
+      "monsterType": "dark_knight",
+      "stageRange": [6, 7],
+      "baseReward": {
+        "gold": 40,
+        "goldVariation": [20, 50],
+        "experience": 35
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_ice_spear_uncommon_lv3",
+          "itemName": "얼음 창",
+          "probability": 18,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "armor_fire_tunic_uncommon_lv3",
+          "itemName": "화염 튜닉",
+          "probability": 16,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "ring_weapon_boost_uncommon_lv3",
+          "itemName": "무기 강화 반지",
+          "probability": 15,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "necklace_parry_common_lv2",
+          "itemName": "패링 목걸이",
+          "probability": 12,
+          "tier": "common"
+        },
+        {
+          "itemId": "armor_ice_mail_uncommon_lv3",
+          "itemName": "얼음 메일",
+          "probability": 16,
+          "tier": "uncommon"
+        }
+      ]
+    },
+    {
+      "monsterId": "dragon_lv10",
+      "monsterName": "용",
+      "monsterNameEn": "Dragon",
+      "level": 10,
+      "monsterType": "dragon",
+      "stageRange": [10, 12],
+      "baseReward": {
+        "gold": 100,
+        "goldVariation": [50, 150],
+        "experience": 100
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_wind_bow_uncommon_lv3",
+          "itemName": "바람 활",
+          "probability": 20,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "armor_wind_cloak_uncommon_lv3",
+          "itemName": "바람 망토",
+          "probability": 20,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "ring_armor_boost_uncommon_lv3",
+          "itemName": "방어구 강화 반지",
+          "probability": 18,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "necklace_evasion_common_lv2",
+          "itemName": "회피 목걸이",
+          "probability": 15,
+          "tier": "common"
+        },
+        {
+          "itemId": "ring_mana_boost_uncommon_lv4",
+          "itemName": "마나 극대화 반지",
+          "probability": 15,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "weapon_dragon_plate_rare_lv5",
+          "itemName": "용의 갑옷",
+          "probability": 8,
+          "tier": "rare"
+        }
+      ]
+    },
+    {
+      "monsterId": "shadow_assassin_lv15",
+      "monsterName": "어둠의 암살자",
+      "monsterNameEn": "Shadow Assassin",
+      "level": 15,
+      "monsterType": "assassin",
+      "stageRange": [15, 17],
+      "baseReward": {
+        "gold": 150,
+        "goldVariation": [75, 200],
+        "experience": 150
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_earth_hammer_uncommon_lv4",
+          "itemName": "대지 망치",
+          "probability": 20,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "armor_earth_plate_uncommon_lv4",
+          "itemName": "대지 판갑옷",
+          "monsterNameEn": "Earth Plate",
+          "probability": 20,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "ring_balance_uncommon_lv4",
+          "itemName": "균형 반지",
+          "probability": 18,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "necklace_balanced_uncommon_lv3",
+          "itemName": "균형 목걸이",
+          "probability": 16,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "ring_status_resist_uncommon_lv4",
+          "itemName": "상태이상 저항 반지",
+          "probability": 16,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "weapon_shadow_dagger_rare_lv5",
+          "itemName": "어둠 단검",
+          "probability": 10,
+          "tier": "rare"
+        }
+      ]
+    },
+    {
+      "monsterId": "demon_lv20",
+      "monsterName": "악마",
+      "monsterNameEn": "Demon",
+      "level": 20,
+      "monsterType": "demon",
+      "stageRange": [20, 22],
+      "baseReward": {
+        "gold": 200,
+        "goldVariation": [100, 250],
+        "experience": 200
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_mana_staff_rare_lv5",
+          "itemName": "마나 지팡이",
+          "probability": 22,
+          "tier": "rare"
+        },
+        {
+          "itemId": "armor_dragon_plate_rare_lv5",
+          "itemName": "용의 갑옷",
+          "probability": 20,
+          "tier": "rare"
+        },
+        {
+          "itemId": "ring_lifesteal_rare_lv5",
+          "itemName": "흡수 반지",
+          "probability": 20,
+          "tier": "rare"
+        },
+        {
+          "itemId": "necklace_attack_boost_uncommon_lv3",
+          "itemName": "강화된 공격 목걸이",
+          "probability": 15,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "armor_mirror_mail_rare_lv5",
+          "itemName": "거울 메일",
+          "probability": 20,
+          "tier": "rare"
+        }
+      ]
+    },
+    {
+      "monsterId": "lich_lv25",
+      "monsterName": "리치",
+      "monsterNameEn": "Lich",
+      "level": 25,
+      "monsterType": "undead",
+      "stageRange": [25, 27],
+      "baseReward": {
+        "gold": 300,
+        "goldVariation": [150, 350],
+        "experience": 300
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_thunder_axe_rare_lv6",
+          "itemName": "번개 도끼",
+          "probability": 25,
+          "tier": "rare"
+        },
+        {
+          "itemId": "armor_stone_golem_rare_lv6",
+          "itemName": "돌골렘 갑옷",
+          "probability": 24,
+          "tier": "rare"
+        },
+        {
+          "itemId": "ring_dodge_rare_lv5",
+          "itemName": "회피 극대화 반지",
+          "probability": 22,
+          "tier": "rare"
+        },
+        {
+          "itemId": "necklace_skill_boost_uncommon_lv3",
+          "itemName": "강화된 스킬 목걸이",
+          "probability": 16,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "ring_buff_amplify_rare_lv6",
+          "itemName": "버프 증폭 반지",
+          "probability": 22,
+          "tier": "rare"
+        }
+      ]
+    },
+    {
+      "monsterId": "ancient_golem_lv30",
+      "monsterName": "고대 골렘",
+      "monsterNameEn": "Ancient Golem",
+      "level": 30,
+      "monsterType": "golem",
+      "stageRange": [30, 32],
+      "baseReward": {
+        "gold": 400,
+        "goldVariation": [200, 450],
+        "experience": 400
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_dark_blade_epic_lv7",
+          "itemName": "어둠의 검",
+          "probability": 28,
+          "tier": "epic"
+        },
+        {
+          "itemId": "armor_light_robe_rare_lv6",
+          "itemName": "빛의 로브",
+          "probability": 24,
+          "tier": "rare"
+        },
+        {
+          "itemId": "ring_crit_master_epic_lv7",
+          "itemName": "회심 마스터 반지",
+          "probability": 26,
+          "tier": "epic"
+        },
+        {
+          "itemId": "necklace_power_boost_uncommon_lv4",
+          "itemName": "강화된 파워 목걸이",
+          "probability": 18,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "armor_holy_plate_epic_lv7",
+          "itemName": "성스러운 판갑옷",
+          "probability": 26,
+          "tier": "epic"
+        }
+      ]
+    },
+    {
+      "monsterId": "nightmare_lv35",
+      "monsterName": "악몽의 군주",
+      "monsterNameEn": "Nightmare Lord",
+      "level": 35,
+      "monsterType": "nightmare",
+      "stageRange": [35, 37],
+      "baseReward": {
+        "gold": 500,
+        "goldVariation": [250, 550],
+        "experience": 500
+      },
+      "itemDropTable": [
+        {
+          "itemId": "ring_tank_master_epic_lv7",
+          "itemName": "탱크 마스터 반지",
+          "probability": 28,
+          "tier": "epic"
+        },
+        {
+          "itemId": "armor_void_armor_legendary_lv9",
+          "itemName": "공허 갑옷",
+          "probability": 5,
+          "tier": "legendary"
+        },
+        {
+          "itemId": "ring_dream_master_epic_lv8",
+          "itemName": "꿈 마스터 반지",
+          "probability": 26,
+          "tier": "epic"
+        },
+        {
+          "itemId": "necklace_curse_resist_uncommon_lv4",
+          "itemName": "저주 저항 목걸이",
+          "probability": 18,
+          "tier": "uncommon"
+        },
+        {
+          "itemId": "necklace_all_cards_epic_lv7",
+          "itemName": "모든 카드 극대화 목걸이",
+          "probability": 25,
+          "tier": "epic"
+        }
+      ]
+    },
+    {
+      "monsterId": "god_lv40",
+      "monsterName": "신",
+      "monsterNameEn": "Deity",
+      "level": 40,
+      "monsterType": "deity",
+      "stageRange": [40, 42],
+      "baseReward": {
+        "gold": 600,
+        "goldVariation": [300, 650],
+        "experience": 600
+      },
+      "itemDropTable": [
+        {
+          "itemId": "weapon_holy_sword_legendary_lv9",
+          "itemName": "성검",
+          "probability": 8,
+          "tier": "legendary"
+        },
+        {
+          "itemId": "necklace_dream_epic_lv8",
+          "itemName": "꿈의 목걸이",
+          "probability": 28,
+          "tier": "epic"
+        },
+        {
+          "itemId": "ring_eternal_legendary_lv9",
+          "itemName": "영원한 반지",
+          "probability": 6,
+          "tier": "legendary"
+        },
+        {
+          "itemId": "necklace_parry_master_rare_lv6",
+          "itemName": "패링 마스터 목걸이",
+          "probability": 24,
+          "tier": "rare"
+        },
+        {
+          "itemId": "necklace_balance_master_epic_lv8",
+          "itemName": "완벽한 균형 목걸이",
+          "probability": 26,
+          "tier": "epic"
+        }
+      ]
+    },
+    {
+      "monsterId": "chaos_creature_lv45",
+      "monsterName": "혼돈의 생명체",
+      "monsterNameEn": "Chaos Creature",
+      "level": 45,
+      "monsterType": "chaos",
+      "stageRange": [45, 47],
+      "baseReward": {
+        "gold": 700,
+        "goldVariation": [350, 750],
+        "experience": 700
+      },
+      "itemDropTable": [
+        {
+          "itemId": "necklace_evasion_master_rare_lv6",
+          "itemName": "회피 마스터 목걸이",
+          "probability": 26,
+          "tier": "rare"
+        },
+        {
+          "itemId": "ring_destiny_legendary_lv10",
+          "itemName": "운명의 반지",
+          "probability": 5,
+          "tier": "legendary"
+        },
+        {
+          "itemId": "necklace_attack_master_rare_lv5",
+          "itemName": "공격 마스터 목걸이",
+          "probability": 26,
+          "tier": "rare"
+        },
+        {
+          "itemId": "necklace_ultimate_legendary_lv9",
+          "itemName": "궁극의 목걸이",
+          "probability": 6,
+          "tier": "legendary"
+        },
+        {
+          "itemId": "necklace_power_master_rare_lv6",
+          "itemName": "파워 마스터 목걸이",
+          "probability": 25,
+          "tier": "rare"
+        }
+      ]
+    },
+    {
+      "monsterId": "void_entity_lv50",
+      "monsterName": "공허의 존재",
+      "monsterNameEn": "Void Entity",
+      "level": 50,
+      "monsterType": "void",
+      "stageRange": [50, 50],
+      "baseReward": {
+        "gold": 800,
+        "goldVariation": [400, 900],
+        "experience": 800
+      },
+      "itemDropTable": [
+        {
+          "itemId": "necklace_skill_master_rare_lv5",
+          "itemName": "스킬 마스터 목걸이",
+          "probability": 28,
+          "tier": "rare"
+        },
+        {
+          "itemId": "necklace_curse_master_rare_lv6",
+          "itemName": "저주 마스터 목걸이",
+          "probability": 26,
+          "tier": "rare"
+        },
+        {
+          "itemId": "necklace_ultimate_legendary_lv9",
+          "itemName": "궁극의 목걸이",
+          "probability": 10,
+          "tier": "legendary"
+        }
+      ]
+    }
+  ],
+  "_summary": {
+    "total_monsters": 15,
+    "level_ranges": {
+      "early_game": "Lv1-5 (5monsters)",
+      "mid_game": "Lv6-20 (5 monsters)",
+      "late_game": "Lv21-40 (3 monsters)",
+      "endgame": "Lv41-50 (2 monsters)"
+    },
+    "drop_distribution": {
+      "common": "60% (초반)",
+      "uncommon": "25% (중반)",
+      "rare": "12% (후반)",
+      "epic": "2.5% (극후반)",
+      "legendary": "0.5% (극극후반)"
+    }
+  }
+}

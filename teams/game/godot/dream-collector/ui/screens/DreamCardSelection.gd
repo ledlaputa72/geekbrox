@@ -748,4 +748,8 @@ func _on_start_button_pressed():
 func _on_bottom_nav_pressed(tab_index: int):
 	match tab_index:
 		0: get_tree().change_scene_to_file("res://scenes/MainLobby.tscn")
+		1: get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
+		2: get_tree().change_scene_to_file("res://ui/screens/UpgradeTree.tscn")
+		3: get_tree().change_scene_to_file("res://ui/screens/CharacterScreen.tscn")
+		4: get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")
 		_: pass

@@ -1,0 +1,286 @@
+[gd_scene load_steps=10 format=3 uid="uid://item_detail_popup"]
+
+[ext_resource type="Script" path="res://ui/components/ItemDetailPopup.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dim"]
+bg_color = Color(0, 0, 0, 0.7)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_dark"]
+bg_color = Color(0.14, 0.16, 0.22, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_section"]
+bg_color = Color(0.55, 0.55, 0.6, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_equip"]
+bg_color = Color(0.2, 0.45, 0.85, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_enhance"]
+bg_color = Color(0.45, 0.25, 0.7, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_close"]
+bg_color = Color(0.4, 0.4, 0.45, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_unequip"]
+bg_color = Color(0.7, 0.25, 0.25, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ItemDetailPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="DimLayer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="ContentPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0
+anchor_top = 0.1
+anchor_right = 1.0
+anchor_bottom = 0.9
+offset_left = 20.0
+offset_top = 0.0
+offset_right = -20.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_dark")
+
+[node name="Scroll" type="ScrollContainer" parent="ContentPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="ContentPanel/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="TopSection" type="VBoxContainer" parent="ContentPanel/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="IconBox" type="PanelContainer" parent="ContentPanel/Scroll/VBox/TopSection"]
+layout_mode = 2
+alignment = 1
+custom_minimum_size = Vector2(72, 72)
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="IconLabel" type="Label" parent="ContentPanel/Scroll/VBox/TopSection/IconBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "🛡"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="ContentPanel/Scroll/VBox/TopSection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Item Name"
+horizontal_alignment = 1
+
+[node name="MetaRow" type="Label" parent="ContentPanel/Scroll/VBox/TopSection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "에픽 • 방어구 • LV 18"
+horizontal_alignment = 1
+
+[node name="BasicStatsSection" type="VBoxContainer" parent="ContentPanel/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BasicStatsHeader" type="HBoxContainer" parent="ContentPanel/Scroll/VBox/BasicStatsSection"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BasicStatsTitle" type="Label" parent="ContentPanel/Scroll/VBox/BasicStatsSection/BasicStatsHeader"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+text = "기본 능력치"
+
+[node name="PossessLabel" type="Label" parent="ContentPanel/Scroll/VBox/BasicStatsSection/BasicStatsHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.7, 0.7, 0.75, 1)
+text = "보유"
+
+[node name="StatsPanel" type="PanelContainer" parent="ContentPanel/Scroll/VBox/BasicStatsSection"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="StatsGrid" type="GridContainer" parent="ContentPanel/Scroll/VBox/BasicStatsSection/StatsPanel"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 8
+
+[node name="AtkStatBox" type="VBoxContainer" parent="ContentPanel/Scroll/VBox/BasicStatsSection/StatsPanel/StatsGrid"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="AtkLabel" type="Label" parent="ContentPanel/Scroll/VBox/BasicStatsSection/StatsPanel/StatsGrid/AtkStatBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.75, 0.75, 0.8, 1)
+text = "공격력"
+
+[node name="AtkValue" type="Label" parent="ContentPanel/Scroll/VBox/BasicStatsSection/StatsPanel/StatsGrid/AtkStatBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "+0"
+
+[node name="DefStatBox" type="VBoxContainer" parent="ContentPanel/Scroll/VBox/BasicStatsSection/StatsPanel/StatsGrid"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="DefLabel" type="Label" parent="ContentPanel/Scroll/VBox/BasicStatsSection/StatsPanel/StatsGrid/DefStatBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.75, 0.75, 0.8, 1)
+text = "방어력"
+
+[node name="DefValue" type="Label" parent="ContentPanel/Scroll/VBox/BasicStatsSection/StatsPanel/StatsGrid/DefStatBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "+0"
+
+[node name="CriStatBox" type="VBoxContainer" parent="ContentPanel/Scroll/VBox/BasicStatsSection/StatsPanel/StatsGrid"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="CriLabel" type="Label" parent="ContentPanel/Scroll/VBox/BasicStatsSection/StatsPanel/StatsGrid/CriStatBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.75, 0.75, 0.8, 1)
+text = "치명타율"
+
+[node name="CriValue" type="Label" parent="ContentPanel/Scroll/VBox/BasicStatsSection/StatsPanel/StatsGrid/CriStatBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.95, 0.85, 0.2, 1)
+text = "0%"
+
+[node name="SkillSection" type="VBoxContainer" parent="ContentPanel/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SkillTitle" type="Label" parent="ContentPanel/Scroll/VBox/SkillSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+text = "장비 스킬"
+
+[node name="SkillPanel" type="PanelContainer" parent="ContentPanel/Scroll/VBox/SkillSection"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="SkillVBox" type="VBoxContainer" parent="ContentPanel/Scroll/VBox/SkillSection/SkillPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SkillNameLabel" type="Label" parent="ContentPanel/Scroll/VBox/SkillSection/SkillPanel/SkillVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.95, 0.95, 1, 1)
+text = "기본 장비"
+
+[node name="SkillDescLabel" type="Label" parent="ContentPanel/Scroll/VBox/SkillSection/SkillPanel/SkillVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.8, 0.8, 0.85, 1)
+text = "특별한 능력이 없습니다."
+autowrap_mode = 3
+
+[node name="OptionsSection" type="VBoxContainer" parent="ContentPanel/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="OptionsTitle" type="Label" parent="ContentPanel/Scroll/VBox/OptionsSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+text = "추가 옵션"
+
+[node name="OptionsList" type="VBoxContainer" parent="ContentPanel/Scroll/VBox/OptionsSection"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="UsageSection" type="VBoxContainer" parent="ContentPanel/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="UsageTitle" type="Label" parent="ContentPanel/Scroll/VBox/UsageSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+text = "사용 가능 횟수"
+
+[node name="UsageValue" type="Label" parent="ContentPanel/Scroll/VBox/UsageSection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.7, 0.7, 0.75, 1)
+text = "0/10"
+
+[node name="ButtonsRow" type="HBoxContainer" parent="ContentPanel/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="EquipButton" type="Button" parent="ContentPanel/Scroll/VBox/ButtonsRow"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "장착"
+
+[node name="UnequipButton" type="Button" parent="ContentPanel/Scroll/VBox/ButtonsRow"]
+visible = false
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "장비해제"
+
+[node name="EnhanceButton" type="Button" parent="ContentPanel/Scroll/VBox/ButtonsRow"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "강화"
+
+[node name="CloseButton" type="Button" parent="ContentPanel/Scroll/VBox/ButtonsRow"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "닫기"

@@ -67,7 +67,7 @@ func decide_attack_cards(
 	# 공격 효율(dmg/cost) 순으로 선택
 	var attacks: Array[Card] = []
 	for card in hand:
-		if card.type == "ATK" and card.cost <= rem and card.cost > 0:
+		if (card.type == "ATK" or card.type == "ATTACK") and card.cost <= rem and card.cost > 0:
 			attacks.append(card)
 	attacks.sort_custom(func(a, b): return float(a.damage)/a.cost > float(b.damage)/b.cost)
 

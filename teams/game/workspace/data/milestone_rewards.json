@@ -1,0 +1,374 @@
+{
+  "milestones": [
+    {
+      "milestoneId": "milestone_reach_level_10",
+      "milestoneName": "10레벨 달성",
+      "milestoneType": "level",
+      "description": "10레벨에 도달했습니다!",
+      "condition": {
+        "conditionType": "reach_level",
+        "targetValue": 10
+      },
+      "reward": {
+        "gold": 500,
+        "items": [
+          {
+            "itemId": "weapon_flame_sword_uncommon_lv3",
+            "itemName": "불꽃 검",
+            "tier": "uncommon",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 20
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_reach_level_20",
+      "milestoneName": "20레벨 달성",
+      "milestoneType": "level",
+      "description": "20레벨에 도달했습니다!",
+      "condition": {
+        "conditionType": "reach_level",
+        "targetValue": 20
+      },
+      "reward": {
+        "gold": 1000,
+        "items": [
+          {
+            "itemId": "armor_dragon_plate_rare_lv5",
+            "itemName": "용의 갑옷",
+            "tier": "rare",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 50
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_reach_level_30",
+      "milestoneName": "30레벨 달성",
+      "milestoneType": "level",
+      "description": "30레벨에 도달했습니다!",
+      "condition": {
+        "conditionType": "reach_level",
+        "targetValue": 30
+      },
+      "reward": {
+        "gold": 1500,
+        "items": [
+          {
+            "itemId": "ring_lifesteal_rare_lv5",
+            "itemName": "흡수 반지",
+            "tier": "rare",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 100
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_reach_level_40",
+      "milestoneName": "40레벨 달성",
+      "milestoneType": "level",
+      "description": "40레벨에 도달했습니다!",
+      "condition": {
+        "conditionType": "reach_level",
+        "targetValue": 40
+      },
+      "reward": {
+        "gold": 2000,
+        "items": [
+          {
+            "itemId": "weapon_dark_blade_epic_lv7",
+            "itemName": "어둠의 검",
+            "tier": "epic",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 200
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_reach_level_50",
+      "milestoneName": "50레벨 달성",
+      "milestoneType": "level",
+      "description": "50레벨에 도달했습니다!",
+      "condition": {
+        "conditionType": "reach_level",
+        "targetValue": 50
+      },
+      "reward": {
+        "gold": 3000,
+        "items": [
+          {
+            "itemId": "ring_crit_master_epic_lv7",
+            "itemName": "회심 마스터 반지",
+            "tier": "epic",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 300
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_reach_level_75",
+      "milestoneName": "75레벨 달성",
+      "milestoneType": "level",
+      "description": "75레벨에 도달했습니다!",
+      "condition": {
+        "conditionType": "reach_level",
+        "targetValue": 75
+      },
+      "reward": {
+        "gold": 5000,
+        "items": [
+          {
+            "itemId": "armor_holy_plate_epic_lv7",
+            "itemName": "성스러운 판갑옷",
+            "tier": "epic",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 400
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_reach_level_100",
+      "milestoneName": "100레벨 달성",
+      "milestoneType": "level",
+      "description": "100레벨에 도달했습니다! 게임의 최강자가 되었습니다!",
+      "condition": {
+        "conditionType": "reach_level",
+        "targetValue": 100
+      },
+      "reward": {
+        "gold": 10000,
+        "items": [
+          {
+            "itemId": "weapon_holy_sword_legendary_lv9",
+            "itemName": "성검",
+            "tier": "legendary",
+            "isSelectable": true,
+            "selectCount": 3
+          }
+        ],
+        "gems": 1000
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_clear_stage_10",
+      "milestoneName": "스테이지 10 클리어",
+      "milestoneType": "stage",
+      "description": "스테이지 10을 클리어했습니다!",
+      "condition": {
+        "conditionType": "clear_stage",
+        "targetValue": 10
+      },
+      "reward": {
+        "gold": 300,
+        "items": [
+          {
+            "itemId": "necklace_attack_common_lv1",
+            "itemName": "공격 목걸이",
+            "tier": "common",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 15
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_clear_stage_25",
+      "milestoneName": "스테이지 25 클리어",
+      "milestoneType": "stage",
+      "description": "스테이지 25를 클리어했습니다!",
+      "condition": {
+        "conditionType": "clear_stage",
+        "targetValue": 25
+      },
+      "reward": {
+        "gold": 1000,
+        "items": [
+          {
+            "itemId": "ring_weapon_boost_uncommon_lv3",
+            "itemName": "무기 강화 반지",
+            "tier": "uncommon",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 50
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_clear_stage_50",
+      "milestoneName": "스테이지 50 클리어",
+      "milestoneType": "stage",
+      "description": "스테이지 50을 클리어했습니다!",
+      "condition": {
+        "conditionType": "clear_stage",
+        "targetValue": 50
+      },
+      "reward": {
+        "gold": 5000,
+        "items": [
+          {
+            "itemId": "necklace_all_cards_epic_lv7",
+            "itemName": "모든 카드 극대화 목걸이",
+            "tier": "epic",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 300
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_playtime_10h",
+      "milestoneName": "10시간 플레이",
+      "milestoneType": "playtime",
+      "description": "10시간을 플레이했습니다!",
+      "condition": {
+        "conditionType": "playtime_hours",
+        "targetValue": 10
+      },
+      "reward": {
+        "gold": 300,
+        "items": [
+          {
+            "itemId": "ring_stat_boost_common_lv1",
+            "itemName": "스탯 강화 반지",
+            "tier": "common",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 15
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_playtime_50h",
+      "milestoneName": "50시간 플레이",
+      "milestoneType": "playtime",
+      "description": "50시간을 플레이했습니다!",
+      "condition": {
+        "conditionType": "playtime_hours",
+        "targetValue": 50
+      },
+      "reward": {
+        "gold": 2000,
+        "items": [
+          {
+            "itemId": "armor_light_robe_rare_lv6",
+            "itemName": "빛의 로브",
+            "tier": "rare",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 150
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_playtime_150h",
+      "milestoneName": "150시간 플레이",
+      "milestoneType": "playtime",
+      "description": "150시간을 플레이했습니다!",
+      "condition": {
+        "conditionType": "playtime_hours",
+        "targetValue": 150
+      },
+      "reward": {
+        "gold": 5000,
+        "items": [
+          {
+            "itemId": "ring_eternal_legendary_lv9",
+            "itemName": "영원한 반지",
+            "tier": "legendary",
+            "isSelectable": true,
+            "selectCount": 1
+          }
+        ],
+        "gems": 500
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    },
+    {
+      "milestoneId": "milestone_collect_100_items",
+      "milestoneName": "아이템 100개 수집",
+      "milestoneType": "collection",
+      "description": "총 100개의 아이템을 수집했습니다!",
+      "condition": {
+        "conditionType": "collect_items",
+        "targetValue": 100
+      },
+      "reward": {
+        "gold": 1000,
+        "items": [
+          {
+            "itemId": "necklace_skill_boost_uncommon_lv3",
+            "itemName": "강화된 스킬 목걸이",
+            "tier": "uncommon",
+            "isSelectable": false,
+            "selectCount": 1
+          }
+        ],
+        "gems": 100
+      },
+      "oneTimeReward": true,
+      "completionStatus": false
+    }
+  ],
+  "_summary": {
+    "total_milestones": 15,
+    "by_type": {
+      "level": 7,
+      "stage": 3,
+      "playtime": 3,
+      "collection": 2
+    },
+    "total_rewards_value": {
+      "gold": 36600,
+      "gems": 3295,
+      "items": 15
+    },
+    "progression_structure": {
+      "early_game": "Lv10-30 (초반 진입 보상)",
+      "mid_game": "Lv40-50 (중반 주력 보상)",
+      "late_game": "Lv75-100 (후반 극강 보상)",
+      "parallel_tracks": "Stage & Playtime (선택 달성)"
+    }
+  }
+}

@@ -221,11 +221,11 @@ layout_mode = 2
 text = "⬆️
 Upgrade"
 
-[node name="ProgressTab" type="Button" parent="BottomNav" unique_id=939334617]
+[node name="CharacterTab" type="Button" parent="BottomNav" unique_id=939334617]
 custom_minimum_size = Vector2(78, 60)
 layout_mode = 2
-text = "📊
-Progress"
+text = "🛡️
+Character"
 
 [node name="ShopTab" type="Button" parent="BottomNav" unique_id=1935457751]
 custom_minimum_size = Vector2(78, 60)

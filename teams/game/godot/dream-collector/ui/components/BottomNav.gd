@@ -7,14 +7,14 @@ signal tab_pressed(tab_index: int)
 @onready var home_tab: Button = $HomeTab
 @onready var cards_tab: Button = $CardsTab
 @onready var upgrade_tab: Button = $UpgradeTab
-@onready var progress_tab: Button = $ProgressTab
+@onready var character_tab: Button = $CharacterTab
 @onready var shop_tab: Button = $ShopTab
 
 var tab_buttons: Array = []
 var active_tab_index: int = 0
 
 func _ready():
-	tab_buttons = [home_tab, cards_tab, upgrade_tab, progress_tab, shop_tab]
+	tab_buttons = [home_tab, cards_tab, upgrade_tab, character_tab, shop_tab]
 	
 	# Apply styles
 	for button in tab_buttons:
@@ -24,7 +24,7 @@ func _ready():
 	home_tab.pressed.connect(_on_tab_pressed.bind(0))
 	cards_tab.pressed.connect(_on_tab_pressed.bind(1))
 	upgrade_tab.pressed.connect(_on_tab_pressed.bind(2))
-	progress_tab.pressed.connect(_on_tab_pressed.bind(3))
+	character_tab.pressed.connect(_on_tab_pressed.bind(3))
 	shop_tab.pressed.connect(_on_tab_pressed.bind(4))
 
 func _apply_tab_style(button: Button):

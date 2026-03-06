@@ -65,7 +65,7 @@ func _pick_best_defense(hand: Array[Card], intent: Dictionary, energy: int) -> C
 func _pick_strongest_attack(hand: Array[Card], energy: int) -> Card:
 	var best: Card = null
 	for card in hand:
-		if card.type == "ATK" and card.cost <= energy:
+		if (card.type == "ATK" or card.type == "ATTACK") and card.cost <= energy:
 			if best == null or card.damage > best.damage:
 				best = card
 	return best
@@ -82,7 +82,7 @@ func _pick_efficient_attack(hand: Array[Card], energy: int) -> Card:
 	var best: Card = null
 	var best_ratio = 0.0
 	for card in hand:
-		if card.type == "ATK" and card.cost <= energy:
+		if (card.type == "ATK" or card.type == "ATTACK") and card.cost <= energy:
 			# 0코스트 카드: 데미지 값을 효율로 직접 사용 (분모 0 방지)
 			var ratio = float(card.damage) if card.cost == 0 else float(card.damage) / card.cost
 			if ratio > best_ratio:

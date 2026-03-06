@@ -180,7 +180,7 @@ func _on_bottom_nav_pressed(tab_index: int):
 			get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
 		2:  # Upgrade (현재 화면)
 			pass
-		3:  # Progress (미구현)
-			print("[UpgradeTree] Progress (미구현)")
+		3:  # Character (Equipment)
+			get_tree().change_scene_to_file("res://ui/screens/CharacterScreen.tscn")
 		4:  # Shop
 			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")

@@ -1,0 +1,245 @@
+{
+  "events": [
+    {
+      "eventId": "event_spring_festival_2026",
+      "eventName": "봄 축제 이벤트",
+      "eventType": "seasonal",
+      "description": "봄을 맞아 개최되는 축제. 꽃을 모아 보상을 획득하세요!",
+      "duration": {
+        "startDate": "2026-03-01T00:00:00Z",
+        "endDate": "2026-03-14T23:59:59Z",
+        "isActive": true
+      },
+      "eventMechanic": "collect_flowers",
+      "rewardTier": [
+        {
+          "tier": 1,
+          "requirement": "꽃 50개 수집",
+          "reward": {
+            "gold": 300,
+            "items": [
+              {
+                "itemId": "necklace_attack_common_lv1",
+                "itemName": "공격 목걸이",
+                "tier": "common",
+                "quantity": 1
+              }
+            ],
+            "gems": 10
+          }
+        },
+        {
+          "tier": 2,
+          "requirement": "꽃 100개 수집",
+          "reward": {
+            "gold": 600,
+            "items": [
+              {
+                "itemId": "ring_stat_boost_common_lv1",
+                "itemName": "스탯 강화 반지",
+                "tier": "common",
+                "quantity": 1
+              }
+            ],
+            "gems": 20
+          }
+        },
+        {
+          "tier": 3,
+          "requirement": "꽃 200개 수집",
+          "reward": {
+            "gold": 1000,
+            "items": [
+              {
+                "itemId": "armor_leather_armor_common_lv1",
+                "itemName": "가죽 갑옷",
+                "tier": "common",
+                "quantity": 1
+              }
+            ],
+            "gems": 50
+          }
+        }
+      ],
+      "specialRewards": [
+        {
+          "rewardId": "spring_festival_grand_prize",
+          "rewardName": "봄 축제 대상",
+          "description": "축제 동안 가장 많은 꽃을 모은 플레이어",
+          "itemIds": ["weapon_flame_sword_uncommon_lv3"],
+          "requiredParticipation": 100,
+          "topRankerOnly": true
+        }
+      ]
+    },
+    {
+      "eventId": "event_collaboration_anime",
+      "eventName": "애니메이션 콜라보 이벤트",
+      "eventType": "collaboration",
+      "description": "유명 애니메이션과의 스페셜 콜라보레이션. 한정 아이템을 획득하세요!",
+      "duration": {
+        "startDate": "2026-03-15T00:00:00Z",
+        "endDate": "2026-03-28T23:59:59Z",
+        "isActive": false
+      },
+      "eventMechanic": "defeat_special_bosses",
+      "rewardTier": [
+        {
+          "tier": 1,
+          "requirement": "특수 보스 1마리 처치",
+          "reward": {
+            "gold": 500,
+            "items": [
+              {
+                "itemId": "necklace_skill_common_lv1",
+                "itemName": "스킬 목걸이",
+                "tier": "common",
+                "quantity": 1
+              }
+            ],
+            "gems": 20
+          }
+        },
+        {
+          "tier": 2,
+          "requirement": "특수 보스 3마리 처치",
+          "reward": {
+            "gold": 1500,
+            "items": [
+              {
+                "itemId": "ring_weapon_boost_uncommon_lv3",
+                "itemName": "무기 강화 반지",
+                "tier": "uncommon",
+                "quantity": 1
+              }
+            ],
+            "gems": 75
+          }
+        },
+        {
+          "tier": 3,
+          "requirement": "특수 보스 5마리 처치",
+          "reward": {
+            "gold": 2500,
+            "items": [
+              {
+                "itemId": "armor_fire_tunic_uncommon_lv3",
+                "itemName": "화염 튜닉",
+                "tier": "uncommon",
+                "quantity": 1
+              }
+            ],
+            "gems": 150
+          }
+        }
+      ],
+      "specialRewards": [
+        {
+          "rewardId": "collab_exclusive_item",
+          "rewardName": "콜라보 한정 무기",
+          "description": "이 이벤트에서만 획득 가능한 특별 무기",
+          "itemIds": ["weapon_wind_bow_uncommon_lv3"],
+          "requiredParticipation": 100
+        }
+      ]
+    },
+    {
+      "eventId": "event_birthday_celebration",
+      "eventName": "게임 출시 기념 생일 축제",
+      "eventType": "celebration",
+      "description": "Dream Collector의 출시를 축하하는 감사 이벤트",
+      "duration": {
+        "startDate": "2026-03-01T00:00:00Z",
+        "endDate": "2026-03-07T23:59:59Z",
+        "isActive": true
+      },
+      "eventMechanic": "login_every_day",
+      "rewardTier": [
+        {
+          "tier": 1,
+          "requirement": "1일 로그인",
+          "reward": {
+            "gold": 200,
+            "items": [
+              {
+                "itemId": "ring_atk_boost_common_lv1",
+                "itemName": "공격력 반지",
+                "tier": "common",
+                "quantity": 1
+              }
+            ],
+            "gems": 5
+          }
+        },
+        {
+          "tier": 2,
+          "requirement": "3일 로그인",
+          "reward": {
+            "gold": 500,
+            "items": [
+              {
+                "itemId": "necklace_dream_common_lv2",
+                "itemName": "꿈 수집 목걸이",
+                "tier": "common",
+                "quantity": 1
+              }
+            ],
+            "gems": 20
+          }
+        },
+        {
+          "tier": 3,
+          "requirement": "5일 로그인",
+          "reward": {
+            "gold": 1000,
+            "items": [
+              {
+                "itemId": "armor_cloth_robe_common_lv1",
+                "itemName": "천 로브",
+                "tier": "common",
+                "quantity": 1
+              }
+            ],
+            "gems": 50
+          }
+        },
+        {
+          "tier": 4,
+          "requirement": "7일 로그인",
+          "reward": {
+            "gold": 2000,
+            "items": [
+              {
+                "itemId": "weapon_ice_spear_uncommon_lv3",
+                "itemName": "얼음 창",
+                "tier": "uncommon",
+                "quantity": 1
+              }
+            ],
+            "gems": 100
+          }
+        }
+      ]
+    }
+  ],
+  "_summary": {
+    "total_events": 3,
+    "by_type": {
+      "seasonal": 1,
+      "collaboration": 1,
+      "celebration": 1
+    },
+    "active_events": 2,
+    "monthly_expected_value": {
+      "gold": 6000,
+      "gems": 350,
+      "items": 12
+    },
+    "rotation_strategy": {
+      "week_1": "Spring Festival (Seasonal)",
+      "week_2": "Birthday Celebration (Overlap)",
+      "week_3": "Collaboration Event (New)",
+      "week_4": "Maintenance / Break"
+    }
+  }
+}

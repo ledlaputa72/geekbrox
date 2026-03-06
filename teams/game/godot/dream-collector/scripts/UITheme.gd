@@ -255,9 +255,10 @@ func apply_button_style(button: Button, color_key: String = "primary") -> void:
 	button.add_theme_color_override("font_color", get_color("text"))
 
 # Label에 폰트 색상 적용 (autoload 인스턴스에서 호출되므로 static 제거)
-func apply_label_style(label: Label, color_key: String = "text", size_key: String = "body") -> void:
+func apply_label_style(
+	label: Label, color_key: String = "text", _size_key: String = "body"
+) -> void:
 	label.add_theme_color_override("font_color", get_color(color_key))
-	# Note: Godot 4에서는 Theme Resource로 폰트 크기 관리 권장
 
 # ============================================
 # READY (Autoload 초기화)

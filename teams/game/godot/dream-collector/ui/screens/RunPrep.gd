@@ -83,7 +83,7 @@ var log_messages: Array[String] = []
 @onready var home_tab: Button = $BottomNav/HomeTab
 @onready var cards_tab: Button = $BottomNav/CardsTab
 @onready var upgrade_tab: Button = $BottomNav/UpgradeTab
-@onready var progress_tab: Button = $BottomNav/ProgressTab
+@onready var character_tab: Button = $BottomNav/CharacterTab
 @onready var shop_tab: Button = $BottomNav/ShopTab
 
 var tab_buttons: Array = []
@@ -94,7 +94,7 @@ var card_buttons: Array = []
 func _ready() -> void:
 	card_panels = [card1, card2, card3]
 	card_buttons = [card1_button, card2_button, card3_button]
-	tab_buttons = [home_tab, cards_tab, upgrade_tab, progress_tab, shop_tab]
+	tab_buttons = [home_tab, cards_tab, upgrade_tab, character_tab, shop_tab]
 	
 	# Add CircleTransition
 	circle_transition = CircleTransitionScene.instantiate()
@@ -199,7 +199,7 @@ func setup_signals() -> void:
 	home_tab.pressed.connect(_on_nav_tab_pressed.bind(0))
 	cards_tab.pressed.connect(_on_nav_tab_pressed.bind(1))
 	upgrade_tab.pressed.connect(_on_nav_tab_pressed.bind(2))
-	progress_tab.pressed.connect(_on_nav_tab_pressed.bind(3))
+	character_tab.pressed.connect(_on_nav_tab_pressed.bind(3))
 	shop_tab.pressed.connect(_on_nav_tab_pressed.bind(4))
 
 # ─── 카드 날아오는 애니메이션 ────────────────────────
@@ -367,8 +367,8 @@ func _on_nav_tab_pressed(tab_index: int) -> void:
 			get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
 		2:  # Upgrade
 			print("[RunPrep] Upgrade (미구현)")
-		3:  # Progress
-			print("[RunPrep] Progress (미구현)")
+		3:  # Character (Equipment)
+			get_tree().change_scene_to_file("res://ui/screens/CharacterScreen.tscn")
 		4:  # Shop
 			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")
 

@@ -217,6 +217,13 @@ func _player_atb_attack():
 	dmg += strength
 	dmg = max(0, dmg)
 
+	# 치명타 판정 — player_data["cri"] (%) 기반, 기본 0%
+	var cri_chance: float = player_data.get("cri", 0.0)
+	var is_crit := randf() * 100.0 < cri_chance
+	if is_crit:
+		dmg = int(dmg * 1.5)
+		battle_log("치명타! 데미지 %d" % dmg)
+
 	target_enemy.take_damage(dmg)
 
 	var idx = enemies.find(target_enemy)
@@ -227,7 +234,8 @@ func _player_atb_attack():
 		battle_diary.record_damage_dealt(dmg)
 
 	if DEBUG_COMBAT:
-		print("[ATB] ATB 기본공격 → %s 피해 %d HP %d/%d" % [target_enemy.display_name, dmg, target_enemy.current_hp, target_enemy.max_hp])
+		var crit_str = " [치명타!]" if is_crit else ""
+		print("[ATB] ATB 기본공격%s → %s 피해 %d HP %d/%d" % [crit_str, target_enemy.display_name, dmg, target_enemy.current_hp, target_enemy.max_hp])
 
 	_check_battle_end()
 
@@ -292,7 +300,7 @@ func _apply_attack_result(enemy, attack: Dictionary, result):
 			emit_signal("reaction_feedback", "회피 성공!", "DODGE", enemy_idx)
 			if DEBUG_COMBAT: print("[ATB] 회피 성공")
 		"GUARD":
-			var block_val = result.card.block if result.card else 0
+			var block_val = result.card.get_effective_block() if result.card else 0
 			if energy_system: energy_system.on_guard_success(block_val)
 			# 가드: 가드 수치만큼 피해 경감 (블록으로 흡수 처리)
 			player_data["block"] = player_data.get("block", 0) + block_val
@@ -391,12 +399,13 @@ func player_play_card(card: Card, target_index: int = -1):
 
 func _resolve_card_effect(card: Card, target_index: int = -1):
 	# 공격 카드
-	if card.type == "ATK":
-		var base_dmg = card.damage + atk_bonus
+	if card.type == "ATK" or card.type == "ATTACK":
+		var base = card.get_effective_damage() if card.has_method("get_effective_damage") else card.damage
+		var base_dmg = base + atk_bonus
 		var final_dmg = base_dmg
 		if combo_system:
 			final_dmg = combo_system.apply_combo_bonus(base_dmg)
-		var is_aoe = card.has_tag("AOE")
+		var is_aoe = card.has_tag("AOE") or (card.subtype == "AoE")
 		if is_aoe:
 			for enemy in enemies:
 				if enemy.is_alive():
@@ -427,14 +436,15 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 				battle_log("  \u2192 \uC801 #%d \uD53C\uD574 %d (%s)" % [idx + 1, actual, target_enemy.display_name if "display_name" in target_enemy else "?"])
 
 	# 방어 카드
-	if card.block > 0:
-		var actual_block = card.block
+	var _eff_block := card.get_effective_block()
+	if _eff_block > 0:
+		var actual_block = _eff_block
 		# "완벽한 방어" 콤보: SKILL 2연속 시 보너스 블록
 		if combo_system and card.type == "SKILL":
 			var combo_idx = combo_system._check_combo()
 			if combo_idx == 1:  # 완벽한 방어
 				actual_block += 10
-				combo_system.emit_signal("combo_triggered", "완벽한 방어", 10)
+				combo_system.combo_triggered.emit("완벽한 방어", 10)
 		player_data["block"] = player_data.get("block", 0) + actual_block
 		emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
 		battle_log("  \u2192 \uBE14\uB85D +%d (\uD604\uC7AC \uD53C\uD574 \uBCF4\uD638 %d)" % [actual_block, player_data.get("block", 0)])  # → 블록 +N (현재 피해 보호 M)

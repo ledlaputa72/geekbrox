@@ -1,0 +1,440 @@
+{
+  "gachas": [
+    {
+      "gachaId": "gacha_gold_common",
+      "gachaName": "골드 뽑기 - 일반",
+      "gachaType": "gold_gacha",
+      "description": "골드로 하는 기본 뽑기. Common~Rare 아이템을 획득할 수 있습니다.",
+      "cost": {
+        "currency": "gold",
+        "singlePull": 500,
+        "discountPullPacks": [
+          {
+            "pullCount": 10,
+            "totalCost": 4500,
+            "discountPercent": 10
+          },
+          {
+            "pullCount": 50,
+            "totalCost": 20000,
+            "discountPercent": 20
+          },
+          {
+            "pullCount": 100,
+            "totalCost": 35000,
+            "discountPercent": 30
+          }
+        ]
+      },
+      "probability": {
+        "common": 60,
+        "uncommon": 35,
+        "rare": 4.5,
+        "epic": 0.5,
+        "legendary": 0
+      },
+      "pitySystem": {
+        "guaranteeRarityLevel": "rare",
+        "guaranteePullCount": 50,
+        "enableGuarantee": true,
+        "description": "50회 뽑기 동안 Rare 미획득 시, 51회차에 Rare 보증"
+      },
+      "itemPool": [
+        {
+          "itemId": "weapon_crystal_sword_common_lv1",
+          "itemName": "크리스탈 검",
+          "tier": "common",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_iron_axe_common_lv1",
+          "itemName": "철 도끼",
+          "tier": "common",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_flame_sword_uncommon_lv3",
+          "itemName": "불꽃 검",
+          "tier": "uncommon",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_ice_spear_uncommon_lv3",
+          "itemName": "얼음 창",
+          "tier": "uncommon",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "armor_leather_armor_common_lv1",
+          "itemName": "가죽 갑옷",
+          "tier": "common",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "armor_cloth_robe_common_lv1",
+          "itemName": "천 로브",
+          "tier": "common",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "armor_fire_tunic_uncommon_lv3",
+          "itemName": "화염 튜닉",
+          "tier": "uncommon",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "ring_stat_boost_common_lv1",
+          "itemName": "스탯 강화 반지",
+          "tier": "common",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "ring_weapon_boost_uncommon_lv3",
+          "itemName": "무기 강화 반지",
+          "tier": "uncommon",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_shadow_dagger_rare_lv5",
+          "itemName": "어둠 단검",
+          "tier": "rare",
+          "baseWeight": 50,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        }
+      ],
+      "scheduleAndPickup": {
+        "gachaStartDate": "2026-01-01T00:00:00Z",
+        "gachaEndDate": null,
+        "pickupItemId": null,
+        "pickupStartDate": null,
+        "pickupEndDate": null,
+        "isActive": true
+      }
+    },
+    {
+      "gachaId": "gacha_gems_premium",
+      "gachaName": "보석 뽑기 - 프리미엄",
+      "gachaType": "gem_gacha",
+      "description": "보석으로 하는 프리미엄 뽑기. Uncommon~Legendary 아이템을 획득할 수 있습니다.",
+      "cost": {
+        "currency": "gems",
+        "singlePull": 50,
+        "discountPullPacks": [
+          {
+            "pullCount": 10,
+            "totalCost": 450,
+            "discountPercent": 10
+          },
+          {
+            "pullCount": 50,
+            "totalCost": 2000,
+            "discountPercent": 20
+          },
+          {
+            "pullCount": 100,
+            "totalCost": 3500,
+            "discountPercent": 30
+          }
+        ]
+      },
+      "probability": {
+        "common": 0,
+        "uncommon": 30,
+        "rare": 55,
+        "epic": 13,
+        "legendary": 2
+      },
+      "pitySystem": {
+        "guaranteeRarityLevel": "epic",
+        "guaranteePullCount": 90,
+        "enableGuarantee": true,
+        "guaranteeRarityLevelLegendary": "legendary",
+        "guaranteePullCountLegendary": 180,
+        "description": "Epic 보증: 90회, Legendary 보증: 180회"
+      },
+      "itemPool": [
+        {
+          "itemId": "weapon_flame_sword_uncommon_lv3",
+          "itemName": "불꽃 검",
+          "tier": "uncommon",
+          "baseWeight": 150,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_ice_spear_uncommon_lv3",
+          "itemName": "얼음 창",
+          "tier": "uncommon",
+          "baseWeight": 150,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_wind_bow_uncommon_lv3",
+          "itemName": "바람 활",
+          "tier": "uncommon",
+          "baseWeight": 150,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_shadow_dagger_rare_lv5",
+          "itemName": "어둠 단검",
+          "tier": "rare",
+          "baseWeight": 200,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_mana_staff_rare_lv5",
+          "itemName": "마나 지팡이",
+          "tier": "rare",
+          "baseWeight": 200,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_thunder_axe_rare_lv6",
+          "itemName": "번개 도끼",
+          "tier": "rare",
+          "baseWeight": 200,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_dark_blade_epic_lv7",
+          "itemName": "어둠의 검",
+          "tier": "epic",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "armor_fire_tunic_uncommon_lv3",
+          "itemName": "화염 튜닉",
+          "tier": "uncommon",
+          "baseWeight": 150,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "armor_dragon_plate_rare_lv5",
+          "itemName": "용의 갑옷",
+          "tier": "rare",
+          "baseWeight": 200,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "armor_holy_plate_epic_lv7",
+          "itemName": "성스러운 판갑옷",
+          "tier": "epic",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "ring_lifesteal_rare_lv5",
+          "itemName": "흡수 반지",
+          "tier": "rare",
+          "baseWeight": 200,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "ring_crit_master_epic_lv7",
+          "itemName": "회심 마스터 반지",
+          "tier": "epic",
+          "baseWeight": 100,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "weapon_holy_sword_legendary_lv9",
+          "itemName": "성검",
+          "tier": "legendary",
+          "baseWeight": 50,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        },
+        {
+          "itemId": "ring_eternal_legendary_lv9",
+          "itemName": "영원한 반지",
+          "tier": "legendary",
+          "baseWeight": 50,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        }
+      ],
+      "scheduleAndPickup": {
+        "gachaStartDate": "2026-01-01T00:00:00Z",
+        "gachaEndDate": null,
+        "pickupItemId": null,
+        "pickupStartDate": null,
+        "pickupEndDate": null,
+        "isActive": true
+      }
+    },
+    {
+      "gachaId": "gacha_gems_pickup_week1",
+      "gachaName": "보석 뽑기 - 신규 아이템 픽업 (1주차)",
+      "gachaType": "gem_gacha",
+      "description": "신규 아이템 픽업 가우차. 새로운 아이템 확률이 2배입니다.",
+      "cost": {
+        "currency": "gems",
+        "singlePull": 50,
+        "discountPullPacks": [
+          {
+            "pullCount": 10,
+            "totalCost": 450,
+            "discountPercent": 10
+          },
+          {
+            "pullCount": 50,
+            "totalCost": 2000,
+            "discountPercent": 20
+          }
+        ]
+      },
+      "probability": {
+        "common": 0,
+        "uncommon": 25,
+        "rare": 50,
+        "epic": 18,
+        "legendary": 7
+      },
+      "pitySystem": {
+        "guaranteeRarityLevel": "epic",
+        "guaranteePullCount": 90,
+        "enableGuarantee": true,
+        "description": "Epic 보증: 90회"
+      },
+      "itemPool": [
+        {
+          "itemId": "ring_tank_master_epic_lv7",
+          "itemName": "탱크 마스터 반지",
+          "tier": "epic",
+          "baseWeight": 200,
+          "pickupBoost": 2.0,
+          "isPeriodLimited": true
+        },
+        {
+          "itemId": "necklace_all_cards_epic_lv7",
+          "itemName": "모든 카드 극대화 목걸이",
+          "tier": "epic",
+          "baseWeight": 200,
+          "pickupBoost": 2.0,
+          "isPeriodLimited": true
+        },
+        {
+          "itemId": "ring_destiny_legendary_lv10",
+          "itemName": "운명의 반지",
+          "tier": "legendary",
+          "baseWeight": 100,
+          "pickupBoost": 3.5,
+          "isPeriodLimited": true
+        },
+        {
+          "itemId": "weapon_shadow_dagger_rare_lv5",
+          "itemName": "어둠 단검",
+          "tier": "rare",
+          "baseWeight": 150,
+          "pickupBoost": 1.0,
+          "isPeriodLimited": false
+        }
+      ],
+      "scheduleAndPickup": {
+        "gachaStartDate": "2026-03-03T00:00:00Z",
+        "gachaEndDate": "2026-03-09T23:59:59Z",
+        "pickupItemId": "ring_tank_master_epic_lv7",
+        "pickupStartDate": "2026-03-03T00:00:00Z",
+        "pickupEndDate": "2026-03-09T23:59:59Z",
+        "isActive": true
+      }
+    },
+    {
+      "gachaId": "gacha_gems_seasonal",
+      "gachaName": "보석 뽑기 - 시즌 아이템",
+      "gachaType": "gem_gacha",
+      "description": "시즌 한정 아이템 뽑기. Rare~Legendary 아이템 중심입니다.",
+      "cost": {
+        "currency": "gems",
+        "singlePull": 60,
+        "discountPullPacks": [
+          {
+            "pullCount": 10,
+            "totalCost": 540,
+            "discountPercent": 10
+          }
+        ]
+      },
+      "probability": {
+        "common": 0,
+        "uncommon": 20,
+        "rare": 60,
+        "epic": 15,
+        "legendary": 5
+      },
+      "pitySystem": {
+        "guaranteeRarityLevel": "rare",
+        "guaranteePullCount": 30,
+        "enableGuarantee": true,
+        "description": "Rare 보증: 30회"
+      },
+      "itemPool": [
+        {
+          "itemId": "necklace_ultimate_legendary_lv9",
+          "itemName": "궁극의 목걸이",
+          "tier": "legendary",
+          "baseWeight": 100,
+          "pickupBoost": 2.0,
+          "isPeriodLimited": true
+        }
+      ],
+      "scheduleAndPickup": {
+        "gachaStartDate": "2026-03-10T00:00:00Z",
+        "gachaEndDate": "2026-03-16T23:59:59Z",
+        "pickupItemId": "necklace_ultimate_legendary_lv9",
+        "pickupStartDate": "2026-03-10T00:00:00Z",
+        "pickupEndDate": "2026-03-16T23:59:59Z",
+        "isActive": false
+      }
+    }
+  ],
+  "_summary": {
+    "total_gachas": 4,
+    "by_type": {
+      "gold_gacha": 1,
+      "gem_gacha": 3
+    },
+    "monthly_expected": {
+      "gold_gacha_pulls": "500 (매달 25만 골드 기준)",
+      "gem_gacha_pulls": "100 (로그인+퀘스트)",
+      "paid_gem_pulls": "50-200 (과금율 3-5%)"
+    },
+    "revenue_model": {
+      "gold_gacha": "플레이어 만족도 (무료 뽑기)",
+      "gem_gacha": "주요 수익원 (유료 뽑기)",
+      "pickup_system": "신규/이벤트 아이템 확률 상승으로 과금 유도"
+    }
+  }
+}
