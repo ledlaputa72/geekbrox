@@ -1,165 +1,317 @@
-# 📖 Dream Collector - 게임 기획 문서 (2026-03 업데이트)
+# 🎮 Dream Collector — Game Design Documentation
 
-**프로젝트 상태**: 🟠 **88% 구현 완료** (Phase 3 전투 시스템)  
-**최종 업데이트**: 2026-03-03 by Atlas  
-**신규 팀원**: [DESIGN_DOCUMENTS_MASTER_v1.md](./DESIGN_DOCUMENTS_MASTER_v1.md) 먼저 읽으세요 (30~60분)
-
----
-
-## ⚡ **빠른 시작 가이드**
-
-### 📊 현재 프로젝트 진행 상황
-
-| 항목 | 현황 | 목표 | 진행도 |
-|------|------|------|--------|
-| **Phase 3** | 전투 시스템 구현 | 완성도 8.5/10 | 88% |
-| **카드 시스템** | 4가지 타입 + **42장 (v2.0)** | 150장 (월 50장) | 28% |
-| **UI/UX** | 12개 화면 완성 | 반응형 최적화 | 95% |
-| **블로그** | 4/50 포스트 | 30/월 (조정 중) | 8% |
-
-### 🎮 주요 변경사항 (2026-03)
-
-1. **카드 타입 4가지로 재정의** (v2.0)
-   - Before: ATK / DEF / PARRY / DODGE / SKILL (5가지)
-   - After: ATTACK / SKILL / POWER / CURSE (4가지) ← **지금 이것으로 개발**
-   - 42장 v2.0 설계 확정 (30장 구현 완료 / 12장 신규 설계: POW_001~006 + CUR_001~006)
-
-2. **OPS 게임 테스트 완료** (게임성 7.6/10)
-   - 위기 개입 시스템: 긴장감 생성 성공
-   - 리액션 윈도우: 0.8초 → 1.2초 조정 권장
-   - 상세: `03_implementation_guides/combat/OPS_TEST_REPORT_ATB_v2.md`
-
-3. **현재 긴급 이슈** (P0)
-   - 🔴 카드 데미지 로직 미작동 (애니메이션 O, 데미지 X) — DEBUG 진행
-   - 🔴 중앙 덱 UI 누락 — 복구 필요
+**프로젝트:** Dream Collector (꿈 수집가)  
+**장르:** Roguelike + Deckbuilding + Idle Incremental  
+**플랫폼:** Godot 4.x (Mobile Portrait)  
+**상태:** 🟢 개발 중 (70% 완료)  
+**최종 업데이트:** 2026-03-06
 
 ---
 
-## 📚 **문서 구조 (5대 카테고리)**
+## 📂 폴더 구조 가이드
 
-### 📂 `01_vision/` — 게임의 정체성
+### 🎯 **01_vision/** — 게임 비전 및 전략
+게임의 핵심 가치, 장르 분석, 비전 선언문 등 **전략적 방향**을 담는 폴더입니다.
 
-- **목적**: 게임 비전, 핵심 루프, 세계관 정의
-- **주요 문서**: `INTEGRATED_GAME_CONCEPT.md`
-- **대상**: 모든 팀 (프로젝트 입문자 필독)
+**포함 내용:**
+- 게임 철학 및 핵심 가치
+- 장르 분석 (Roguelike, Deckbuilding, Idle)
+- 타겟 플레이어 프로필
+- 경쟁 게임 분석
 
-### 📂 `02_core_design/` — 게임 시스템 설계 ⭐ 가장 중요
-
-- **목적**: 카드, 전투, 타로 등 핵심 시스템 설계
-- **주요 문서**:
-  - `CARD_TYPE_SYSTEM_v2.md` ← **4가지 타입 설명 (필독)**
-  - `CARD_FUNCTION_DESIGN_GUIDE.md` ← **카드 기능 매트릭스**
-  - `CARD_COMBAT_SYSTEM_DESIGN.md` ← 전투 시스템 통합 설계
-  - `TAROT_SYSTEM_GUIDE.md` ← 78장 타로 + 월드빌딩
-  - `CARD_CATALOG_v2.md` ← 현재 30장 + 계획 150장 상세 목록
-  - `CARD_CLASSIFICATION_UPDATED_v2.md` ← 기능별 분류 + 로드맵
-  - `CARD_MONTHLY_ROADMAP.md` ← 월별 카드 생성 계획
-- **대상**: 기획팀, 개발팀, 콘텐츠팀
-- **읽기 순서**: `CARD_TYPE_SYSTEM_v2` → `CARD_FUNCTION_DESIGN_GUIDE` → `CARD_CATALOG_v2`
-
-### 📂 `03_implementation_guides/` — 기술 구현 명세
-
-#### **combat/** — 전투 시스템 (88% 완료)
-- `COMBAT_UNIFIED_DESIGN_v1.md` — 공통 시스템 (Card, Monster, StatusEffect)
-- `COMBAT_ATB_COMPLETE_v1.md` — ATB 전체 상세 설계
-- `COMBAT_TURNBASED_COMPLETE_v1.md` — 턴베이스 전체 상세 설계
-- `REACTION_ATB_v1.md` — ATB 리액션 (패링/회피)
-- `REACTION_TURNBASED_v1.md` — TB 리액션
-- `OPS_TEST_REPORT_ATB_v2.md` — **OPS 팀 게임 테스트 결과**
-- `ATB_Implementation_Guide.md`, `TurnBased_Implementation_Guide.md` — Godot 구현 가이드
-
-**대상**: 개발팀 (Cursor IDE, Claude Code)  
-**상태**: 모든 명세 완료, Godot 구현 진행 중 (88%)
-
-### 📂 `04_narrative_and_lore/` — 스토리 & 세계관
-
-- **목적**: 스토리, 캐릭터, 시나리오, 대사 기획
-- **주요 문서**: `STORY_LEVEL_DESIGN_CONCEPT.md`, `STORY_CONCEPT_GUIDE.md`
-- **대상**: 시나리오 작가, 아트팀
-- **상태**: Phase 4 (3/31~)에서 집중 개발
-
-### 📂 `05_development_tracking/` — 진행 관리 (PM용)
-
-- **목적**: 현재 상태, 체크리스트, 기술 결정 추적
-- **주요 문서**:
-  - `PROJECT_STATE.md` — **작업 시작 전 필독** (현재 단계, 결정사항)
-  - `PROGRESS.md` — 간단한 진행 요약 (일일 체크)
-  - `PROGRESS_TRACKER.md` — 상세 체크리스트
-  - `TECH_DECISIONS.md` — 기술 결정 기록
-  - `DEVELOPMENT_CHECKLIST.md` — 구현 체크리스트
-- **대상**: Atlas (PM), 개발팀
-
-### 📂 `_archive/` — 과거 문서 보관
-
-- 이전 버전, 폐기된 컨셉, 역사적 기록 보관
+**시작 문서:** README.md (폴더 내)
 
 ---
 
-## 🎯 **신규 팀원 온보딩 (50분 경로)**
+### 🔧 **02_core_design/** — 핵심 게임 설계
+게임의 **주요 시스템**과 **밸런싱**을 정의하는 폴더입니다.
 
-**필수 1단계 (10분)**
-→ [`DESIGN_DOCUMENTS_MASTER_v1.md`](./DESIGN_DOCUMENTS_MASTER_v1.md) **이것부터 읽으세요**
+#### 📂 **cards/** — 카드 시스템
+- **CARD_200_FINAL_DATA.md** ⭐ 최신 — 200개 카드 최종 데이터
+- **TAROT_SYSTEM_GUIDE.md** — 타로 카드 기본 시스템
+- **CARD_COMBAT_SYSTEM_DESIGN.md** — 전투에서의 카드 사용 방식
+- **CARD_FUNCTION_MAPPING_UNIFIED_v3.md** — 카드 기능 구현 매핑
+- **CARD_MASTER_UNIFIED_v1.md** — 카드 마스터 데이터
+- **CARD_TYPE_SYSTEM_v2.md** — ATTACK/SKILL/POWER/CURSE 분류
+- **CARD_CLASSIFICATION_SYSTEM.md** — 카드 분류 체계
+- **scripts/generate_cards.py** — 카드 생성 유틸리티
+- **scripts/generate_cards_200.py** — 200개 카드 생성 자동화
+- **README.md** — 카드 시스템 가이드
 
-**필수 2단계 (분야별 20~30분)**
-- **게임 이해**: `01_vision/INTEGRATED_GAME_CONCEPT.md`
-- **카드 설계팀**: `02_core_design/CARD_TYPE_SYSTEM_v2.md` + `CARD_FUNCTION_DESIGN_GUIDE.md`
-- **개발팀**: `03_implementation_guides/combat/COMBAT_UNIFIED_DESIGN_v1.md`
-- **콘텐츠팀**: `02_core_design/CARD_CATALOG_v2.md` + `CARD_MONTHLY_ROADMAP.md`
-- **아트팀**: `04_narrative_and_lore/` + 타로 가이드
+#### 📂 **equipment/** — 장비 시스템
+- **EQUIPMENT_SYSTEM_GDD_FINAL.md** ⭐ 최신 — 장비 시스템 최종 설계
+- **EQUIPMENT_BALANCE_SIMULATION.md** — 밸런싱 검증
+- **EQUIPMENT_SYSTEM_COST_ANALYSIS.md** — 경제 영향 분석
+- **CARD_EQUIPMENT_INTEGRATION_BALANCE.md** — 카드-장비 밸런싱
+- **README.md** — 장비 시스템 가이드
 
-**필수 3단계 (5분)**
-→ `05_development_tracking/PROJECT_STATE.md` (현재 상태 파악)
+#### 📂 **characters/** — 캐릭터 시스템
+- **CHARACTER_DESIGN_SYSTEM.md** — 캐릭터 기본 설계
+- **CHARACTER_EQUIPMENT_SYSTEM.md** — 캐릭터-장비 연동
+- **CHARACTER_TRAITS_ENHANCED.md** — 개선된 트레이트 시스템
+- **TRAIT_SYSTEM_DETAILED_DESIGN.md** — 트레이트 상세 설계
+- **TRAIT_SYSTEM_OPERATION_GUIDE.md** — 운영 가이드
+- **TRAIT_MASTERY_REDESIGNED_v2.md** — 숙련도 시스템
+- **README.md** — 캐릭터 시스템 가이드
 
----
-
-## 🔴 **긴급 이슈 (P0)**
-
-### Issue #1: 카드 데미지 로직 미작동
-**증상**: 공격 카드 사용 후 애니메이션은 정상이나 데미지 미적용  
-**상태**: 🔄 DEBUG 진행 (CombatManagerATB)  
-**예상**: 2026-03-03 오늘 중 해결 (1~2시간)  
-**상세**: `memory/2026-03-02-CARD_LOGIC_DEBUG_ANALYSIS.md`
-
-### Issue #2: 중앙 덱 UI 누락
-**증상**: 전투 화면에 덱/버림더미 카운트 표시 안 됨  
-**상태**: 🟡 설계 완료, 구현 대기  
-**예상**: 2026-03-03 오늘 중 복구 (2~3시간)  
-**상세**: `memory/2026-03-01-CLAUDE_CODE_IMPLEMENTATION.md`
-
----
-
-## 📈 **이번 달 마일스톤**
-
-| 날짜 | 마일스톤 | 상태 |
-|------|---------|------|
-| **2026-03-03 (오늘)** | 카드 로직 DEBUG + 덱 UI 복구 | 🔴 진행 중 |
-| **2026-03-05** | Phase 3 v1.0 (게임성 8.5/10) | ⏳ 예정 |
-| **2026-03-08~15** | OPS 2차 테스트 | ⏳ 예정 |
-| **2026-03-31** | Phase 4 시작 (스토리/사운드) | ⏳ 예정 |
+#### 📂 **mechanics/** — 게임 메커닉
+- **COMBAT_SYSTEM_MASTER_SPEC.md** — 전투 시스템 마스터 스펙
+- **GAME_MECHANICS_UNIFIED_GUIDE.md** — 통합 게임 메커닉
+- **SYSTEM_MECHANICS_DEEP_DIVE.md** — 심화 분석
+- **PROGRESSION_SYSTEM_REDESIGNED.md** — 진행 시스템
+- **GAME_PHILOSOPHY_STS_ROGUELIKE_ANALYSIS.md** — 게임 철학 및 분석
+- **README.md** — 게임 메커닉 가이드
 
 ---
 
-## 📞 **담당자 연락처**
+### 📚 **03_implementation_guides/** — 구현 가이드 및 참고자료
 
-| 분야 | 담당자 | 연락처 |
-|------|--------|--------|
-| 게임 기획/PM | Steve PM | Telegram |
-| 기획 문서/카드 설계 | Atlas | OpenClaw |
-| Godot 개발 | Cursor IDE / Claude Code | 로컬 |
-| 블로그 콘텐츠 | (위임 대기) | — |
-| 스토리/나레이션 | (미배정) | — |
+#### 📂 **ui/** — UI 설계 및 구현
+- **UI_CHARACTER_SCREEN_SPEC.md** — 캐릭터 화면 상세 스펙
+- **UI_EQUIPMENT_TAB_DESIGN.md** — 장비 탭 UI 설계
+- (추가 UI 스크린 명세서들)
+
+#### 📂 **dev_tools/** — 개발 도구 가이드
+- **CURSOR_COMPLETE_DEV_GUIDE.md** — Cursor IDE 완벽 가이드
+- **CURSOR_REFERENCE_GUIDE.md** — Cursor 빠른 참조
+
+#### 📂 **operations/** — 운영 및 경제 시스템
+- **GAME_ECONOMY_MANAGEMENT.md** — 게임 경제 통합 관리
+- **ECONOMY_COST_ANALYSIS.md** — 경제 비용 분석
+- **COST_ANALYSIS_v2.md** — 업데이트 비용 분석
+- **GACHA_ENHANCEMENT_FINAL_SIMPLIFIED.md** — 뽑기 시스템 가이드
+- **PLAYTEST_REPORT_50TESTERS.md** — 50명 테스터 보고서
+- **FINAL_OPS_BALANCE_REPORT.md** — 최종 밸런스 리포트
+- **NOTION_UPDATE_SUMMARY.md** — Notion 업데이트 요약
+
+#### 📂 **root files** — 구현 메인 가이드
+- **IMPLEMENTATION_GUIDE.md** — 전체 구현 가이드
 
 ---
 
-## 📋 **문서 관리 규칙**
+### 🎬 **04_narrative_and_lore/** — 스토리 및 월드빌딩
 
-1. **모든 변경사항은 Git으로 추적**: `git log --oneline --all`
-2. **주간 업데이트**: 매주 금요일 `05_development_tracking/PROGRESS.md` 갱신
-3. **새로운 문서 추가 시**: 이 README.md의 폴더 섹션에 링크 추가
-4. **폐기된 문서**: `_archive/`로 이동 (삭제 금지)
+#### 📂 **story/** — 스토리 및 던전
+- **DUNGEON_MAP_SYSTEM.md** — 던전 구조 및 맵 설계
+- (추가 스토리 문서들)
+
+#### 📂 **npcs/** — NPC 시스템
+- **STORY_NPC_SYSTEM.md** — NPC 시스템 및 대화
+- (추가 NPC 관련 문서들)
+
+#### 📂 **lore/** — 월드 백그라운드
+- (월드 설정, 배경 스토리)
 
 ---
 
-*이 문서는 모든 팀이 공동으로 관리합니다. 질문이나 업데이트 필요 시 Steve PM 또는 Atlas에 연락주세요.*
+### 📊 **05_development_tracking/** — 개발 추적 및 진행도
 
-**마지막 업데이트**: 2026-03-03 09:20 by Atlas
+#### 📂 **reports/** — 진행 보고서
+- **PROJECT_COMPLETION_SUMMARY.md** — 프로젝트 완성 요약
+- (주간/월간 진행 보고서)
+
+#### 📂 **root files** — 개발 로그
+- **DEVELOPMENT_LOG_2026.md** — 2026년 개발 일지 (3/6 기준, 70% 완료)
+- **PROGRESS_TRACKER.md** — 진행도 추적
+- **WEEKLY_PROGRESS_REPORT_2026-W10.md** — 주간 보고서
+
+---
+
+### 🗂️ **_archive/deprecated_files/** — 백업 및 이전 버전
+게임 기획 과정에서 생성된 **이전 버전** 파일들을 보관합니다.
+
+**포함 내용 (20개 파일):**
+- EQUIPMENT_SYSTEM_GDD_v1.md (이전 버전)
+- EQUIPMENT_SYSTEM_OVERVIEW_v1.md
+- EQUIPMENT_SYSTEM_OVERVIEW_v2.md
+- EQUIPMENT_IMPLEMENTATION_DESIGN.md
+- FINAL_EQUIPMENT_PROJECT_REPORT.md
+- GACHA_ENHANCEMENT_INTEGRATED_SYSTEM.md
+- SIMPLIFIED_SYSTEM_DESIGN_v2.md
+- CARD_200_GENERATION_REPORT_v2.md
+- CARD_FUNCTION_DESIGN_GUIDE_UNIFIED_v1.md
+- CARD_MONTHLY_ROADMAP_UNIFIED_v1.md
+- CARD_TYPE_SYSTEM_UNIFIED_v1.md
+- CARD_CATALOG_UNIFIED_v1.md
+- CARD_FUNCTION_MAPPING_UNIFIED_v1.md
+- CARD_CLASSIFICATION_UPDATED_v2.md
+- 기타 이전 버전 파일들
+
+---
+
+## 🎯 **주요 시작 문서 (Quick Navigation)**
+
+### 🌟 **새로운 참여자라면?**
+1. **DESIGN_DOCUMENTS_MASTER_v1.md** ← 전체 가이드 시작
+2. **01_vision/README.md** ← 게임 비전 이해
+3. **02_core_design/README.md** ← 핵심 시스템 학습
+
+### 🚀 **개발자라면?**
+1. **03_implementation_guides/IMPLEMENTATION_GUIDE.md** ← 구현 방향
+2. **03_implementation_guides/dev_tools/CURSOR_COMPLETE_DEV_GUIDE.md** ← 개발 도구
+3. **02_core_design/mechanics/COMBAT_SYSTEM_MASTER_SPEC.md** ← 전투 구현
+
+### 🎮 **게임 디자이너라면?**
+1. **02_core_design/cards/CARD_200_FINAL_DATA.md** ← 카드 데이터
+2. **02_core_design/equipment/EQUIPMENT_SYSTEM_GDD_FINAL.md** ← 장비 설계
+3. **03_implementation_guides/operations/GAME_ECONOMY_MANAGEMENT.md** ← 경제 관리
+
+### 📊 **PM/운영진이라면?**
+1. **05_development_tracking/DEVELOPMENT_LOG_2026.md** ← 진행도 추적
+2. **03_implementation_guides/operations/FINAL_OPS_BALANCE_REPORT.md** ← 밸런스 리포트
+3. **05_development_tracking/PROGRESS_TRACKER.md** ← 진행 현황
+
+---
+
+## 📈 **프로젝트 진행도 (2026-03-06 기준)**
+
+| 시스템 | 진행도 | 상태 | 담당 |
+|--------|--------|------|------|
+| **UI/UX** | 100% | ✅ 완료 | Game팀 |
+| **카드 시스템** | 100% | ✅ 완료 | Game팀 |
+| **장비 시스템** | 95% | 🟨 거의 완료 | Game팀 |
+| **전투 시스템** | 80% | 🟨 진행 중 | Game팀 |
+| **게임 경제** | 100% | ✅ 완료 | OPS팀 |
+| **설계 문서** | 100% | ✅ 완료 | PM |
+| **개발 코드** | 85% | 🟨 진행 중 | Dev팀 |
+| **테스트** | 0% | 🔴 미시작 | QA팀 |
+| **전체** | **70%** | **🟨 온트랙** | **전사** |
+
+---
+
+## 🗓️ **마일스톤 (3/5 ~ 3/13)**
+
+| 날짜 | 마일스톤 | 상태 | 진행도 |
+|------|---------|------|--------|
+| 3/5 (수) | Game팀 Step 1 시작 | 🟨 진행 중 | 50% |
+| **3/6 (목)** | **게임 경제 완성 + 폴더 정리** | **✅ 완료** | **100%** |
+| 3/8 (토) | Game팀 Step 2 완료 | ⏳ 대기 | 0% |
+| 3/9 (일) | Game팀 Step 3~4 + OPS팀 시뮬 시작 | ⏳ 대기 | 0% |
+| 3/10 (월) | Game팀 Step 5 완료 | ⏳ 대기 | 0% |
+| 3/12 (수) | OPS팀 최종 보고서 | ⏳ 대기 | 0% |
+| 3/13 (목) | 프로젝트 최종 완료 | ⏳ 대기 | 0% |
+
+---
+
+## 📝 **폴더별 파일 정리 현황**
+
+### ✅ 완료 상태
+```
+dream-collector/
+├── 01_vision/
+├── 02_core_design/
+│   ├── cards/          (5개 문서 + 2개 스크립트)
+│   ├── equipment/      (4개 문서)
+│   ├── characters/     (6개 문서)
+│   ├── mechanics/      (5개 문서)
+│   └── README.md
+├── 03_implementation_guides/
+│   ├── ui/             (2개 UI 스펙) ← NEW
+│   ├── dev_tools/      (2개 문서)
+│   ├── operations/     (7개 문서)
+│   └── IMPLEMENTATION_README.md
+├── 04_narrative_and_lore/
+│   ├── story/          (1개 문서)
+│   ├── npcs/           (1개 문서)
+│   └── README.md
+├── 05_development_tracking/
+│   ├── reports/        (1개 문서)
+│   ├── DEVELOPMENT_LOG_2026.md
+│   └── 기타 추적 파일
+├── _archive/deprecated_files/
+│   └── (20개 이전 버전)
+├── DESIGN_DOCUMENTS_MASTER_v1.md  (마스터 인덱스)
+└── README.md (이 파일)
+```
+
+---
+
+## 🔗 **중요 링크**
+
+### 📊 **데이터 파일** (~/workspace/data/)
+- **weapons_data_v2.json** (20개 무기)
+- **armors_data_v2.json** (20개 방어구)
+- **rings_data.json** (25개 반지)
+- **necklaces_data.json** (25개 목걸이)
+- **cards_200_v2.json** (200개 카드)
+
+### 💻 **코드** (~/godot/dream-collector/)
+- **scripts/combat/shared/Card.gd** — 카드 클래스
+- **scripts/combat/shared/Equipment.gd** — 장비 클래스
+- **scripts/systems/GachaSystem.gd** — 뽑기 시스템
+- **scripts/systems/MilestoneRewardSystem.gd** — 마일스톤
+
+### 🎨 **UI** (~/interface/v0-exports/dream-theme/)
+- **c06-character-equipment-fixed.tsx** — 캐릭터 장비 화면
+- **EquipmentDetailModal.tsx** — 장비 상세 정보 모달
+
+### 📖 **문서** (여기 dream-collector/)
+- 모든 게임 설계 문서 (이 폴더)
+
+---
+
+## 🚀 **빠른 시작 (5분 가이드)**
+
+### 1️⃣ **전체 개요 이해 (2분)**
+```
+DESIGN_DOCUMENTS_MASTER_v1.md 읽기
+→ "꿈 수집가"의 전체 구조 파악
+```
+
+### 2️⃣ **관심 시스템 심화 학습 (3분)**
+```
+카드? → 02_core_design/cards/README.md
+장비? → 02_core_design/equipment/README.md
+경제? → 03_implementation_guides/operations/GAME_ECONOMY_MANAGEMENT.md
+스토리? → 04_narrative_and_lore/README.md
+```
+
+### 3️⃣ **구현 시작 (필요시)**
+```
+03_implementation_guides/IMPLEMENTATION_GUIDE.md
+→ 개발 환경 설정 및 코딩 기준 확인
+```
+
+---
+
+## 📞 **문의 및 피드백**
+
+**질문이 있으신가요?**
+1. 해당 폴더의 **README.md** 읽기
+2. **DESIGN_DOCUMENTS_MASTER_v1.md**에서 키워드 검색
+3. **05_development_tracking/** 진행 보고서 확인
+4. PM/Game팀 리더에게 문의
+
+---
+
+## 📅 **문서 관리 정책**
+
+### ✅ **활성 문서**
+- **FINAL**, **v3**, **v2**: 최신 버전 사용
+- 모든 README.md: 각 폴더 가이드
+
+### 🗄️ **아카이브 문서**
+- **v1**, **deprecated**: _archive/deprecated_files/ 보관
+- 참고용으로만 사용
+
+### 🔄 **업데이트 규칙**
+1. 새 문서는 해당 폴더에 생성
+2. 이전 버전은 **_archive/**로 이동
+3. README.md는 항상 최신 상태 유지
+
+---
+
+## 🎯 **프로젝트 비전**
+
+> **Dream Collector (꿈 수집가)**는 행동 타이밍 전투(ATB)와 카드 기반 게임플레이를 결합한 **로그라이크 덱빌딩 아이들 게임**입니다. 
+> 플레이어는 **메모리를 잃은 존재 Nox**로서 분실된 꿈들을 수집하고, 각 꿈의 본질을 카드로 변환하여 전투에 활용합니다.
+> 
+> **핵심 가치:** 선택의 자유, 장기 플레이 가능성, 아름다운 비주얼 스토리텔링
+
+---
+
+**최종 업데이트:** 2026-03-06 14:30 PST  
+**상태:** 🟢 온트랙 (70% 완료, 3/13 목표)  
+**관리자:** Atlas PM  
+
+*다음 마일스톤: 3/8 Game팀 Step 2 완료*
