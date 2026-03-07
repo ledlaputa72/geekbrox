@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="140" viewBox="0 0 100 140">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#2A0A3A" stop-opacity="1"/><stop offset="100%" stop-color="#18062A" stop-opacity="1"/></linearGradient><linearGradient id="art" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(0,0,0,0)" stop-opacity="1"/><stop offset="100%" stop-color="#18062A" stop-opacity="1"/></linearGradient></defs>
+  
+  <!-- card body -->
+  <rect x="2" y="2" width="96" height="136" rx="12" ry="12" fill="url(#bg)" stroke="#6A1B9A" stroke-width="3"/>
+  <!-- art area -->
+  <rect x="7" y="7" width="86" height="62" rx="8" fill="#2A0A3A" opacity="0.5"/>
+  <rect x="7" y="7" width="86" height="62" rx="8" fill="url(#art)"/>
+  <!-- separator -->
+  <line x1="7" y1="74" x2="93" y2="74" stroke="#6A1B9A" stroke-width="1.5" opacity="0.6"/>
+  <!-- type badge -->
+  <rect x="7" y="78" width="86" height="20" rx="6" fill="#4A0072" opacity="0.9"/>
+  <text x="50" y="92" font-family="Arial,sans-serif" font-size="10" font-weight="bold"
+        fill="#FFFFFF" text-anchor="middle">CURSE</text>
+  <!-- desc area -->
+  <rect x="7" y="102" width="86" height="32" rx="4" fill="rgba(0,0,0,0.2)"/>
+  <!-- corner cost badge spot -->
+  <circle cx="16" cy="16" r="13" fill="#18062A" stroke="#6A1B9A" stroke-width="2.5"/>
+  <!-- inner shine -->
+  <rect x="5" y="5" width="90" height="130" rx="10" ry="10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+
+</svg>

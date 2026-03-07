@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80">
+  <defs><linearGradient id="face" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#F4C542" stop-opacity="1"/><stop offset="100%" stop-color="#D4A520" stop-opacity="1"/></linearGradient><linearGradient id="sh" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(0,0,0,0)" stop-opacity="1"/><stop offset="100%" stop-color="rgba(0,0,0,0.35)" stop-opacity="1"/></linearGradient></defs>
+  
+  <!-- shadow layer -->
+  <rect x="5" y="8" width="290" height="72" rx="24" ry="24" fill="#8B6000"/>
+  <!-- face -->
+  <rect x="3" y="3" width="294" height="70" rx="24" ry="24" fill="url(#face)" stroke="#7A5000" stroke-width="3.5"/>
+  <!-- top highlight -->
+  <rect x="12" y="6" width="276" height="22" rx="20" ry="20" fill="#FFFDE0" opacity="0.35"/>
+
+</svg>

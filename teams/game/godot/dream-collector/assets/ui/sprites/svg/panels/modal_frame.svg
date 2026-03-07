@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1C2E52" stop-opacity="1"/><stop offset="100%" stop-color="#111D38" stop-opacity="1"/></linearGradient></defs>
+  
+  <filter id="sh"><feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.6)"/></filter>
+  <g filter="url(#sh)">
+    <rect x="4" y="4" width="232" height="152" rx="20" ry="20" fill="url(#bg)" stroke="#4A6AA0" stroke-width="4"/>
+    <rect x="10" y="10" width="220" height="140" rx="16" ry="16" fill="none" stroke="rgba(100,150,255,0.1)" stroke-width="2"/>
+  </g>
+
+</svg>

@@ -1,0 +1,121 @@
+{
+  "version": "2.0",
+  "format": "svg",
+  "godot_usage": {
+    "panels": {
+      "node": "NinePatchRect",
+      "patch_margin": 18
+    },
+    "buttons": {
+      "node": "TextureButton + NinePatch",
+      "patch_margin": 40
+    },
+    "slots": {
+      "node": "NinePatchRect",
+      "patch_margin": 12
+    },
+    "cards": {
+      "node": "TextureRect",
+      "size": "100x140"
+    },
+    "bars": {
+      "node": "TextureProgressBar",
+      "note": "track + fill separate"
+    },
+    "tabs": {
+      "node": "NinePatchRect",
+      "patch_margin": 12
+    },
+    "badges": {
+      "node": "TextureRect",
+      "note": "fixed size"
+    },
+    "hud": {
+      "node": "TextureRect",
+      "note": "fixed or NinePatch"
+    },
+    "lists": {
+      "node": "NinePatchRect",
+      "patch_margin": 16
+    },
+    "misc": {
+      "node": "TextureRect",
+      "note": "fixed size"
+    }
+  },
+  "files": {
+    "panels": [
+      "modal_frame.svg",
+      "panel_dark.svg",
+      "panel_frame.svg",
+      "panel_section_header.svg",
+      "tooltip_frame.svg"
+    ],
+    "buttons": [
+      "btn_disabled.svg",
+      "btn_green.svg",
+      "btn_primary.svg",
+      "btn_purple.svg",
+      "btn_red.svg",
+      "btn_secondary.svg"
+    ],
+    "slots": [
+      "slot_armor.svg",
+      "slot_empty.svg",
+      "slot_epic.svg",
+      "slot_legend.svg",
+      "slot_necklace.svg",
+      "slot_normal.svg",
+      "slot_rare.svg",
+      "slot_ring.svg",
+      "slot_uncommon.svg",
+      "slot_weapon.svg"
+    ],
+    "cards": [
+      "card_attack.svg",
+      "card_cost_badge.svg",
+      "card_curse.svg",
+      "card_power.svg",
+      "card_skill.svg"
+    ],
+    "bars": [
+      "bar_fill_atb.svg",
+      "bar_fill_exp.svg",
+      "bar_fill_hp.svg",
+      "bar_fill_mana.svg",
+      "bar_track.svg",
+      "bar_track_thin.svg"
+    ],
+    "tabs": [
+      "tab_active_bg.svg",
+      "tab_bar_frame.svg"
+    ],
+    "badges": [
+      "badge_grade_a.svg",
+      "badge_grade_b.svg",
+      "badge_grade_c.svg",
+      "badge_grade_s.svg",
+      "coin_badge.svg",
+      "level_badge.svg",
+      "notif_badge.svg",
+      "scroll_btn.svg"
+    ],
+    "hud": [
+      "hud_frame.svg",
+      "hud_pill.svg",
+      "section_header.svg"
+    ],
+    "lists": [
+      "list_item_legend.svg",
+      "list_item_normal.svg",
+      "list_item_rare.svg"
+    ],
+    "misc": [
+      "divider_gold.svg",
+      "divider_subtle.svg",
+      "mana_circle_fill.svg",
+      "mana_circle_track.svg",
+      "popup_overlay.svg"
+    ]
+  }
+}

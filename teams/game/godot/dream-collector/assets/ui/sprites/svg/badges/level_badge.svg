@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="24" viewBox="0 0 56 24">
+  <defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1A1A3A" stop-opacity="1"/><stop offset="100%" stop-color="#0E0E22" stop-opacity="1"/></linearGradient></defs>
+  
+  <rect x="2" y="2" width="52" height="20" rx="10.0" ry="10.0" fill="url(#bg)" stroke="#4A4A7A" stroke-width="2.5"/>
+  <text x="28" y="16" font-family="Arial,sans-serif" font-size="10" font-weight="bold"
+        fill="#AAAADD" text-anchor="middle">LV.5</text>
+
+</svg>
