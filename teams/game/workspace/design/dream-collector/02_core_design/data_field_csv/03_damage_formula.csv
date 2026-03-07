@@ -1,0 +1,9 @@
+﻿Dream Collector 데미지 계산 순서 (7단계),,,
+#,단계명,공식/설명,비고
+1,기본 피해 산출,Base = ATK × Card_Multiplier,"카드 배율: SGL 150%~300%, MLT 70%×N, POWER 200%+"
+2,아이템/장비 보너스,Base × (1 + Weapon_Eff + Card_Type_Bonus),"무기 모든효과, 목걸이 카드타입 보너스 합산"
+3,특성 보너스,× (1 + Trait_Bonus),"맹렬함 +10%, 정확함 치명타 시 ×1.5 별도 적용"
+4,치명타 판정,× Crit_Damage if rand() < Crit_Rate,치명타율 = (DEX×0.1 + 장비) / 100
+5,원소 상성 적용,× Elem_Multiplier,"약점 1.5×, 저항 0.5×, 중립 1.0×"
+6,방어 계산,× (1 - DEF/(DEF+100)) × (1-Pen),방어구 관통(Pen)으로 DEF 일부 무시
+7,최종 피해 결정,"Final = max(1, Dmg_Amplify × Result)","최솟값 1, Dmg_Amplify 는 최종 배율 버프"

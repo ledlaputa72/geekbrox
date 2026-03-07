@@ -1,0 +1,108 @@
+﻿한국어명,영문명,데이터 ID,데이터 타입,레이어,카테고리,기본값,소프트 캡,하드 캡,획득 경로,적용 대상,설명
+최대 HP,Max HP,max_hp,int,Layer 0,기본 속성,1000,99999,999999,레벨업/장비/아이템,플레이어/몬스터,최대 생명력. VIT × 10 + 장비 보너스
+현재 HP,Current HP,current_hp,int,Layer 0,기본 속성,max_hp,0,max_hp,전투 중 실시간,플레이어/몬스터,현재 생명력. 0이 되면 전투 불능
+공격력,Attack Power,atk,int,Layer 0,기본 속성,100,9999,99999,STR/무기/장비,플레이어/몬스터,기본 공격력. 데미지 계산의 근간
+방어력,Defense,def_val,int,Layer 0,기본 속성,50,9999,99999,DEF/방어구/장비,플레이어/몬스터,받는 피해 경감. 공식: 피해×(1-DEF/(DEF+100))
+속도,Speed,spd,int,Layer 0,기본 속성,100,500,9999,DEX/장비/특성,플레이어/몬스터,ATB 충전 속도. ATB += SPD/100 per frame
+에너지,Energy,energy,int,Layer 0,기본 속성,3,10,20,기본값/스킬/아이템,플레이어,카드 사용 비용. 턴 시작 시 자동 회복
+최대 에너지,Max Energy,max_energy,int,Layer 0,기본 속성,3,10,20,레벨업/특성,플레이어,한 턴에 사용 가능한 최대 에너지
+마나,Mana,mana,int,Layer 0,기본 속성,100,9999,99999,INT/아이템/장비,플레이어,ATB 전투 카드 비용. INT × 2 + 장비 보너스
+최대 마나,Max Mana,max_mana,int,Layer 0,기본 속성,100,9999,99999,INT/아이템/장비,플레이어,최대 마나 수치
+STR (힘),Strength,stat_str,int,Layer 0,기본 속성,10,200,9999,레벨업/특성/장비,플레이어,공격력 기반 스탯. ATK 및 POWER 카드 효율에 영향
+DEF (방어),Defense Stat,stat_def,int,Layer 0,기본 속성,10,200,9999,레벨업/특성/장비,플레이어,방어력 기반 스탯. DEF 및 SKILL 방어 카드 효율에 영향
+VIT (체력),Vitality,stat_vit,int,Layer 0,기본 속성,10,200,9999,레벨업/특성/장비,플레이어,최대 HP 결정 스탯. VIT × 10 = HP
+DEX (민첩),Dexterity,stat_dex,int,Layer 0,기본 속성,10,200,9999,레벨업/특성/장비,플레이어,속도/회피/치명타 기반 스탯
+INT (지능),Intelligence,stat_int,int,Layer 0,기본 속성,10,200,9999,레벨업/특성/장비,플레이어,마나/마법 카드 효율 기반 스탯
+LUK (행운),Luck,stat_luk,int,Layer 0,기본 속성,10,200,9999,레벨업/특성/장비,플레이어,드롭율/특별 이벤트 발동 기반 스탯
+치명타율,Critical Rate,crit_rate,percent,Layer 1,전투-공격,5,50,75,DEX/장비/특성,플레이어/몬스터,치명타 발동 확률(%). 기본 5%+DEX×0.1%
+치명타 피해,Critical Damage,crit_dmg,percent,Layer 1,전투-공격,150,500,999,장비/특성/아이템,플레이어/몬스터,치명타 시 최종 피해 배율(%). 기본 150%
+연타 확률,Multi-Hit Chance,multi_hit_chance,percent,Layer 1,전투-공격,0,60,80,장비/특성,플레이어/몬스터,추가 타격 발동 확률(%). 최대 5회까지
+연타 횟수,Multi-Hit Count,multi_hit_count,int,Layer 1,전투-공격,1,5,5,장비/특성,플레이어/몬스터,연타 발동 시 최대 추가 타격 횟수. Hard Cap 5회
+연타 피해 배율,Multi-Hit Damage,multi_hit_dmg,percent,Layer 1,전투-공격,30,100,100,장비/특성,플레이어/몬스터,연타 1회당 피해 배율(%). 기본 30%
+반격 확률,Counter Rate,counter_rate,percent,Layer 1,전투-공격,0,40,60,장비/특성/스킬,플레이어/몬스터,피격 시 자동 반격 발동 확률(%)
+반격 피해 배율,Counter Damage,counter_dmg,percent,Layer 1,전투-공격,60,200,500,장비/특성,플레이어/몬스터,반격 시 피해 배율(%)
+흡혈율,Life Steal,life_steal,percent,Layer 1,전투-공격,0,30,50,장비/특성/스킬,플레이어/몬스터,가한 피해 × 흡혈율 = 회복 HP(%)
+방어구 관통,Armor Penetration,armor_pen,percent,Layer 1,전투-공격,0,50,70,장비/스킬,플레이어/몬스터,적 DEF 무시 비율(%). 50%면 DEF 절반 무효
+방어구 파괴,Armor Break,armor_break,percent,Layer 1,전투-공격,0,50,80,스킬/특성,플레이어,적 DEF 영구 감소 비율(%). 다음 공격부터 적용
+추가 피해,Bonus Damage,bonus_dmg,percent,Layer 1,전투-공격,0,100,300,버프/스킬/아이템,플레이어/몬스터,최종 데미지에 추가로 곱해지는 배율(%)
+HP 비례 피해,HP-Based Damage,hp_ratio_dmg,percent,Layer 1,전투-공격,0,20,30,스킬/특성,플레이어,현재 HP 대비 추가 피해(%HP). 탱커 vs 탱커 대응
+HP 기반 회복,HP Recovery Atk,hp_recovery_atk,percent,Layer 1,전투-공격,0,10,20,특성/장비,플레이어,공격 시 최대 HP 일정 비율 회복
+피해 증폭,Damage Amplify,dmg_amplify,percent,Layer 1,전투-공격,100,500,999,버프/스킬,플레이어,모든 출력 피해에 곱해지는 최종 배율(%)
+회피율,Dodge Rate,dodge_rate,percent,Layer 1,전투-방어,0,50,50,DEX/장비/특성,플레이어/몬스터,공격 완전 회피 확률(%). Hard Cap 50%
+방어막,Shield,shield_val,int,Layer 1,전투-방어,0,99999,999999,스킬/장비/아이템,플레이어/몬스터,HP 소모 전 먼저 소진되는 별도 보호막
+방어막 흡수율,Shield Absorb,shield_absorb,percent,Layer 1,전투-방어,100,100,100,스킬/특성,플레이어,피해가 방어막에 먼저 흡수되는 비율(%)
+피해 경감,Damage Reduction,dmg_reduction,percent,Layer 1,전투-방어,0,60,75,장비/특성/버프,플레이어/몬스터,최종 피해에서 직접 감산되는 경감율(%)
+제어 면역,CC Immunity,cc_immunity,percent,Layer 1,전투-방어,0,100,100,특성/장비,플레이어/몬스터,군중제어(Stun/Slow 등) 저항 확률(%)
+피해 반사,Damage Reflect,dmg_reflect,percent,Layer 1,전투-방어,0,30,50,특성/장비/스킬,플레이어/몬스터,받은 피해 일부를 공격자에게 반사(%)
+리액션 윈도우 (녹색),Reaction Window Green,react_window_green,float,Layer 1,전투-방어,1,3,5,스토리/노말/하드 모드,전투,GUARD 리액션 성공 입력 윈도우(초). Story: 1.0s
+리액션 윈도우 (노란색),Reaction Window Yellow,react_window_yellow,float,Layer 1,전투-방어,1,2,3,스토리/노말/하드 모드,전투,PARRY 리액션 입력 윈도우(초). Story: 1.0s
+리액션 윈도우 (빨간색),Reaction Window Red,react_window_red,float,Layer 1,전투-방어,0.4,1,2,스토리/노말/하드 모드,전투,DODGE 리액션 입력 윈도우(초). Story: 0.4s
+패링 성공 피해감소,Parry Success Dmg,parry_dmg_reduction,percent,Layer 1,전투-방어,100,100,100,고정값,전투,패링 성공 시 해당 공격 피해 완전 무효(100%)
+패링 ATB 페널티,Parry ATB Penalty,parry_atb_penalty,percent,Layer 1,전투-방어,100,100,100,고정값,전투,패링 성공 시 적 ATB를 -ATB_MAX 만큼 감소
+HP 회복률,HP Regen Rate,hp_regen_rate,percent,Layer 1,전투-방어,0,5,10,특성/장비/스킬,플레이어/몬스터,매 프레임 또는 매 턴 최대HP 대비 회복(%)
+HP 회복 보너스,Healing Bonus,heal_bonus,percent,Layer 1,전투-방어,0,50,100,특성/장비,플레이어,회복 효과 배율 증가(%). 힐 스킬에도 적용
+DoT 데미지 배율,DoT Damage Bonus,dot_dmg_bonus,percent,Layer 1,전투-DoT,0,100,200,장비/특성,플레이어,모든 지속 피해(DoT) 배율 증가(%)
+화상 데미지,Burn Damage,burn_dmg,percent,Layer 1,전투-DoT,5,50,100,불꽃 원소 스킬,플레이어/몬스터,매 턴 최대HP 대비 화상 피해(%). 기본 5%/턴
+화상 지속,Burn Duration,burn_duration,int,Layer 1,전투-DoT,3,10,20,불꽃 원소 스킬,전투,화상 상태이상 지속 턴 수
+중독 데미지,Poison Damage,poison_dmg,percent,Layer 1,전투-DoT,3,30,60,암흑 원소 스킬,플레이어/몬스터,매 턴 현재HP 대비 중독 피해(%). 기본 3%/턴
+중독 지속,Poison Duration,poison_duration,int,Layer 1,전투-DoT,5,15,30,암흑 원소 스킬,전투,중독 상태이상 지속 턴 수
+감전 ATB 감소,Shock ATB Reduction,shock_atb_penalty,percent,Layer 1,전투-DoT,30,50,70,번개 원소 스킬,몬스터,감전 시 적 ATB 충전 속도 감소(%). 기본 -30%
+동결 ATB 감소,Freeze ATB Reduction,freeze_atb_penalty,percent,Layer 1,전투-DoT,40,60,100,냉기 원소 스킬,몬스터,동결 시 적 ATB 충전 속도 감소(%). 기본 -40%
+망각 카드 감소,Oblivion Card Reduction,oblivion_card_count,int,Layer 1,전투-DoT,2,5,10,꿈기억 원소 스킬,플레이어,망각 효과로 덱에서 제거되는 카드 수. 기본 2장
+ATTACK 카드 데미지,Attack Card Damage,card_atk_dmg,percent,Layer 2,카드 타입,0,100,200,목걸이/특성/버프,플레이어,ATTACK 타입 카드의 출력 피해 증가(%)
+SKILL 카드 효율,Skill Card Efficiency,card_skl_eff,percent,Layer 2,카드 타입,0,100,200,목걸이/특성/버프,플레이어,SKILL 타입 카드(방어/회복) 효과 증가(%)
+POWER 카드 배율,Power Card Bonus,card_pow_dmg,percent,Layer 2,카드 타입,0,100,200,목걸이/특성/버프,플레이어,POWER 타입 카드 출력 피해 증가(%)
+CURSE 카드 효율,Curse Card Efficiency,card_crs_eff,percent,Layer 2,카드 타입,0,100,200,목걸이/특성/버프,플레이어,CURSE 타입 카드 디버프 효과 증가(%)
+SGL (단일) 보너스,Single Hit Bonus,card_sgl_bonus,percent,Layer 2,카드 타입,0,80,150,목걸이/특성,플레이어,단일 타격(SGL) 카드 추가 피해 배율(%)
+MLT (다중) 보너스,Multi Hit Bonus,card_mlt_bonus,percent,Layer 2,카드 타입,0,80,150,목걸이/특성,플레이어,다중 타격(MLT) 카드 추가 피해 배율(%)
+SCL (스케일) 보너스,Scaling Hit Bonus,card_scl_bonus,percent,Layer 2,카드 타입,0,80,150,목걸이/특성,플레이어,스케일링(SCL) 카드 조건 달성 시 배율(%)
+콤보 보너스,Combo Bonus,combo_bonus,percent,Layer 2,카드 타입,0,50,100,목걸이/특성,플레이어,같은 타입 3연속 사용 시 추가 피해 배율(%)
+카드 에너지 할인,Card Energy Discount,card_energy_discount,int,Layer 2,카드 타입,0,2,3,특성/버프,플레이어,카드 사용 에너지 비용 감소량. 최솟값 1
+카드 드로우 보너스,Card Draw Bonus,card_draw_bonus,int,Layer 2,카드 타입,0,3,5,특성/스킬,플레이어,턴 시작 시 추가 드로우 장 수
+꿈기억 데미지,Dream Damage,elem_dream_dmg,percent,Layer 3,원소 데미지,0,100,200,장비/특성/스킬,플레이어,꿈기억 원소 피해 증가(%)
+불꽃 데미지,Fire Damage,elem_fire_dmg,percent,Layer 3,원소 데미지,0,100,200,장비/특성/스킬,플레이어,불꽃 원소 피해 증가(%)
+냉기 데미지,Ice Damage,elem_ice_dmg,percent,Layer 3,원소 데미지,0,100,200,장비/특성/스킬,플레이어,냉기 원소 피해 증가(%)
+번개 데미지,Lightning Damage,elem_lightning_dmg,percent,Layer 3,원소 데미지,0,100,200,장비/특성/스킬,플레이어,번개 원소 피해 증가(%)
+암흑 데미지,Dark Damage,elem_dark_dmg,percent,Layer 3,원소 데미지,0,100,200,장비/특성/스킬,플레이어,암흑 원소 피해 증가(%)
+꿈기억 저항,Dream Resistance,elem_dream_res,percent,Layer 3,원소 경감,0,75,90,장비/특성/버프,플레이어/몬스터,꿈기억 원소 피해 경감(%)
+불꽃 저항,Fire Resistance,elem_fire_res,percent,Layer 3,원소 경감,0,75,90,장비/특성/버프,플레이어/몬스터,불꽃 원소 피해 경감(%)
+냉기 저항,Ice Resistance,elem_ice_res,percent,Layer 3,원소 경감,0,75,90,장비/특성/버프,플레이어/몬스터,냉기 원소 피해 경감(%)
+번개 저항,Lightning Resistance,elem_lightning_res,percent,Layer 3,원소 경감,0,75,90,장비/특성/버프,플레이어/몬스터,번개 원소 피해 경감(%)
+암흑 저항,Dark Resistance,elem_dark_res,percent,Layer 3,원소 경감,0,75,90,장비/특성/버프,플레이어/몬스터,암흑 원소 피해 경감(%)
+무기 ATK,Weapon ATK,equip_weapon_atk,int,Equipment,장비-무기,15,100,200,몬스터 드롭/상점/뽑기,장비,무기 장착 시 부여하는 기본 공격력. Common~Legendary
+무기 전체 효과,Weapon All Effect,equip_weapon_all_eff,percent,Equipment,장비-무기,0,30,50,Legendary 무기,장비,무기 효과: 모든 카드 효과 배율 증가(%). 성검 등
+무기 치명타율,Weapon Crit Rate,equip_weapon_crit_rate,percent,Equipment,장비-무기,0,15,25,Uncommon+ 무기,장비,무기 특수 옵션: 치명타율 증가(%)
+무기 원소 데미지,Weapon Elem Dmg,equip_weapon_elem_dmg,percent,Equipment,장비-무기,0,20,40,Rare+ 무기,장비,무기 원소 속성 피해 증가(%)
+방어구 DEF,Armor DEF,equip_armor_def,int,Equipment,장비-방어구,13,80,150,몬스터 드롭/상점/뽑기,장비,방어구 장착 시 부여하는 기본 방어력
+방어구 HP,Armor HP,equip_armor_hp,int,Equipment,장비-방어구,45,280,500,몬스터 드롭/상점/뽑기,장비,방어구 장착 시 부여하는 최대 HP 증가량
+방어구 원소 저항,Armor Elem Res,equip_armor_elem_res,percent,Equipment,장비-방어구,0,20,40,Epic+ 방어구,장비,방어구 원소 저항 옵션(%)
+방어구 피해 경감,Armor Dmg Reduction,equip_armor_dmg_red,percent,Equipment,장비-방어구,0,15,25,Legendary 방어구,장비,방어구 피해 경감 옵션(%)
+반지 스탯 비율,Ring Stat Bonus,equip_ring_stat_pct,percent,Equipment,장비-반지,15,50,80,몬스터 드롭/상점/뽑기,장비,반지 장착 시 특정 스탯 증가 비율(%)
+반지 전체 스탯,Ring All Stat,equip_ring_all_stat,percent,Equipment,장비-반지,0,50,80,Legendary 반지,장비,모든 스탯 증가(%). 무한의 반지: +50%
+반지 회복력,Ring Recovery,equip_ring_recovery,percent,Equipment,장비-반지,0,30,50,Legendary 반지,장비,HP 회복 효과 증가(%). 영원한 반지 옵션
+목걸이 카드 배율,Necklace Card Bonus,equip_necklace_card_pct,percent,Equipment,장비-목걸이,20,50,80,몬스터 드롭/상점/뽑기,장비,특정 카드 타입 배율 증가(%). Common 20%~Legendary 50%
+목걸이 콤보 보너스,Necklace Combo,equip_necklace_combo,percent,Equipment,장비-목걸이,0,30,50,Legendary 목걸이,장비,카드 콤보 보너스 추가 증가(%). 꿈의 목걸이: +30%
+장비 드롭율,Item Drop Rate,item_drop_rate,percent,Equipment,장비-무기,0.5,60,100,LUK 스탯,전투,전투 승리 후 아이템 드롭 확률(%). LUK × 0.3% 기여
+몬스터 최대 HP,Monster Max HP,mob_max_hp,int,Monster,몬스터-기본,100,9999999,99999999,몬스터 설계,몬스터,"일반 100~, 정예 5000~, 보스 50000~, 월드보스 1000000~"
+몬스터 공격력,Monster ATK,mob_atk,int,Monster,몬스터-기본,10,99999,999999,몬스터 설계,몬스터,몬스터 기본 공격력. 레벨/등급에 비례
+몬스터 방어력,Monster DEF,mob_def,int,Monster,몬스터-기본,5,9999,99999,몬스터 설계,몬스터,몬스터 기본 방어력. 피해 감소 공식 적용
+몬스터 속도,Monster SPD,mob_spd,int,Monster,몬스터-기본,50,500,9999,몬스터 설계,몬스터,ATB 충전 속도. 높을수록 더 자주 행동
+몬스터 원소,Monster Element,mob_element,enum,Monster,몬스터-기본,None,-,-,몬스터 설계,몬스터,속성: Dream/Fire/Ice/Lightning/Dark. 약점 원소 +50%
+몬스터 등급,Monster Grade,mob_grade,enum,Monster,몬스터-기본,Normal,-,-,몬스터 설계,몬스터,Normal/Elite/Boss/WorldBoss. 등급별 HP/보상 배율
+경험치 보상,EXP Reward,mob_exp_reward,int,Monster,몬스터-기본,100,9999999,999999999,몬스터 설계,전투,전투 승리 시 획득 경험치
+골드 보상,Gold Reward,mob_gold_reward,int,Monster,몬스터-기본,50,9999999,99999999,몬스터 설계,전투,전투 승리 시 획득 골드. LUK 보너스 적용
+몬스터 치명타율,Monster Crit Rate,mob_crit_rate,percent,Monster,몬스터-특수,5,50,75,몬스터 설계,몬스터,정예/보스급 몬스터의 치명타 확률(%)
+몬스터 특수 스킬 쿨다운,Monster Skill Cooldown,mob_skill_cd,float,Monster,몬스터-특수,5,60,300,몬스터 설계,몬스터,보스 특수 패턴 발동 간격(초). 낮을수록 자주 사용
+몬스터 분노 임계값,Monster Rage Threshold,mob_rage_hp,percent,Monster,몬스터-특수,30,50,70,보스 설계,몬스터,이 HP% 이하에서 강화 패턴 전환(%). 보스 전용
+몬스터 방어막,Monster Shield,mob_shield,int,Monster,몬스터-특수,0,999999,9999999,보스 설계,몬스터,보스 보호막 수치. 별도 파괴 조건 필요
+몬스터 약점 배율,Monster Weakness Bonus,mob_weakness_mult,percent,Monster,몬스터-특수,150,200,300,원소 상성,전투,약점 원소 피격 시 추가 피해 배율(%). 기본 150%
+몬스터 저항 배율,Monster Resist Bonus,mob_resist_mult,percent,Monster,몬스터-특수,50,75,90,원소 상성,전투,내성 원소 피격 시 피해 배율(%). 기본 50%
+상태이상 발동율,Status Proc Rate,status_proc_rate,percent,Layer 1,상태이상,100,100,100,스킬/카드 고정값,플레이어/몬스터,상태이상 부여 시도 시 실제 발동 확률(%)
+상태이상 저항,Status Resistance,status_res,percent,Layer 1,상태이상,0,70,90,장비/특성,플레이어/몬스터,상태이상 부여 저항 확률(%). 높을수록 면역
+상태이상 지속 감소,Status Duration Reduce,status_dur_reduce,percent,Layer 1,상태이상,0,50,80,장비/특성,플레이어,상태이상 지속 시간 단축 비율(%)
+ATB 게이지,ATB Gauge,atb_gauge,float,Layer 0,기본 속성,0,100,100,전투 중 실시간,전투,ATB 충전 게이지. 100.0 도달 시 행동 가능
+ATB 충전 속도,ATB Charge Rate,atb_charge_rate,float,Layer 0,기본 속성,1,5,10,SPD 스탯/상태이상,전투,SPD/100 per frame. 감전·동결 시 패널티 적용
+레벨,Level,char_level,int,Layer 0,기본 속성,1,100,100,경험치 누적,플레이어/몬스터,캐릭터/몬스터 레벨. 스탯 성장 기준
+경험치,Experience,char_exp,int,Layer 0,기본 속성,0,999999999,999999999,전투 승리,플레이어,현재 보유 경험치. 레벨업 임계값 도달 시 레벨 증가
+골드,Gold,char_gold,int,Layer 0,기본 속성,0,999999999,999999999,전투 승리/퀘스트/이벤트,플레이어,게임 내 기본 화폐
+보석,Gems,char_gems,int,Layer 0,기본 속성,0,999999,9999999,로그인/이벤트/과금,플레이어,프리미엄 화폐. 에픽/레전더리 뽑기 등에 사용
