@@ -130,7 +130,8 @@ func _update_event_indices() -> void:
 		if nodes[i].get("type", "") != "general":
 			_event_indices.append(i)
 
-# 반환: 표시할 이벤트 슬롯 인덱스(0-based) 또는 -1(ellipsis). (1)-(2)-(3)...(8) → (3) 지나면 (1)-(4)-(5)...(8) 고정.
+# 반환: 표시할 이벤트 슬롯 인덱스(0-based) 또는 -1(ellipsis).
+# (1)-(2)-(3)...(8) → (3) 깬 뒤 (1)-(4)-(5)...(8) → (5) 깬 뒤 (1)-(n-2)-(n-1)-(n). 전환 후 플레이어는 (1) 오른쪽에서 시작.
 func _get_visible_event_slots() -> Array:
 	var n: int = _event_indices.size()
 	if n == 0:
@@ -140,19 +141,20 @@ func _get_visible_event_slots() -> Array:
 	var path_seg: int = _get_path_segment_index()
 	# (3) 이벤트는 (1)-(2)-(3) 화면에서 (3) 위치에서 진행. 전환은 실제로 다음 노드로 넘어간 뒤에만.
 	var past_event_3: bool = current_node_index > _event_indices[2]
-	# 이미 (1)-(4)-(5)...(8) 뷰로 넘어갔으면 되돌리지 않음
+	# (5) 이벤트 깬 직후부터 (1)-(6)-(7)-(8) 표시. segment 4 = (5)→(6) 구간이므로 path_seg >= n-4.
+	# (n-3으로 하면 (6) 구간에 들어가야 전환되어, 그때는 이미 삼각형이 (6)에 있음)
+	if path_seg >= n - 4:
+		return [0, n - 3, n - 2, n - 1]
+	# 이미 (1)-(4)-(5)...(8) 뷰로 넘어갔으면 되돌리지 않음 (중간 구간만)
 	var already_slid: bool = _visible_indices.size() >= 4 and _visible_indices[1] == 3
 	if already_slid and path_seg >= 2:
 		return [0, 3, 4, -1, n - 1]
-	# (3)을 지나서 다음 노드로 advance 된 후에만 → (1) V - (4) - (5) ... (8) 로 전환
+	# (3)을 지나서 다음 노드로 advance 된 후에만 → (1) - (4) - (5) ... (8) 로 전환
 	if path_seg == 2 and past_event_3:
 		return [0, 3, 4, -1, n - 1]
 	# 초반: (1), (2), (3), ... 표시
 	if path_seg <= 2:
 		return [0, 1, 2, -1, n - 1]
-	# 마지막 3이벤트 구간
-	if path_seg >= n - 3:
-		return [0, n - 3, n - 2, n - 1]
 	# 중간: (1), (현재), (현재+1), ... , (n)
 	return [0, path_seg, path_seg + 1, -1, n - 1]
 
@@ -231,8 +233,17 @@ func _get_segment_and_fill(progress_ratio: float = 0.0) -> Array:
 		seg_start = float(_event_indices[vis[seg]])
 		seg_end = float(_event_indices[vis[seg + 1]])
 	var fill: float = 0.0
+	var n_ev: int = _event_indices.size()
+	# (1)-(n-2)-(n-1)-(n) 마지막 3이벤트 뷰: (5) 깬 직후 (1) 오른쪽에서 시작, (6) 도착 시 fill=1
+	if n_ev >= 4 and vis.size() == 4 and vis[0] == 0 and vis[1] == n_ev - 3 and seg == 0:
+		var start_after_prev: float = float(_event_indices[n_ev - 4]) + 1.0  # (5) 직후 노드
+		var end_at_c: float = float(_event_indices[n_ev - 3])  # (6) 도착
+		if end_at_c > start_after_prev:
+			fill = (pos - start_after_prev) / (end_at_c - start_after_prev)
+		else:
+			fill = 1.0 if pos >= end_at_c else 0.0
 	# A→C 첫 구간이고, B≥3 인 슬라이드 뷰: 직전 C 지난 직후를 0, 현재 C 도착을 1로 (삼각형 A에서 시작)
-	if vis.size() >= 3 and vis[0] == 0 and vis[1] >= 3 and seg == 0:
+	elif vis.size() >= 3 and vis[0] == 0 and vis[1] >= 3 and vis[1] < n_ev - 3 and seg == 0:
 		var c: int = vis[2]
 		var prev_c: int = c - 2
 		if prev_c >= 0:
@@ -410,6 +421,42 @@ func _get_progress_tip_x(progress_ratio: float = 0.0) -> float:
 	"""진행선 끝(원 관통 없이 구간 기준)의 x 좌표. 시작 노드부터 (1), (2)... 순으로 이동."""
 	if _slot_centers_x.is_empty() or _slot_radii.is_empty():
 		return CAPSULE_MARGIN
+	var vis: Array = _get_visible_events()
+	var n_ev: int = _event_indices.size()
+	# (1)-(6)-(7)-(8) 뷰에서 (6) 노드 이상이면 핀 위치를 명시적으로 계산 (삼각형이 (1)에 머무는 버그 방지)
+	if n_ev >= 4 and vis.size() == 4 and vis[0] == 0 and vis[1] == n_ev - 3 and _slot_centers_x.size() >= 4:
+		var pos: float = float(current_node_index) + progress_ratio
+		# (8) 도착
+		if pos >= float(_event_indices[n_ev - 1]):
+			return _slot_centers_x[3]
+		# (7)-(8) 구간
+		if pos >= float(_event_indices[n_ev - 2]):
+			var seg2_start: float = _slot_centers_x[2] + (_slot_radii[2] if 2 < _slot_radii.size() else 10.0)
+			var seg2_end: float = _slot_centers_x[3] - (_slot_radii[3] if 3 < _slot_radii.size() else 10.0)
+			var t: float = 0.0
+			if seg2_end > seg2_start:
+				var denom: float = float(_event_indices[n_ev - 1]) - float(_event_indices[n_ev - 2])
+				if denom > 0:
+					t = (pos - float(_event_indices[n_ev - 2])) / denom
+				t = clampf(t, 0.0, 1.0)
+			return seg2_start + (seg2_end - seg2_start) * t
+		# (6) 도착 ~ (7) 전
+		if pos >= float(_event_indices[n_ev - 3]):
+			return _slot_centers_x[1]
+		# (1)-(6) 구간: (5) 직후 ~ (6) 전까지 경로를 따라 보간 (삼각형이 (1)→(6)으로 움직이도록)
+		var start_after_prev: float = float(_event_indices[n_ev - 4]) + 1.0
+		var end_at_c: float = float(_event_indices[n_ev - 3])
+		var fill_01: float = 0.0
+		if end_at_c > start_after_prev:
+			fill_01 = (pos - start_after_prev) / (end_at_c - start_after_prev)
+		else:
+			fill_01 = 1.0 if pos >= end_at_c else 0.0
+		fill_01 = clampf(fill_01, 0.0, 1.0)
+		var r0: float = _slot_radii[0] if _slot_radii.size() > 0 else 10.0
+		var r1: float = _slot_radii[1] if _slot_radii.size() > 1 else 10.0
+		var start_x_01: float = _slot_centers_x[0] + r0
+		var end_x_01: float = _slot_centers_x[1] - r1
+		return start_x_01 + (end_x_01 - start_x_01) * fill_01
 	var seg_fill: Array = _get_segment_and_fill(progress_ratio)
 	var seg: int = seg_fill[0]
 	var fill: float = seg_fill[1]
@@ -476,11 +523,7 @@ func _play_slide_animation(new_slots: Array) -> void:
 func _on_slide_animation_finished(new_slots: Array) -> void:
 	_visible_indices = new_slots
 	update_display()
-	# (1) 다음에 삼각형(V) 위치 고정: (3) 지난 직후이므로 (1) 오른쪽
-	if _slot_centers_x.size() > 0 and _slot_radii.size() > 0:
-		var one_right_x: float = _slot_centers_x[0] + _slot_radii[0]
-		current_pin.position.x = one_right_x - PIN_SIZE / 2
-		current_pin.position.y = _get_base_y() - 4
+	# 핀 위치는 update_display() → _update_pin_position()에서 current_node_index 기준으로 이미 설정됨. (1)으로 덮어쓰지 않음.
 
 func _update_progress_line() -> void:
 	"""진행선은 _draw()에서 원 오른쪽~다음 원 왼쪽 구간만 그림. 여기서는 redraw만."""
@@ -532,9 +575,16 @@ func _notification(what: int) -> void:
 
 # ─── 자동 진행 시스템 ─────────────────────────────────
 func _process(delta: float) -> void:
+	# 매 프레임 핀 위치 동기화 — (1)~(6) 구간에서도 삼각형이 경로를 따라 움직이도록
+	if not nodes.is_empty() and _slot_centers_x.size() >= 2:
+		_update_event_indices()
+		var tip_x: float = _get_progress_tip_x(_smooth_progress_ratio)
+		current_pin.position.x = tip_x - PIN_SIZE / 2
+		current_pin.position.y = _get_base_y() - 4
+
 	if not is_auto_progressing or paused or nodes.is_empty():
 		return
-	
+
 	# 마지막 노드 도착 시 정지
 	if current_node_index >= nodes.size() - 1:
 		is_auto_progressing = false

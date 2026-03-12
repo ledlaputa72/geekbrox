@@ -61,8 +61,7 @@ const BOTTOM_UI_PATHS = {
 }
 
 # ── 전투 모드 분기 ─────────────────────────────────────
-# 일반 전투 = ATB, 보스 전투 = 턴베이스 (SettingsManager로 오버라이드 가능)
-# F1 = ATB 강제, F2 = 턴베이스 강제
+# 모든 전투 ATB 통일 (보스 포함). F2 = 턴베이스 강제
 const COMBAT_SCENE_ATB = "res://scenes/combat/CombatSceneATB.tscn"
 const COMBAT_SCENE_TB  = "res://scenes/combat/CombatSceneTB.tscn"
 
@@ -1162,9 +1161,13 @@ func switch_to_exploration(returning_from_event: bool = false):
 		exploration_ui.set_paused(false)
 
 	if returning_from_event and run_progress_bar and run_progress_bar.get_next_node_display_text() != "완료":
-		# 이벤트 복귀: 버튼 잠깐 숨김 후 다음 노드 진행 → _on_node_reached에서 로그+이벤트 버튼 표시
+		# 이벤트 복귀: 이동 연출(배경 스크롤+걷기) 재생 후 다음 노드 진행. (5)→(6) 구간에서 플레이어가 이동하도록.
 		if exploration_ui.has_method("set_action_button_visible"):
 			exploration_ui.set_action_button_visible(false)
+		run_progress_bar.set_progress_ratio(0.0)
+		var tween := create_tween()
+		tween.tween_method(func(r: float): run_progress_bar.set_progress_ratio(r), 0.0, 1.0, TRAVEL_DURATION)
+		await tween.finished
 		run_progress_bar.advance_to_next_node_manual()
 	else:
 		# 최초 진입 또는 런 완료: 진행 버튼 표시
@@ -1173,8 +1176,7 @@ func switch_to_exploration(returning_from_event: bool = false):
 	print("[InRun_v4] ===== EXPLORATION SWITCH COMPLETE =====\n")
 
 func switch_to_combat(is_boss: bool = false):
-	"""Switch to combat mode — 일반=ATB, 보스=턴베이스 자동 분기
-	   F1/F2 단축키로 강제 전환 가능 (combat_mode_override)"""
+	"""Switch to combat mode — 모든 전투 ATB 통일 (보스 포함). F2로 턴베이스 강제 가능."""
 	print("\n[InRun_v4] ===== SWITCHING TO COMBAT (boss=%s) =====" % is_boss)
 	current_state = ScreenState.COMBAT
 	current_is_boss = is_boss
@@ -1193,17 +1195,14 @@ func switch_to_combat(is_boss: bool = false):
 	print("[InRun_v4] Spawning monsters...")
 	await _spawn_monsters_from_enemies(enemy_nodes)
 
-	# ── 전투 모드 결정 ──────────────────────────────────
-	# 우선순위: 단축키 오버라이드 > SettingsManager > 기본(보스=TB, 일반=ATB)
-	var combat_mode: String
+	# ── 전투 모드: 모든 전투 ATB 통일 (보스 포함) ──────────────────────────────────
+	var combat_mode: String = "ATB"
 	if combat_mode_override != "":
 		combat_mode = combat_mode_override
 	elif has_node("/root/SettingsManager"):
 		combat_mode = SettingsManager.get_combat_mode(is_boss)
-	else:
-		combat_mode = "TURNBASED" if is_boss else "ATB"
 
-	print("[InRun_v4] 전투 모드: %s" % combat_mode)
+	print("[InRun_v4] 전투 모드: %s (보스=%s, 모든 전투 ATB)" % [combat_mode, is_boss])
 
 	if combat_mode == "TURNBASED":
 		await _start_tb_combat(enemy_nodes)

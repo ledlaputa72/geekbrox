@@ -107,6 +107,7 @@ func start_combat(p_data: Dictionary, enemy_list: Array, card_deck: Array[Card])
 		emit_signal("deck_passive_activated", passives)
 
 	battle_log("=== \uC804\uD22C \uC2DC\uC791 (\uC801 %d\uB9C8\uB9AC) ===" % enemy_list.size())  # 전투 시작 (적 N마리)
+	_log_status_snapshot()
 	if DEBUG_COMBAT:
 		print("[TB] 보스 전투 시작 적 %d마리" % enemies.size())
 	emit_signal("combat_started")
@@ -159,6 +160,7 @@ func _start_player_turn():
 	if battle_diary:
 		battle_diary.record_turn()
 		battle_diary.log("턴 %d 시작 (에너지: %d)" % [turn_count, energy])
+	_log_status_snapshot()
 
 	# 오토 AI 처리
 	if auto_ai and auto_ai.mode == TurnBasedAutoAI.AutoMode.FULL:
@@ -242,7 +244,7 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 		emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
 		battle_log("  \u2192 \uBE14\uB85D +%d (\uD604\uC7AC \uD53C\uD574 \uBCF4\uD638 %d)" % [actual_block, player_data.get("block", 0)])
 
-	# 상태이상
+	# 상태이상 (대상·효과·스택 로그로 버프/디버프 적용 검증)
 	for eff in card.status_effects:
 		var target_type = eff.get("target", "enemy")
 		var eff_type = eff.get("type", "POISON")
@@ -250,12 +252,19 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 		if target_type == "enemy":
 			for enemy in enemies:
 				if enemy.is_alive():
+					var before = enemy.status_effects.get(eff_type, 0)
 					StatusEffectSystem.apply_to(enemy, eff_type, eff_val)
+					var after = enemy.status_effects.get(eff_type, 0)
+					var ename = enemy.display_name if enemy.get("display_name") else "적"
+					battle_log("  [\uBC84\uD504/\uB514\uBC84\uD504] \uB300\uC0AC\uAD70=\uC801(%s) | \uD56D\uBAA9=%s | +%d (\uC801\uC6A9\uB4F1 %d\u2192%d)" % [ename, eff_type, eff_val, before, after])
 					battle_log("  \u2192 \uC801 \uC0C8\uD0DC\uC774\uC0C1 %s +%d" % [eff_type, eff_val])
 		elif target_type == "self":
 			var p_status = player_data.get("status_effects", {})
+			var before = p_status.get(eff_type, 0)
 			p_status[eff_type] = p_status.get(eff_type, 0) + eff_val
 			player_data["status_effects"] = p_status
+			var after = p_status[eff_type]
+			battle_log("  [\uBC84\uD504/\uB514\uBC84\uD504] \uB300\uC0AC\uAD70=\uD50C\uB808\uC774\uC5B4 | \uD56D\uBAA9=%s | +%d (\uC801\uC6A9\uB4F1 %d\u2192%d)" % [eff_type, eff_val, before, after])
 			battle_log("  \u2192 \uC790\uC2E0 %s +%d" % [eff_type, eff_val])
 
 	# 드로우
@@ -264,18 +273,20 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 		hand_system.draw_cards(card.draw)
 
 func _calc_player_damage(base: int, enemy) -> int:
-	"""플레이어→적 데미지 (블록은 Monster.take_damage에서 처리)"""
-	var dmg = base
-	# 힘 보너스
-	var strength = player_data.get("status_effects", {}).get("STRENGTH", 0)
+	"""플레이어→적 데미지 (블록은 Monster.take_damage에서 처리). 적 VULN=받는피해+50%, 내 WEAK=주는피해-25%, 내 STRENGTH=절대값."""
+	var dmg: int = base
+	var strength: int = player_data.get("status_effects", {}).get("STRENGTH", 0)
+	var enemy_vuln: bool = enemy.has_status("VULNERABLE")
+	var my_weak: int = player_data.get("status_effects", {}).get("WEAK", 0)
 	dmg += strength
-	# 적 취약
-	if enemy.has_status("VULNERABLE"):
+	if enemy_vuln:
 		dmg = int(dmg * 1.5)
-	# 플레이어 약화
-	if player_data.get("status_effects", {}).get("WEAK", 0) > 0:
+	if my_weak > 0:
 		dmg = int(dmg * 0.75)
-	return max(0, dmg)
+	var final_dmg: int = max(0, dmg)
+	var ename: String = enemy.display_name if enemy.get("display_name") else "적"
+	battle_log("  [\uB370\uBBF8\uC9C0\uACC4\uC0B0] \uD50C\uB808\uC774\uC5B4\u2192%s | \uAE30\uBCF8=%d | \uC801VULN=%s \uB0B4WEAK=%d \uD799=%d | \uCD5C\uC885=%d" % [ename, base, "Y" if enemy_vuln else "N", my_weak, strength, final_dmg])
+	return final_dmg
 
 # ── 턴 종료 (플레이어 버튼 또는 AI 완료) ────────────
 func player_end_turn():
@@ -445,15 +456,19 @@ func _apply_action_result(enemy, attack: Dictionary, result):
 			if DEBUG_COMBAT: print("[TB] 피해 %d 받음" % dmg)
 
 func _calc_enemy_damage(attack: Dictionary, target: Dictionary) -> int:
-	var dmg = attack.get("damage", 10)
-	if target.get("status_effects", {}).get("VULNERABLE", 0) > 0:
-		dmg = int(dmg * 1.5)
+	var base: int = attack.get("damage", 10)
+	var target_vuln: int = target.get("status_effects", {}).get("VULNERABLE", 0)
 	var attacker = attack.get("attacker", null)
-	if attacker and attacker.has_method("has_status") and attacker.has_status("WEAK"):
+	var attacker_weak: bool = attacker and attacker.has_method("has_status") and attacker.has_status("WEAK")
+	var dmg: int = base
+	if target_vuln > 0:
+		dmg = int(dmg * 1.5)
+	if attacker_weak:
 		dmg = int(dmg * 0.75)
-	var block = target.get("block", 0)
-	var after_block = max(0, dmg - block)
+	var block: int = target.get("block", 0)
+	var after_block: int = max(0, dmg - block)
 	target["block"] = max(0, block - dmg)
+	battle_log("  [\uBC29\uC740\uD53C\uD574] \uC801\u2192\uD50C\uB808\uC774\uC5B4 | \uAE30\uBCF8=%d | \uD50C\uB808\uC774\uC5B4VULN=%s \uC801WEAK=%s \uBE14\uB85D=%d | \uCD5C\uC885=%d" % [base, "Y(%d)" % target_vuln if target_vuln > 0 else "N", "Y" if attacker_weak else "N", block, after_block])
 	return after_block
 
 # ── 전투 종료 ─────────────────────────────────────────
@@ -531,6 +546,28 @@ func battle_log(msg: String):
 	if battle_diary:
 		battle_diary.log(msg)
 	emit_signal("battle_log_updated", msg)
+
+func _log_status_snapshot() -> void:
+	"""플레이어·적의 현재 버프/디버프 상태를 로그 (적용 검증용)."""
+	var p_se = player_data.get("status_effects", {})
+	var p_parts: PackedStringArray = []
+	for k in p_se:
+		if int(p_se[k]) != 0:
+			p_parts.append("%s=%d" % [k, int(p_se[k])])
+	var p_str: String = ",".join(p_parts) if p_parts.size() > 0 else "(없음)"
+	var e_parts: PackedStringArray = []
+	for i in range(enemies.size()):
+		var e = enemies[i]
+		if not e.is_alive():
+			continue
+		var ename: String = e.display_name if e.get("display_name") else "적%d" % (i+1)
+		var se = e.status_effects if e.get("status_effects") else {}
+		var parts: PackedStringArray = []
+		for k in se:
+			if int(se[k]) != 0:
+				parts.append("%s=%d" % [k, int(se[k])])
+		e_parts.append("%s[%s]" % [ename, ",".join(parts) if parts.size() > 0 else "없음"])
+	battle_log("  [\uD604\uC7AC\uC0C8\uD0DC] \uD50C\uB808\uC774\uC5B4: %s | \uC801: %s" % [p_str, " / ".join(e_parts) if e_parts.size() > 0 else "(없음)"])
 
 func get_player_hp() -> int:
 	return player_data.get("hp", 0)

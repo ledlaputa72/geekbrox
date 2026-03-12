@@ -73,6 +73,28 @@ func battle_log(msg: String) -> void:
 		battle_diary.log(msg)
 	emit_signal("battle_log_updated", msg)
 
+func _log_status_snapshot() -> void:
+	"""플레이어·적의 현재 버프/디버프 상태를 로그 (적용 검증용)."""
+	var p_se = player_data.get("status_effects", {})
+	var p_parts: PackedStringArray = []
+	for k in p_se:
+		if int(p_se[k]) != 0:
+			p_parts.append("%s=%d" % [k, int(p_se[k])])
+	var p_str: String = ",".join(p_parts) if p_parts.size() > 0 else "(없음)"
+	var e_parts: PackedStringArray = []
+	for i in range(enemies.size()):
+		var e = enemies[i]
+		if not e.is_alive():
+			continue
+		var ename: String = e.display_name if e.get("display_name") else "적%d" % (i+1)
+		var se = e.status_effects if e.get("status_effects") else {}
+		var parts: PackedStringArray = []
+		for k in se:
+			if int(se[k]) != 0:
+				parts.append("%s=%d" % [k, int(se[k])])
+		e_parts.append("%s[%s]" % [ename, ",".join(parts) if parts.size() > 0 else "없음"])
+	battle_log("  [\uD604\uC7AC\uC0C8\uD0DC] \uD50C\uB808\uC774\uC5B4: %s | \uC801: %s" % [p_str, " / ".join(e_parts) if e_parts.size() > 0 else "(없음)"])
+
 func start_combat(p_data: Dictionary, enemy_list: Array, card_deck: Array[Card]):
 	player_data = p_data.duplicate()
 	player_data["block"] = 0
@@ -109,6 +131,7 @@ func start_combat(p_data: Dictionary, enemy_list: Array, card_deck: Array[Card])
 		auto_ai.set_mode(ATBAutoAI.AutoMode.MANUAL)
 
 	battle_log("=== \uC804\uD22C \uC2DC\uC791 (\uC801 %d\uB9C8\uB9AC) ===" % enemy_list.size())  # 전투 시작 (적 N마리)
+	_log_status_snapshot()
 	emit_signal("combat_started")
 	emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
 	# UI 초기 HP 동기화 (InRun_v4 character_nodes ↔ enemies 매핑)
@@ -339,16 +362,18 @@ func _apply_attack_result(enemy, attack: Dictionary, result):
 			if DEBUG_COMBAT: print("[ATB] 피해 %d 받음 HP %d/%d" % [dmg, player_data.get("hp", 0), player_data.get("max_hp", 200)])
 
 func _calculate_damage(attacker, attack: Dictionary, target: Dictionary) -> int:
-	var base = attack.get("damage", 10)
-	# 상태이상 보정
-	if target.get("status_effects", {}).get("VULNERABLE", 0) > 0:
-		base = int(base * 1.5)
-	if attacker.has_status("WEAK"):
-		base = int(base * 0.75)
-	# 블록 상쇄
-	var block = target.get("block", 0)
-	var after_block = max(0, base - block)
-	target["block"] = max(0, block - base)
+	var base: int = attack.get("damage", 10)
+	var after_vuln: int = base
+	var target_vuln: int = target.get("status_effects", {}).get("VULNERABLE", 0)
+	var attacker_weak: bool = attacker.has_method("has_status") and attacker.has_status("WEAK")
+	if target_vuln > 0:
+		after_vuln = int(base * 1.5)
+	if attacker_weak:
+		after_vuln = int(after_vuln * 0.75)
+	var block: int = target.get("block", 0)
+	var after_block: int = max(0, after_vuln - block)
+	target["block"] = max(0, block - after_vuln)
+	battle_log("  [\uBC29\uC740\uD53C\uD574] \uC801\u2192\uD50C\uB808\uC774\uC5B4 | \uAE30\uBCF8=%d | \uD50C\uB808\uC774\uC5B4VULN=%s \uC801WEAK=%s \uBE14\uB85D=%d | \uCD5C\uC885=%d" % [base, "Y(%d)" % target_vuln if target_vuln > 0 else "N", "Y" if attacker_weak else "N", block, after_block])
 	return after_block
 
 # ── 오토 리액션: 창 없이 즉시 적용 (패링 불가, 회피=카드별 확률, 가드=100%) ─────────────────
@@ -449,7 +474,7 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 		emit_signal("player_hp_changed", player_data.get("hp", 0), player_data.get("max_hp", 200), player_data.get("block", 0))
 		battle_log("  \u2192 \uBE14\uB85D +%d (\uD604\uC7AC \uD53C\uD574 \uBCF4\uD638 %d)" % [actual_block, player_data.get("block", 0)])  # → 블록 +N (현재 피해 보호 M)
 
-	# 상태이상
+	# 상태이상 (대상·효과·스택 로그로 버프/디버프 적용 검증)
 	for eff in card.status_effects:
 		var target_type = eff.get("target", "enemy")
 		var eff_type = eff.get("type", "POISON")
@@ -457,12 +482,19 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 		if target_type == "enemy":
 			for enemy in enemies:
 				if enemy.is_alive():
+					var before = enemy.status_effects.get(eff_type, 0)
 					StatusEffectSystem.apply_to(enemy, eff_type, eff_val)
+					var after = enemy.status_effects.get(eff_type, 0)
+					var ename = enemy.display_name if enemy.get("display_name") else "적"
+					battle_log("  [\uBC84\uD504/\uB514\uBC84\uD504] \uB300\uC0AC\uAD70=\uC801(%s) | \uD56D\uBAA9=%s | +%d (\uC801\uC6A9\uB4F1 %d\u2192%d)" % [ename, eff_type, eff_val, before, after])
 					battle_log("  \u2192 \uC801 \uC0C8\uD0DC\uC774\uC0C1 %s +%d" % [eff_type, eff_val])  # → 적 상태이상 X +N
 		elif target_type == "self":
 			var p_status = player_data.get("status_effects", {})
+			var before = p_status.get(eff_type, 0)
 			p_status[eff_type] = p_status.get(eff_type, 0) + eff_val
 			player_data["status_effects"] = p_status
+			var after = p_status[eff_type]
+			battle_log("  [\uBC84\uD504/\uB514\uBC84\uD504] \uB300\uC0AC\uAD70=\uD50C\uB808\uC774\uC5B4 | \uD56D\uBAA9=%s | +%d (\uC801\uC6A9\uB4F1 %d\u2192%d)" % [eff_type, eff_val, before, after])
 			battle_log("  \u2192 \uC790\uC2E0 %s +%d" % [eff_type, eff_val])  # → 자신 X +N
 
 	# 드로우
@@ -490,13 +522,14 @@ func _calculate_player_damage(card: Card, enemy, base: int) -> int:
 			equip_bonus += player_data.get(card_type_bonus_key, 0.0)
 	dmg *= (1.0 + equip_bonus / 100.0)
 
-	# Step 3: 상태이상/특성 보너스
-	# VULNERABLE: 피해 +50%, WEAK: 피해 -25%, STRENGTH: 절대값 추가
-	if enemy.has_status("VULNERABLE"):
-		dmg *= 1.5
-	if player_data.get("status_effects", {}).get("WEAK", 0) > 0:
-		dmg *= 0.75
+	# Step 3: 상태이상/특성 보너스 (적 VULNERABLE=받는피해+50%, 내 WEAK=주는피해-25%, 내 STRENGTH=절대값 추가)
+	var enemy_vuln: bool = enemy.has_status("VULNERABLE")
+	var my_weak: int = player_data.get("status_effects", {}).get("WEAK", 0)
 	var strength: int = player_data.get("status_effects", {}).get("STRENGTH", 0)
+	if enemy_vuln:
+		dmg *= 1.5
+	if my_weak > 0:
+		dmg *= 0.75
 	dmg += float(strength)
 
 	# Step 4: 치명타 판정 (atb 기본공격과 동일 로직, 카드별 별도 적용)
@@ -522,7 +555,10 @@ func _calculate_player_damage(card: Card, enemy, base: int) -> int:
 	var dmg_amplify: float = player_data.get("dmg_amplify", 100.0) / 100.0
 	dmg *= dmg_amplify
 
-	return max(1, int(dmg))
+	var final_dmg: int = max(1, int(dmg))
+	var ename: String = enemy.display_name if enemy.get("display_name") else "적"
+	battle_log("  [\uB370\uBBF8\uC9C0\uACC4\uC0B0] \uD50C\uB808\uC774\uC5B4\u2192%s | \uAE30\uBCF8=%d | \uC801VULN=%s \uB0B4WEAK=%d \uD799=%d | \uC7A5\uBE44%%=%.0f | \uCD5C\uC885=%d" % [ename, base, "Y" if enemy_vuln else "N", my_weak, strength, equip_bonus, final_dmg])
+	return final_dmg
 
 # ── 카드 드로우 ──────────────────────────────────────
 func _draw_cards(n: int):

@@ -13,8 +13,7 @@ var lumi_enabled: bool = true
 var card_anim_speed: float = 1.0
 
 # ── 전투 모드 설정 ────────────────────────────────────
-# 기본: 일반전투=ATB, 보스전투=턴베이스
-# 단축키(F1/F2)로 강제 전환 가능
+# 모든 전투 ATB 통일 (보스 포함). 단축키(F2)로 턴베이스 강제 가능
 var force_atb_mode: bool = false
 var force_tb_mode: bool = false
 
@@ -29,12 +28,10 @@ func get_dodge_window() -> float:
 
 # ── 전투 모드 결정 ────────────────────────────────────
 func get_combat_mode(is_boss: bool) -> String:
-	if force_atb_mode:
-		return "ATB"
 	if force_tb_mode:
 		return "TURNBASED"
-	# 기본: 보스=턴베이스, 일반=ATB
-	return "TURNBASED" if is_boss else "ATB"
+	# 모든 전투 ATB 통일 (보스 포함)
+	return "ATB"
 
 # ── 저장/불러오기 ─────────────────────────────────────
 func save():
