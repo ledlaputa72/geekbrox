@@ -197,6 +197,115 @@ ATB 게이지 실시간 충전 (항상 진행)
 전투 로그: `패링 성공! (몬스터명)`, `패링 실패! (몬스터명) 피해 N (+50%) / 적 ATB 빨라짐` 등 몬스터명 포함.
 플레이어 머리 위: `패링 성공!`, `회피 성공!`, `가드`, `패링 실패!`, `회피 실패!` 플로팅 텍스트 (색상 구분).
 
+### 4.8 치명타(Critical Hit) 시스템
+
+#### 개요
+플레이어의 모든 공격(카드 기반)과 기본 공격에는 치명타 확률이 적용된다. 치명타는 데미지 계산의 **마지막 단계**에서 적용된다.
+
+#### 치명타율(Crit Rate) 계산
+```
+플레이어 치명타율(%) = Base_CritRate(5%) + 장비_CRI_스탯
+```
+
+| 항목 | 값 |
+|------|-----|
+| 기본 치명타율 | 5% |
+| 최대 치명타율 | 75% (하드 캡) |
+| 장비에서 추가 가능 | 무기만 (반지/목걸이 불가) |
+
+#### 치명타 판정 로직
+
+```gdscript
+# CombatManagerATB.gd 전투 중 예시 코드
+var base_damage = player_atk * card_multiplier  # 기본 데미지
+
+# 1. 치명타율 확인
+var crit_chance = player_data.get("cri", 0.0)  # 장비 CRI 스탯 포함
+var is_crit = randf() * 100.0 < crit_chance
+
+# 2. 치명타 판정
+if is_crit:
+    damage = int(base_damage * 1.5)  # 150% 배율 적용
+    battle_log("치명타! 데미지 %d" % damage)
+else:
+    damage = int(base_damage)
+
+# 3. 최종 데미지 적용
+monster.take_damage(damage)
+```
+
+#### 데미지 계산 순서 (전체)
+
+```
+Step 1: Base Damage = ATK × Card_Multiplier
+        (예: 100 × 2.5 = 250)
+
+Step 2: Apply Card Bonuses & Weapon Effects
+        × (1 + Weapon_All_Eff% + Necklace_CardType%)
+        (예: 250 × 1.3 = 325)
+
+Step 3: Apply Status Effects (Vulnerable, Weakness, Strength 등)
+        × 상태이상 보정값
+        (예: 325 × 1.0 = 325)
+
+Step 4: Apply Crit Damage
+        IF is_crit:
+            × 1.5  (치명타 배율)
+        (예: 325 × 1.5 = 487.5)
+
+Step 5: Apply Element Weakness/Resistance
+        × elem_multiplier (약점 ×1.5, 저항 ×0.5)
+        (예: 487.5 × 1.0 = 487.5)
+
+Step 6: Monster Defense & Armor Penetration
+        × (1 - DEF/(DEF+100)) × (1 - Armor_Penetration%)
+        (예: 487.5 × 0.67 = 327)
+
+Step 7: Final Damage Amplification
+        Final = max(1, damage × Damage_Amplify%)
+        (예: 327 × 1.0 = 327)
+```
+
+#### 치명타 피드백
+
+| 요소 | 표현 | 위치 |
+|------|------|------|
+| 피해 숫자 | 🟡노란색 + 크기 1.2배 | 몬스터 머리 위 |
+| 플로팅 텍스트 | "치명타!" | 피해 숫자 아래 |
+| 전투 로그 | "치명타! 데미지 327" | 하단 로그 패널 |
+| 사운드 | 크리티컬 히트 SFX (고음) | 스테레오 |
+| VFX | 황색/적색 번쩍임 (0.3초) | 몬스터 주변 |
+
+#### 장비 CRI 스탯 규칙
+
+**무기만 CRI 스탯 보유 가능**:
+```
+무기 CRI 스탯 범위: 0~25% (희귀도별)
+├─ COMMON:    0%
+├─ UNCOMMON:  +5% (무기 기본)
+├─ RARE:      +10~15%
+├─ EPIC:      +15~20%
+└─ LEGENDARY: +20~25%
+
+장비 강화 시 CRI 증가:
+├─ 강화 공식: base_cri + (level × 0.5%)
+└─ 예: Lv10 무기 (base 15%) → 15% + 5% = 20%
+```
+
+**반지/목걸이는 CRI 스탯 불가**:
+- ATK, DEF, HP, SPD만 보유
+- 대신 카드 타입 효율 증가(목걸이) 또는 다른 버프 제공
+
+#### 인게임 예시
+
+```
+[전투] 플레이어가 "불꽃 검" 공격!
+       → 기본 데미지: 250
+       → 치명타 발동! (10% 확률)
+       → 최종 데미지: 375 (250 × 1.5)
+       → 몬스터 HP: 625/1000
+```
+
 ---
 
 ## 5. 카드 시스템
@@ -334,6 +443,7 @@ ENR_002 × 1  (달의환영)
 
 | 버전 | 날짜 | 주요 변경 |
 |------|------|----------|
+| v4.1 | 2026-03-12 | **치명타(Critical Hit) 시스템 추가** — 개발 완료 반영 (CombatManagerATB 구현) |
 | v4.0 | 2026-03 | 색상 구간 리액션 시스템 반영, 리액션 버튼 단일화, TB 손패 유지 반영 |
 | v3.0 | 2026-03-01 | REACTION_INTENT_SYSTEM_v3 — Expedition 33 기반 설계 (일부 미구현) |
 | v2.0 | 2026-02-24 | COMBAT_SYSTEM_DESIGN_v2 — ATB/TB 이중 시스템 설계 |
