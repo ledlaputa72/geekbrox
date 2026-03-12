@@ -471,5 +471,91 @@ Step 7: Final = max(1, dmg × Dmg_Amplify%)
 
 ---
 
+## 🎭 CharacterInfoPopup 모달 (신규 2026-03-12)
+
+**목적**: CharacterScreen의 "스탯 상세" 버튼 클릭 시 표시되는 상세 정보 모달
+
+**개발 가이드**: `/design/dream-collector/03_implementation_guides/ui/CHARACTER_INFO_POPUP_SPEC.md` ⭐ 필독
+
+**데이터 참조**: `/design/dream-collector/02_core_design/characters/CHARACTER_STATS_DETAILED_SYSTEM.md`
+
+**구성**:
+```
+CharacterInfoPopup (Control, fullscreen modal)
+├── DimLayer (ColorRect, 반투명 검정 배경)
+└── ContentPanel (PanelContainer, anchor 5%~95%)
+    ├── TopSection (고정 180px, 캐릭터 초상화 + 기본 정보)
+    │  ├─ IconBox (160×160px, 캐릭터 초상화)
+    │  ├─ NameLabel ("Nox")
+    │  ├─ LevelLabel ("Lv.50")
+    │  ├─ MetaRow (♥HP ⚡ATK 🛡DEF 💨SPD)
+    │  └─ CombatPowerRow (전투력 계산: (ATK×2+DEF+HP/10)×(1+Lv×5%))
+    │
+    ├── ScrollContainer (스크롤, 5개 섹션)
+    │  ├─ BasicStatsSection (HP, ATK, DEF, SPD, 레벨, EXP)
+    │  ├─ AdvancedStatsSection (치명타율, 치명타 피해, 방어구관통, 회피, 피해경감)
+    │  ├─ ElementalSection (5원소 데미지: 꿈기억, 불꽃, 냉기, 번개, 암흑)
+    │  ├─ ResistanceSection (6가지 저항: 독, 화상, 빙결, 마비, 약화, 기절)
+    │  ├─ CardEfficiencySection (4카드 타입 보너스: ATTACK, SKILL, POWER, CURSE)
+    │  └─ FinalStatsSection (최종 수치: 전투력, 생존도, DPS, 안정성)
+    │
+    └── ButtonsRow (고정 60px, 닫기 + 선택 버튼)
+```
+
+**데이터 바인딩**:
+```gdscript
+# CharacterScreen.gd에서 호출
+func _on_stat_detail_button_pressed():
+    var popup = preload("res://ui/components/CharacterInfoPopup.tscn").instantiate()
+    var stats = gather_character_stats()  # 현재 캐릭터 모든 스탯 수집
+    popup.set_character_data(stats)
+    get_tree().root.add_child(popup)
+
+func gather_character_stats() -> Dictionary:
+    var level_system = LevelSystem.get_player_level()
+    var equipped = get_equipped_items()
+    return {
+        "name": "Nox",
+        "level": level_system.current_level,
+        "hp": level_system.get_total_hp(),
+        "atk": level_system.get_total_atk(),
+        "def": level_system.get_total_def(),
+        "spd": level_system.get_total_spd(),
+        "cri_rate": 0.05 + equipped.get("weapon", {}).get("base_cri", 0) / 100.0,
+        "cri_damage": 1.5,
+        # ... 추가 속성들
+        "equipped_weapon": equipped.get("weapon"),
+        "equipped_armor": equipped.get("armor"),
+        "equipped_rings": equipped.get("rings", []),
+        "equipped_necklaces": equipped.get("necklaces", [])
+    }
+```
+
+**색상 팔레트**:
+```gdscript
+var character_info_colors = {
+    "bg_main": Color(0.14, 0.16, 0.22),        # 진한 다크 블루
+    "bg_section": Color(0.10, 0.12, 0.18),    # 더 진한 배경
+    "text_primary": Color.WHITE,               # 주 텍스트
+    "text_secondary": Color(0.8, 0.8, 0.8),   # 부 텍스트
+    "text_disabled": Color(0.5, 0.5, 0.5),    # 비활성
+    "accent_gold": Color(1.0, 0.85, 0.0),    # 강조 금색
+    "accent_green": Color(0.4, 0.9, 0.4),    # 긍정 (저항, 보너스)
+    "accent_red": Color(1.0, 0.3, 0.3),       # 부정 (약점, 페널티)
+    "border_gold": Color(0.8, 0.7, 0.2)       # 테두리 금색
+}
+```
+
+**개발 체크리스트** (CHARACTER_INFO_POPUP_SPEC.md 참조):
+- [ ] CharacterInfoPopup.tscn 생성 (ItemDetailPopup.tscn 템플릿)
+- [ ] 5개 섹션 UI 구성
+- [ ] CharacterInfoPopup.gd 로직 작성
+- [ ] 데이터 바인딩 (LevelSystem, EquipmentDatabase 연동)
+- [ ] 색상 및 스타일 적용
+- [ ] 스크롤 성능 최적화
+- [ ] 다양한 레벨로 테스트
+
+---
+
 *이 파일은 Cursor IDE와 Claude Code가 공통으로 참조합니다.*  
 *프로젝트 대규모 변경 시 이 파일도 업데이트해 주세요.*
