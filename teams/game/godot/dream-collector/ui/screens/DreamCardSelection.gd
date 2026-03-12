@@ -118,23 +118,11 @@ func _ready():
 
 
 func _setup_ui():
-	# TopArea - 황토색 (SelectedCardsArea와 동일 → 시각적으로 하나의 영역처럼 보임)
-	var top_style = StyleBoxFlat.new()
-	top_style.bg_color = Color(0.55, 0.38, 0.15, 1)
-	top_area.add_theme_stylebox_override("panel", top_style)
+	UISprites.apply_panel(top_area, UISprites.panel_frame(), 18)
+	UISprites.apply_panel(selected_area, UISprites.panel_frame(), 18)
+	UISprites.apply_panel(bottom_area, UISprites.panel_dark(), 18)
 
-	# SelectedCardsArea - 황토색 (TopArea와 동일)
-	var selected_style = StyleBoxFlat.new()
-	selected_style.bg_color = Color(0.55, 0.38, 0.15, 1)
-	selected_area.add_theme_stylebox_override("panel", selected_style)
-
-	# BottomArea - 어두운
-	var bottom_style = StyleBoxFlat.new()
-	bottom_style.bg_color = Color(0.1, 0.08, 0.18, 1)
-	bottom_area.add_theme_stylebox_override("panel", bottom_style)
-
-	# StartButton
-	UITheme.apply_button_style(start_button, "primary")
+	UISprites.apply_btn(start_button, "primary")
 	start_button.visible = false
 	start_button.pressed.connect(_on_start_button_pressed)
 

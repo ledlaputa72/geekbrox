@@ -21,7 +21,7 @@ const TICK_INTERVAL: float = 1.0  # 1초마다 수집 계산
 func start() -> void:
 	is_running = true
 	_process_offline_gain()
-	print("[IdleSystem] 수집 시작. 현재 속도: %.2f/h" % get_current_rate())
+	print("[IdleSystem] Collection started. Rate: %.2f/h" % get_current_rate())
 
 # ─── 실시간 수집 처리 ─────────────────────────────────
 func _process(delta: float) -> void:
@@ -54,7 +54,7 @@ func _process_offline_gain() -> void:
 	accumulated_offline = get_current_rate() * capped_hours
 	GameManager.add_reveries(accumulated_offline)
 
-	print("[IdleSystem] 오프라인 %.1f시간 → %.1f Reveries 수집" % [capped_hours, accumulated_offline])
+	print("[IdleSystem] Offline %.1fh -> %.1f Reveries" % [capped_hours, accumulated_offline])
 	last_save_timestamp = now
 
 # ─── 현재 수집 속도 반환 (Reveries/hour) ─────────────
@@ -64,12 +64,12 @@ func get_current_rate() -> float:
 # ─── 카드 보너스 적용 ─────────────────────────────────
 func apply_card_bonus(multiplier: float) -> void:
 	card_multiplier = multiplier
-	print("[IdleSystem] 카드 배율 적용: x%.2f (총 속도: %.1f/h)" % [multiplier, get_current_rate()])
+	print("[IdleSystem] Card multiplier: x%.2f (rate: %.1f/h)" % [multiplier, get_current_rate()])
 
 # ─── 프레스티지 배율 적용 ────────────────────────────
 func apply_prestige_bonus(multiplier: float) -> void:
 	prestige_multiplier = multiplier
-	print("[IdleSystem] 프레스티지 배율: x%.2f" % multiplier)
+	print("[IdleSystem] Prestige multiplier: x%.2f" % multiplier)
 
 # ─── 타임스탬프 저장 (세이브 시 호출) ────────────────
 func mark_save_time() -> void:

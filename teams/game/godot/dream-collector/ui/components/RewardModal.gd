@@ -22,24 +22,8 @@ func _ready():
 	layer = 100  # Top layer
 	visible = false
 	
-	# ModalPanel: 완전 불투명 배경 (기본 PanelContainer 스타일이 투명할 수 있으므로 명시 설정)
 	if modal_panel:
-		var panel_style = StyleBoxFlat.new()
-		panel_style.bg_color = Color(0.14, 0.14, 0.22, 1.0)  # 완전 불투명 다크 블루
-		panel_style.corner_radius_top_left = 16
-		panel_style.corner_radius_top_right = 16
-		panel_style.corner_radius_bottom_left = 16
-		panel_style.corner_radius_bottom_right = 16
-		panel_style.border_width_left = 1
-		panel_style.border_width_top = 1
-		panel_style.border_width_right = 1
-		panel_style.border_width_bottom = 1
-		panel_style.border_color = Color(0.35, 0.35, 0.55, 1.0)
-		panel_style.content_margin_left = 24
-		panel_style.content_margin_right = 24
-		panel_style.content_margin_top = 24
-		panel_style.content_margin_bottom = 24
-		modal_panel.add_theme_stylebox_override("panel", panel_style)
+		UISprites.apply_panel(modal_panel, UISprites.modal_frame(), 18)
 	
 	# Setup title label
 	if title_label:
@@ -48,7 +32,7 @@ func _ready():
 	
 	# Setup continue button
 	if continue_button:
-		UITheme.apply_button_style(continue_button, "primary")
+		UISprites.apply_btn(continue_button, "primary")
 		continue_button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
 		continue_button.pressed.connect(_on_continue_pressed)
 	

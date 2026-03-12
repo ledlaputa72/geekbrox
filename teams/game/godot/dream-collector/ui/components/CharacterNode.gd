@@ -154,6 +154,7 @@ func _create_hp_bar():
 		hp_bar.value = current_hp
 		hp_bar.show_percentage = false
 		add_child(hp_bar)
+		UISprites.apply_bar(hp_bar, "hp")
 		hp_label = Label.new()
 		hp_label.name = "HPLabel"
 		hp_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
@@ -185,6 +186,7 @@ func _create_hp_bar():
 		hp_bar.value = current_hp
 		hp_bar.show_percentage = false
 		add_child(hp_bar)
+		UISprites.apply_bar(hp_bar, "hp")
 		hp_label = Label.new()
 		hp_label.name = "HPLabel"
 		hp_label.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)

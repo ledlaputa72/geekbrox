@@ -16,19 +16,20 @@
 
 ## 🚨 MANDATORY: First Step
 
-**ALWAYS read PROJECT_CONTEXT.md before any task!**
+**ALWAYS read CLAUDE.md before any task! (2026-03-04 최신화)**
 
 ```
-@PROJECT_CONTEXT.md
+@CLAUDE.md
 ```
 
 This file contains:
-- Complete project structure
-- Coding style guide
-- Core systems (BottomNav, DreamCardSelection, Combat, GameManager, UITheme)
-- Workflow rules (Git/Notion approval)
-- Testing checklist
-- Common patterns
+- Complete project structure & implementation status
+- All 4 core systems (Card, Equipment, Level, Gacha)
+- Key scripts with code examples
+- UI rules, color palette, component specs
+- Common bugs & fixes (signal mismatch, double-draw, etc.)
+- Scene tree reference (CharacterScreen, ItemDetailPopup)
+- DO NOT list (trait system, manual stats, etc.)
 
 ---
 
@@ -80,7 +81,8 @@ signal entity_updated(type: String, index: int, data: Dictionary)
 ### BottomNav Component
 - Path: `ui/components/BottomNav.tscn/gd`
 - Usage: Always use component, never inline
-- Tabs: 0=Home, 1=Cards, 2=Upgrade, 3=Progress, 4=Shop
+- Tabs: 0=Home, 1=Cards, 2=Upgrade, 3=Character(장비), 4=Shop
+- ⚠️ Tab 3 is now "Character" (was "Progress") → CharacterScreen.tscn
 
 ### DreamCardSelection (Gacha System)
 - Path: `ui/screens/DreamCardSelection.tscn/gd`
@@ -244,12 +246,13 @@ Use templates in CLAUDE_CODE_GUIDE.md:
 
 ## Resources
 
-- **PROJECT_CONTEXT.md**: Main reference (READ FIRST!)
-- **CLAUDE_CODE_GUIDE.md**: Detailed workflow guide
+- **CLAUDE.md**: ⭐ Main reference (READ FIRST! — 최신 구현 상태 반영)
+- **PROJECT_CONTEXT.md**: Legacy context (구버전, CLAUDE.md 우선)
+- **CLAUDE_CODE_GUIDE.md**: Workflow guide (Cline/Claude Code 사용법)
 - **CHANGELOG.md**: Change history
 - **CURSOR_GUIDE.md**: Cursor IDE guide
 
 ---
 
-**Last Updated**: 2026-02-25 by Atlas  
-**Always read PROJECT_CONTEXT.md first!**
+**Last Updated**: 2026-03-04  
+**Always read CLAUDE.md first!**

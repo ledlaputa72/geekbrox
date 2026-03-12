@@ -12,6 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
+metadata/_edit_horizontal_guides_ = [234.0]
 
 [node name="Background" type="ColorRect" parent="." unique_id=285509904]
 layout_mode = 1
@@ -108,8 +109,10 @@ grow_vertical = 2
 [node name="Background" type="TextureRect" parent="ViewportFrame/ViewportContent" unique_id=94531209]
 custom_minimum_size = Vector2(800, 200)
 layout_mode = 0
-offset_right = 800.0
-offset_bottom = 200.0
+offset_left = -13.0
+offset_top = -6.0
+offset_right = 787.0
+offset_bottom = 194.0
 texture = ExtResource("3_bg")
 expand_mode = 1
 stretch_mode = 6

@@ -45,28 +45,10 @@ func add_log(time_text: String, event_text: String, is_current: bool = false) ->
 func _create_log_entry(entry: Dictionary) -> void:
 	var log_panel = Panel.new()
 	log_panel.custom_minimum_size = Vector2(0, LOG_ENTRY_HEIGHT)
-	
-	# Panel style
-	var panel_style = StyleBoxFlat.new()
-	panel_style.corner_radius_top_left = 12
-	panel_style.corner_radius_top_right = 12
-	panel_style.corner_radius_bottom_left = 12
-	panel_style.corner_radius_bottom_right = 12
-	panel_style.content_margin_left = 16
-	panel_style.content_margin_right = 16
-	panel_style.content_margin_top = 8
-	panel_style.content_margin_bottom = 8
-	
-	# Color based on current state
+	UISprites.apply_panel(log_panel, UISprites.panel_dark(), 18)
 	if entry["current"]:
-		# Current event (orange highlight)
-		panel_style.bg_color = Color(1.0, 0.6, 0.2, 0.9)  # 주황색
-	else:
-		# Past event (tan/beige)
-		panel_style.bg_color = Color(0.85, 0.75, 0.6, 0.8)  # 황토색
-	
-	log_panel.add_theme_stylebox_override("panel", panel_style)
-	
+		log_panel.modulate = Color(1.15, 0.95, 0.85)
+
 	# Label
 	var label = Label.new()
 	label.text = "%s %s" % [entry["time"], entry["event"]]

@@ -4,6 +4,9 @@
 
 extends Control
 
+# ─── 카드 스프라이트 배경 ─────────────────────────────
+var _card_sprite: TextureRect = null
+
 # ─── 카드 데이터 ─────────────────────────────────────
 var card_id: int = 0
 var card_name: String = "Unknown Card"
@@ -112,10 +115,14 @@ func update_display() -> void:
 func apply_type_colors() -> void:
 	var colors = TYPE_COLORS.get(card_type, TYPE_COLORS["attack"])
 
-	# 카드 배경
+	# 카드 스프라이트 배경 교체
+	if _card_sprite:
+		_card_sprite.texture = UISprites.card_tex(card_type)
+
+	# 카드 배경 Panel 반투명 (스프라이트가 보이도록)
 	var card_style = card_bg.get_theme_stylebox("panel")
 	if card_style is StyleBoxFlat:
-		card_style.bg_color = colors["bg"]
+		card_style.bg_color = Color(colors["bg"].r, colors["bg"].g, colors["bg"].b, 0.45)
 
 	# 이름 배너 배경
 	var banner_style = name_banner.get_theme_stylebox("panel")
@@ -132,9 +139,20 @@ func apply_type_colors() -> void:
 
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
-	# 1. 카드 배경
+	# 0. 카드 타입 스프라이트 배경 (card_bg 뒤에 배치)
+	_card_sprite = TextureRect.new()
+	_card_sprite.name = "_CardSprite"
+	_card_sprite.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_card_sprite.stretch_mode = TextureRect.STRETCH_SCALE
+	_card_sprite.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_card_sprite.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_card_sprite.texture = UISprites.card_tex("attack")
+	add_child(_card_sprite)
+	move_child(_card_sprite, 0)
+
+	# 1. 카드 배경 (반투명 오버레이)
 	var card_style = StyleBoxFlat.new()
-	card_style.bg_color = Color(0.6, 0.15, 0.15)
+	card_style.bg_color = Color(0.6, 0.15, 0.15, 0.45)
 	card_style.corner_radius_top_left = 8
 	card_style.corner_radius_top_right = 8
 	card_style.corner_radius_bottom_left = 8
@@ -146,19 +164,34 @@ func apply_styles() -> void:
 	card_style.border_color = Color(0.1, 0.1, 0.1, 0.5)
 	card_bg.add_theme_stylebox_override("panel", card_style)
 
-	# 2. 코스트 배지 (노란색 원형)
-	var cost_style = StyleBoxFlat.new()
-	cost_style.bg_color = Color(1, 0.8, 0.2)
-	cost_style.corner_radius_top_left = 12
-	cost_style.corner_radius_top_right = 12
-	cost_style.corner_radius_bottom_left = 12
-	cost_style.corner_radius_bottom_right = 12
-	cost_style.border_width_left = 2
-	cost_style.border_width_top = 2
-	cost_style.border_width_right = 2
-	cost_style.border_width_bottom = 2
-	cost_style.border_color = Color(0.6, 0.4, 0.1)
-	cost_badge.add_theme_stylebox_override("panel", cost_style)
+	# 2. 코스트 배지 (스프라이트 또는 폴백)
+	var cost_tex = UISprites.card_cost_badge()
+	if cost_tex:
+		var cost_rect = TextureRect.new()
+		cost_rect.name = "CostBadgeTex"
+		cost_rect.texture = cost_tex
+		cost_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		cost_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		cost_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+		cost_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		cost_badge.add_child(cost_rect)
+		cost_badge.move_child(cost_rect, 0)
+		var transparent = StyleBoxFlat.new()
+		transparent.bg_color = Color(0, 0, 0, 0)
+		cost_badge.add_theme_stylebox_override("panel", transparent)
+	else:
+		var cost_style = StyleBoxFlat.new()
+		cost_style.bg_color = Color(1, 0.8, 0.2)
+		cost_style.corner_radius_top_left = 12
+		cost_style.corner_radius_top_right = 12
+		cost_style.corner_radius_bottom_left = 12
+		cost_style.corner_radius_bottom_right = 12
+		cost_style.border_width_left = 2
+		cost_style.border_width_top = 2
+		cost_style.border_width_right = 2
+		cost_style.border_width_bottom = 2
+		cost_style.border_color = Color(0.6, 0.4, 0.1)
+		cost_badge.add_theme_stylebox_override("panel", cost_style)
 	cost_label.add_theme_font_size_override("font_size", 14)
 	cost_label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
 

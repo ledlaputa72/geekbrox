@@ -41,41 +41,26 @@ func _ready() -> void:
 
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
-	# Panel style (rarity-based color)
-	var panel_style = StyleBoxFlat.new()
-	panel_style.corner_radius_top_left = 8
-	panel_style.corner_radius_top_right = 8
-	panel_style.corner_radius_bottom_left = 8
-	panel_style.corner_radius_bottom_right = 8
-	panel_style.content_margin_left = 8
-	panel_style.content_margin_right = 8
-	panel_style.content_margin_top = 8
-	panel_style.content_margin_bottom = 8
-	panel_style.bg_color = Color(0.7, 0.7, 0.75)  # Default: common
-	add_theme_stylebox_override("panel", panel_style)
-	
+	# Panel style — list_item_normal.png 기본 (UISprites)
+	var panel_style := UISprites.list_stylebox("common")
+	if panel_style:
+		add_theme_stylebox_override("panel", panel_style)
+
 	# Labels
 	title_label.add_theme_font_size_override("font_size", 14)
 	title_label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
-	
+
 	for label in [story_label1, story_label2, story_label3, story_label4]:
 		label.add_theme_font_size_override("font_size", 12)
 		label.add_theme_color_override("font_color", Color(0.2, 0.2, 0.2))
-	
-	# Buttons
-	UITheme.apply_button_style(reward_button, "warning")
-	UITheme.apply_button_style(extra_reward_button, "info")
+
+
 
 func update_rarity_color() -> void:
-	var panel_style = get_theme_stylebox("panel")
-	if panel_style is StyleBoxFlat:
-		match dream_rarity:
-			"common":
-				panel_style.bg_color = Color(0.7, 0.7, 0.75)  # 회색
-			"rare":
-				panel_style.bg_color = Color(0.5, 0.7, 0.9)   # 파랑
-			"epic":
-				panel_style.bg_color = Color(0.9, 0.6, 0.8)   # 분홍
+	# 등급별 list 스프라이트로 패널 교체 (UISprites)
+	var panel_style := UISprites.list_stylebox(dream_rarity)
+	if panel_style:
+		add_theme_stylebox_override("panel", panel_style)
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:

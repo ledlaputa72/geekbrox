@@ -50,9 +50,9 @@ func _ready() -> void:
 		_draw_slot()
 
 func _draw_slot() -> void:
-	# Clear previous dynamic children (icon/level/name added in set_item)
+	# Clear previous dynamic children (_slot_* and _np_bg)
 	for c in get_children():
-		if c.name.begins_with("_slot_"):
+		if c.name.begins_with("_slot_") or c.name == "_np_bg":
 			c.queue_free()
 	# Style by state
 	if equipped_item:
@@ -117,14 +117,42 @@ func _default_slot_icon() -> String:
 	return "?"
 
 func _add_style(border_c: Color, bg_c: Color) -> void:
-	var style = StyleBoxFlat.new()
-	style.bg_color = bg_c
-	style.set_border_width_all(2)
-	style.border_color = border_c
-	style.set_corner_radius_all(8)
-	add_theme_stylebox_override("normal", style)
-	add_theme_stylebox_override("hover", style)
-	add_theme_stylebox_override("pressed", style)
+	# 슬롯 스프라이트: NinePatchRect/patch=12 (레퍼런스 기준)
+	var rarity := equipped_item.rarity if equipped_item else ""
+	var slot_tex := UISprites.slot_tex(rarity)
+
+	if slot_tex:
+		# NinePatchRect를 첫 번째 자식으로 추가 (배경 역할)
+		var np := UISprites.make_ninepatch(slot_tex, 12)
+		np.name = "_np_bg"
+		add_child(np)
+		move_child(np, 0)
+		# 버튼 배경: 투명 (NinePatchRect가 보이도록)
+		var normal_sb := StyleBoxFlat.new()
+		normal_sb.bg_color = Color(0, 0, 0, 0)
+		# hover: 10% 흰색 오버레이
+		var hover_sb := StyleBoxFlat.new()
+		hover_sb.bg_color = Color(1, 1, 1, 0.1)
+		# pressed: 18% 검정 오버레이
+		var press_sb := StyleBoxFlat.new()
+		press_sb.bg_color = Color(0, 0, 0, 0.18)
+		add_theme_stylebox_override("normal",  normal_sb)
+		add_theme_stylebox_override("hover",   hover_sb)
+		add_theme_stylebox_override("pressed", press_sb)
+	else:
+		# NinePatch 텍스처 없을 때 StyleBoxFlat 폴백
+		var style := StyleBoxFlat.new()
+		style.bg_color = bg_c
+		style.set_border_width_all(2)
+		style.border_color = border_c
+		style.set_corner_radius_all(8)
+		var hover := style.duplicate() as StyleBoxFlat
+		hover.bg_color = bg_c.lightened(0.15)
+		var pressed := style.duplicate() as StyleBoxFlat
+		pressed.bg_color = bg_c.darkened(0.15)
+		add_theme_stylebox_override("normal",  style)
+		add_theme_stylebox_override("hover",   hover)
+		add_theme_stylebox_override("pressed", pressed)
 
 func set_item(item: Equipment) -> void:
 	equipped_item = item

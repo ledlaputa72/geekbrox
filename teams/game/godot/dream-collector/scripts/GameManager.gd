@@ -27,7 +27,7 @@ var current_deck: Array = []  # 현재 장착된 덱 (최대 12장) - Array[Dict
 
 # ─── 꿈 카드 데이터 (Dream Card Selection) ──────────
 var dream_cards: Array = []  # 선택한 3장의 꿈 카드 [start, journey, end]
-var dream_nodes: Array = []  # 생성된 전체 노드 목록 (dream_cards 기반)
+var dream_nodes: Array = []  # 경로 전체 (이벤트 + 노드 순서, dream_cards 기반)
 var dream_time_logs: Array = []  # 시간별 로그 목록 (total_hours개)
 var total_dream_hours: int = 0  # 총 여정 시간
 
@@ -100,8 +100,10 @@ func spend_energy(amount: int) -> bool:
 	return false
 
 # ─── 꿈 카드 설정 (Dream Card Selection) ───────────
+# 구조: 이벤트 노드(원+번호, 고유 씬) / 일반 노드(선 위, 아이콘·번호 없음, 로그만)
+# 경로 = [이벤트1, 일반, 일반, 이벤트2, 일반, 이벤트3, ...] — 이벤트 사이에만 1~3개 일반 노드
 func set_dream_cards(cards: Array) -> void:
-	"""Set selected dream cards and generate dream nodes + time logs"""
+	"""선택한 꿈 카드로 이벤트 목록 생성 → 셔플/연속 방지 → 이벤트 사이에 일반 노드 1~3개 삽입 → 경로·로그 생성"""
 	dream_cards = cards.duplicate(true)
 	dream_nodes.clear()
 	dream_time_logs.clear()
@@ -109,35 +111,114 @@ func set_dream_cards(cards: Array) -> void:
 	
 	print("[GameManager] Dream cards set: %d cards" % dream_cards.size())
 	
-	# 노드만 유지, 시간(hours)은 사용하지 않음
-	total_dream_hours = 0
-	
-	# Generate nodes from cards
+	# 1) 이벤트만 추출 (원+번호로 표시될 것들. 전투/NPC/상점/보스 등 고유 씬 있음)
+	var event_list: Array = []
 	for i in range(dream_cards.size()):
 		var card = dream_cards[i]
 		var stage_name = ["시작", "여정", "종료"][i]
-		
-		print("  [%s] %s: %d nodes" % [stage_name, card.name, card.node_count])
-		
 		for node in card.nodes:
-			var node_data = {
+			event_list.append({
 				"type": node.type,
 				"icon": node.icon,
 				"stage": stage_name,
 				"card_name": card.name,
 				"completed": false
-			}
-			dream_nodes.append(node_data)
+			})
 	
-	# Generate time-based logs
+	if event_list.is_empty():
+		print("[GameManager] No events from cards")
+		return
+	
+	# 경로 맨 앞은 항상 '시작' 이벤트 → (1) 도착 후 선 위가 일반 노드, 그 다음 원이 (2) 이벤트
+	event_list.insert(0, {
+		"type": "start",
+		"icon": "🚩",
+		"stage": "시작",
+		"card_name": "",
+		"completed": false
+	})
+	
+	# 2) 이벤트 순서 셔플 (시작 제외: 인덱스 0 고정)
+	if event_list.size() > 2:
+		var rng = RandomNumberGenerator.new()
+		rng.randomize()
+		for i in range(event_list.size() - 1, 1, -1):
+			var j = rng.randi_range(1, i)
+			var tmp = event_list[i]
+			event_list[i] = event_list[j]
+			event_list[j] = tmp
+		print("[GameManager] Event order shuffled (%d events, start fixed)" % event_list.size())
+		_break_up_consecutive_same_type_in_list(event_list)
+	
+	# 3) 경로 생성: 이벤트 사이에만 일반 노드 1~3개 (선 구간. 아이콘·번호 없음, 로그만)
+	_build_path_from_events(event_list)
+
+	# 4) 시간 로그 생성 (경로와 1:1 대응)
 	_generate_time_logs()
-	
-	print("[GameManager] Total dream nodes: %d" % dream_nodes.size())
-	print("[GameManager] Total time logs: %d (Event: %d, Travel: %d)" % [dream_time_logs.size(), dream_nodes.size(), dream_nodes.size()])
+
+	print("[GameManager] Path: %d steps (%d events + general nodes)" % [dream_nodes.size(), event_list.size()])
+	print("[GameManager] Time logs: %d" % dream_time_logs.size())
+
+func _break_up_consecutive_same_type_in_list(event_list: Array) -> void:
+	"""이벤트 리스트에서 같은 타입(특히 전투) 연속 방지 — 스왑으로 분리"""
+	if event_list.size() < 2:
+		return
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	var max_pass = event_list.size() * 2
+	for _pass in range(max_pass):
+		var swapped = false
+		for i in range(1, event_list.size()):
+			var prev_type = event_list[i - 1].get("type", "")
+			var curr_type = event_list[i].get("type", "")
+			if prev_type != "boss" and prev_type == curr_type:
+				for j in range(event_list.size()):
+					if j == 0 or j == i or j == i - 1:
+						continue
+					var j_type = event_list[j].get("type", "")
+					if j_type != curr_type:
+						var tmp = event_list[i]
+						event_list[i] = event_list[j]
+						event_list[j] = tmp
+						swapped = true
+						break
+				if swapped:
+					break
+		if not swapped:
+			break
+	print("[GameManager] Consecutive same-type events broken up")
+
+func _build_path_from_events(event_list: Array) -> void:
+	"""이벤트 목록으로 최종 경로 생성. 이벤트와 이벤트 사이에 일반 노드 1~3개만 삽입."""
+	var node_log_templates = [
+		"길을 따라 걷고 있다...",
+		"주변을 살피며 천천히 이동한다.",
+		"잠시 쉬어가며 숨을 고른다.",
+		"어둠 속을 조심스럽게 나아간다.",
+		"멀리서 무언가 빛나는 것이 보인다."
+	]
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	dream_nodes.clear()
+	for i in range(event_list.size()):
+		dream_nodes.append(event_list[i])
+		if i < event_list.size() - 1:
+			var count: int = rng.randi_range(1, 3)
+			for _k in range(count):
+				var t: int = (i * 3 + _k) % node_log_templates.size()
+				dream_nodes.append({
+					"type": "general",
+					"icon": "🚶",
+					"stage": "general",
+					"card_name": "",
+					"completed": false,
+					"text": node_log_templates[t]
+				})
+	print("[GameManager] Path built: %d events, %d steps total" % [event_list.size(), dream_nodes.size()])
 
 func _generate_time_logs() -> void:
-	"""노드만 유지. 무조건 노드와 노드 사이에는 걷기 1개씩 배치.
-	순서: 걷기 → 이벤트1 → 걷기 → 이벤트2 → ... 시간은 PM 10:00부터 1시간씩 증가."""
+	"""경로 유지. 노드(선 구간)와 이벤트(원)에 맞춰 로그 배치.
+	순서: 이동 로그 → 이벤트1 → 이동 → 이벤트2 → ... 시간은 PM 10:00부터 1시간씩 증가."""
 	var travel_log_templates = [
 		"길을 따라 걷고 있다...",
 		"주변을 살피며 천천히 이동한다.",
@@ -163,7 +244,8 @@ func _generate_time_logs() -> void:
 		hour = start_hour + dream_time_logs.size()
 		var node = dream_nodes[i]
 		var event_text = ""
-		match node.type:
+		var nt = node.get("type", "")
+		match nt:
 			"combat":
 				event_text = "전투 - 적 발견!"
 			"shop":
@@ -174,13 +256,15 @@ func _generate_time_logs() -> void:
 				event_text = "이야기가 펼쳐진다"
 			"boss":
 				event_text = "보스 등장!"
+			"general":
+				event_text = node.get("text", "이동 중...")
 		
 		dream_time_logs.append({
 			"time": _format_hour(hour),
 			"hour_index": dream_time_logs.size(),
 			"type": "event",
-			"event_type": node.type,
-			"icon": node.icon,
+			"event_type": node.get("type", ""),
+			"icon": node.get("icon", "🚶"),
 			"text": event_text
 		})
 

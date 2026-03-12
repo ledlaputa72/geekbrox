@@ -85,46 +85,18 @@ func _process(delta: float) -> void:
 func apply_styles() -> void:
 	background.color = UITheme.COLORS.bg
 	
-	# ViewportFrame (직사각형)
-	var frame_style = StyleBoxFlat.new()
-	frame_style.bg_color = UITheme.COLORS.panel
-	frame_style.corner_radius_top_left = 8
-	frame_style.corner_radius_top_right = 8
-	frame_style.corner_radius_bottom_left = 8
-	frame_style.corner_radius_bottom_right = 8
-	frame_style.border_width_left = 4
-	frame_style.border_width_top = 4
-	frame_style.border_width_right = 4
-	frame_style.border_width_bottom = 4
-	frame_style.border_color = UITheme.COLORS.primary
-	viewport_frame.add_theme_stylebox_override("panel", frame_style)
-	
-	# viewport_bg uses home_bg.png (TextureRect in scene)
-	
-	# Dreams header
+	UISprites.apply_panel(viewport_frame, UISprites.panel_frame(), 18)
+
 	dreams_header.add_theme_font_size_override("font_size", 16)
 	dreams_header.add_theme_color_override("font_color", UITheme.COLORS.text)
-	
-	# Buttons
-	UITheme.apply_button_style(start_button, "success")
+
+	UISprites.apply_btn(start_button, "primary")
 	start_button.add_theme_font_size_override("font_size", 18)
 	start_energy_label.add_theme_font_size_override("font_size", 16)
 	start_energy_label.add_theme_color_override("font_color", UITheme.COLORS.warning)
-	
-	UITheme.apply_button_style(deck_button, "info")
-	deck_button.add_theme_font_size_override("font_size", 18)
-	
-	# Tab buttons
-	for button in tab_buttons:
-		apply_tab_button_style(button)
 
-func apply_tab_button_style(button: Button) -> void:
-	var normal_style = StyleBoxFlat.new()
-	normal_style.bg_color = UITheme.COLORS.panel
-	button.add_theme_stylebox_override("normal", normal_style)
-	
-	button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
-	button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
+	UISprites.apply_btn(deck_button, "secondary")
+	deck_button.add_theme_font_size_override("font_size", 18)
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
@@ -218,11 +190,11 @@ func _on_gems_changed(new_amount: int) -> void:
 
 # ─── 이벤트 핸들러 ───────────────────────────────────
 func _on_start_pressed() -> void:
-	print("[MainLobbyUI] Dream Card Selection으로 이동")
+	print("[MainLobbyUI] Navigate to Dream Card Selection")
 	get_tree().change_scene_to_file("res://ui/screens/DreamCardSelection.tscn")
 
 func _on_deck_pressed() -> void:
-	print("[MainLobbyUI] Deck Builder로 이동")
+	print("[MainLobbyUI] Navigate to Deck Builder")
 	get_tree().change_scene_to_file("res://ui/screens/DeckBuilder.tscn")
 
 func _on_dream_item_clicked(dream_id: int) -> void:
@@ -253,22 +225,24 @@ func _on_tab_pressed(tab_index: int) -> void:
 	
 	match tab_index:
 		0:  # Home
-			print("[MainLobbyUI] 이미 Home 화면")
+			print("[MainLobbyUI] Already on Home")
 		1:  # Cards
-			print("[MainLobbyUI] Card Library로 이동")
+			print("[MainLobbyUI] Navigate to Card Library")
 			get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
 		2:  # Upgrade
-			print("[MainLobbyUI] Upgrade Tree로 이동")
+			print("[MainLobbyUI] Navigate to Upgrade Tree")
 			get_tree().change_scene_to_file("res://ui/screens/UpgradeTree.tscn")
 		3:  # Character (Equipment)
 			get_tree().change_scene_to_file("res://ui/screens/CharacterScreen.tscn")
 		4:  # Shop
-			print("[MainLobbyUI] Shop으로 이동")
+			print("[MainLobbyUI] Navigate to Shop")
 			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")
 
 func set_active_tab(tab_index: int) -> void:
 	for i in range(tab_buttons.size()):
 		var button = tab_buttons[i]
+		UISprites.apply_btn(button, "primary" if i == tab_index else "secondary")
+		button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
 		if i == tab_index:
 			button.add_theme_color_override("font_color", UITheme.COLORS.text)
 		else:

@@ -1,6 +1,7 @@
 extends Control
 
 @onready var title_label = $VBox/TitleLabel
+@onready var stats_panel = $VBox/StatsPanel
 @onready var message_label = $VBox/StatsPanel/StatsVBox/MessageLabel
 @onready var turns_label = $VBox/StatsPanel/StatsVBox/TurnsLabel
 @onready var damage_label = $VBox/StatsPanel/StatsVBox/DamageLabel
@@ -24,15 +25,13 @@ func _ready():
 	_update_display()
 
 func _apply_theme_styles():
-	# Title
+	UISprites.apply_panel(stats_panel, UISprites.panel_dark(), 18)
+	UISprites.apply_btn(retry_button, "red")
 	title_label.add_theme_font_size_override("font_size", 32)
-	title_label.add_theme_color_override("font_color", Color(0.8, 0.3, 0.3))  # Red
-	
-	# Message
+	title_label.add_theme_color_override("font_color", UITheme.COLORS.danger)
 	message_label.add_theme_font_size_override("font_size", 16)
-	
-	# Retry button
-	UITheme.apply_button_style(retry_button, "primary")
+
+
 
 func _setup_buttons():
 	retry_button.pressed.connect(_on_retry_pressed)

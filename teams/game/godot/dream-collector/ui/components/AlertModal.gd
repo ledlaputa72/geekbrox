@@ -31,29 +31,13 @@ func _ready() -> void:
 
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
-	# 모달 패널 스타일
-	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = UITheme.COLORS.panel
-	panel_style.border_width_left = 3
-	panel_style.border_width_top = 3
-	panel_style.border_width_right = 3
-	panel_style.border_width_bottom = 3
-	panel_style.border_color = UITheme.COLORS.primary
-	panel_style.corner_radius_top_left = UITheme.RADIUS.large
-	panel_style.corner_radius_top_right = UITheme.RADIUS.large
-	panel_style.corner_radius_bottom_left = UITheme.RADIUS.large
-	panel_style.corner_radius_bottom_right = UITheme.RADIUS.large
-	modal_panel.add_theme_stylebox_override("panel", panel_style)
-	
-	# 타이틀 색상
+	UISprites.apply_panel(modal_panel, UISprites.modal_frame(), 18)
+
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.primary)
-	
-	# 메시지 색상
 	message_label.add_theme_color_override("font_color", UITheme.COLORS.text)
-	
-	# 버튼 스타일
-	UITheme.apply_button_style(button1, "primary")
-	UITheme.apply_button_style(button2, "panel_light")
+
+	UISprites.apply_btn(button1, "primary")
+	UISprites.apply_btn(button2, "secondary")
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
@@ -72,8 +56,17 @@ func show_alert(
 	message_label.text = message
 	button1.text = button1_text
 	
-	# 버튼 1 색상
-	UITheme.apply_button_style(button1, button1_color)
+	# 버튼 1 스프라이트 (primary/danger->red/success->green/warning->red)
+	var btn_variant := "primary"
+	if button1_color == "danger":
+		btn_variant = "red"
+	elif button1_color == "success":
+		btn_variant = "green"
+	elif button1_color == "warning":
+		btn_variant = "red"
+	else:
+		btn_variant = "primary"
+	UISprites.apply_btn(button1, btn_variant)
 	
 	# 버튼 2 표시 여부
 	if button2_text != "":

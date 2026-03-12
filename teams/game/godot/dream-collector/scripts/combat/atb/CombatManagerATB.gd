@@ -470,16 +470,59 @@ func _resolve_card_effect(card: Card, target_index: int = -1):
 		battle_log("  \u2192 \uB4DC\uB85C\uC6B0 +%d\uC7A5" % card.draw)  # → 드로우 +N장
 		_draw_cards(card.draw)
 
-func _calculate_player_damage(_card: Card, enemy, base: int) -> int:
-	"""기본 데미지 계산 (취약/허약/힘 보너스). 블록은 Monster.take_damage에서 처리"""
-	var dmg = base
+func _calculate_player_damage(card: Card, enemy, base: int) -> int:
+	# 03_damage_formula.csv 7단계 데미지 공식
+	# Step 1: 기본 피해 = ATK × 카드 배율 (base는 이미 카드 배율 적용된 값)
+	var dmg: float = float(base)
+
+	# Step 2: 장비/아이템 보너스 (무기 all_eff + 목걸이 카드 타입 보너스)
+	var equip_bonus: float = 0.0
+	equip_bonus += player_data.get("weapon_all_eff", 0.0)       # 무기 전체 효과 (%)
+	# 카드 타입별 목걸이 보너스
+	if card:
+		var card_type_bonus_key := ""
+		match card.type:
+			"ATTACK": card_type_bonus_key = "card_atk_dmg"
+			"SKILL":  card_type_bonus_key = "card_skl_eff"
+			"POWER":  card_type_bonus_key = "card_pow_dmg"
+			"CURSE":  card_type_bonus_key = "card_crs_eff"
+		if card_type_bonus_key != "":
+			equip_bonus += player_data.get(card_type_bonus_key, 0.0)
+	dmg *= (1.0 + equip_bonus / 100.0)
+
+	# Step 3: 상태이상/특성 보너스
+	# VULNERABLE: 피해 +50%, WEAK: 피해 -25%, STRENGTH: 절대값 추가
 	if enemy.has_status("VULNERABLE"):
-		dmg = int(dmg * 1.5)
+		dmg *= 1.5
 	if player_data.get("status_effects", {}).get("WEAK", 0) > 0:
-		dmg = int(dmg * 0.75)
-	var strength = player_data.get("status_effects", {}).get("STRENGTH", 0)
-	dmg += strength
-	return max(0, dmg)
+		dmg *= 0.75
+	var strength: int = player_data.get("status_effects", {}).get("STRENGTH", 0)
+	dmg += float(strength)
+
+	# Step 4: 치명타 판정 (atb 기본공격과 동일 로직, 카드별 별도 적용)
+	# 카드 치명타는 _player_atb_attack이 아닌 여기서 처리
+	# (현재는 카드 자체 치명타율 없으므로 player_data.cri 사용)
+	var cri_chance: float = player_data.get("cri", 0.0)
+	if cri_chance > 0.0 and randf() * 100.0 < cri_chance:
+		var crit_dmg_mult: float = player_data.get("crit_dmg", 150.0) / 100.0
+		dmg *= crit_dmg_mult
+		battle_log("  ✦ 카드 치명타! (×%.1f)" % crit_dmg_mult)
+
+	# Step 5: 원소 상성 (elem_mult: 약점 1.5, 저항 0.5, 중립 1.0)
+	# 현재 카드 원소 속성 미구현 — 기본 1.0 (중립)
+	var elem_mult: float = 1.0
+	dmg *= elem_mult
+
+	# Step 6: 방어 계산 — Monster.take_damage()에서 처리
+	# 공식: dmg × (1 - DEF/(DEF+100)) × (1 - armor_pen/100)
+	# (armor_pen은 player_data에서 가져오되 기본 0)
+	# → 이 함수에서는 방어 전 수치를 반환하고 Monster.take_damage가 DEF 적용
+
+	# Step 7: 최종 피해 (최솟값 1, dmg_amplify 배율 적용)
+	var dmg_amplify: float = player_data.get("dmg_amplify", 100.0) / 100.0
+	dmg *= dmg_amplify
+
+	return max(1, int(dmg))
 
 # ── 카드 드로우 ──────────────────────────────────────
 func _draw_cards(n: int):

@@ -30,19 +30,19 @@ func save_game() -> void:
 	if file:
 		file.store_string(JSON.stringify(save_data, "\t"))
 		file.close()
-		print("[SaveSystem] 저장 완료")
+		print("[SaveSystem] Save complete")
 	else:
-		push_error("[SaveSystem] 저장 실패: " + SAVE_PATH)
+		push_error("[SaveSystem] Save failed: " + SAVE_PATH)
 
 # ─── 불러오기 ─────────────────────────────────────────
 func load_game() -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
-		print("[SaveSystem] 저장 파일 없음 → 새 게임 시작")
+		print("[SaveSystem] No save file, starting new game")
 		return
 
 	var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
 	if not file:
-		push_error("[SaveSystem] 불러오기 실패")
+		push_error("[SaveSystem] Load failed")
 		return
 
 	var json_text = file.get_as_text()
@@ -51,7 +51,7 @@ func load_game() -> void:
 	var json = JSON.new()
 	var err = json.parse(json_text)
 	if err != OK:
-		push_error("[SaveSystem] JSON 파싱 오류")
+		push_error("[SaveSystem] JSON parse error")
 		return
 
 	var data = json.get_data()
@@ -69,7 +69,7 @@ func load_game() -> void:
 	IdleSystem.prestige_multiplier    = float(data.get("prestige_multiplier", 1.0))
 	GameManager.current_deck          = data.get("current_deck", [])
 
-	print("[SaveSystem] 불러오기 완료 (Reveries: %.1f, Gems: %d, Energy: %d, Deck: %d장)" % [
+	print("[SaveSystem] Load complete (Reveries: %.1f, Gems: %d, Energy: %d, Deck: %d)" % [
 		GameManager.reveries, GameManager.gems, GameManager.energy, GameManager.current_deck.size()
 	])
 
@@ -77,4 +77,4 @@ func load_game() -> void:
 func reset_save() -> void:
 	if FileAccess.file_exists(SAVE_PATH):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
-	print("[SaveSystem] 저장 데이터 초기화 완료")
+	print("[SaveSystem] Save data reset complete")

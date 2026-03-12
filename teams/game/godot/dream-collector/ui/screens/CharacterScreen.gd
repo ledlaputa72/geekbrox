@@ -48,10 +48,12 @@ const RARITY_BG := {
 @onready var spd_value: Label = $Section_Character/CharacterVBox/StatsRow/SpdStat/SpdValue
 @onready var combat_power_value: Label = $Section_Character/CharacterVBox/CombatPowerRow/CombatPowerValue
 var item_detail_popup: Control = null
+var char_info_popup: Control = null
 @onready var section_inventory: VBoxContainer = $Section_Inventory
 @onready var item_grid: GridContainer = null  # set in _ready()
 @onready var bottom_nav = $BottomNav
 @onready var sort_button: Button = $InventoryHeader/SortButton
+@onready var sprite_click_area: Button = $Section_Character/CharacterVBox/EquipmentLayout/CharacterDisplay/SpriteClickArea
 
 var selected_slot: String = ""
 var equipped: Dictionary = {}  # slot_id -> Equipment
@@ -89,6 +91,9 @@ func _ready() -> void:
 			GameManager.energy_changed.connect(_on_energy_changed)
 	_setup_character_sprite()
 	_setup_item_detail_popup()
+	_setup_char_info_popup()
+	if sprite_click_area:
+		sprite_click_area.pressed.connect(_on_sprite_clicked)
 	if bottom_nav:
 		bottom_nav.set_active_tab(3)
 		bottom_nav.tab_pressed.connect(_on_bottom_nav_pressed)
@@ -97,6 +102,7 @@ func _ready() -> void:
 	_refresh_equipment_slots()
 	_refresh_stats()
 	call_deferred("_refresh_inventory")
+	call_deferred("_apply_sprites")
 
 func _on_reveries_changed(_v: float) -> void:
 	_update_currency()
@@ -115,17 +121,49 @@ func _update_currency() -> void:
 		gold_label.text = str(int(GameManager.reveries))
 		energy_label.text = "%d/100" % mini(GameManager.energy, 100)
 
+func _apply_sprites() -> void:
+	# Section_Character (PanelContainer) → panel_frame.png (patch=18)
+	var section_char := get_node_or_null("Section_Character") as Control
+	UISprites.apply_panel(section_char, UISprites.panel_frame(), 18)
+	# InventoryHeader (HBoxContainer) → section_header.png (patch=4)
+	var inv_header := get_node_or_null("InventoryHeader") as Control
+	UISprites.apply_bg(inv_header, UISprites.section_hdr(), 4)
+	# CurrencyBar 재화 패널들 → hud_pill.png (patch=20)
+	for pname in ["GemsPanel", "GoldPanel", "EnergyPanel"]:
+		var pill := get_node_or_null("Header/CurrencyBar/" + pname) as Control
+		UISprites.apply_bg(pill, UISprites.hud_pill(), 20)
+
 func _setup_character_sprite() -> void:
 	if not character_display:
 		return
+	# SpriteClickArea는 보존하고 나머지만 제거
 	for c in character_display.get_children():
-		c.queue_free()
+		if c.name != "SpriteClickArea":
+			c.queue_free()
 	var sprite = PlayerSpriteAnimator.new()
 	sprite.custom_minimum_size = Vector2(128, 128)
 	sprite.size = Vector2(128, 128)
 	sprite.name = "CharacterSprite"
 	character_display.add_child(sprite)
 	sprite.play(PlayerSpriteAnimator.AnimState.IDLE)
+	# SpriteClickArea를 항상 맨 위(마지막 자식)로 이동해 클릭 우선순위 보장
+	if sprite_click_area and is_instance_valid(sprite_click_area):
+		character_display.move_child(sprite_click_area, character_display.get_child_count() - 1)
+
+func _setup_char_info_popup() -> void:
+	var popup_scene = load("res://ui/components/CharacterInfoPopup.tscn") as PackedScene
+	if popup_scene:
+		char_info_popup = popup_scene.instantiate() as Control
+		if char_info_popup:
+			if char_info_popup.has_signal("closed"):
+				char_info_popup.closed.connect(func(): pass)
+			char_info_popup.visible = false
+			add_child(char_info_popup)
+
+func _on_sprite_clicked() -> void:
+	if char_info_popup and char_info_popup.has_method("show_stats"):
+		var ls = get_node_or_null("/root/LevelSystem")
+		char_info_popup.show_stats(ls, equipped)
 
 func _setup_item_detail_popup() -> void:
 	var popup_scene = load("res://ui/components/ItemDetailPopup.tscn") as PackedScene

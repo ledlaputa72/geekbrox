@@ -12,7 +12,7 @@ extends Control
 var current_tab: int = 0 # 0: Character, 1: Skills, 2: Passive
 
 func _ready():
-	UITheme.apply_button_style(settings_button, "primary")
+	UISprites.apply_btn(settings_button, "primary")
 	settings_button.pressed.connect(_on_settings_pressed)
 	
 	# Setup tabs
@@ -40,22 +40,8 @@ func _setup_tabs():
 
 func _apply_tab_style(button: Button, is_active: bool):
 	"""Apply tab button style"""
-	var style = StyleBoxFlat.new()
-	if is_active:
-		style.bg_color = UITheme.COLORS.primary
-		button.add_theme_color_override("font_color", UITheme.COLORS.text)
-	else:
-		style.bg_color = UITheme.COLORS.panel
-		button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
-	
-	style.corner_radius_top_left = 8
-	style.corner_radius_top_right = 8
-	style.corner_radius_bottom_left = 8
-	style.corner_radius_bottom_right = 8
-	
-	button.add_theme_stylebox_override("normal", style)
-	button.add_theme_stylebox_override("hover", style)
-	button.add_theme_stylebox_override("pressed", style)
+	UISprites.apply_btn(button, "primary" if is_active else "secondary")
+	button.add_theme_color_override("font_color", UITheme.COLORS.text if is_active else UITheme.COLORS.text_dim)
 	button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
 
 func _on_tab_pressed(tab_index: int):
@@ -144,7 +130,7 @@ func _create_upgrade_item(upgrade: Dictionary) -> Panel:
 	button.text = "🪙 %d" % upgrade.cost
 	button.custom_minimum_size = Vector2(100, 60)
 	button.disabled = upgrade.level >= upgrade.max_level
-	UITheme.apply_button_style(button, "primary" if not button.disabled else "secondary")
+	UISprites.apply_btn(button, "green" if not button.disabled else "secondary")
 	button.pressed.connect(_on_upgrade_pressed.bind(upgrade))
 	hbox.add_child(button)
 	

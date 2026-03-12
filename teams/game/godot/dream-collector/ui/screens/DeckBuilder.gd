@@ -60,27 +60,16 @@ func _ready() -> void:
 func apply_styles() -> void:
 	background.color = UITheme.COLORS.bg
 	
-	# TopBar 스타일
-	var top_bar_style = StyleBoxFlat.new()
-	top_bar_style.bg_color = UITheme.COLORS.panel
-	top_bar_style.border_width_bottom = UITheme.BORDER.thin
-	top_bar_style.border_color = UITheme.COLORS.bg
-	top_bar.add_theme_stylebox_override("panel", top_bar_style)
-	
-	# Title
+	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 18)
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 	deck_title.add_theme_color_override("font_color", UITheme.COLORS.text)
 	stats_label.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
 	library_title.add_theme_color_override("font_color", UITheme.COLORS.text)
-	
-	# Buttons
-	UITheme.apply_button_style(back_button, "primary")
-	UITheme.apply_button_style(save_button, "success")
-	
-	# Filter buttons
+	UISprites.apply_btn(back_button, "secondary")
+	UISprites.apply_btn(save_button, "green")
 	filter_buttons = [all_button, attack_button, defense_button, skill_button, power_button]
 	for btn in filter_buttons:
-		UITheme.apply_button_style(btn, "panel_light")
+		UISprites.apply_btn(btn, "secondary")
 		btn.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
 	
 	# Divider

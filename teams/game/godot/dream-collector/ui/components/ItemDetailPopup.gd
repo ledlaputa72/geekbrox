@@ -44,27 +44,42 @@ func _ready() -> void:
 	if enhance_btn:
 		enhance_btn.pressed.connect(_on_enhance)
 	_apply_button_styles()
+	_apply_panel_sprite()
+
+func _apply_panel_sprite() -> void:
+	# modal_frame.png → ContentPanel 배경 (NinePatch patch=18)
+	var content_panel := get_node_or_null("ContentPanel")
+	UISprites.apply_panel(content_panel, UISprites.modal_frame(), 18)
 
 func _apply_button_styles() -> void:
-	var style_equip = StyleBoxFlat.new()
-	style_equip.bg_color = Color(0.2, 0.45, 0.85)
-	style_equip.set_corner_radius_all(8)
-	equip_btn.add_theme_stylebox_override("normal", style_equip)
+	if UISprites.btn_tex("primary") != null:
+		UISprites.apply_btn(equip_btn, "primary")
+		UISprites.apply_btn(unequip_btn, "red")
+		UISprites.apply_btn(enhance_btn, "purple")
+		UISprites.apply_btn(close_btn, "secondary")
+	else:
+		_fallback_button_styles()
+
+func _fallback_button_styles() -> void:
+	var s_equip := StyleBoxFlat.new()
+	s_equip.bg_color = Color(0.2, 0.45, 0.85)
+	s_equip.set_corner_radius_all(8)
+	equip_btn.add_theme_stylebox_override("normal", s_equip)
 	equip_btn.add_theme_color_override("font_color", Color.WHITE)
-	var style_unequip = StyleBoxFlat.new()
-	style_unequip.bg_color = Color(0.7, 0.25, 0.25)
-	style_unequip.set_corner_radius_all(8)
-	unequip_btn.add_theme_stylebox_override("normal", style_unequip)
+	var s_unequip := StyleBoxFlat.new()
+	s_unequip.bg_color = Color(0.7, 0.25, 0.25)
+	s_unequip.set_corner_radius_all(8)
+	unequip_btn.add_theme_stylebox_override("normal", s_unequip)
 	unequip_btn.add_theme_color_override("font_color", Color.WHITE)
-	var style_enhance = StyleBoxFlat.new()
-	style_enhance.bg_color = Color(0.45, 0.25, 0.7)
-	style_enhance.set_corner_radius_all(8)
-	enhance_btn.add_theme_stylebox_override("normal", style_enhance)
+	var s_enhance := StyleBoxFlat.new()
+	s_enhance.bg_color = Color(0.45, 0.25, 0.7)
+	s_enhance.set_corner_radius_all(8)
+	enhance_btn.add_theme_stylebox_override("normal", s_enhance)
 	enhance_btn.add_theme_color_override("font_color", Color.WHITE)
-	var style_close = StyleBoxFlat.new()
-	style_close.bg_color = Color(0.4, 0.4, 0.45)
-	style_close.set_corner_radius_all(8)
-	close_btn.add_theme_stylebox_override("normal", style_close)
+	var s_close := StyleBoxFlat.new()
+	s_close.bg_color = Color(0.4, 0.4, 0.45)
+	s_close.set_corner_radius_all(8)
+	close_btn.add_theme_stylebox_override("normal", s_close)
 	close_btn.add_theme_color_override("font_color", Color.WHITE)
 
 func show_item(item: Equipment, is_equipped: bool) -> void:

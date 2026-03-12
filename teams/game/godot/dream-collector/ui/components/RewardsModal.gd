@@ -19,7 +19,7 @@ func _ready():
 func _apply_theme_styles():
 	title_label.add_theme_font_size_override("font_size", 20)
 	desc_label.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
-	UITheme.apply_button_style(skip_button, "primary")
+	UISprites.apply_btn(skip_button, "secondary")
 
 func show_rewards(cards: Array):
 	"""

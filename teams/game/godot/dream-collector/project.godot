@@ -19,6 +19,7 @@ config/icon="res://assets/sprites/icon.png"
 
 [autoload]
 
+UIManager="*res://scripts/ui/UIManager.gd"
 UITheme="*res://scripts/UITheme.gd"
 GameManager="*res://scripts/GameManager.gd"
 SaveSystem="*res://scripts/SaveSystem.gd"

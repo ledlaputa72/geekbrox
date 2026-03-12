@@ -127,65 +127,27 @@ func apply_styles() -> void:
 	# 타로 테이블 (갈색)
 	table_bg.color = Color(0.55, 0.4, 0.25)  # 갈색
 	
-	# TopBar
-	var top_bar_style = StyleBoxFlat.new()
-	top_bar_style.bg_color = UITheme.COLORS.panel
-	top_bar.add_theme_stylebox_override("panel", top_bar_style)
-	
+	UISprites.apply_panel(top_bar, UISprites.panel_frame(), 18)
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
-	
-	# Buttons
-	UITheme.apply_button_style(back_button, "primary")
-	UITheme.apply_button_style(explore_button, "success")
+	UISprites.apply_btn(back_button, "secondary")
+	UISprites.apply_btn(explore_button, "green")
 	explore_button.add_theme_font_size_override("font_size", 20)
-	
-	# 타로 덱 스타일
-	var deck_style = StyleBoxFlat.new()
-	deck_style.bg_color = Color(0.3, 0.2, 0.4)  # 보라
-	deck_style.corner_radius_top_left = 8
-	deck_style.corner_radius_top_right = 8
-	deck_style.corner_radius_bottom_left = 8
-	deck_style.corner_radius_bottom_right = 8
-	tarot_deck.add_theme_stylebox_override("panel", deck_style)
-	
-	# 타로 카드 스타일 (3장)
+
+	UISprites.apply_panel(tarot_deck, UISprites.panel_frame(), 18)
 	for i in range(3):
 		var card = card_panels[i]
-		var card_style = StyleBoxFlat.new()
-		card_style.bg_color = Color(0.8, 0.6, 0.9)  # 밝은 보라 (카드 뒷면)
-		card_style.corner_radius_top_left = 8
-		card_style.corner_radius_top_right = 8
-		card_style.corner_radius_bottom_left = 8
-		card_style.corner_radius_bottom_right = 8
-		card_style.border_width_left = 3
-		card_style.border_width_top = 3
-		card_style.border_width_right = 3
-		card_style.border_width_bottom = 3
-		card_style.border_color = Color(0.4, 0.2, 0.5)
-		card.add_theme_stylebox_override("panel", card_style)
-		
-		# 카드 뒤집힌 면 (흰색)
+		UISprites.apply_panel(card, UISprites.panel_frame(), 18)
 		var back_panel = card.get_node("BackPanel")
 		var back_style = StyleBoxFlat.new()
-		back_style.bg_color = Color(0.95, 0.95, 0.9)  # 흰색
-		back_style.corner_radius_top_left = 6
-		back_style.corner_radius_top_right = 6
-		back_style.corner_radius_bottom_left = 6
-		back_style.corner_radius_bottom_right = 6
+		back_style.bg_color = Color(0.95, 0.95, 0.9)
+		back_style.set_corner_radius_all(6)
 		back_panel.add_theme_stylebox_override("panel", back_style)
 		back_panel.visible = false
-	
-	# Tab buttons
-	for button in tab_buttons:
-		apply_tab_button_style(button)
 
-func apply_tab_button_style(button: Button) -> void:
-	var normal_style = StyleBoxFlat.new()
-	normal_style.bg_color = UITheme.COLORS.panel
-	button.add_theme_stylebox_override("normal", normal_style)
-	
-	button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
-	button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
+	for button in tab_buttons:
+		UISprites.apply_btn(button, "secondary")
+		button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
+		button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:

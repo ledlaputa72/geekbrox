@@ -98,6 +98,9 @@ var _action_queue_animating: bool = false
 var _action_queue_override_actor: Dictionary = {}
 var _action_queue_override_until_ms: int = 0
 
+# 수동 노드 진행: 버튼으로 다음 노드 이동 시 이동 시간
+const TRAVEL_DURATION := 1.5
+
 # 리액션 "!" 표시를 신호 기반으로 동기화 (판정 타이밍과 동일)
 var _reaction_alert_enemy_idx: int = -1
 var _reaction_alert_unblockable: bool = false
@@ -135,60 +138,41 @@ func _create_exploration_ui_permanent():
 	if DEBUG_SWITCH: print("[InRun_v4] ExplorationBottomUI created")
 
 func _setup_top_bar():
-	# Setup TopBar
-	# TopBar background style (dark)
-	var top_bar_style = StyleBoxFlat.new()
-	top_bar_style.bg_color = Color(0.15, 0.15, 0.25, 1)  # Dark purple
-	top_bar_style.border_width_bottom = 2
-	top_bar_style.border_color = UITheme.COLORS.primary
-	top_bar.add_theme_stylebox_override("panel", top_bar_style)
-
-	# Settings button
-	UITheme.apply_button_style(settings_button, "primary")
+	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 18)
+	UISprites.apply_btn(settings_button, "primary")
 	settings_button.pressed.connect(_on_settings_pressed)
 
 func _setup_progress_bar():
-	# Setup RunProgressBar with dream nodes from GameManager
-	var nodes = []
+	# RunProgressBar에는 GameManager 경로만 사용 (start 중복 추가 금지 — 경로 첫 칸이 이미 '시작' 이벤트)
+	var nodes: Array = []
 
-	# Check if dream nodes exist in GameManager
 	if GameManager.get_total_node_count() > 0:
-		# Use dream nodes from card selection
 		var dream_nodes = GameManager.get_dream_nodes()
-
-		# Add start node
-		nodes.append({
-			"type": "start",
-			"icon": "",
-			"text": "꿈 속으로 들어섰다...",
-			"current": true,
-			"completed": false
-		})
-
-		# Convert dream nodes to progress bar format
-		for node_data in dream_nodes:
-			var text = ""
-			match node_data.type:
-				"combat":
-					text = "전투가 시작된다!"
-				"shop":
-					text = "상점을 발견했다!"
-				"npc":
-					text = "누군가와 마주쳤다..."
-				"narration":
-					text = "이야기가 펼쳐진다..."
-				"boss":
-					text = "보스가 나타났다!"
+		for i in range(dream_nodes.size()):
+			var d = dream_nodes[i]
+			var node_type: String = d.get("type", "")
+			var text: String = ""
+			if node_type == "general":
+				text = d.get("text", "이동 중...")
+			else:
+				match node_type:
+					"start":    text = "꿈 속으로 들어섰다..."
+					"combat":   text = "전투가 시작된다!"
+					"shop":     text = "상점을 발견했다!"
+					"npc":      text = "누군가와 마주쳤다..."
+					"narration": text = "이야기가 펼쳐진다..."
+					"boss":     text = "보스가 나타났다!"
+					_:         text = "..."
 
 			nodes.append({
-				"type": node_data.type,
-				"icon": node_data.icon,
+				"type": node_type,
+				"icon": d.get("icon", "🚶"),
 				"text": text,
-				"current": false,
+				"current": (i == 0),
 				"completed": false
 			})
 
-		print("[InRun_v4] Loaded %d dream nodes from GameManager" % dream_nodes.size())
+		print("[InRun_v4] Loaded %d path steps from GameManager (event at 0 = start)" % nodes.size())
 	else:
 		# Fallback to mock nodes if no dream cards selected
 		print("[InRun_v4] No dream cards found, using mock nodes")
@@ -199,7 +183,7 @@ func _setup_progress_bar():
 			{"type": "boss", "icon": "", "text": "악몽의 주인 등장!", "current": false, "completed": false}
 		]
 
-	run_progress_bar.set_nodes(nodes, 0)  # Start at first node
+	run_progress_bar.set_nodes(nodes, 0)  # Start at first node (노드 순서 랜덤은 GameManager에서 처리)
 
 	# Connect signals
 	run_progress_bar.node_reached.connect(_on_node_reached)
@@ -253,18 +237,7 @@ func _setup_action_queue_ui():
 	_action_queue_root.offset_left = -160
 	_action_queue_root.offset_right = 160
 	_action_queue_root.offset_bottom = 24
-
-	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.10, 0.10, 0.16, 0.85)
-	style.corner_radius_top_left = 10
-	style.corner_radius_top_right = 10
-	style.corner_radius_bottom_left = 10
-	style.corner_radius_bottom_right = 10
-	style.content_margin_left = 8
-	style.content_margin_right = 8
-	style.content_margin_top = 2
-	style.content_margin_bottom = 2
-	_action_queue_root.add_theme_stylebox_override("panel", style)
+	UISprites.apply_panel(_action_queue_root, UISprites.panel_dark(), 18)
 
 	# 텍스트-아이콘-아이콘… 동일 중앙 정렬, 점선 기준선, 삼각형은 별도 레이어
 	var content = VBoxContainer.new()
@@ -971,6 +944,14 @@ func _on_bottom_ui_action(action_type: String, data: Dictionary):
 		"npc_choice":
 			_handle_npc_choice(data.get("choice_index", -1))
 
+		# 탐험: 1단계 진행 버튼 → 다음 노드로 이동 (버튼 숨김 → 이동 → 로그 → 이벤트 버튼)
+		"advance_node":
+			_on_advance_node_requested()
+
+		# 탐험: 2단계 이벤트 버튼(전투/상점 등) 클릭 → 해당 이벤트 진입
+		"enter_event":
+			_on_enter_event_requested(data.get("node_type", ""))
+
 		# Navigation
 		"leave":
 			_return_to_exploration()
@@ -1016,33 +997,47 @@ func _handle_npc_choice(choice_index: int):
 	# TODO: Implement choice logic
 
 func _return_to_exploration():
-	"""Return to exploration mode (캐릭터 퇴장 → 탐험 UI 복귀)"""
+	"""Return to exploration mode (캐릭터 퇴장 → 탐험 UI 복귀 → 다음 노드로 진행, 로그+이벤트 버튼 표시)"""
 	_despawn_all_characters()
 	await get_tree().create_timer(0.4).timeout
-	switch_to_exploration()
+	switch_to_exploration(true)  # 이벤트 복귀 시 다음 노드로 진행
 
 # === RunProgressBar Handlers ===
 
-func _on_node_reached(node_index: int, node_data: Dictionary):
-	"""Handle node arrival - 즉시 탐험 UI 정지 후 이벤트 로그 표시 → 이벤트 처리"""
-	print("[InRun_v4] Node reached: ", node_index, " - ", node_data)
-
-	var node_type = node_data.get("type", "narration")
-
-	if node_type == "start":
+func _update_exploration_action_button() -> void:
+	"""탐험 하단 액션: 시작 노드면 '진행' 버튼, 완료면 버튼 숨김/비활성"""
+	if not exploration_ui or not run_progress_bar:
 		return
+	if run_progress_bar.get_next_node_display_text() == "완료":
+		if exploration_ui.has_method("set_action_button_visible"):
+			exploration_ui.set_next_action_label("완료")
+			exploration_ui.action_button.disabled = true
+		return
+	if exploration_ui.has_method("set_phase_progress"):
+		exploration_ui.set_phase_progress()
 
-	# 즉시 탐험 UI 일시정지 & 대기 중인 이벤트 로그 표시
-	if exploration_ui:
-		exploration_ui.set_paused(true)
-		exploration_ui.show_pending_event()
 
+func _on_advance_node_requested() -> void:
+	"""진행 버튼 클릭: 버튼 숨김 → 이동 연출 → 다음 노드 결정 → 로그 배너 → 이벤트 버튼 표시"""
+	if not run_progress_bar or not exploration_ui:
+		return
+	if run_progress_bar.get_next_node_display_text() == "완료":
+		return
+	# 이동 시작: 캐릭터 걷기 + 배경 스크롤 재개
+	is_scrolling = true
+	_play_hero_animation(PlayerSpriteAnimator.AnimState.WALK)
+	# 버튼은 ExplorationBottomUI에서 이미 숨김 처리됨
+	run_progress_bar.set_progress_ratio(0.0)
+	var tween := create_tween()
+	tween.tween_method(func(r: float): run_progress_bar.set_progress_ratio(r), 0.0, 1.0, TRAVEL_DURATION)
+	await tween.finished
+	run_progress_bar.advance_to_next_node_manual()
+	# _on_node_reached에서 로그 표시 + set_phase_event_ready(전투/상점 등) 호출
+
+
+func _on_enter_event_requested(node_type: String) -> void:
+	"""이벤트 버튼(전투/상점 등) 클릭 시 해당 이벤트로 진입"""
 	match node_type:
-		"narration":
-			await get_tree().create_timer(1.0).timeout
-			if exploration_ui:
-				exploration_ui.auto_progress_timer = 0.0
-				exploration_ui.set_paused(false)
 		"combat":
 			_handle_combat_event()
 		"shop":
@@ -1051,6 +1046,47 @@ func _on_node_reached(node_index: int, node_data: Dictionary):
 			_handle_npc_event()
 		"boss":
 			_handle_boss_event()
+		"narration":
+			# 탐험/이야기 노드는 짧은 대기 후 다시 진행 버튼 + 이동 재개
+			await get_tree().create_timer(1.0).timeout
+			if exploration_ui and exploration_ui.has_method("set_phase_progress"):
+				exploration_ui.set_phase_progress()
+			is_scrolling = true
+			_play_hero_animation(PlayerSpriteAnimator.AnimState.WALK)
+		_:
+			if exploration_ui and exploration_ui.has_method("set_phase_progress"):
+				exploration_ui.set_phase_progress()
+			is_scrolling = true
+			_play_hero_animation(PlayerSpriteAnimator.AnimState.WALK)
+
+
+func _on_node_reached(node_index: int, node_data: Dictionary):
+	"""노드 도착: 로그 배너 표시 → 노드 타입에 따라 이벤트 버튼(전투/상점 등) 표시. 클릭 시에만 이벤트 진입."""
+	print("[InRun_v4] Node reached: ", node_index, " - ", node_data)
+
+	var node_type: String = node_data.get("type", "narration")
+
+	if node_type == "start":
+		if exploration_ui and exploration_ui.has_method("set_phase_progress"):
+			exploration_ui.set_phase_progress()
+		return
+
+	# 로그: 현재 도착한 경로 단계만 표시 (이벤트는 (n)에 도착했을 때만 로그·버튼 표시)
+	if exploration_ui:
+		exploration_ui.set_paused(true)
+		exploration_ui.show_pending_event(node_index)
+
+	# 이벤트 버튼이 보이는 순간: 이동 정지 (배경 스크롤 + 걷기 멈춤)
+	is_scrolling = false
+	_play_hero_animation(PlayerSpriteAnimator.AnimState.IDLE)
+
+	# 노드: 다른 씬 없이 로그만 표시, '진행' 버튼 유지. 이벤트에서만 전투/상점 등 버튼 표시.
+	if node_type == "general":
+		if exploration_ui and exploration_ui.has_method("set_phase_progress"):
+			exploration_ui.set_phase_progress()
+	else:
+		if exploration_ui and exploration_ui.has_method("set_phase_event_ready"):
+			exploration_ui.set_phase_event_ready(node_type)
 
 func _on_run_completed():
 	"""Handle run completion"""
@@ -1090,9 +1126,9 @@ func _handle_boss_event():
 
 # === State Switching Functions ===
 
-func switch_to_exploration():
-	"""Switch to exploration mode — 배경 스크롤 + WALK 애니메이션"""
-	print("\n[InRun_v4] ===== SWITCHING TO EXPLORATION =====")
+func switch_to_exploration(returning_from_event: bool = false):
+	"""Switch to exploration mode — 배경 스크롤 + WALK. returning_from_event면 다음 노드로 진행 후 로그+이벤트 버튼."""
+	print("\n[InRun_v4] ===== SWITCHING TO EXPLORATION (returning=%s) =====" % returning_from_event)
 	current_state = ScreenState.EXPLORATION
 	is_scrolling = true
 	_set_action_queue_visible(false)
@@ -1120,20 +1156,19 @@ func switch_to_exploration():
 
 	# 탐험 로그 이어가기
 	if exploration_ui.time_logs.is_empty():
-		# 최초 진입: time_logs 로드 (첫 로그는 auto_progress_interval 후 자동 표시)
 		exploration_ui._on_enter()
 	else:
-		# 이벤트 복귀: 타이머 리셋 후 auto_progress_interval 후 다음 로그 표시
 		exploration_ui.auto_progress_timer = 0.0
 		exploration_ui.set_paused(false)
 
-	# 프로그레스바 재개
-	if run_progress_bar:
-		if not run_progress_bar.is_auto_progressing:
-			print("[InRun_v4] Starting auto-progress...")
-			run_progress_bar.start_auto_progress()
-		else:
-			run_progress_bar.resume_progress()
+	if returning_from_event and run_progress_bar and run_progress_bar.get_next_node_display_text() != "완료":
+		# 이벤트 복귀: 버튼 잠깐 숨김 후 다음 노드 진행 → _on_node_reached에서 로그+이벤트 버튼 표시
+		if exploration_ui.has_method("set_action_button_visible"):
+			exploration_ui.set_action_button_visible(false)
+		run_progress_bar.advance_to_next_node_manual()
+	else:
+		# 최초 진입 또는 런 완료: 진행 버튼 표시
+		_update_exploration_action_button()
 
 	print("[InRun_v4] ===== EXPLORATION SWITCH COMPLETE =====\n")
 
@@ -1952,10 +1987,11 @@ func _input(event):
 						monster.hp = 0
 					CombatManager._check_combat_end()
 			KEY_MINUS:
-				# Cheat: Skip to next node
-				if run_progress_bar:
+				# Cheat: Skip to next node (수동 진행 시 즉시 다음 노드로)
+				if run_progress_bar and run_progress_bar.get_next_node_display_text() != "완료":
 					print("[InRun_v4] CHEAT: Skip to next node")
-					run_progress_bar.progress_to_next = 1.0
+					run_progress_bar.advance_to_next_node_manual()
+					_update_exploration_action_button()
 
 
 # === Button Handlers ===

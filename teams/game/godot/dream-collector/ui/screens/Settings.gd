@@ -7,7 +7,7 @@ extends Control
 @onready var settings_list = $ScrollContainer/SettingsList
 
 func _ready():
-	UITheme.apply_button_style(back_button, "primary")
+	UISprites.apply_btn(back_button, "secondary")
 	back_button.pressed.connect(_on_back_pressed)
 	
 	# Build settings UI
@@ -33,10 +33,16 @@ func _build_settings():
 
 func _add_section_header(title: String):
 	"""Add section header"""
+	if settings_list.get_child_count() > 0:
+		var div = TextureRect.new()
+		div.texture = UISprites.divider_subtle()
+		div.custom_minimum_size = Vector2(0, 4)
+		div.stretch_mode = TextureRect.STRETCH_SCALE
+		settings_list.add_child(div)
 	var spacer = Control.new()
 	spacer.custom_minimum_size = Vector2(0, 20)
 	settings_list.add_child(spacer)
-	
+
 	var label = Label.new()
 	label.text = title
 	label.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.large)
@@ -96,15 +102,15 @@ func _add_language_selector():
 	korean_button.text = "한국어"
 	korean_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	korean_button.custom_minimum_size = Vector2(0, 50)
-	UITheme.apply_button_style(korean_button, "primary")
+	UISprites.apply_btn(korean_button, "primary")
 	korean_button.pressed.connect(_on_language_changed.bind("ko"))
 	container.add_child(korean_button)
-	
+
 	var english_button = Button.new()
 	english_button.text = "English"
 	english_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	english_button.custom_minimum_size = Vector2(0, 50)
-	UITheme.apply_button_style(english_button, "secondary")
+	UISprites.apply_btn(english_button, "secondary")
 	english_button.pressed.connect(_on_language_changed.bind("en"))
 	container.add_child(english_button)
 
@@ -126,7 +132,7 @@ func _add_credits():
 	var button = Button.new()
 	button.text = "크레딧 보기"
 	button.custom_minimum_size = Vector2(0, 50)
-	UITheme.apply_button_style(button, "secondary")
+	UISprites.apply_btn(button, "secondary")
 	button.pressed.connect(_on_credits_pressed)
 	settings_list.add_child(button)
 

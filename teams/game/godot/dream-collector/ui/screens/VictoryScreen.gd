@@ -1,6 +1,7 @@
 extends Control
 
 @onready var title_label = $VBox/TitleLabel
+@onready var stats_panel = $VBox/StatsPanel
 @onready var turns_label = $VBox/StatsPanel/StatsVBox/TurnsLabel
 @onready var damage_label = $VBox/StatsPanel/StatsVBox/DamageLabel
 @onready var time_label = $VBox/StatsPanel/StatsVBox/TimeLabel
@@ -25,12 +26,12 @@ func _ready():
 	_apply_rewards()
 
 func _apply_theme_styles():
-	# Title
+	UISprites.apply_panel(stats_panel, UISprites.panel_frame(), 18)
+	UISprites.apply_btn(continue_button, "primary")
 	title_label.add_theme_font_size_override("font_size", 32)
-	title_label.add_theme_color_override("font_color", Color(1.0, 0.843, 0.0))  # Gold
-	
-	# Continue button
-	UITheme.apply_button_style(continue_button, "primary")
+	title_label.add_theme_color_override("font_color", UITheme.COLORS.warning)
+
+
 
 func _setup_buttons():
 	continue_button.pressed.connect(_on_continue_pressed)

@@ -16,8 +16,9 @@ Layout:
   start    → 회청색 (여정 시작)
 """
 
-@onready var scroll_container = $ScrollContainer
-@onready var event_log = $ScrollContainer/EventLog
+@onready var scroll_container = $VBox/ScrollContainer
+@onready var event_log = $VBox/ScrollContainer/EventLog
+@onready var action_button = $VBox/ActionButtonRow/ActionButton
 
 var time_logs: Array = []
 var current_log_index: int = 0
@@ -25,6 +26,10 @@ var auto_progress_timer: float = 0.0
 var auto_progress_interval: float = 2.0
 var is_paused: bool = false
 var _last_shown_was_event: bool = false  # 연속 이벤트 감지용
+
+# 두 단계: "progress"(진행 버튼) / "event_ready"(전투·상점 등 이벤트 진입 버튼)
+var _phase: String = "progress"
+var _pending_event_type: String = ""
 
 # ─── 타입별 색상 팔레트 (이미지 기준) ───
 const LOG_COLORS = {
@@ -54,7 +59,62 @@ func _ready():
 	var vbar = scroll_container.get_v_scroll_bar()
 	vbar.custom_minimum_size = Vector2.ZERO
 	vbar.modulate.a = 0.0
+	action_button.pressed.connect(_on_action_button_pressed)
+	UISprites.apply_btn(action_button, "green")
 	ui_ready.emit()
+
+
+func set_next_action_label(text: String) -> void:
+	"""다음 노드 타입에 따른 버튼 문구 (탐험/전투/상점 등) — 레거시 호환"""
+	if action_button:
+		action_button.text = text
+		action_button.disabled = (text == "완료")
+
+
+func set_action_button_visible(visible: bool) -> void:
+	"""액션 버튼 표시/숨김 (진행 클릭 시 숨김, 로그+이벤트 버튼 표시 전에 사용)"""
+	if action_button:
+		action_button.visible = visible
+
+
+func set_phase_progress() -> void:
+	"""1단계: 진행 버튼 표시. 클릭 시 다음 노드로 이동."""
+	_phase = "progress"
+	_pending_event_type = ""
+	if action_button:
+		action_button.text = "진행"
+		action_button.disabled = false
+		action_button.visible = true
+
+
+func set_phase_event_ready(node_type: String) -> void:
+	"""2단계: 로그 배너 표시 후, 해당 노드 타입 버튼(전투/상점 등) 표시. 클릭 시 이벤트 진입."""
+	_phase = "event_ready"
+	_pending_event_type = node_type
+	var label_text: String = _event_type_to_label(node_type)
+	if action_button:
+		action_button.text = label_text
+		action_button.disabled = false
+		action_button.visible = true
+
+
+func _event_type_to_label(t: String) -> String:
+	match t:
+		"combat":   return "전투"
+		"shop":     return "상점"
+		"npc":      return "NPC"
+		"boss":     return "보스"
+		"narration": return "탐험"
+		"start":    return "진행"
+		_:          return "탐험"
+
+
+func _on_action_button_pressed() -> void:
+	if _phase == "progress":
+		set_action_button_visible(false)
+		request_action("advance_node", {})
+	else:
+		request_action("enter_event", {"node_type": _pending_event_type})
 
 
 func _on_enter():
@@ -108,14 +168,16 @@ func _show_next_log():
 	current_log_index += 1
 
 
-func show_pending_event():
-	"""노드 도달 시 호출 — 남은 이동 로그를 빠르게 표시한 뒤 이벤트 로그를 표시"""
-	while current_log_index < time_logs.size():
+func show_pending_event(path_index: int = -1):
+	"""경로 상 path_index 단계 도착 시 호출. 해당 단계의 로그만 표시 (이벤트는 (n) 도착 시에만 표시)."""
+	# path_index가 주어지면 그 단계까지의 로그만 표시 (2개 로그/단계: travel + event)
+	var max_log_index: int = time_logs.size() - 1
+	if path_index >= 0:
+		max_log_index = mini(2 * path_index + 1, time_logs.size() - 1)
+	while current_log_index <= max_log_index and current_log_index < time_logs.size():
 		var log_data = time_logs[current_log_index]
 		_add_log_box(log_data)
 		current_log_index += 1
-		if log_data.get("type") == "event":
-			return
 
 
 # ─── 타임라인 로그 박스 ───

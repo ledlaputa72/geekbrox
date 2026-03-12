@@ -46,23 +46,12 @@ func _ready() -> void:
 func apply_styles() -> void:
 	background.color = UITheme.COLORS.bg
 	
-	# TopBar 스타일
-	var top_bar_style = StyleBoxFlat.new()
-	top_bar_style.bg_color = UITheme.COLORS.panel
-	top_bar_style.border_width_bottom = UITheme.BORDER.thin
-	top_bar_style.border_color = UITheme.COLORS.bg
-	top_bar.add_theme_stylebox_override("panel", top_bar_style)
-	
-	# Title
+	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 18)
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
-	
-	# Buttons
-	UITheme.apply_button_style(deck_button, "info")
-	
-	# Filter buttons
+	UISprites.apply_btn(deck_button, "secondary")
 	filter_buttons = [all_button, attack_button, defense_button, skill_button, power_button]
-	for button in filter_buttons:
-		UITheme.apply_button_style(button, "panel_light")
+	for btn in filter_buttons:
+		UISprites.apply_btn(btn, "secondary")
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:

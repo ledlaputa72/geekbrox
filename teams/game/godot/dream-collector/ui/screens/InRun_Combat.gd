@@ -272,8 +272,9 @@ func _setup_monsters_horizontal():
 		m2_atb.visible = false
 
 func _apply_theme_styles():
-	for button in [end_turn_button, auto_button, menu_button]:
-		UITheme.apply_button_style(button, "primary")
+	UISprites.apply_btn(end_turn_button, "primary")
+	UISprites.apply_btn(auto_button, "green")
+	UISprites.apply_btn(menu_button, "secondary")
 
 func _setup_buttons():
 	end_turn_button.pressed.connect(_on_end_turn_pressed)

@@ -69,22 +69,13 @@ func _ready() -> void:
 func apply_styles() -> void:
 	background.color = UITheme.COLORS.bg
 	
-	# TopBar
-	var top_bar_style = StyleBoxFlat.new()
-	top_bar_style.bg_color = UITheme.COLORS.panel
-	top_bar_style.border_width_bottom = UITheme.BORDER.thin
-	top_bar_style.border_color = UITheme.COLORS.bg
-	top_bar.add_theme_stylebox_override("panel", top_bar_style)
-	
-	# Labels
+	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 18)
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 	gems_count_label.add_theme_color_override("font_color", UITheme.COLORS.primary)
 	reveries_count_label.add_theme_color_override("font_color", UITheme.COLORS.warning)
-	
-	# Tab buttons
 	tab_buttons = [gacha_tab_button, gems_tab_button, exchange_tab_button]
-	for button in tab_buttons:
-		UITheme.apply_button_style(button, "panel_light")
+	for btn in tab_buttons:
+		UISprites.apply_btn(btn, "secondary")
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
@@ -267,15 +258,15 @@ func create_gacha_banner_item(banner: Dictionary) -> Panel:
 	single_button.text = "%s %d\n1회 뽑기" % [currency_icon, banner.cost_single]
 	single_button.custom_minimum_size = Vector2(150, 60)
 	single_button.pressed.connect(_on_gacha_pull.bind(banner, 1))
-	UITheme.apply_button_style(single_button, "success")
+	UISprites.apply_btn(single_button, "green")
 	button_hbox.add_child(single_button)
-	
+
 	# 10회 뽑기 버튼
 	var ten_button = Button.new()
 	ten_button.text = "%s %d\n10회 뽑기" % [currency_icon, banner.cost_ten]
 	ten_button.custom_minimum_size = Vector2(150, 60)
 	ten_button.pressed.connect(_on_gacha_pull.bind(banner, 10))
-	UITheme.apply_button_style(ten_button, "primary")
+	UISprites.apply_btn(ten_button, "primary")
 	button_hbox.add_child(ten_button)
 	
 	# 한정 뽑기 표시
@@ -390,9 +381,9 @@ func create_gem_package_item(package: Dictionary) -> Panel:
 	var buy_button = Button.new()
 	buy_button.text = package.price
 	buy_button.pressed.connect(_on_buy_gems_pressed.bind(package))
-	UITheme.apply_button_style(buy_button, "success")
+	UISprites.apply_btn(buy_button, "primary")
 	vbox.add_child(buy_button)
-	
+
 	return panel
 
 # ─── 재화 교환 디스플레이 업데이트 ───────────────────
@@ -459,9 +450,9 @@ func create_exchange_item(exchange: Dictionary) -> Panel:
 	buy_button.text = "교환"
 	buy_button.custom_minimum_size = Vector2(80, 0)
 	buy_button.pressed.connect(_on_exchange_pressed.bind(exchange))
-	UITheme.apply_button_style(buy_button, "success")
+	UISprites.apply_btn(buy_button, "green")
 	hbox.add_child(buy_button)
-	
+
 	return panel
 
 # ─── 구매 이벤트 핸들러 ──────────────────────────────
