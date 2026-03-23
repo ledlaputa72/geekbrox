@@ -43,6 +43,7 @@ FocusUI="*res://scripts/autoloads/FocusUI.gd"
 CrisisUI="*res://scripts/autoloads/CrisisUI.gd"
 ComboHintUI="*res://scripts/autoloads/ComboHintUI.gd"
 IntentUI="*res://scripts/autoloads/IntentUI.gd"
+KenneyTheme="*res://scripts/autoloads/KenneyTheme.gd"
 
 [display]
 
