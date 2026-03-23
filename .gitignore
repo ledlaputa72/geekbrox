@@ -29,4 +29,6 @@ blog_automation/scripts/cookies.json
 # Package Lock
 *.lock
 
-
+# Kenney All-in-1 pack (large; use local copy — GitHub file limit 100MB)
+/Kenney Game Assets All-in-1 3.4.0.zip
+/Kenney Game Assets All-in-1 3.4.0/
