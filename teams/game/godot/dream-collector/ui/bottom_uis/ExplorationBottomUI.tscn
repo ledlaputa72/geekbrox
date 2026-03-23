@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/bottom_uis/ExplorationBottomUI.gd" id="1_exploration"]
 
 [node name="ExplorationBottomUI" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -34,7 +34,7 @@ grow_vertical = 2
 theme_override_constants/separation = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_vertical = 3
 offset_left = 10.0
 offset_top = 6.0
@@ -43,19 +43,20 @@ offset_bottom = -6.0
 horizontal_scroll_mode = 0
 
 [node name="EventLog" type="VBoxContainer" parent="VBox/ScrollContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 6
 
 [node name="ActionButtonRow" type="MarginContainer" parent="VBox"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
 [node name="ActionButton" type="Button" parent="VBox/ActionButtonRow"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 56)
 text = "탐험"

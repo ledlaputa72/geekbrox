@@ -73,24 +73,24 @@ func apply_passives(passives: Array[Dictionary], combat_manager) -> void:
 			"turn_start_block":
 				# CombatManagerTB의 _start_player_turn에서 매 턴 처리
 				if combat_manager and "turn_start_block_bonus" in combat_manager:
-					combat_manager.turn_start_block_bonus += passive.get("value", 0)
+					combat_manager.turn_start_block_bonus += int(passive.get("value", 0))
 
 			"first_atk_bonus":
 				if combat_manager and "first_atk_bonus" in combat_manager:
-					combat_manager.first_atk_bonus += passive.get("value", 0)
+					combat_manager.first_atk_bonus += int(passive.get("value", 0))
 
 			"start_tarot":
 				var tarot = combat_manager.get_node_or_null("TarotEnergySystem")
 				if tarot and tarot.has_method("add_tarot"):
-					tarot.add_tarot(passive.get("value", 1))
+					tarot.add_tarot(int(passive.get("value", 1)))
 
 			"parry_energy_extra":
 				if combat_manager and "parry_energy_extra" in combat_manager:
-					combat_manager.parry_energy_extra += passive.get("value", 0)
+					combat_manager.parry_energy_extra += int(passive.get("value", 0))
 
 			"turn_start_shard":
 				if combat_manager and "turn_start_shard_bonus" in combat_manager:
-					combat_manager.turn_start_shard_bonus += passive.get("value", 0)
+					combat_manager.turn_start_shard_bonus += int(passive.get("value", 0))
 
 	print("[DeckPassive] 패시브 %d개 적용" % passives.size())
 

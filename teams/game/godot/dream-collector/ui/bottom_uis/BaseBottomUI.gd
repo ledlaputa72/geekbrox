@@ -18,7 +18,7 @@ func _on_enter():
 func _on_exit():
 	pass
 
-func update_data(data: Dictionary):
+func update_data(_data: Dictionary):
 	pass
 
 func request_action(action_type: String, data: Dictionary = {}):

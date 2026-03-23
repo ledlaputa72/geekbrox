@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/screens/RunPrep.gd" id="1"]
 
 [node name="RunPrep" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,11 +31,11 @@ offset_left = 16.0
 offset_right = -16.0
 
 [node name="BackButton" type="Button" parent="TopBar/HBox"]
-layout_mode = 2
+layout_mode = 1
 text = "← Back"
 
 [node name="TitleLabel" type="Label" parent="TopBar/HBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Run Preparation"
 theme_override_font_sizes/font_size = 20
@@ -216,7 +216,7 @@ offset_bottom = 720.0
 horizontal_scroll_mode = 0
 
 [node name="LogContainer" type="VBoxContainer" parent="LogScroll"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
@@ -249,30 +249,30 @@ theme_override_constants/separation = 0
 
 [node name="HomeTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
+layout_mode = 1
 text = "🏠
 Home"
 
 [node name="CardsTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
+layout_mode = 1
 text = "🎴
 Cards"
 
 [node name="UpgradeTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
+layout_mode = 1
 text = "⬆️
 Upgrade"
 
 [node name="CharacterTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
+layout_mode = 1
 text = "🛡️
 Character"
 
 [node name="ShopTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
+layout_mode = 1
 text = "🛒
 Shop"

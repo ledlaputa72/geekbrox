@@ -1,0 +1,75 @@
+keys,en,ko,ja
+lobby.past_dreams,Past Dreams,지난 꿈들,過去の夢
+lobby.start_explore,Start Dream Exploration,꿈 탐험 시작,夢探検を開始
+lobby.deck_setting,Deck Settings,덱세팅,デッキ設定
+lobby.tab_home,Home,홈,ホーム
+lobby.tab_cards,Cards,카드,カード
+lobby.tab_upgrade,Upgrade,업그레이드,アップグレード
+lobby.tab_character,Character,캐릭터,キャラクター
+lobby.tab_shop,Shop,상점,ショップ
+lobby.dream_title,Dream Title,꿈 제목,夢のタイトル
+lobby.rarity_common,Normal,일반,ノーマル
+lobby.rarity_rare,Rare,레어,レア
+lobby.rarity_epic,Epic,에픽,エピック
+character.combat_power,Combat Power,전투력,戦闘力
+character.stat_detail,Stat Detail,스탯 상세,ステータス詳細
+character.inventory,Owned Equipment,보유 장비,所持装備
+character.sort_rarity,By Rarity,등급순,レアリティ順
+character.sort_enhance,By Enhance,강화순,強化順
+character.sort_type,By Type,종류순,種類順
+character.equip,Equip,장착,装備
+character.unequip,Unequip,해제,解除
+character.enhance,Enhance,강화,強化
+character.close,Close,닫기,閉じる
+character.basic_stats,Basic Stats,기본 속성,基本ステータス
+character.advanced_stats,Advanced Stats,고급 속성,上級ステータス
+character.elemental,Elemental,원소 속성,属性
+character.resistance,Resistance,저항 및 면역,耐性
+character.card_efficiency,Card Efficiency,카드 효율,カード効率
+character.final_stats,Final Stats,최종 수치,最終数値
+character.atk,ATK,공격력,攻撃力
+character.def,DEF,방어력,防御力
+character.spd,SPD,속도,速度
+character.level,Level,레벨,レベル
+character.exp,EXP,경험치,経験値
+character.crit_rate,Crit Rate,치명타율,クリティカル率
+character.crit_damage,Crit Damage,치명타 피해,クリティカルダメージ
+character.armor_pen,Armor Pen,방어구 관통,装甲貫通
+character.dodge_rate,Dodge Rate,회피율,回避率
+character.dmg_reduction,Dmg Reduction,피해 경감,ダメージ軽減
+character.dream_dmg,Dream Dmg,꿈기억 데미지,夢記憶ダメージ
+character.fire_dmg,Fire Dmg,불꽃 데미지,炎ダメージ
+character.cold_dmg,Cold Dmg,냉기 데미지,氷ダメージ
+character.lightning_dmg,Lightning Dmg,번개 데미지,雷ダメージ
+character.darkness_dmg,Darkness Dmg,암흑 데미지,闇ダメージ
+character.poison_res,Poison Res,독 저항,毒耐性
+character.burn_res,Burn Res,화상 저항,火傷耐性
+character.freeze_res,Freeze Res,빙결 저항,凍結耐性
+character.paralyze_res,Paralyze Res,마비 저항,麻痺耐性
+character.weak_res,Weak Res,약화 저항,弱体耐性
+character.stun_res,Stun Res,기절 저항,気絶耐性
+character.survivability,Survivability,생존도,生存力
+character.stability,Stability,안정성,安定性
+character.per_turn,per turn,턴당,ターン毎
+combat.victory,Victory,승리,勝利
+combat.defeat,Defeat,패배,敗北
+combat.attack,Attack,공격,攻撃
+combat.defend,Defend,방어,防御
+combat.parry,Parry,패링,パリー
+combat.dodge,Dodge,회피,回避
+combat.guard,Guard,가드,ガード
+shop.buy,Buy,구매,購入
+shop.sell,Sell,판매,販売
+shop.gems,Gems,보석,ジェム
+shop.gold,Gold,골드,ゴールド
+shop.energy,Energy,에너지,エネルギー
+common.yes,Yes,예,はい
+common.no,No,아니오,いいえ
+common.ok,OK,확인,OK
+common.cancel,Cancel,취소,キャンセル
+common.save,Save,저장,保存
+common.load,Load,불러오기,読込
+settings.language,Language,언어,言語
+settings.language_en,English,영어,英語
+settings.language_ko,Korean,한국어,韓国語
+settings.language_ja,Japanese,일본어,日本語

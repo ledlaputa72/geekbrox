@@ -289,7 +289,7 @@ func _update_atb_bars():
 	return
 	# (ATB system still runs in background for timing)
 
-func _on_entity_updated(entity_type: String, index: int):
+func _on_entity_updated(entity_type: String, _index: int):
 	if entity_type == "hero":
 		_update_hero_ui()
 	elif entity_type == "monster":

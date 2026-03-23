@@ -23,12 +23,12 @@ func _ready():
 	visible = false
 	
 	if modal_panel:
-		UISprites.apply_panel(modal_panel, UISprites.modal_frame(), 18)
+		UISprites.apply_panel(modal_panel, UISprites.modal_frame(), 8)
 	
-	# Setup title label
+	# Setup title label (다크 패널 배경 → 밝은 텍스트)
 	if title_label:
 		title_label.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.header)
-		title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
+		title_label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.6, 1.0))
 	
 	# Setup continue button
 	if continue_button:

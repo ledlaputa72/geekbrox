@@ -31,7 +31,6 @@ const EMPTY_BORDER := Color(0.4, 0.4, 0.5, 0.8)
 var equipped_item: Equipment = null
 var _level_label: Label
 var _name_label: Label
-var _icon_container: Control
 var _check_badge: Label
 
 func _ready() -> void:
@@ -50,10 +49,14 @@ func _ready() -> void:
 		_draw_slot()
 
 func _draw_slot() -> void:
-	# Clear previous dynamic children (_slot_* and _np_bg)
+	# Clear previous dynamic children — 즉시 제거 (queue_free 대신 free() 사용해 이름 충돌 방지)
+	var to_remove: Array = []
 	for c in get_children():
-		if c.name.begins_with("_slot_") or c.name == "_np_bg":
-			c.queue_free()
+		if c.name.begins_with("_slot_") or c.name.begins_with("_np_bg"):
+			to_remove.append(c)
+	for c in to_remove:
+		remove_child(c)
+		c.free()
 	# Style by state
 	if equipped_item:
 		var r = equipped_item.rarity
@@ -65,20 +68,37 @@ func _draw_slot() -> void:
 		_level_label.text = "LV.%d" % equipped_item.enhancement_level
 		_level_label.add_theme_font_size_override("font_size", 10)
 		_level_label.add_theme_color_override("font_color", Color.WHITE)
+		if UITheme:
+			UITheme.apply_text_outline(_level_label, 2)
 		_level_label.position = Vector2(4, 2)
 		add_child(_level_label)
-		# Center icon (same as inventory: slot-type emoji)
-		var icon_lbl = Label.new()
-		icon_lbl.name = "_slot_icon"
-		icon_lbl.text = slot_label if slot_label else _default_slot_icon()
-		icon_lbl.add_theme_font_size_override("font_size", 22)
-		icon_lbl.add_theme_color_override("font_color", Color(0.9, 0.9, 0.95))
-		var icon_y: float = float(SLOT_SIZE) * 0.5 - 14.0
-		icon_lbl.position = Vector2(0, icon_y)
-		icon_lbl.size = Vector2(SLOT_SIZE, 28)
-		icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		icon_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		add_child(icon_lbl)
+		# Center icon: 픽셀 슬롯 타입 아이콘 (이미지와 동일)
+		var icon_key := _slot_type_to_icon_key()
+		var icon_tex := UIManager.get_pixel_icon(icon_key) if UIManager else null
+		if icon_tex:
+			var icon_rect = TextureRect.new()
+			icon_rect.name = "_slot_icon"
+			icon_rect.texture = icon_tex
+			icon_rect.custom_minimum_size = Vector2(24, 24)
+			icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			icon_rect.position = Vector2(float(SLOT_SIZE) * 0.5 - 12.0, float(SLOT_SIZE) * 0.5 - 14.0)
+			icon_rect.size = Vector2(24, 28)
+			icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			add_child(icon_rect)
+		else:
+			var icon_lbl = Label.new()
+			icon_lbl.name = "_slot_icon"
+			icon_lbl.text = slot_label if slot_label else _default_slot_icon()
+			icon_lbl.add_theme_font_size_override("font_size", 22)
+			icon_lbl.add_theme_color_override("font_color", Color(0.9, 0.9, 0.95))
+			icon_lbl.position = Vector2(0, float(SLOT_SIZE) * 0.5 - 14.0)
+			icon_lbl.size = Vector2(SLOT_SIZE, 28)
+			icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			icon_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			if UITheme:
+				UITheme.apply_text_outline(icon_lbl, 2)
+			add_child(icon_lbl)
 		_name_label = Label.new()
 		_name_label.name = "_slot_name"
 		var type_map = {"weapon": "무기", "armor": "방어구", "ring": "반지", "necklace": "목걸이"}
@@ -86,6 +106,8 @@ func _draw_slot() -> void:
 		_name_label.text = type_str
 		_name_label.add_theme_font_size_override("font_size", 9)
 		_name_label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.95))
+		if UITheme:
+			UITheme.apply_text_outline(_name_label, 2)
 		_name_label.position = Vector2(2, SLOT_SIZE - 14)
 		_name_label.size = Vector2(SLOT_SIZE - 4, 12)
 		add_child(_name_label)
@@ -98,15 +120,39 @@ func _draw_slot() -> void:
 		add_child(_check_badge)
 	else:
 		_add_style(EMPTY_BORDER, EMPTY_BG)
-		var hint = Label.new()
-		hint.name = "_slot_hint"
-		hint.text = slot_label if slot_label else _default_slot_icon()
-		hint.add_theme_font_size_override("font_size", 11)
-		hint.add_theme_color_override("font_color", Color(1, 1, 1, 0.35))
-		hint.position = Vector2(0, float(SLOT_SIZE) * 0.5 - 10.0)
-		hint.size = Vector2(SLOT_SIZE, 20)
-		hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		add_child(hint)
+		var icon_key := _slot_type_to_icon_key()
+		var empty_tex := UIManager.get_pixel_icon(icon_key) if UIManager else null
+		if empty_tex:
+			var hint_rect = TextureRect.new()
+			hint_rect.name = "_slot_hint"
+			hint_rect.texture = empty_tex
+			hint_rect.modulate = Color(1, 1, 1, 0.5)
+			hint_rect.custom_minimum_size = Vector2(20, 20)
+			hint_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			hint_rect.position = Vector2(float(SLOT_SIZE) * 0.5 - 10.0, float(SLOT_SIZE) * 0.5 - 10.0)
+			hint_rect.size = Vector2(20, 20)
+			hint_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			add_child(hint_rect)
+		else:
+			var hint = Label.new()
+			hint.name = "_slot_hint"
+			hint.text = slot_label if slot_label else _default_slot_icon()
+			hint.add_theme_font_size_override("font_size", 11)
+			hint.add_theme_color_override("font_color", Color(1, 1, 1, 0.35))
+			hint.position = Vector2(0, float(SLOT_SIZE) * 0.5 - 10.0)
+			hint.size = Vector2(SLOT_SIZE, 20)
+			hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			if UITheme:
+				UITheme.apply_text_outline(hint, 2)
+			add_child(hint)
+
+func _slot_type_to_icon_key() -> String:
+	match slot_type:
+		"weapon": return "equip_weapon"
+		"armor": return "equip_armor"
+		"ring": return "equip_ring"
+		"necklace": return "equip_necklace"
+	return "equip_weapon"
 
 func _default_slot_icon() -> String:
 	match slot_type:
@@ -117,30 +163,31 @@ func _default_slot_icon() -> String:
 	return "?"
 
 func _add_style(border_c: Color, bg_c: Color) -> void:
-	# 슬롯 스프라이트: NinePatchRect/patch=12 (레퍼런스 기준)
-	var rarity := equipped_item.rarity if equipped_item else ""
-	var slot_tex := UISprites.slot_tex(rarity)
+	# 희귀도별 슬롯 텍스처 결정
+	var slot_tex: Texture2D = null
+	if equipped_item != null:
+		slot_tex = UISprites.slot_tex(equipped_item.rarity)
+	else:
+		slot_tex = UISprites.slot_tex("")  # 빈 슬롯 → Grey
 
 	if slot_tex:
-		# NinePatchRect를 첫 번째 자식으로 추가 (배경 역할)
-		var np := UISprites.make_ninepatch(slot_tex, 12)
-		np.name = "_np_bg"
-		add_child(np)
-		move_child(np, 0)
-		# 버튼 배경: 투명 (NinePatchRect가 보이도록)
-		var normal_sb := StyleBoxFlat.new()
-		normal_sb.bg_color = Color(0, 0, 0, 0)
-		# hover: 10% 흰색 오버레이
-		var hover_sb := StyleBoxFlat.new()
-		hover_sb.bg_color = Color(1, 1, 1, 0.1)
-		# pressed: 18% 검정 오버레이
-		var press_sb := StyleBoxFlat.new()
-		press_sb.bg_color = Color(0, 0, 0, 0.18)
+		# StyleBoxTexture를 Button에 직접 적용 (NinePatch 자식 불필요)
+		var m := UISprites.MARGIN_SLOT
+		var normal_sb := StyleBoxTexture.new()
+		normal_sb.texture = slot_tex
+		normal_sb.texture_margin_top    = m
+		normal_sb.texture_margin_bottom = m
+		normal_sb.texture_margin_left   = m
+		normal_sb.texture_margin_right  = m
+		var hover_sb := normal_sb.duplicate() as StyleBoxTexture
+		hover_sb.modulate_color = Color(1.12, 1.12, 1.12, 1.0)
+		var press_sb := normal_sb.duplicate() as StyleBoxTexture
+		press_sb.modulate_color = Color(0.82, 0.82, 0.82, 1.0)
 		add_theme_stylebox_override("normal",  normal_sb)
 		add_theme_stylebox_override("hover",   hover_sb)
 		add_theme_stylebox_override("pressed", press_sb)
 	else:
-		# NinePatch 텍스처 없을 때 StyleBoxFlat 폴백
+		# 텍스처 없을 때 StyleBoxFlat 폴백
 		var style := StyleBoxFlat.new()
 		style.bg_color = bg_c
 		style.set_border_width_all(2)
@@ -148,11 +195,11 @@ func _add_style(border_c: Color, bg_c: Color) -> void:
 		style.set_corner_radius_all(8)
 		var hover := style.duplicate() as StyleBoxFlat
 		hover.bg_color = bg_c.lightened(0.15)
-		var pressed := style.duplicate() as StyleBoxFlat
-		pressed.bg_color = bg_c.darkened(0.15)
+		var pressed_style := style.duplicate() as StyleBoxFlat
+		pressed_style.bg_color = bg_c.darkened(0.15)
 		add_theme_stylebox_override("normal",  style)
 		add_theme_stylebox_override("hover",   hover)
-		add_theme_stylebox_override("pressed", pressed)
+		add_theme_stylebox_override("pressed", pressed_style)
 
 func set_item(item: Equipment) -> void:
 	equipped_item = item

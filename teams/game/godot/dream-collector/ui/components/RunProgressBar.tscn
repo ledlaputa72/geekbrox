@@ -4,7 +4,7 @@
 
 [node name="RunProgressBar" type="Control"]
 custom_minimum_size = Vector2(0, 50)
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 50.0
@@ -21,14 +21,11 @@ text = "▼"
 horizontal_alignment = 1
 
 [node name="CapsuleBG" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
+layout_mode = 0
 offset_left = 4.0
 offset_top = 10.0
 offset_right = -4.0
 offset_bottom = 35.0
-grow_horizontal = 2
 
 [node name="ProgressLine" type="ColorRect" parent="."]
 layout_mode = 0

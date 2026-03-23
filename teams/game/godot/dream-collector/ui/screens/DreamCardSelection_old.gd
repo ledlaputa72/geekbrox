@@ -636,12 +636,12 @@ func _create_small_card_node(card_data: Dictionary) -> Control:
 	margin.add_child(content)
 	
 	# Name
-	var name = Label.new()
-	name.text = card_data.name
-	name.add_theme_font_size_override("font_size", 14)
-	name.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
-	name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	content.add_child(name)
+	var name_label = Label.new()
+	name_label.text = card_data.name
+	name_label.add_theme_font_size_override("font_size", 14)
+	name_label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
+	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	content.add_child(name_label)
 	
 	# Emoji
 	var emoji = Label.new()

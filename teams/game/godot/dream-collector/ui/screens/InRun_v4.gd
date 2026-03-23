@@ -2,6 +2,29 @@ extends Control
 
 const DEBUG_SWITCH := false  # true: 화면 전환/전투 상세 로그
 
+#region agent log
+const _AGENT_LOG_PATH := "/Users/stevemacbook/Projects/geekbrox/.cursor/debug-e7b017.log"
+var _agent_run_id: String = "pre-fix"
+
+func _agent_log(hypothesis_id: String, message: String, data: Dictionary = {}) -> void:
+	var payload := {
+		"sessionId": "e7b017",
+		"runId": _agent_run_id,
+		"hypothesisId": hypothesis_id,
+		"location": "InRun_v4.gd",
+		"message": message,
+		"data": data,
+		"timestamp": int(Time.get_ticks_msec())
+	}
+	var f := FileAccess.open(_AGENT_LOG_PATH, FileAccess.READ_WRITE)
+	if f == null:
+		f = FileAccess.open(_AGENT_LOG_PATH, FileAccess.WRITE)
+	if f:
+		f.seek_end()
+		f.store_line(JSON.stringify(payload))
+		f.close()
+#endregion
+
 # InRun_v4 - Unified In-Run Screen with Dynamic BottomArea
 # 통합 인런 화면 (Portrait 390x844)
 #
@@ -137,8 +160,32 @@ func _create_exploration_ui_permanent():
 	if DEBUG_SWITCH: print("[InRun_v4] ExplorationBottomUI created")
 
 func _setup_top_bar():
-	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 18)
-	UISprites.apply_btn(settings_button, "primary")
+	# TopBar: 투명 배경 (캡슐 바 자체가 배경 역할)
+	var clear_sb = StyleBoxFlat.new()
+	clear_sb.bg_color = Color(0.0, 0.0, 0.0, 0.0)
+	clear_sb.set_border_width_all(0)
+	top_bar.add_theme_stylebox_override("panel", clear_sb)
+
+	# 설정 버튼: Button → TextureButton으로 교체
+	# TextureButton은 StyleBox 배경이 전혀 없어 완전 투명 (아이콘 텍스처만 렌더링)
+	var btn_parent = settings_button.get_parent()
+	var btn_idx = settings_button.get_index()
+	btn_parent.remove_child(settings_button)
+	settings_button.queue_free()
+
+	var tex_btn := TextureButton.new()
+	tex_btn.name = "SettingsButton"
+	tex_btn.custom_minimum_size = Vector2(28, 28)
+	tex_btn.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+	tex_btn.ignore_texture_size = true
+	if UIManager:
+		var icon_tex = UIManager.get_pixel_icon("settings")
+		if icon_tex:
+			tex_btn.texture_normal = icon_tex
+			tex_btn.modulate = Color(1.0, 1.0, 1.0, 0.85)
+	btn_parent.add_child(tex_btn)
+	btn_parent.move_child(tex_btn, btn_idx)
+	settings_button = tex_btn
 	settings_button.pressed.connect(_on_settings_pressed)
 
 func _setup_progress_bar():
@@ -223,93 +270,105 @@ func _setup_reward_modal():
 # ─── 액션(턴) 큐 UI ───────────────────────────────────
 
 func _setup_action_queue_ui():
-	if not battle_scene:
-		return
 	if _action_queue_root:
 		return
 
-	# 전투 화면 바로 위(노란 박스 영역), 높이 40% 수준
-	_action_queue_root = PanelContainer.new()
+	# ─── 턴 순서 바: TopBar(60px) 안, 설정버튼(48px) 오른쪽 ~ 오른쪽 끝 ───
+	# RunProgressBar와 동일 위치에 겹쳐 배치 → 전투 시 RunProgressBar를 숨기고 이것을 표시
+	_action_queue_root = Control.new()
 	_action_queue_root.name = "ActionQueueUI"
-	_action_queue_root.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	_action_queue_root.offset_top = 0
-	_action_queue_root.offset_left = -160
-	_action_queue_root.offset_right = 160
-	_action_queue_root.offset_bottom = 24
-	UISprites.apply_panel(_action_queue_root, UISprites.panel_dark(), 18)
+	_action_queue_root.z_index = 6
+	_action_queue_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_action_queue_root.set_anchor_and_offset(SIDE_LEFT,   0.0, 100.0)  # 기어 아이콘 영역(~80px) 오른쪽 여백
+	_action_queue_root.set_anchor_and_offset(SIDE_RIGHT,  1.0, -20.0)  # 오른쪽 끝 -20px 여백
+	_action_queue_root.set_anchor_and_offset(SIDE_TOP,    0,     4.0)  # TopBar 위 여백 4px
+	_action_queue_root.set_anchor_and_offset(SIDE_BOTTOM, 0,    56.0)  # TopBar 아래 여백 4px
 
-	# 텍스트-아이콘-아이콘… 동일 중앙 정렬, 점선 기준선, 삼각형은 별도 레이어
-	var content = VBoxContainer.new()
-	content.add_theme_constant_override("separation", 2)
-	_action_queue_root.add_child(content)
+	# ── 다크 바 패널 (루트 내부: 위 10px 제외 → ▼ 포인터 공간 확보) ──
+	var bar_panel = PanelContainer.new()
+	bar_panel.name = "TurnOrderBar"
+	bar_panel.set_anchor_and_offset(SIDE_LEFT,   0,  0.0)
+	bar_panel.set_anchor_and_offset(SIDE_RIGHT,  1,  0.0)
+	bar_panel.set_anchor_and_offset(SIDE_TOP,    0, 10.0)
+	bar_panel.set_anchor_and_offset(SIDE_BOTTOM, 1,  0.0)
+	var bar_style = StyleBoxFlat.new()
+	bar_style.bg_color = Color(0.12, 0.13, 0.20, 0.92)
+	var bar_cr := 20  # 캡슐형 (RunProgressBar와 동일한 느낌)
+	bar_style.corner_radius_top_left    = bar_cr
+	bar_style.corner_radius_top_right   = bar_cr
+	bar_style.corner_radius_bottom_left = bar_cr
+	bar_style.corner_radius_bottom_right= bar_cr
+	bar_style.content_margin_left  = 12
+	bar_style.content_margin_right = 12
+	bar_style.content_margin_top   = 4
+	bar_style.content_margin_bottom= 4
+	bar_panel.add_theme_stylebox_override("panel", bar_style)
+	_action_queue_root.add_child(bar_panel)
 
-	# 1) 아이콘 행: 이름 + 아이콘들만 (같은 기준선에 정렬)
+	# ── 바 내부 HBox ──
 	var hbox = HBoxContainer.new()
 	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	hbox.add_theme_constant_override("separation", 6)
-	content.add_child(hbox)
+	hbox.add_theme_constant_override("separation", 8)
+	bar_panel.add_child(hbox)
 
+	# 현재 행동 주체 이름 (왼쪽 고정폭)
 	_action_queue_name_label = Label.new()
 	_action_queue_name_label.text = ""
-	_action_queue_name_label.add_theme_font_size_override("font_size", 12)
+	_action_queue_name_label.add_theme_font_size_override("font_size", 13)
 	_action_queue_name_label.add_theme_color_override("font_color", Color(0.95, 0.95, 1.0, 1.0))
-	_action_queue_name_label.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_action_queue_name_label.custom_minimum_size = Vector2(52, 0)  # 좁아진 바에 맞게 축소
+	_action_queue_name_label.size_flags_horizontal = Control.SIZE_SHRINK_END  # 오른쪽 정렬 (구분선에 붙임)
+	_action_queue_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_action_queue_name_label.clip_text = true
 	hbox.add_child(_action_queue_name_label)
 
+	# 얇은 구분선
+	var sep = ColorRect.new()
+	sep.custom_minimum_size = Vector2(1, 22)
+	sep.color = Color(1.0, 1.0, 1.0, 0.25)
+	hbox.add_child(sep)
+
+	# ── 아이콘 슬롯 (5개, 28×28 원형) ──
 	for i in range(ACTION_QUEUE_MAX):
 		var icon_panel = Panel.new()
-		icon_panel.custom_minimum_size = Vector2(15, 15)
+		icon_panel.custom_minimum_size = Vector2(28, 28)
 		var icon_style = StyleBoxFlat.new()
-		icon_style.bg_color = Color(0.25, 0.25, 0.30, 1.0)
-		icon_style.corner_radius_top_left = 8
-		icon_style.corner_radius_top_right = 8
-		icon_style.corner_radius_bottom_left = 8
-		icon_style.corner_radius_bottom_right = 8
+		icon_style.bg_color = Color(0.22, 0.22, 0.30, 1.0)
+		icon_style.corner_radius_top_left    = 14
+		icon_style.corner_radius_top_right   = 14
+		icon_style.corner_radius_bottom_left = 14
+		icon_style.corner_radius_bottom_right= 14
 		icon_panel.add_theme_stylebox_override("panel", icon_style)
 		hbox.add_child(icon_panel)
 		_action_queue_icon_panels.append(icon_panel)
 
 		var icon_label = Label.new()
-		icon_label.text = "?"
+		icon_label.text = ""
 		icon_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		icon_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		icon_label.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
 		icon_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-		icon_label.add_theme_font_size_override("font_size", 10)
+		icon_label.add_theme_font_size_override("font_size", 14)
 		icon_panel.add_child(icon_label)
 		_action_queue_icon_labels.append(icon_label)
 
-	# 2) 보이는 점선 기준선 (아이콘과 같은 중앙 정렬 참조)
-	var baseline_row = HBoxContainer.new()
-	baseline_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	baseline_row.add_theme_constant_override("separation", 3)
-	content.add_child(baseline_row)
-	var dash_count = 20
-	for _j in range(dash_count):
-		var dash = ColorRect.new()
-		dash.custom_minimum_size = Vector2(2, 1)
-		dash.color = Color(1.0, 1.0, 1.0, 0.4)
-		baseline_row.add_child(dash)
-	_action_queue_baseline = baseline_row
-
-	# 3) 삼각형(▲) 전용 레이어 — 아이콘 열과 무관하게 아래에만 표시
+	# ── ▼ 포인터 전용 레이어 (루트 전체 범위 → global rect 계산 용이) ──
 	_action_queue_pointer_layer = Control.new()
 	_action_queue_pointer_layer.name = "ActionQueuePointerLayer"
 	_action_queue_pointer_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_action_queue_pointer_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_action_queue_pointer_layer.offset_left = 0
-	_action_queue_pointer_layer.offset_top = 0
-	_action_queue_pointer_layer.offset_right = 0
-	_action_queue_pointer_layer.offset_bottom = 0
 	_action_queue_root.add_child(_action_queue_pointer_layer)
 
+	# 빨간 ▼ — 현재 턴 아이콘 바로 위에 표시
 	_action_queue_pointer_label = Label.new()
-	_action_queue_pointer_label.text = "▲"
+	_action_queue_pointer_label.text = "▼"
 	_action_queue_pointer_label.visible = false
-	_action_queue_pointer_label.add_theme_font_size_override("font_size", 8)
-	_action_queue_pointer_label.add_theme_color_override("font_color", Color.WHITE)
+	_action_queue_pointer_label.add_theme_font_size_override("font_size", 10)
+	_action_queue_pointer_label.add_theme_color_override("font_color", Color(1.0, 0.22, 0.22, 1.0))
+	_action_queue_pointer_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_action_queue_pointer_layer.add_child(_action_queue_pointer_label)
 
+	# 애니메이션 오버레이
 	_action_queue_anim_overlay = Control.new()
 	_action_queue_anim_overlay.name = "ActionQueueAnimOverlay"
 	_action_queue_anim_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -317,12 +376,16 @@ func _setup_action_queue_ui():
 	_action_queue_anim_overlay.visible = false
 	_action_queue_root.add_child(_action_queue_anim_overlay)
 
-	battle_scene.add_child(_action_queue_root)
+	# battle_scene이 아닌 InRun_v4 루트에 추가 (z_index로 배경 위에 오버레이)
+	add_child(_action_queue_root)
 
 
 func _set_action_queue_visible(v: bool):
 	if _action_queue_root:
 		_action_queue_root.visible = v
+	# RunProgressBar와 ActionQueueUI는 서로 교체됨 (같은 TopBar 위치)
+	if run_progress_bar:
+		run_progress_bar.visible = not v
 
 
 func _refresh_action_queue_ui():
@@ -533,9 +596,10 @@ func _update_action_queue_pointer_position():
 	var panel_global = first.get_global_rect()
 	var layer_global = _action_queue_pointer_layer.get_global_rect()
 	var center_x = panel_global.get_center().x - layer_global.position.x
-	var bottom_y = panel_global.end.y - layer_global.position.y
+	# ▼ 포인터: 아이콘 바로 위 (아이콘 top - 11px)
+	var above_y = panel_global.position.y - layer_global.position.y - 11.0
 	var label_w = 10
-	_action_queue_pointer_label.position = Vector2(center_x - label_w / 2.0, bottom_y)
+	_action_queue_pointer_label.position = Vector2(center_x - label_w / 2.0, above_y)
 
 func _set_action_queue_icon_outline(slot_index: int, enabled: bool):
 	if slot_index < 0 or slot_index >= _action_queue_icon_panels.size():
@@ -544,12 +608,13 @@ func _set_action_queue_icon_outline(slot_index: int, enabled: bool):
 	var style = panel.get_theme_stylebox("panel").duplicate()
 	if style is StyleBoxFlat:
 		var w = 2 if enabled else 0
-		style.border_width_left = w
-		style.border_width_top = w
-		style.border_width_right = w
+		style.border_width_left   = w
+		style.border_width_top    = w
+		style.border_width_right  = w
 		style.border_width_bottom = w
-		if enabled:
-			style.border_color = Color.WHITE
+		style.border_color = Color.WHITE
+		# 현재 턴: 밝은 배경으로 강조
+		style.bg_color = Color(0.30, 0.30, 0.42, 1.0) if enabled else Color(0.22, 0.22, 0.30, 1.0)
 		panel.add_theme_stylebox_override("panel", style)
 
 
@@ -728,7 +793,7 @@ func _create_hero_permanent():
 		"hp": 200,
 		"max_hp": 200,
 	})
-	hero_node.position = Vector2(5, 130)
+	hero_node.position = Vector2(5, 190)
 	hero_area.add_child(hero_node)
 
 	hero_node.character_clicked.connect(_on_hero_clicked)
@@ -760,10 +825,10 @@ func _get_or_create_character_node() -> CharacterNode:
 func _spawn_monsters_from_enemies(enemy_list: Array):
 	"""Monster 객체 배열로 캐릭터 노드 스폰 (CombatManager enemies와 동일 데이터)"""
 	var positions = [
-		Vector2(190, 110),  # Front-left
-		Vector2(240, 50),   # Back-left
-		Vector2(275, 110),  # Front-right
-		Vector2(320, 50)    # Back-right
+		Vector2(190, 170),  # Front-left
+		Vector2(240, 110),  # Back-left
+		Vector2(275, 170),  # Front-right
+		Vector2(320, 110)   # Back-right
 	]
 	var z_indices = [10, 5, 10, 5]
 	_combat_monster_character_indices.clear()
@@ -987,8 +1052,8 @@ func _handle_time_log_event(event_data: Dictionary):
 			switch_to_story()
 		"boss":
 			run_progress_bar.pause_progress()
-			await get_tree().create_timer(1.0).timeout  # Longer for drama
-			switch_to_combat(true)  # Boss combat → 턴베이스
+			await get_tree().create_timer(1.0).timeout  # 연출용 대기
+			switch_to_combat(true)  # 보스도 동일 ATB 전투 (적 구성만 보스 1마리)
 
 func _handle_npc_choice(choice_index: int):
 	"""Handle NPC dialog choice"""
@@ -1116,11 +1181,11 @@ func _handle_npc_event():
 	switch_to_npc_dialog()
 
 func _handle_boss_event():
-	"""Handle boss event node (보스 전투 = 턴베이스)"""
+	"""Handle boss event node — 기본 전투와 동일 ATB 로직, 적만 보스 1마리."""
 	print("[InRun_v4] Boss event triggered!")
 	run_progress_bar.pause_progress()
 	await get_tree().create_timer(1.0).timeout
-	switch_to_combat(true)  # 보스 전투 = 턴베이스
+	switch_to_combat(true)  # 보스도 ATB 공통 전투
 
 
 # === State Switching Functions ===
@@ -1177,6 +1242,7 @@ func switch_to_exploration(returning_from_event: bool = false):
 
 func switch_to_combat(is_boss: bool = false):
 	"""Switch to combat mode — 모든 전투 ATB 통일 (보스 포함). F2로 턴베이스 강제 가능."""
+	_agent_log("H1", "switch_to_combat enter", {"is_boss": is_boss})
 	print("\n[InRun_v4] ===== SWITCHING TO COMBAT (boss=%s) =====" % is_boss)
 	current_state = ScreenState.COMBAT
 	current_is_boss = is_boss
@@ -1195,26 +1261,28 @@ func switch_to_combat(is_boss: bool = false):
 	print("[InRun_v4] Spawning monsters...")
 	await _spawn_monsters_from_enemies(enemy_nodes)
 
-	# ── 전투 모드: 모든 전투 ATB 통일 (보스 포함) ──────────────────────────────────
+	# ── 전투 모드: 기본 = ATB (일반/보스 동일). F2 단축키로만 턴베이스 강제 가능 ─────
 	var combat_mode: String = "ATB"
 	if combat_mode_override != "":
 		combat_mode = combat_mode_override
 	elif has_node("/root/SettingsManager"):
 		combat_mode = SettingsManager.get_combat_mode(is_boss)
 
-	print("[InRun_v4] 전투 모드: %s (보스=%s, 모든 전투 ATB)" % [combat_mode, is_boss])
+	print("[InRun_v4] 전투 모드: %s (적=보스:%s, 기본 로직 동일)" % [combat_mode, is_boss])
 
 	if combat_mode == "TURNBASED":
-		await _start_tb_combat(enemy_nodes)
+		await _start_tb_combat(enemy_nodes)  # F2 강제 시에만
 	else:
-		await _start_atb_combat(enemy_nodes)
+		await _start_atb_combat(enemy_nodes)  # 일반·보스 공통
 
 	_refresh_action_queue_ui()
+	_agent_log("H1", "switch_to_combat complete", {"mode": combat_mode})
 	print("[InRun_v4] ===== COMBAT SWITCH COMPLETE =====\n")
 
 func _start_atb_combat(enemy_nodes: Array):
 	"""ATB 전투 시작 — 일반 몬스터 전투"""
 	print("[InRun_v4] ATB 전투 시작")
+	_agent_log("H2", "start_atb_combat enter", {"enemy_count": enemy_nodes.size()})
 
 	# 이전 전투 씬 정리
 	if active_combat_scene:
@@ -1230,6 +1298,7 @@ func _start_atb_combat(enemy_nodes: Array):
 		await get_tree().process_frame
 		var manager = active_combat_scene.get_node_or_null("CombatManagerATB")
 		if manager:
+			_agent_log("H2", "got CombatManagerATB node", {"path_ok": true})
 			# ★ CombatBottomUI 먼저 연결 — start_combat()이 hand_updated 신호를 발신하기 전에!
 			if current_bottom_ui and current_bottom_ui.has_method("connect_combat_manager"):
 				current_bottom_ui.connect_combat_manager(manager)
@@ -1246,7 +1315,9 @@ func _start_atb_combat(enemy_nodes: Array):
 			var deck = _get_starter_deck()
 			# start_combat() → _draw_cards(5) → hand_updated 신호 발신
 			# → CombatBottomUI._on_new_hand_updated() → _update_hand_ui()
+			_agent_log("H2", "calling manager.start_combat", {"deck_size": deck.size()})
 			manager.start_combat(p_data, enemy_nodes, deck)
+			_agent_log("H2", "manager.start_combat returned", {"combat_active": manager.get("combat_active")})
 			manager.combat_ended.connect(_on_new_combat_ended)
 			manager.player_hp_changed.connect(_on_new_player_hp_changed)
 			manager.enemy_hp_changed.connect(_on_new_enemy_hp_changed)
@@ -1270,8 +1341,8 @@ func _start_atb_combat(enemy_nodes: Array):
 		CombatManager.damage_dealt.connect(_on_damage_dealt)
 
 func _start_tb_combat(enemy_nodes: Array):
-	"""턴베이스 전투 시작 — 보스 전투"""
-	print("[InRun_v4] 턴베이스(보스) 전투 시작")
+	"""턴베이스 전투 시작 — F2 강제 시에만 사용 (기본은 ATB)"""
+	print("[InRun_v4] 턴베이스 전투 시작 (F2 강제)")
 
 	if active_combat_scene:
 		active_combat_scene.queue_free()
@@ -1293,7 +1364,7 @@ func _start_tb_combat(enemy_nodes: Array):
 				if current_bottom_ui.has_signal("card_play_with_animation_requested") and not current_bottom_ui.card_play_with_animation_requested.is_connected(_on_card_play_animation_requested):
 					current_bottom_ui.card_play_with_animation_requested.connect(_on_card_play_animation_requested)
 			var p_data = {
-				"hp": 200, "max_hp": 200, "atk": 10,
+				"hp": 200, "max_hp": 200, "atk": 10, "spd": 70.0,
 				"block": 0, "status_effects": {}
 			}
 			var deck = _get_starter_deck()
@@ -1616,7 +1687,8 @@ func _create_test_monster_nodes(is_boss: bool) -> Array:
 		boss.current_hp = 120
 		boss.atk = 18
 		boss.base_atk = 18
-		boss.spd = 60.0
+		# 플레이어(70)보다 낮게 해서 리액션 정지 시간 있어도 플레이어가 턴을 더 갖도록
+		boss.spd = 50.0
 		boss.is_boss = true
 		var boss_patterns: Array[Dictionary] = []
 		boss_patterns.assign([

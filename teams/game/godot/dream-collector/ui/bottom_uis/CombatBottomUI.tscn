@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/bottom_uis/CombatBottomUI.gd" id="1_combat"]
 
 [node name="CombatBottomUI" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -42,49 +42,49 @@ grow_horizontal = 2
 theme_override_constants/separation = 16
 
 [node name="DeckArea" type="HBoxContainer" parent="GameInfo"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 6
 
 [node name="DeckIcon" type="Label" parent="GameInfo/DeckArea"]
-layout_mode = 2
-text = "📚"
+layout_mode = 1
+text = "Deck"
 vertical_alignment = 1
 
 [node name="DeckLabel" type="Label" parent="GameInfo/DeckArea"]
-layout_mode = 2
+layout_mode = 1
 text = "30"
 vertical_alignment = 1
 
 [node name="SpacerLeft" type="Control" parent="GameInfo"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 
 [node name="EnergyOrb" type="Control" parent="GameInfo"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
+layout_mode = 1
 
 [node name="SpacerRight" type="Control" parent="GameInfo"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 
 [node name="DiscardArea" type="HBoxContainer" parent="GameInfo"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 6
 
 [node name="DiscardIcon" type="Label" parent="GameInfo/DiscardArea"]
-layout_mode = 2
-text = "🪦"
+layout_mode = 1
+text = "Discard"
 vertical_alignment = 1
 
 [node name="DiscardLabel" type="Label" parent="GameInfo/DiscardArea"]
-layout_mode = 2
+layout_mode = 1
 text = "0"
 vertical_alignment = 1
 
 [node name="ExileLabel" type="Label" parent="GameInfo"]
 visible = false
-layout_mode = 2
-text = "🚫 0"
+layout_mode = 1
+text = "Exile 0"
 vertical_alignment = 1
 
 [node name="CombatLog" type="Control" parent="."]
@@ -119,7 +119,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="LogContent" type="VBoxContainer" parent="CombatLog/ScrollContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
@@ -138,21 +138,21 @@ grow_vertical = 0
 theme_override_constants/separation = 8
 
 [node name="PassButton" type="Button" parent="ActionButtons"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Pass"
 
 [node name="AutoButton" type="Button" parent="ActionButtons"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Auto"
 
 [node name="SpeedButton" type="Button" parent="ActionButtons"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
-text = "Speed: 1.0×"
+text = "Speed: 1.0x"
 
 [node name="ReactionButton" type="Button" parent="ActionButtons"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Defense"

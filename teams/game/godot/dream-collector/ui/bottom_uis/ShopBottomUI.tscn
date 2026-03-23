@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/bottom_uis/ShopBottomUI.gd" id="1_shop"]
 
 [node name="ShopBottomUI" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -56,13 +56,13 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="GemsLabel" type="Label" parent="GoldDisplay/CurrencyHBox"]
-layout_mode = 2
+layout_mode = 1
 text = "💎 50"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GoldLabel" type="Label" parent="GoldDisplay/CurrencyHBox"]
-layout_mode = 2
+layout_mode = 1
 text = "🪙 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -78,7 +78,7 @@ offset_bottom = 486.0
 grow_horizontal = 2
 
 [node name="ItemGrid" type="GridContainer" parent="ItemScroll"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
@@ -99,6 +99,6 @@ grow_vertical = 0
 theme_override_constants/separation = 8
 
 [node name="LeaveButton" type="Button" parent="ActionButtons"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Leave Shop"

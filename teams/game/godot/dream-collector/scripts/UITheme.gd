@@ -1,52 +1,49 @@
 # UITheme.gd
-# Dream Theme Design System - 전역 디자인 토큰
-# HTML/Figma 프로토타입에서 추출한 디자인 시스템
+# Dream Theme Design System - 픽셀 아트 스타일 (캐릭터/장비 화면 참조)
+# 베이지·갈색·따뜻한 강조색, 두꺼운 아웃라인 느낌의 팔레트
 
 extends Node
 
 # ============================================
-# COLORS (Dream Theme)
+# COLORS (Pixel Art / Character Screen Style)
 # ============================================
 
 const COLORS = {
-	# Primary Colors
-	"primary": Color("#7B9EF0"),           # 메인 액센트 (파란색)
-	"primary_dark": Color("#5A7DC8"),      # Primary 어두운 버전
-	"primary_light": Color("#9CB6F5"),     # Primary 밝은 버전
-	"secondary": Color("#4A5070"),         # 보조/비활성 버튼
-	
-	# Background Colors
-	"bg": Color("#1A1A2E"),                # 메인 배경 (매우 어두운 남색)
-	"bg_light": Color("#252540"),          # 밝은 배경
-	
-	# Panel Colors
-	"panel": Color("#2C2C3E"),             # 패널/카드 배경
-	"panel_light": Color("#3A3A52"),       # 호버/선택된 패널
-	"panel_border": Color("#404060"),      # 패널 테두리
-	
-	# Text Colors
-	"text": Color("#FFFFFF"),              # 메인 텍스트 (흰색)
-	"text_dim": Color("#B0B0C8"),          # 흐린 텍스트 (회색)
-	"text_dark": Color("#808098"),         # 어두운 텍스트
-	
-	# Semantic Colors
-	"success": Color("#51CF66"),           # 성공/긍정 (초록)
-	"danger": Color("#FF6B6B"),            # 위험/부정 (빨강)
-	"warning": Color("#FFD93D"),           # 경고 (노랑)
-	"info": Color("#4DABF7"),              # 정보 (파랑)
-	
-	# Card Type Colors (카드 라이브러리용)
-	"attack": Color("#FF6B6B"),            # 공격 카드 (빨강)
-	"skill": Color("#51CF66"),             # 스킬 카드 (초록) — 가드/패링/회피
-	"power": Color("#4DABF7"),             # 파워 카드 (파랑) — 버프/마법
-	"curse": Color("#FFD93D"),             # 커스 카드 (노랑) — 디버프/저주
-	
-	# Rarity Colors
-	"common": Color("#B0B0C8"),            # 일반 (회색)
-	"uncommon": Color("#51CF66"),          # 고급 (초록)
-	"rare": Color("#4DABF7"),              # 희귀 (파랑)
-	"epic": Color("#9775FA"),              # 영웅 (보라)
-	"legendary": Color("#FFD93D"),         # 전설 (금색)
+	# Primary / Accent (따뜻한 강조)
+	"primary": Color("#E8A84A"),
+	"primary_dark": Color("#C4892E"),
+	"primary_light": Color("#F0BC6A"),
+	"secondary": Color("#6B8CBE"),
+	# Background (탑/바텀 바)
+	"bg": Color("#1E1E24"),
+	"bg_light": Color("#2A2A32"),
+	# Panel (베이지/양피지)
+	"panel": Color("#E8DCC8"),
+	"panel_light": Color("#F2EBD8"),
+	"panel_border": Color("#8B7355"),
+	# Text
+	"text": Color("#2C2416"),
+	"text_dim": Color("#5C5344"),
+	"text_dark": Color("#3D3528"),
+	"text_on_dark": Color("#FFFFFF"),
+	# Text outline (버튼/라벨 가독용 — 이미지처럼 진한 외곽선)
+	"font_outline": Color("#1A1612"),
+	# Semantic
+	"success": Color("#4A9B5C"),
+	"danger": Color("#C43C3C"),
+	"warning": Color("#E8A84A"),
+	"info": Color("#5B8FCC"),
+	# Card Type
+	"attack": Color("#C43C3C"),
+	"skill": Color("#4A9B5C"),
+	"power": Color("#5B8FCC"),
+	"curse": Color("#B8860B"),
+	# Rarity
+	"common": Color("#8B8680"),
+	"uncommon": Color("#4A9B5C"),
+	"rare": Color("#5B8FCC"),
+	"epic": Color("#8B5A9B"),
+	"legendary": Color("#D4A84A"),
 }
 
 # ============================================
@@ -173,11 +170,11 @@ static func get_color(key: String, default: Color = Color.WHITE) -> Color:
 
 # 간격 가져오기
 static func get_spacing(key: String) -> int:
-	return SPACING.get(key, SPACING.md)
+	return int(SPACING.get(key, SPACING.md))
 
 # 폰트 크기 가져오기
 static func get_font_size(key: String) -> int:
-	return FONT_SIZES.get(key, FONT_SIZES.body)
+	return int(FONT_SIZES.get(key, FONT_SIZES.body))
 
 # 8px 그리드에 스냅
 static func snap_to_grid(value: float) -> float:
@@ -251,14 +248,19 @@ func apply_button_style(button: Button, color_key: String = "primary") -> void:
 	stylebox_pressed.corner_radius_bottom_right = RADIUS.medium
 	button.add_theme_stylebox_override("pressed", stylebox_pressed)
 	
-	# Font Color
-	button.add_theme_color_override("font_color", get_color("text"))
+	# Font Color (어두운 바 위 버튼은 흰색)
+	button.add_theme_color_override("font_color", get_color("text_on_dark"))
 
 # Label에 폰트 색상 적용 (autoload 인스턴스에서 호출되므로 static 제거)
 func apply_label_style(
 	label: Label, color_key: String = "text", _size_key: String = "body"
 ) -> void:
 	label.add_theme_color_override("font_color", get_color(color_key))
+
+# 텍스트 외곽선 적용 (이미지 스타일: 진한 갈색/검정 1~2px)
+func apply_text_outline(control: Control, outline_px: int = 2) -> void:
+	control.add_theme_color_override("font_outline_color", get_color("font_outline"))
+	control.add_theme_constant_override("outline_size", outline_px)
 
 # ============================================
 # READY (Autoload 초기화)

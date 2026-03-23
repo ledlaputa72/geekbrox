@@ -50,25 +50,8 @@ func _on_currency_changed(_unused=null):
 	_update_currency()
 
 func _setup_buttons():
-	"""Setup button connections"""
-	# Apply custom style to leave button
-	var style = StyleBoxFlat.new()
-	style.bg_color = UITheme.COLORS.panel
-	style.corner_radius_top_left = 8
-	style.corner_radius_top_right = 8
-	style.corner_radius_bottom_left = 8
-	style.corner_radius_bottom_right = 8
-	style.content_margin_left = 16
-	style.content_margin_right = 16
-	style.content_margin_top = 12
-	style.content_margin_bottom = 12
-	
-	leave_button.add_theme_stylebox_override("normal", style)
-	leave_button.add_theme_stylebox_override("hover", style)
-	leave_button.add_theme_stylebox_override("pressed", style)
-	leave_button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
-	leave_button.add_theme_color_override("font_color", UITheme.COLORS.text)
-	
+	"""Setup button connections — SVG UI 에셋 적용"""
+	UISprites.apply_btn(leave_button, "secondary")
 	leave_button.pressed.connect(_on_leave_pressed)
 
 func _update_currency():
@@ -90,9 +73,10 @@ func _populate_shop():
 		item_grid.add_child(item_card)
 
 func _create_item_card(item: Dictionary) -> Control:
-	"""Create an item card"""
+	"""Create an item card — SVG panel_frame 배경 적용"""
 	var card = PanelContainer.new()
 	card.custom_minimum_size = Vector2(110, 150)
+	UISprites.apply_panel(card, UISprites.panel_frame(), 8)
 	
 	var vbox = VBoxContainer.new()
 	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -120,24 +104,10 @@ func _create_item_card(item: Dictionary) -> Control:
 	price_label.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
 	vbox.add_child(price_label)
 	
-	# Buy button
+	# Buy button — SVG UI 에셋 (primary=노랑)
 	var buy_btn = Button.new()
 	buy_btn.text = "Buy"
-	buy_btn.custom_minimum_size = Vector2(0, 36)
-	
-	# Apply custom style
-	var btn_style = StyleBoxFlat.new()
-	btn_style.bg_color = UITheme.COLORS.primary
-	btn_style.corner_radius_top_left = 6
-	btn_style.corner_radius_top_right = 6
-	btn_style.corner_radius_bottom_left = 6
-	btn_style.corner_radius_bottom_right = 6
-	
-	buy_btn.add_theme_stylebox_override("normal", btn_style)
-	buy_btn.add_theme_stylebox_override("hover", btn_style)
-	buy_btn.add_theme_stylebox_override("pressed", btn_style)
-	buy_btn.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.body)
-	buy_btn.add_theme_color_override("font_color", UITheme.COLORS.text)
+	UISprites.apply_btn(buy_btn, "primary")
 	
 	buy_btn.pressed.connect(_on_item_buy_pressed.bind(item))
 	vbox.add_child(buy_btn)

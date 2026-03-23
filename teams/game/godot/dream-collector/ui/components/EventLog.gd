@@ -45,7 +45,7 @@ func add_log(time_text: String, event_text: String, is_current: bool = false) ->
 func _create_log_entry(entry: Dictionary) -> void:
 	var log_panel = Panel.new()
 	log_panel.custom_minimum_size = Vector2(0, LOG_ENTRY_HEIGHT)
-	UISprites.apply_panel(log_panel, UISprites.panel_dark(), 18)
+	UISprites.apply_panel(log_panel, UISprites.panel_dark(), 8)
 	if entry["current"]:
 		log_panel.modulate = Color(1.15, 0.95, 0.85)
 

@@ -20,7 +20,7 @@
 
 extends Node
 
-const SVG_BASE := "res://assets/ui/sprites/svg/"
+const SVG_BASE := "res://assets/ui/sprites/"
 
 # ══════════════════════════════════════════════════════════════
 # 경로 상수

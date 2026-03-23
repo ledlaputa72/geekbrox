@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/screens/Settings.gd" id="1_settings"]
 
 [node name="Settings" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -29,12 +29,12 @@ grow_horizontal = 2
 theme_override_constants/separation = 10
 
 [node name="BackButton" type="Button" parent="TopBar"]
-layout_mode = 2
+layout_mode = 1
 text = "← 뒤로"
 custom_minimum_size = Vector2(80, 50)
 
 [node name="TitleLabel" type="Label" parent="TopBar"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "설정"
 horizontal_alignment = 1
@@ -53,7 +53,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SettingsList" type="VBoxContainer" parent="ScrollContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 10

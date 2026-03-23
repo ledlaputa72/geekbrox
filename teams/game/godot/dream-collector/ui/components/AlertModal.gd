@@ -31,7 +31,7 @@ func _ready() -> void:
 
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
-	UISprites.apply_panel(modal_panel, UISprites.modal_frame(), 18)
+	UISprites.apply_panel(modal_panel, UISprites.modal_frame(), 8)
 
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.primary)
 	message_label.add_theme_color_override("font_color", UITheme.COLORS.text)

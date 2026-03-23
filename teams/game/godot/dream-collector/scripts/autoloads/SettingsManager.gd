@@ -17,6 +17,9 @@ var card_anim_speed: float = 1.0
 var force_atb_mode: bool = false
 var force_tb_mode: bool = false
 
+# ── 언어 설정 ─────────────────────────────────────────
+var locale: String = "en"  # en, ko, ja (game_translations.csv)
+
 # ── 계산 속성 ─────────────────────────────────────────
 func get_parry_window() -> float:
 	return 0.8 if (story_mode or parry_window_story_mode) else 0.5
@@ -27,7 +30,7 @@ func get_dodge_window() -> float:
 	return 1.8
 
 # ── 전투 모드 결정 ────────────────────────────────────
-func get_combat_mode(is_boss: bool) -> String:
+func get_combat_mode(_is_boss: bool) -> String:
 	if force_tb_mode:
 		return "TURNBASED"
 	# 모든 전투 ATB 통일 (보스 포함)
@@ -42,6 +45,7 @@ func save():
 	config.set_value("combat", "speed", battle_speed)
 	config.set_value("combat", "lumi", lumi_enabled)
 	config.set_value("combat", "card_anim_speed", card_anim_speed)
+	config.set_value("locale", "language", locale)
 	config.save("user://settings.cfg")
 	print("[SettingsManager] Settings saved")
 
@@ -58,6 +62,7 @@ func load_settings():
 	battle_speed = config.get_value("combat", "speed", 1.0)
 	lumi_enabled = config.get_value("combat", "lumi", true)
 	card_anim_speed = config.get_value("combat", "card_anim_speed", 1.0)
+	locale = config.get_value("locale", "language", "en")
 	print("[SettingsManager] Settings loaded")
 
 func _ready():

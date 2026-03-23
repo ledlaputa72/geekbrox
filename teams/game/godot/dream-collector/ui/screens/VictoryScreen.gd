@@ -2,6 +2,7 @@ extends Control
 
 @onready var title_label = $VBox/TitleLabel
 @onready var stats_panel = $VBox/StatsPanel
+
 @onready var turns_label = $VBox/StatsPanel/StatsVBox/TurnsLabel
 @onready var damage_label = $VBox/StatsPanel/StatsVBox/DamageLabel
 @onready var time_label = $VBox/StatsPanel/StatsVBox/TimeLabel
@@ -26,7 +27,7 @@ func _ready():
 	_apply_rewards()
 
 func _apply_theme_styles():
-	UISprites.apply_panel(stats_panel, UISprites.panel_frame(), 18)
+	UISprites.apply_panel(stats_panel, UISprites.panel_frame(), 8)
 	UISprites.apply_btn(continue_button, "primary")
 	title_label.add_theme_font_size_override("font_size", 32)
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.warning)
@@ -59,8 +60,8 @@ func _update_display():
 	var seconds = int(combat_time) % 60
 	time_label.text = "Time: %d:%02d" % [minutes, seconds]
 	
-	gold_label.text = "🪙 Gold: +%d" % gold_reward
-	reveries_label.text = "💎 Reveries: +%d" % reveries_reward
+	gold_label.text = "\U0001FA99 Gold: +%d" % gold_reward
+	reveries_label.text = "\U0001F48E Reveries: +%d" % reveries_reward
 
 func _apply_rewards():
 	"""Apply rewards to GameManager"""

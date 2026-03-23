@@ -41,26 +41,24 @@ func _ready() -> void:
 
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
-	# Panel style — list_item_normal.png 기본 (UISprites)
-	var panel_style := UISprites.list_stylebox("common")
-	if panel_style:
-		add_theme_stylebox_override("panel", panel_style)
-
-	# Labels
+	# 패널 배경 — 희귀도별 UI Pack button_rectangle_flat
+	# common=Grey, rare=Blue, epic=Red, legendary=Yellow
+	var panel_tex := UISprites.list_tex(dream_rarity)
+	UISprites.apply_panel(self, panel_tex)
+	# 보상 버튼 — Green CTA / 추가보상 — Yellow
+	UISprites.apply_btn(reward_button, "green")
+	UISprites.apply_btn(extra_reward_button, "yellow")
+	# Labels — 패널 위에서 가독성 확보
 	title_label.add_theme_font_size_override("font_size", 14)
-	title_label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
-
+	title_label.add_theme_color_override("font_color", Color(0.10, 0.10, 0.10, 1.0))
 	for label in [story_label1, story_label2, story_label3, story_label4]:
 		label.add_theme_font_size_override("font_size", 12)
-		label.add_theme_color_override("font_color", Color(0.2, 0.2, 0.2))
-
-
+		label.add_theme_color_override("font_color", Color(0.20, 0.20, 0.20, 1.0))
 
 func update_rarity_color() -> void:
-	# 등급별 list 스프라이트로 패널 교체 (UISprites)
-	var panel_style := UISprites.list_stylebox(dream_rarity)
-	if panel_style:
-		add_theme_stylebox_override("panel", panel_style)
+	# 등급 변경 시 패널 텍스처 재적용
+	var panel_tex := UISprites.list_tex(dream_rarity)
+	UISprites.apply_panel(self, panel_tex)
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
@@ -92,15 +90,33 @@ func update_display() -> void:
 		"epic":
 			rarity_prefix = "(레어)"
 	
-	title_label.text = "%s %s" % [rarity_prefix, dream_title]
+	var full_title := "%s %s" % [rarity_prefix, dream_title]
+	# #region agent log
+	var _agent_log_path = "/Users/stevemacbook/Projects/geekbrox/.cursor/debug-e7b017.log"
+	var _fa = FileAccess.open(_agent_log_path, FileAccess.READ_WRITE)
+	if _fa:
+		_fa.seek_end()
+		_fa.store_line(JSON.stringify({"sessionId": "e7b017", "location": "DreamItem.gd:update_display", "message": "dream_display", "data": {"rarity_prefix": rarity_prefix, "dream_title": dream_title, "full_title": full_title}, "timestamp": int(Time.get_ticks_msec()), "hypothesisId": "H2"}))
+		_fa.close()
+	# #endregion agent log
+	title_label.text = full_title
 	
 	# Gold reward button
+	var reward_text := ""
 	if gold_reward_claimed:
-		reward_button.text = "✓ 수령완료"
+		reward_text = "✓ 수령완료"
 		reward_button.disabled = true
 	else:
-		reward_button.text = "🪙%d" % gold_reward
+		reward_text = "🪙%d" % gold_reward
 		reward_button.disabled = false
+	# #region agent log
+	_fa = FileAccess.open(_agent_log_path, FileAccess.READ_WRITE)
+	if _fa:
+		_fa.seek_end()
+		_fa.store_line(JSON.stringify({"sessionId": "e7b017", "location": "DreamItem.gd:update_display", "message": "reward_button_text", "data": {"gold_reward": gold_reward, "button_text": reward_text}, "timestamp": int(Time.get_ticks_msec()), "hypothesisId": "H2"}))
+		_fa.close()
+	# #endregion agent log
+	reward_button.text = reward_text
 	
 	# Rarity color - update panel style
 	update_rarity_color()

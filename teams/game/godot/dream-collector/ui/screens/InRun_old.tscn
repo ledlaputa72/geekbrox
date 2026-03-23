@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://run_progress_bar" path="res://ui/components/RunProgressBar.tscn" id="2_progress"]
 
 [node name="InRun" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -38,36 +38,36 @@ grow_vertical = 2
 theme_override_constants/separation = 8
 
 [node name="HPContainer" type="VBoxContainer" parent="StatusBar/HBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 
 [node name="HPLabel" type="Label" parent="StatusBar/HBox/HPContainer"]
-layout_mode = 2
+layout_mode = 1
 text = "HP: 6/10"
 horizontal_alignment = 1
 
 [node name="HPBar" type="ProgressBar" parent="StatusBar/HBox/HPContainer"]
 custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
+layout_mode = 1
 value = 60.0
 show_percentage = false
 
 [node name="EnergyContainer" type="VBoxContainer" parent="StatusBar/HBox"]
-layout_mode = 2
+layout_mode = 1
 
 [node name="EnergyLabel" type="Label" parent="StatusBar/HBox/EnergyContainer"]
-layout_mode = 2
+layout_mode = 1
 text = "EN: 2/3"
 horizontal_alignment = 1
 
 [node name="EnergyBar" type="ProgressBar" parent="StatusBar/HBox/EnergyContainer"]
 custom_minimum_size = Vector2(60, 20)
-layout_mode = 2
+layout_mode = 1
 value = 66.0
 show_percentage = false
 
 [node name="ReveriesLabel" type="Label" parent="StatusBar/HBox"]
-layout_mode = 2
+layout_mode = 1
 text = "R: 125"
 
 [node name="RunProgressBar" parent="." instance=ExtResource("2_progress")]
@@ -91,7 +91,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CurrentNodeIcon" type="Label" parent="MainView"]
-layout_mode = 2
+layout_mode = 1
 theme_override_font_sizes/font_size = 96
 text = "❓"
 horizontal_alignment = 1
@@ -120,17 +120,17 @@ alignment = 1
 
 [node name="SkipButton" type="Button" parent="ActionBar/HBox"]
 custom_minimum_size = Vector2(100, 44)
-layout_mode = 2
+layout_mode = 1
 text = "⏩ Skip"
 
 [node name="AutoButton" type="Button" parent="ActionBar/HBox"]
 custom_minimum_size = Vector2(100, 44)
-layout_mode = 2
+layout_mode = 1
 text = "🤖 Auto"
 
 [node name="MenuButton" type="Button" parent="ActionBar/HBox"]
 custom_minimum_size = Vector2(100, 44)
-layout_mode = 2
+layout_mode = 1
 text = "☰ Menu"
 
 [node name="NodePanel" type="Panel" parent="."]
@@ -153,27 +153,27 @@ grow_vertical = 2
 theme_override_constants/separation = 12
 
 [node name="TitleLabel" type="Label" parent="NodePanel/VBox"]
-layout_mode = 2
+layout_mode = 1
 theme_override_font_sizes/font_size = 20
 text = "Current Node: Event ❓"
 
 [node name="DescLabel" type="Label" parent="NodePanel/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "\"Two paths diverge...\""
 
 [node name="ChoicesContainer" type="VBoxContainer" parent="NodePanel/VBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
 [node name="Choice1" type="Button" parent="NodePanel/VBox/ChoicesContainer"]
 custom_minimum_size = Vector2(0, 44)
-layout_mode = 2
+layout_mode = 1
 text = "[A] Safe path (20 R)"
 
 [node name="Choice2" type="Button" parent="NodePanel/VBox/ChoicesContainer"]
 custom_minimum_size = Vector2(0, 44)
-layout_mode = 2
+layout_mode = 1
 text = "[B] Risky path (50% chance 50R)"
 
 [connection signal="pressed" from="ActionBar/HBox/SkipButton" to="." method="_on_skip_button_pressed"]

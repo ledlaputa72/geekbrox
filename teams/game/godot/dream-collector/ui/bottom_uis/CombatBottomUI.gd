@@ -6,11 +6,11 @@ Card hand + log + buttons (2-column layout).
 Layout: CardHandArea, GameInfo (Energy/Deck/Discard), CombatLog, ActionButtons.
 """
 
-# Reaction labels: use Unicode escape to avoid "Unicode parsing error" when scene loads (engine Latin-1)
-const _TXT_GUARD := "\uBC29\uC5B4"      # Guard
-const _TXT_REACTION := "\uB9AC\uC561\uC158"  # Reaction
-const _TXT_PARRY := "\uD328\uB9C1"     # Parry
-const _TXT_DODGE := "\uD68C\uD53C"     # Dodge
+# Reaction labels (ASCII to avoid parser Latin-1 errors)
+const _TXT_GUARD := "Guard"
+const _TXT_REACTION := "Reaction"
+const _TXT_PARRY := "Parry"
+const _TXT_DODGE := "Dodge"
 
 # Class-level signals (GDScript4: must be at top)
 signal target_selection_changed(monster_index: int)  # -1=clear, >=0=selected
@@ -63,11 +63,19 @@ const TYPE_TO_DISPLAY = {
 
 func _ready():
 	if energy_orb:
-		var EnergyOrbScript = load("res://ui/components/EnergyOrb.gd")
-		energy_orb.set_script(EnergyOrbScript)
-		energy_orb._ready()
-		energy_orb.set_energy(3, 3)
-		energy_orb.set_timer_progress(0.0)
+		var energy_orb_script = load("res://ui/components/EnergyOrb.gd")
+		if energy_orb_script:
+			energy_orb.set_script(energy_orb_script)
+			# When setting script at runtime, Godot won't call _ready() automatically.
+			# Call it safely if present so internal sizing/draw state is initialized.
+			if energy_orb.has_method("_ready"):
+				energy_orb.call("_ready")
+			if energy_orb.has_method("set_energy"):
+				energy_orb.call("set_energy", 3, 3)
+			if energy_orb.has_method("set_timer_progress"):
+				energy_orb.call("set_timer_progress", 0.0)
+		else:
+			push_error("[CombatBottomUI] Failed to load EnergyOrb.gd")
 	else:
 		push_error("[CombatBottomUI] EnergyOrb node not found")
 
@@ -82,7 +90,7 @@ func connect_combat_manager(manager: Node):
 	if "speed_multiplier" in manager:
 		_speed = manager.speed_multiplier
 		if speed_button:
-			speed_button.text = "Speed: %.1f×" % _speed
+			speed_button.text = "Speed: %.1fx" % _speed
 
 	if manager.has_signal("hand_updated"):
 		manager.hand_updated.connect(_on_new_hand_updated)
@@ -276,22 +284,29 @@ func _on_exit():
 	_cancel_target_selection()
 
 func _setup_buttons():
-	"""Setup button connections"""
-	# Apply custom styles to buttons
-	_apply_button_style(pass_button, UITheme.COLORS.panel)
+	"""Setup button connections — SVG UI 에셋 적용"""
+	# ── C-04: 스킵(Pass)·배속(Speed) → KenneyTheme 스퀘어 버튼 BTN_SQ_B ──
+	var kenney := get_node_or_null("/root/KenneyTheme")
+	if kenney and kenney.has_method("apply_button"):
+		# BTN_SQ_B = SpriteKey 7, BTN_SQ_PRESSED = SpriteKey 8
+		var sq_b = kenney.SpriteKey.BTN_SQ_B
+		var sq_p = kenney.SpriteKey.BTN_SQ_PRESSED
+		kenney.apply_button(pass_button,  sq_b, sq_p, kenney.PATCH_SQUARE)
+		kenney.apply_button(speed_button, sq_b, sq_p, kenney.PATCH_SQUARE)
+	else:
+		UISprites.apply_btn(pass_button, "secondary")
+		UISprites.apply_btn(speed_button, "secondary")
 
 	# Auto button: off by default, synced on combat_started
 	_auto_enabled = false
 	auto_button.text = "Auto"
-	_apply_button_style(auto_button, UITheme.COLORS.panel)
+	UISprites.apply_btn(auto_button, "secondary")
 
-	_apply_button_style(speed_button, UITheme.COLORS.panel)
-
-	# Reaction button: initially disabled (ASCII only to avoid parse error)
+	# Reaction button: initially disabled
 	if reaction_button:
 		reaction_button.text = "Defense"
 		reaction_button.disabled = true
-		_apply_button_style(reaction_button, UITheme.COLORS.panel)
+		UISprites.apply_btn(reaction_button, "secondary")
 
 	pass_button.pressed.connect(_on_pass_pressed)
 	auto_button.pressed.connect(_on_auto_pressed)
@@ -300,30 +315,19 @@ func _setup_buttons():
 		reaction_button.pressed.connect(_on_reaction_pressed)
 
 func _apply_button_style(button: Button, bg_color: Color):
-	"""Apply custom style to button"""
-	var style = StyleBoxFlat.new()
-	style.bg_color = bg_color
-	style.corner_radius_top_left = 8
-	style.corner_radius_top_right = 8
-	style.corner_radius_bottom_left = 8
-	style.corner_radius_bottom_right = 8
-	style.content_margin_left = 12
-	style.content_margin_right = 12
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
-	
-	button.add_theme_stylebox_override("normal", style)
-	button.add_theme_stylebox_override("hover", style)
-	button.add_theme_stylebox_override("pressed", style)
-	button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
-	button.add_theme_color_override("font_color", UITheme.COLORS.text)
+	"""SVG UI로 교체됨 — bg_color 힌트만 활용해 variant 결정"""
+	if not button:
+		return
+	# 색상 힌트로 variant 선택: primary(노랑/강조) → "primary", 그 외 → "secondary"
+	var is_primary := (bg_color.r + bg_color.g > bg_color.b * 2.0 and bg_color.r > 0.4)
+	UISprites.apply_btn(button, "primary" if is_primary else "secondary")
 
 # === Combat Log ===
 
 func add_combat_log(message: String):
 	"""Add combat log entry"""
 	var label = Label.new()
-	label.text = "• " + message
+	label.text = "- " + message
 	label.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	combat_log_content.add_child(label)
@@ -353,7 +357,7 @@ func _update_deck_ui():
 		if discard_label:
 			discard_label.text = "%d" % discard_size
 		if exile_label:
-			exile_label.text = "🚫 %d" % exile_size
+			exile_label.text = "Exile %d" % exile_size
 		if energy_orb and energy_orb.has_method("set_energy"):
 			energy_orb.set_energy(_get_new_manager_energy(), 3)
 	else:
@@ -362,7 +366,7 @@ func _update_deck_ui():
 		if discard_label:
 			discard_label.text = "%d" % DeckManager.get_discard_size()
 		if exile_label:
-			exile_label.text = "🚫 %d" % DeckManager.get_exile_size()
+			exile_label.text = "Exile %d" % DeckManager.get_exile_size()
 		if energy_orb and energy_orb.has_method("set_energy"):
 			var current = CombatManager.get_current_energy()
 			var maximum = CombatManager.get_max_energy()
@@ -560,7 +564,7 @@ func _on_card_pressed(card_index: int):
 		current_energy = CombatManager.get_current_energy()
 
 	if current_energy < card_cost:
-		add_combat_log("\uC5D0\uB108\uC9C0 \uBD80\uC871!")  # Energy low
+		add_combat_log("      !")  # Energy low
 		return
 
 	# Card type: ATK/DEF/SKILL (new) or Attack/Defense (legacy)
@@ -594,7 +598,7 @@ func _on_card_pressed(card_index: int):
 				card_play_with_animation_requested.emit(item, card, "player", -1)
 			else:
 				request_action("card_played", {"card_index": card_index, "target": -1})
-			add_combat_log("%s \uC0AC\uC6A9" % card_name)  # used
+			add_combat_log("%s   " % card_name)  # used
 			return
 		# First tap: select (show, lift like ATK)
 		if currently_selected_card_item:
@@ -609,7 +613,7 @@ func _on_card_pressed(card_index: int):
 			card_item_def.position.y -= 40
 		card_item_def.z_index = 2000
 		_refresh_hand_layout()
-		add_combat_log("%s \uC120\uD0DD \u2014 \uD558\uC580 \uB354 \uB204\uB294 \uC0AC\uC6A9" % card_name)
+		add_combat_log("%s                " % card_name)
 		return
 
 	# ATK: select then target (drag/tap)
@@ -629,7 +633,7 @@ func _on_card_pressed(card_index: int):
 		currently_selected_card_item = null
 		_cancel_target_selection()
 		_refresh_hand_layout()
-		add_combat_log("\uCDE8\uC18C\uB418\uC74C")  # Cancelled
+		add_combat_log("    ")  # Cancelled
 		return
 
 	# Clear previous selection
@@ -660,7 +664,7 @@ func _on_card_pressed(card_index: int):
 	_draw_arrow_to = _draw_arrow_from
 	_draw_arrow_visible = true
 	queue_redraw()
-	add_combat_log("%s \uC120\uD0DD \u2014 \uC801\uC744 \uD0ED\uD558\uAC70\uB098 \uB4DC\uB798\uADF8" % card_name)
+	add_combat_log("%s                 " % card_name)
 
 func _on_card_hovered(card_index: int, card_item: Control):
 	"""Handle card hover"""
@@ -699,14 +703,14 @@ func on_monster_clicked(monster_index: int):
 		if monster_index < 0 or monster_index >= enemies.size():
 			return
 		if not enemies[monster_index].is_alive():
-			add_combat_log("\uC774\uBBF8 \uC8FD\uC740 \uB300\uC0C1!")  # Already dead
+			add_combat_log("        !")  # Already dead
 			return
 	else:
 		var monsters = CombatManager.monsters
 		if monster_index < 0 or monster_index >= monsters.size():
 			return
 		if monsters[monster_index].hp <= 0:
-			add_combat_log("\uC774\uBBF8 \uC8FD\uC740 \uB300\uC0C1!")  # Already dead
+			add_combat_log("        !")  # Already dead
 			return
 
 	# One-click fire (no double-tap confirm)
@@ -761,9 +765,9 @@ func _play_card_with_target(card_index: int, target_index: int):
 	if new_combat_manager:
 		if card != null:
 			card_play_with_animation_requested.emit(card_item, card, "monster", target_index)
-			add_combat_log("\u26CF %s \u2192 #%d" % [card.name, target_index + 1])
+			add_combat_log("  %s   #%d" % [card.name, target_index + 1])
 		else:
-			add_combat_log("\uCE74\uB4DC\uB97C \uCC3E\uC744 \uC218 \uC5C6\uC74C (index=%d)" % card_index)
+			add_combat_log("            (index=%d)" % card_index)
 	else:
 		_targeting_card = null
 		request_action("card_played", {"card_index": card_index, "target": target_index})
@@ -801,13 +805,13 @@ func _on_pass_pressed():
 		if new_combat_manager is CombatManagerATB:
 			if new_combat_manager.is_pass_ready():
 				new_combat_manager.player_pass_atb()
-				add_combat_log("Pass \u2014 \uC0C8 \uCE74\uB4DC 5\uC7A5 \uB4DC\uB85C\uC6B0")
+				add_combat_log("Pass        5     ")
 			else:
 				var remain = new_combat_manager.get_pass_timer_remaining() if new_combat_manager else 0.0
-				add_combat_log("Pass \uB300\uAE30\uC911 (%.0f\uCD08 \uD6C4 \uAC00\uB2A5)" % remain)
+				add_combat_log("Pass     (%.0f      )" % remain)
 		elif new_combat_manager.has_method("player_end_turn"):
 			new_combat_manager.player_end_turn()
-			add_combat_log("\uD2B8\uB80C \uC885\uB8B0")  # Turn end
+			add_combat_log("     ")  # Turn end
 	else:
 		request_action("pass", {})
 		add_combat_log("Player passed.")
@@ -858,7 +862,7 @@ func _on_speed_pressed():
 			new_combat_manager.set_speed(_speed)
 		elif "speed_multiplier" in new_combat_manager:
 			new_combat_manager.speed_multiplier = _speed
-		speed_button.text = "Speed: %.1f×" % _speed
+		speed_button.text = "Speed: %.1fx" % _speed
 	else:
 		var speed = CombatManager.speed_multiplier
 		if speed == 1.0:
@@ -870,11 +874,11 @@ func _on_speed_pressed():
 		else:
 			speed = 1.0
 		request_action("speed_change", {"speed": speed})
-		speed_button.text = "Speed: %.1f×" % speed
+		speed_button.text = "Speed: %.1fx" % speed
 
 # === Signal Handlers ===
 
-func _on_entity_updated(entity_type: String, index: int):
+func _on_entity_updated(_entity_type: String, _index: int):
 	"""Entity updated"""
 	pass  # TopArea handles this
 
@@ -923,7 +927,7 @@ func _input(event):
 				currently_selected_card_item = null
 			_cancel_target_selection()
 			_refresh_hand_layout()
-			add_combat_log("\uCDE8\uC18C\uB418\uC74C")  # Cancelled
+			add_combat_log("    ")  # Cancelled
 
 # _process: drag arrow update
 
@@ -975,7 +979,7 @@ func _set_reaction_button_text_deferred(t: String) -> void:
 		reaction_button.text = t
 
 func _is_reaction_window_really_open() -> bool:
-	"""리액션 창이 실제로 열려 있을 때만 true. 시그널 누락 시 reaction_mgr 상태로 동기화."""
+	"""True only when reaction window is really open (sync with reaction_mgr if signals missed)."""
 	if not _reaction_window_active:
 		return false
 	if not new_combat_manager or not ("reaction_mgr" in new_combat_manager):
@@ -992,7 +996,7 @@ func _update_reaction_button():
 		reaction_button.disabled = true
 		_apply_button_style(reaction_button, UITheme.COLORS.panel)
 		return
-	# 리액션 창이 실제로 열려 있을 때만 버튼 활성화 (시그널/상태 불일치 방지)
+	# Enable only when reaction window is really open (avoid signal/state mismatch)
 	if not _is_reaction_window_really_open():
 		_set_reaction_button_text(_TXT_REACTION)
 		reaction_button.disabled = true
@@ -1034,26 +1038,12 @@ func _update_reaction_button():
 		var label_map = {"PARRY": _TXT_PARRY, "DODGE": _TXT_DODGE, "GUARD": _TXT_GUARD}
 		_set_reaction_button_text(label_map.get(tag_found, _TXT_GUARD))
 		reaction_button.disabled = false
-		# Active: blue style
-		var active_style = StyleBoxFlat.new()
-		active_style.bg_color = Color(0.15, 0.42, 0.75)
-		active_style.corner_radius_top_left    = 8
-		active_style.corner_radius_top_right   = 8
-		active_style.corner_radius_bottom_left = 8
-		active_style.corner_radius_bottom_right = 8
-		active_style.content_margin_left   = 12
-		active_style.content_margin_right  = 12
-		active_style.content_margin_top    = 10
-		active_style.content_margin_bottom = 10
-		reaction_button.add_theme_stylebox_override("normal",  active_style)
-		reaction_button.add_theme_stylebox_override("hover",   active_style)
-		reaction_button.add_theme_stylebox_override("pressed", active_style)
-		reaction_button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
-		reaction_button.add_theme_color_override("font_color", Color.WHITE)
+		# Active: purple SVG 버튼 (리액션 창 열림 강조)
+		UISprites.apply_btn(reaction_button, "purple")
 	else:
 		_set_reaction_button_text(_TXT_GUARD)
 		reaction_button.disabled = true
-		_apply_button_style(reaction_button, UITheme.COLORS.panel)
+		UISprites.apply_btn(reaction_button, "secondary")
 
 func _on_reaction_pressed():
 	"""Reaction button: use parry/dodge/guard card. Only when reaction window is really open."""

@@ -374,7 +374,7 @@ func update_hp(new_hp: int, damage_dealt: int = 0, is_healing: bool = false, new
 	"""HP 업데이트 + 데미지 숫자 표시. new_max_hp >= 0이면 max_hp도 갱신 (전투 시그널 동기화용)"""
 	if new_max_hp >= 0:
 		max_hp = new_max_hp
-	var old_hp = current_hp
+	var _old_hp = current_hp
 	current_hp = clamp(new_hp, 0, max_hp)
 
 	if hp_bar:
@@ -600,15 +600,15 @@ func show_reaction_badge(reaction_type: String, duration: float = 1.5):
 	var text = ""
 	match reaction_type:
 		"PARRY", "PARRY_SUCCESS":
-			text = "\uD328\uB9C1 \uC131\uACF5"  # 패링 성공
+			text = "패링 성공"  # 패링 성공
 		"DODGE", "DODGE_SUCCESS":
-			text = "\uD68C\uD53C \uC131\uACF5"  # 회피 성공
+			text = "회피 성공"  # 회피 성공
 		"GUARD":
-			text = "\uAC00\uB4DC \uC801\uC6A9"  # 가드 적용
+			text = "가드 적용"  # 가드 적용
 		"PARRY_FAIL":
-			text = "\uD328\uB9C1 \uC2E4\uD328"
+			text = "패링 실패"
 		"DODGE_FAIL":
-			text = "\uD68C\uD53C \uC2E4\uD328"
+			text = "회피 실패"
 		_:
 			text = str(reaction_type)
 	reaction_badge.text = text

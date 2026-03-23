@@ -8,6 +8,7 @@ extends Control
 var all_cards: Array = []
 var filtered_cards: Array = []
 var current_filter: String = "all"  # all, attack, skill, power, curse
+var player_deck: Dictionary = {}  # card_id(int) → { "data": Dictionary, "count": int, "upgrade": int }
 
 # ─── UI 노드 참조 ────────────────────────────────────
 @onready var background: ColorRect = $Background
@@ -31,6 +32,7 @@ var filter_buttons: Array[Button] = []
 
 # ─── CardItem 씬 로드 ─────────────────────────────────
 const CardItemScene = preload("res://ui/components/CardItem.tscn")
+const CardDetailPopupScene := preload("res://ui/components/CardDetailPopup.tscn")
 
 # ─── 초기화 ──────────────────────────────────────────
 func _ready() -> void:
@@ -45,13 +47,19 @@ func _ready() -> void:
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
 	background.color = UITheme.COLORS.bg
-	
-	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 18)
+	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 8)
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
+
+	# Deck 버튼
 	UISprites.apply_btn(deck_button, "secondary")
+
+	# 필터 버튼: 타입별 색상 (비활성 시 secondary, 활성 시 타입 색상)
 	filter_buttons = [all_button, attack_button, defense_button, skill_button, power_button]
-	for btn in filter_buttons:
-		UISprites.apply_btn(btn, "secondary")
+	UISprites.apply_btn(all_button,      "secondary") # All: 회색 (중립)
+	UISprites.apply_btn(attack_button,   "red")       # Attack: 빨강
+	UISprites.apply_btn(defense_button,  "green")     # Skill: 초록
+	UISprites.apply_btn(skill_button,    "primary")   # Power: 파랑
+	UISprites.apply_btn(power_button,    "yellow")    # Curse: 노란색
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
@@ -64,10 +72,6 @@ func setup_signals() -> void:
 	defense_button.pressed.connect(_on_filter_pressed.bind("skill"))
 	skill_button.pressed.connect(_on_filter_pressed.bind("power"))
 	power_button.pressed.connect(_on_filter_pressed.bind("curse"))
-	# 버튼 텍스트 업데이트 (tscn 라벨 오버라이드)
-	defense_button.text = "Skill"
-	skill_button.text = "Power"
-	power_button.text = "Curse"
 	
 	# BottomNav
 	bottom_nav.tab_pressed.connect(_on_tab_pressed)
@@ -77,13 +81,13 @@ func load_card_data() -> void:
 	# 임시 카드 데이터 생성 (85장)
 	# TODO: 실제 게임 데이터에서 로드
 	
-	var card_types = ["attack", "skill", "power", "curse"]
-	var rarities = ["common", "uncommon", "rare", "epic", "legendary"]
-	
+	var card_types: Array[String] = ["attack", "skill", "power", "curse"]
+	var rarities: Array[String] = ["common", "uncommon", "rare", "epic", "legendary"]
+
 	for i in range(85):
-		var card_type = card_types[i % 4]
-		var rarity_index = min(i / 17, 4)  # 17장씩 5개 희귀도
-		var rarity = rarities[rarity_index]
+		var card_type: String = card_types[i % 4]
+		var rarity_index: int = mini(int(i / 17.0), 4)  # float 나눗셈으로 경고 방지
+		var rarity: String = rarities[rarity_index]
 		
 		var card = {
 			"id": i + 1,
@@ -108,16 +112,16 @@ func _generate_card_name(type: String, index: int) -> String:
 	return "Card %d" % (index + 1)
 
 func _generate_description(type: String, index: int) -> String:
-	var base_value = (index % 10) + 5
+	var base_value: int = (index % 10) + 5
 	match type:
 		"attack":
 			return "Deal %d damage." % base_value
 		"skill":
 			return "Gain %d block." % base_value
 		"power":
-			return "Draw %d cards." % min(base_value / 5, 3)
+			return "Draw %d cards." % mini(int(base_value / 5.0), 3)
 		"curse":
-			return "Apply %d poison." % min(base_value / 5, 2)
+			return "Apply %d poison." % mini(int(base_value / 5.0), 2)
 	return "Effect."
 
 # ─── 필터 적용 ───────────────────────────────────────
@@ -136,21 +140,20 @@ func apply_filter(filter_type: String) -> void:
 	# 그리드 업데이트
 	update_card_grid()
 	
-	# 필터 버튼 하이라이트
-	for button in filter_buttons:
-		button.modulate = Color.WHITE
-	
+	# ── 필터 버튼 토글: 활성 = 타입 색상 밝게, 비활성 = 살짝 어둡게 ──
+	# 각 버튼은 타입 고유 색상을 유지하면서 비활성 시 투명도로 구분
+	var active_btn: Button = null
 	match filter_type:
-		"all":
-			all_button.modulate = UITheme.COLORS.primary
-		"attack":
-			attack_button.modulate = UITheme.COLORS.attack
-		"skill":
-			defense_button.modulate = UITheme.COLORS.skill
-		"power":
-			skill_button.modulate = UITheme.COLORS.power
-		"curse":
-			power_button.modulate = UITheme.COLORS.curse
+		"all":     active_btn = all_button
+		"attack":  active_btn = attack_button
+		"skill":   active_btn = defense_button
+		"power":   active_btn = skill_button
+		"curse":   active_btn = power_button
+	for button in filter_buttons:
+		if button == active_btn:
+			button.modulate = Color(1.0, 1.0, 1.0, 1.0)   # 활성: 선명
+		else:
+			button.modulate = Color(0.65, 0.65, 0.65, 1.0)  # 비활성: 어둡게
 	
 	print("[CardLibrary] 필터 적용: %s - %d장 표시" % [filter_type, filtered_cards.size()])
 
@@ -176,8 +179,50 @@ func _on_filter_pressed(filter_type: String) -> void:
 	apply_filter(filter_type)
 
 func _on_card_clicked(card_data: Dictionary) -> void:
-	print("[CardLibrary] 카드 상세 보기: %s" % card_data.name)
-	# TODO: 카드 상세 모달 열기
+	var card_id: int = card_data.get("id", -1)
+	var in_deck: bool = player_deck.has(card_id)
+	var count: int = player_deck[card_id].get("count", 0) if in_deck else 0
+
+	var popup := CardDetailPopupScene.instantiate() as Control
+	# 씬 트리 루트에 추가 → CardLibrary 레이아웃 영향 없이 전체화면 오버레이
+	get_tree().root.add_child(popup)
+	popup.show_card(card_data, in_deck, count)
+	popup.deck_add_requested.connect(_on_popup_deck_add)
+	popup.deck_remove_requested.connect(_on_popup_deck_remove)
+	popup.enhance_requested.connect(_on_popup_enhance)
+
+func _on_popup_deck_add(card_data: Dictionary) -> void:
+	var card_id: int = card_data.get("id", -1)
+	if player_deck.has(card_id):
+		player_deck[card_id]["count"] += 1
+	else:
+		player_deck[card_id] = { "data": card_data.duplicate(), "count": 1, "upgrade": 0 }
+	print("[CardLibrary] 덱추가: %s (덱 %d장)" % [card_data.get("name","?"), _deck_total()])
+
+func _on_popup_deck_remove(card_data: Dictionary) -> void:
+	var card_id: int = card_data.get("id", -1)
+	if not player_deck.has(card_id):
+		return
+	player_deck[card_id]["count"] -= 1
+	if player_deck[card_id]["count"] <= 0:
+		player_deck.erase(card_id)
+	print("[CardLibrary] 덱제거: %s (덱 %d장)" % [card_data.get("name","?"), _deck_total()])
+
+func _on_popup_enhance(card_data: Dictionary) -> void:
+	var card_id: int = card_data.get("id", -1)
+	if not player_deck.has(card_id) or player_deck[card_id]["count"] < 2:
+		return
+	# 카드 1장 소모 + 강화 레벨 +1
+	player_deck[card_id]["count"] -= 1
+	player_deck[card_id]["upgrade"] += 1
+	var up: int = player_deck[card_id]["upgrade"]
+	print("[CardLibrary] 강화: %s → +%d" % [card_data.get("name","?"), up])
+
+func _deck_total() -> int:
+	var total: int = 0
+	for v: Dictionary in player_deck.values():
+		total += v.get("count", 0)
+	return total
 
 func _on_tab_pressed(tab_index: int) -> void:
 	bottom_nav.set_active_tab(tab_index)

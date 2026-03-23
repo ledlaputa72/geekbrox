@@ -118,9 +118,9 @@ func _ready():
 
 
 func _setup_ui():
-	UISprites.apply_panel(top_area, UISprites.panel_frame(), 18)
-	UISprites.apply_panel(selected_area, UISprites.panel_frame(), 18)
-	UISprites.apply_panel(bottom_area, UISprites.panel_dark(), 18)
+	UISprites.apply_panel(top_area, UISprites.panel_frame(), 8)
+	UISprites.apply_panel(selected_area, UISprites.panel_frame(), 8)
+	UISprites.apply_panel(bottom_area, UISprites.panel_dark(), 8)
 
 	UISprites.apply_btn(start_button, "primary")
 	start_button.visible = false
@@ -131,26 +131,16 @@ func _setup_ui():
 	bottom_nav.tab_pressed.connect(_on_bottom_nav_pressed)
 
 
-func _make_banner(text: String, bg_color: Color) -> PanelContainer:
+func _make_banner(text: String, _bg_color: Color = Color.WHITE) -> PanelContainer:
+	"""안내 배너 — section_header SVG 사용"""
 	var panel = PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-
-	var style = StyleBoxFlat.new()
-	style.bg_color = bg_color
-	style.corner_radius_top_left = 10
-	style.corner_radius_top_right = 10
-	style.corner_radius_bottom_left = 10
-	style.corner_radius_bottom_right = 10
-	style.content_margin_left = 20
-	style.content_margin_right = 20
-	style.content_margin_top = 16
-	style.content_margin_bottom = 16
-	panel.add_theme_stylebox_override("panel", style)
+	UISprites.apply_panel(panel, UISprites.section_hdr(), 8)
 
 	var label = Label.new()
 	label.text = text
 	label.add_theme_font_size_override("font_size", 16)
-	label.add_theme_color_override("font_color", Color(0.1, 0.1, 0.1))
+	label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.6, 1.0))  # 골드 텍스트
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -379,21 +369,25 @@ func _create_back_card(card_data: Dictionary, index: int) -> Control:
 	card.set_meta("card_data", card_data)
 	card.set_meta("is_previewing", false)
 
-	# ── 뒷면 ──
+	# ── 뒷면 — SVG panel_dark 또는 폴백 StyleBoxFlat ──
 	var card_back = Panel.new()
 	card_back.name = "CardBack"
 	card_back.set_anchors_preset(Control.PRESET_FULL_RECT)
 	card_back.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	var back_style = StyleBoxFlat.new()
-	back_style.bg_color = Color(0.25, 0.15, 0.4, 1)
-	back_style.border_color = Color(0.7, 0.5, 0.9, 1)
-	back_style.set_border_width_all(3)
-	back_style.corner_radius_top_left = 10
-	back_style.corner_radius_top_right = 10
-	back_style.corner_radius_bottom_left = 10
-	back_style.corner_radius_bottom_right = 10
-	card_back.add_theme_stylebox_override("panel", back_style)
+	var _dark_tex := UISprites.panel_dark()
+	if _dark_tex:
+		card_back.add_theme_stylebox_override("panel", UISprites.make_stylebox(_dark_tex, 12))
+	else:
+		var back_style := StyleBoxFlat.new()
+		back_style.bg_color = Color(0.25, 0.15, 0.4, 1)
+		back_style.border_color = Color(0.7, 0.5, 0.9, 1)
+		back_style.set_border_width_all(3)
+		back_style.corner_radius_top_left = 10
+		back_style.corner_radius_top_right = 10
+		back_style.corner_radius_bottom_left = 10
+		back_style.corner_radius_bottom_right = 10
+		card_back.add_theme_stylebox_override("panel", back_style)
 	card.add_child(card_back)
 
 	var back_vbox = VBoxContainer.new()
@@ -417,22 +411,30 @@ func _create_back_card(card_data: Dictionary, index: int) -> Control:
 	stars.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	back_vbox.add_child(stars)
 
-	# ── 앞면 (숨겨진 상태) ──
+	# ── 앞면 (숨겨진 상태) — SVG 카드 프레임 사용 ──
 	var card_front = Panel.new()
 	card_front.name = "CardFront"
 	card_front.set_anchors_preset(Control.PRESET_FULL_RECT)
 	card_front.visible = false
 	card_front.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
-	var front_style = StyleBoxFlat.new()
-	front_style.bg_color = Color(0.3, 0.2, 0.5, 1)
-	front_style.border_color = Color(0.7, 0.5, 0.9, 1)
-	front_style.set_border_width_all(3)
-	front_style.corner_radius_top_left = 10
-	front_style.corner_radius_top_right = 10
-	front_style.corner_radius_bottom_left = 10
-	front_style.corner_radius_bottom_right = 10
-	card_front.add_theme_stylebox_override("panel", front_style)
+	# 카드 타입으로 SVG 프레임 적용
+	var _card_type: String = card_data.get("type", "attack").to_lower()
+	var _card_tex := UISprites.card_tex(_card_type)
+	if _card_tex:
+		var _card_sb := UISprites.make_stylebox(_card_tex, 12)
+		if _card_sb:
+			card_front.add_theme_stylebox_override("panel", _card_sb)
+	else:
+		# 폴백: StyleBoxFlat
+		var front_style := StyleBoxFlat.new()
+		front_style.bg_color = Color(0.3, 0.2, 0.5, 1)
+		front_style.border_color = Color(0.7, 0.5, 0.9, 1)
+		front_style.set_border_width_all(3)
+		front_style.corner_radius_top_left = 10
+		front_style.corner_radius_top_right = 10
+		front_style.corner_radius_bottom_left = 10
+		front_style.corner_radius_bottom_right = 10
+		card_front.add_theme_stylebox_override("panel", front_style)
 
 	var front_vbox = VBoxContainer.new()
 	front_vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -546,7 +548,7 @@ func _on_card_clicked(card: Control, index: int):
 		_preview_card(card, index)
 
 
-func _preview_card(card: Control, index: int):
+func _preview_card(card: Control, _index: int):
 	# 다른 카드 미리보기 해제
 	for c in card_nodes:
 		if c != card and c.get_meta("is_previewing", false):
@@ -576,7 +578,12 @@ func _highlight_back_border(card: Control, highlight: bool):
 	var card_back = card.get_node_or_null("CardBack")
 	if card_back == null:
 		return
-	var style = card_back.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
+	var existing = card_back.get_theme_stylebox("panel")
+	var style = existing.duplicate() as StyleBoxFlat
+	if style == null:
+		# StyleBoxTexture (SVG 카드 뒷면) — modulate 색조로 하이라이트
+		card_back.modulate = Color(1.0, 0.85, 0.3, 1.0) if highlight else Color(1.0, 1.0, 1.0, 1.0)
+		return
 	if highlight:
 		style.border_color = Color(1.0, 0.85, 0.3, 1)
 		style.set_border_width_all(4)

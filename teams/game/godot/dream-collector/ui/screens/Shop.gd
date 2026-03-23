@@ -53,6 +53,8 @@ func _ready() -> void:
 	switch_tab(0)  # 뽑기 탭으로 시작
 	update_currency_display()
 	bottom_nav.set_active_tab(4)  # Shop 탭 활성화
+	_apply_topbar_pixel_icons()
+	_apply_tab_button_texts()
 	
 	# GameManager 시그널 연결
 	GameManager.energy_changed.connect(_on_energy_changed)
@@ -69,13 +71,61 @@ func _ready() -> void:
 func apply_styles() -> void:
 	background.color = UITheme.COLORS.bg
 	
-	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 18)
-	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
-	gems_count_label.add_theme_color_override("font_color", UITheme.COLORS.primary)
-	reveries_count_label.add_theme_color_override("font_color", UITheme.COLORS.warning)
+	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 8)
+	# TopBar is dark: use light text + 외곽선 (이미지 스타일)
+	title_label.add_theme_color_override("font_color", UITheme.COLORS.text_on_dark)
+	energy_count_label.add_theme_color_override("font_color", UITheme.COLORS.text_on_dark)
+	gems_count_label.add_theme_color_override("font_color", UITheme.COLORS.text_on_dark)
+	reveries_count_label.add_theme_color_override("font_color", UITheme.COLORS.text_on_dark)
+	UITheme.apply_text_outline(title_label, 2)
+	UITheme.apply_text_outline(energy_count_label, 2)
+	UITheme.apply_text_outline(gems_count_label, 2)
+	UITheme.apply_text_outline(reveries_count_label, 2)
 	tab_buttons = [gacha_tab_button, gems_tab_button, exchange_tab_button]
 	for btn in tab_buttons:
 		UISprites.apply_btn(btn, "secondary")
+		UITheme.apply_text_outline(btn, 2)
+
+func _apply_topbar_pixel_icons() -> void:
+	# Replace emoji labels in TopBar counters with pixel icons
+	if not UIManager:
+		return
+	var counters := [
+		{"path": "TopBar/HBox/EnergyCounter", "key": "energy"},
+		{"path": "TopBar/HBox/GemsCounter", "key": "diamond"},
+		{"path": "TopBar/HBox/RevariesCounter", "key": "coin"},
+	]
+	for c in counters:
+		var box := get_node_or_null(c.path) as HBoxContainer
+		if box == null:
+			continue
+		var icon_label := box.get_node_or_null("Icon") as Label
+		var tex := UIManager.get_pixel_icon(c.key)
+		if icon_label == null or tex == null:
+			continue
+		if box.get_node_or_null("IconTex") != null:
+			icon_label.visible = false
+			continue
+		var icon_tex := TextureRect.new()
+		icon_tex.name = "IconTex"
+		icon_tex.custom_minimum_size = Vector2(20, 20)
+		icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon_tex.texture = tex
+		icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var icon_index := icon_label.get_index()
+		box.add_child(icon_tex)
+		box.move_child(icon_tex, icon_index)
+		icon_label.visible = false
+
+func _apply_tab_button_texts() -> void:
+	# Remove emoji prefix to match sample style
+	if gacha_tab_button:
+		gacha_tab_button.text = "뽑기"
+	if gems_tab_button:
+		gems_tab_button.text = "보석 구매"
+	if exchange_tab_button:
+		exchange_tab_button.text = "재화 교환"
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
@@ -203,19 +253,17 @@ func update_gacha_display() -> void:
 func create_gacha_banner_item(banner: Dictionary) -> Panel:
 	var panel = Panel.new()
 	panel.custom_minimum_size = Vector2(358, 180)
-	
-	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = banner.banner_color
-	panel_style.border_width_left = 3
-	panel_style.border_width_top = 3
-	panel_style.border_width_right = 3
-	panel_style.border_width_bottom = 3
-	panel_style.border_color = banner.banner_color.lightened(0.3)
-	panel_style.corner_radius_top_left = UITheme.RADIUS.large
-	panel_style.corner_radius_top_right = UITheme.RADIUS.large
-	panel_style.corner_radius_bottom_left = UITheme.RADIUS.large
-	panel_style.corner_radius_bottom_right = UITheme.RADIUS.large
-	panel.add_theme_stylebox_override("panel", panel_style)
+	# 샘플 스타일: 픽셀 패널 프레임 + 내부 색상
+	var frame_tex = UISprites.panel_frame()
+	if frame_tex:
+		UISprites.apply_panel(panel, frame_tex, 8)
+	else:
+		var panel_style = StyleBoxFlat.new()
+		panel_style.bg_color = UITheme.COLORS.panel
+		panel_style.border_color = UITheme.COLORS.panel_border
+		panel_style.set_border_width_all(2)
+		panel_style.set_corner_radius_all(UITheme.RADIUS.large)
+		panel.add_theme_stylebox_override("panel", panel_style)
 	
 	var vbox = VBoxContainer.new()
 	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -229,14 +277,14 @@ func create_gacha_banner_item(banner: Dictionary) -> Panel:
 	var name_label = Label.new()
 	name_label.text = banner.name
 	name_label.add_theme_font_size_override("font_size", 20)
-	name_label.add_theme_color_override("font_color", Color.WHITE)
+	name_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 	vbox.add_child(name_label)
 	
 	# 설명
 	var desc_label = Label.new()
 	desc_label.text = banner.description
 	desc_label.add_theme_font_size_override("font_size", 12)
-	desc_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.9))
+	desc_label.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
 	vbox.add_child(desc_label)
 	
 	# 빈 공간
@@ -250,8 +298,8 @@ func create_gacha_banner_item(banner: Dictionary) -> Panel:
 	button_hbox.add_theme_constant_override("separation", 12)
 	vbox.add_child(button_hbox)
 	
-	# 재화 아이콘 결정
-	var currency_icon = "🪙" if banner.type == "gold" else "💎"
+	# 재화 아이콘 결정 (이모지 대신 텍스트만; 아이콘은 별도 적용)
+	var currency_icon: String = "G" if banner.type == "gold" else "D"
 	
 	# 1회 뽑기 버튼
 	var single_button = Button.new()
@@ -355,10 +403,12 @@ func create_gem_package_item(package: Dictionary) -> Panel:
 	gems_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vbox.add_child(gems_container)
 	
-	var gem_icon = Label.new()
-	gem_icon.text = "💎"
-	gem_icon.add_theme_font_size_override("font_size", 32)
-	gem_icon.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var gem_icon = TextureRect.new()
+	gem_icon.custom_minimum_size = Vector2(32, 32)
+	gem_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	gem_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	gem_icon.texture = UIManager.get_pixel_icon("diamond") if UIManager else null
+	gem_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	gems_container.add_child(gem_icon)
 	
 	var gem_amount = Label.new()
@@ -425,10 +475,14 @@ func create_exchange_item(exchange: Dictionary) -> Panel:
 	left_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hbox.add_child(left_box)
 	
-	var icon_label = Label.new()
-	icon_label.text = exchange.icon
-	icon_label.add_theme_font_size_override("font_size", 32)
-	left_box.add_child(icon_label)
+	var icon_tex = TextureRect.new()
+	icon_tex.custom_minimum_size = Vector2(24, 24)
+	icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	var to_key = "coin" if exchange.to == "gold" else "energy"
+	icon_tex.texture = UIManager.get_pixel_icon(to_key) if UIManager else null
+	icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	left_box.add_child(icon_tex)
 	
 	var name_label = Label.new()
 	name_label.text = exchange.name
@@ -439,10 +493,17 @@ func create_exchange_item(exchange: Dictionary) -> Panel:
 	
 	# 교환 비율 표시
 	var exchange_label = Label.new()
-	exchange_label.text = "💎 %d" % exchange.from_amount
+	exchange_label.text = "%d" % exchange.from_amount
 	exchange_label.add_theme_font_size_override("font_size", 14)
-	exchange_label.add_theme_color_override("font_color", UITheme.COLORS.primary)
+	exchange_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 	exchange_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	var from_icon = TextureRect.new()
+	from_icon.custom_minimum_size = Vector2(18, 18)
+	from_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	from_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	from_icon.texture = UIManager.get_pixel_icon("diamond") if UIManager else null
+	from_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hbox.add_child(from_icon)
 	hbox.add_child(exchange_label)
 	
 	# 구매 버튼
@@ -478,10 +539,10 @@ func _on_exchange_pressed(exchange: Dictionary) -> void:
 		match exchange.to:
 			"gold":
 				GameManager.add_reveries(exchange.to_amount)
-				alert_modal.show_info("교환 완료", "%s %s를 받았습니다!" % [exchange.icon, exchange.name])
+				alert_modal.show_info("교환 완료", "%s를 받았습니다!" % exchange.name)
 			"energy":
 				GameManager.add_energy(exchange.to_amount)
-				alert_modal.show_info("교환 완료", "%s %s를 받았습니다!" % [exchange.icon, exchange.name])
+				alert_modal.show_info("교환 완료", "%s를 받았습니다!" % exchange.name)
 		print("[Shop] 교환 성공!")
 	else:
 		# 실패: 보석 부족
@@ -494,13 +555,13 @@ func update_currency_display() -> void:
 	gems_count_label.text = str(GameManager.gems)
 	reveries_count_label.text = str(int(GameManager.reveries))
 
-func _on_energy_changed(new_amount: int) -> void:
+func _on_energy_changed(_new_amount: int) -> void:
 	update_currency_display()
 
-func _on_gems_changed(new_amount: int) -> void:
+func _on_gems_changed(_new_amount: int) -> void:
 	update_currency_display()
 
-func _on_reveries_changed(new_amount: float) -> void:
+func _on_reveries_changed(_new_amount: float) -> void:
 	update_currency_display()
 
 # ─── 이벤트 핸들러 ───────────────────────────────────

@@ -1,0 +1,102 @@
+[gd_scene load_steps=2 format=3 uid="uid://card_detail_popup"]
+
+[ext_resource type="Script" path="res://ui/components/CardDetailPopup.gd" id="1"]
+
+[node name="CardDetailPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+z_index = 100
+script = ExtResource("1")
+
+[node name="DimLayer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.72)
+mouse_filter = 0
+
+[node name="ContentPanel" type="Panel" parent="."]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.08
+anchor_right = 1.0
+anchor_bottom = 0.92
+offset_left = 20.0
+offset_right = -20.0
+
+[node name="OuterMargin" type="MarginContainer" parent="ContentPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxMain" type="VBoxContainer" parent="ContentPanel/OuterMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="CardTopMargin" type="MarginContainer" parent="ContentPanel/OuterMargin/VBoxMain"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="CardSection" type="CenterContainer" parent="ContentPanel/OuterMargin/VBoxMain/CardTopMargin"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 290)
+size_flags_horizontal = 3
+
+[node name="CardWrap" type="Control" parent="ContentPanel/OuterMargin/VBoxMain/CardTopMargin/CardSection"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 280)
+
+[node name="Divider" type="HSeparator" parent="ContentPanel/OuterMargin/VBoxMain"]
+layout_mode = 2
+
+[node name="ScrollInfo" type="ScrollContainer" parent="ContentPanel/OuterMargin/VBoxMain"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="InfoVBox" type="VBoxContainer" parent="ContentPanel/OuterMargin/VBoxMain/ScrollInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="BtnDivider" type="HSeparator" parent="ContentPanel/OuterMargin/VBoxMain"]
+layout_mode = 2
+
+[node name="ButtonsRow" type="HBoxContainer" parent="ContentPanel/OuterMargin/VBoxMain"]
+layout_mode = 2
+alignment = 1
+custom_minimum_size = Vector2(0, 52)
+theme_override_constants/separation = 6
+
+[node name="DeckButton" type="Button" parent="ContentPanel/OuterMargin/VBoxMain/ButtonsRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+size_flags_horizontal = 3
+text = "덱추가"
+
+[node name="EnhanceButton" type="Button" parent="ContentPanel/OuterMargin/VBoxMain/ButtonsRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+size_flags_horizontal = 3
+text = "강화"
+
+[node name="CloseButton" type="Button" parent="ContentPanel/OuterMargin/VBoxMain/ButtonsRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+size_flags_horizontal = 3
+text = "닫기"

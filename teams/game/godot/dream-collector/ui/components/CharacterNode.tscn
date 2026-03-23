@@ -4,7 +4,7 @@
 
 [node name="CharacterNode" type="Control"]
 custom_minimum_size = Vector2(60, 120)
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 0
 offset_right = 60.0
 offset_bottom = 120.0

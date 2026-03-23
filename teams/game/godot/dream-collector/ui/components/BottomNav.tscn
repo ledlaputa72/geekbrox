@@ -14,32 +14,207 @@ alignment = 1
 theme_override_constants/separation = 0
 script = ExtResource("1_bottomnav")
 
+[node name="_BG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.08, 0.08, 0.14, 0.97)
+
 [node name="HomeTab" type="Button" parent="."]
 custom_minimum_size = Vector2(78, 60)
+layout_mode = 1
+flat = true
+text = ""
+
+[node name="VBox" type="VBoxContainer" parent="HomeTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="IconWrap" type="CenterContainer" parent="HomeTab/VBox"]
 layout_mode = 2
-text = "🏠
-Home"
+size_flags_vertical = 1
+
+[node name="Icon" type="TextureRect" parent="HomeTab/VBox/IconWrap"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+modulate = Color(0.85, 0.82, 0.75, 1)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TabLabel" type="Label" parent="HomeTab/VBox"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "Home"
+horizontal_alignment = 1
 
 [node name="CardsTab" type="Button" parent="."]
 custom_minimum_size = Vector2(78, 60)
+layout_mode = 1
+flat = true
+text = ""
+
+[node name="VBox" type="VBoxContainer" parent="CardsTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="IconWrap" type="CenterContainer" parent="CardsTab/VBox"]
 layout_mode = 2
-text = "🎴
-Cards"
+size_flags_vertical = 1
+
+[node name="Icon" type="TextureRect" parent="CardsTab/VBox/IconWrap"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+modulate = Color(0.85, 0.82, 0.75, 1)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TabLabel" type="Label" parent="CardsTab/VBox"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "Cards"
+horizontal_alignment = 1
 
 [node name="UpgradeTab" type="Button" parent="."]
 custom_minimum_size = Vector2(78, 60)
+layout_mode = 1
+flat = true
+text = ""
+
+[node name="VBox" type="VBoxContainer" parent="UpgradeTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="IconWrap" type="CenterContainer" parent="UpgradeTab/VBox"]
 layout_mode = 2
-text = "⬆️
-Upgrade"
+size_flags_vertical = 1
+
+[node name="Icon" type="TextureRect" parent="UpgradeTab/VBox/IconWrap"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+modulate = Color(0.85, 0.82, 0.75, 1)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TabLabel" type="Label" parent="UpgradeTab/VBox"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "Upgrade"
+horizontal_alignment = 1
 
 [node name="CharacterTab" type="Button" parent="."]
 custom_minimum_size = Vector2(78, 60)
+layout_mode = 1
+flat = true
+text = ""
+
+[node name="VBox" type="VBoxContainer" parent="CharacterTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="IconWrap" type="CenterContainer" parent="CharacterTab/VBox"]
 layout_mode = 2
-text = "🛡️
-Character"
+size_flags_vertical = 1
+
+[node name="Icon" type="TextureRect" parent="CharacterTab/VBox/IconWrap"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+modulate = Color(0.85, 0.82, 0.75, 1)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TabLabel" type="Label" parent="CharacterTab/VBox"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "Character"
+horizontal_alignment = 1
 
 [node name="ShopTab" type="Button" parent="."]
 custom_minimum_size = Vector2(78, 60)
+layout_mode = 1
+flat = true
+text = ""
+
+[node name="VBox" type="VBoxContainer" parent="ShopTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="IconWrap" type="CenterContainer" parent="ShopTab/VBox"]
 layout_mode = 2
-text = "🛒
-Shop"
+size_flags_vertical = 1
+
+[node name="Icon" type="TextureRect" parent="ShopTab/VBox/IconWrap"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+modulate = Color(0.85, 0.82, 0.75, 1)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TabLabel" type="Label" parent="ShopTab/VBox"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "Shop"
+horizontal_alignment = 1

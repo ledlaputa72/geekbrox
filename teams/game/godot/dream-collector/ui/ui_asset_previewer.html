@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream Collector — UI Asset Previewer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+  :root {
+    --bg: #0e0f14;
+    --surface: #161820;
+    --surface2: #1e2028;
+    --border: #2a2d3a;
+    --border2: #363a4a;
+    --text: #c8cad4;
+    --text2: #7a7d8e;
+    --accent: #4f7cff;
+    --accent2: #7b52ff;
+    --success: #2ecc71;
+    --warn: #f39c12;
+    --danger: #e74c3c;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Noto Sans KR', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; min-height: 100vh; }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  header h1 { font-size: 13px; font-weight: 500; color: var(--text2); font-family: var(--mono); letter-spacing: .04em; }
+  .badge { background: var(--accent); color: #fff; font-size: 10px; font-family: var(--mono); padding: 2px 8px; border-radius: 4px; letter-spacing:.06em; }
+
+  .layout { display: grid; grid-template-columns: 260px 1fr; height: calc(100vh - 53px); }
+
+  /* Sidebar */
+  .sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 16px 0;
+  }
+  .sidebar-section { margin-bottom: 8px; }
+  .sidebar-label {
+    font-size: 10px; font-family: var(--mono); color: var(--text2);
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 0 16px 8px;
+  }
+  .sidebar-item {
+    padding: 9px 16px; cursor: pointer; font-size: 13px;
+    border-left: 2px solid transparent; transition: all .15s;
+    display: flex; align-items: center; gap: 8px; color: var(--text2);
+  }
+  .sidebar-item:hover { background: var(--surface2); color: var(--text); }
+  .sidebar-item.active { border-left-color: var(--accent); background: rgba(79,124,255,.08); color: var(--accent); }
+  .sidebar-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text2); flex-shrink:0; }
+  .sidebar-item.active .dot { background: var(--accent); }
+
+  /* Main */
+  .main { display: flex; flex-direction: column; overflow: hidden; }
+
+  .toolbar {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .toolbar label { font-size: 12px; color: var(--text2); font-family: var(--mono); }
+  .toolbar input[type=range] { width: 100px; accent-color: var(--accent); }
+  .toolbar input[type=number] {
+    width: 56px; background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 4px; color: var(--text); font-family: var(--mono); font-size: 12px;
+    padding: 3px 6px; text-align: center;
+  }
+  .toolbar select {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 4px; color: var(--text); font-size: 12px; padding: 4px 8px;
+    font-family: var(--sans);
+  }
+  .sep { width: 1px; height: 20px; background: var(--border2); flex-shrink:0; }
+
+  .preview-area {
+    flex: 1; overflow: auto;
+    display: flex; flex-direction: column; gap: 0;
+  }
+
+  .preview-section {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-section h2 {
+    font-size: 11px; font-family: var(--mono); color: var(--text2); letter-spacing:.08em;
+    text-transform: uppercase; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .preview-section h2::after { content:''; flex:1; height:1px; background: var(--border); }
+
+  .component-grid { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+  .component-cell {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex; flex-direction: column; gap: 8px;
+    min-width: 120px;
+  }
+  .component-cell label { font-size: 10px; color: var(--text2); font-family: var(--mono); letter-spacing:.05em; }
+
+  /* NinePatch canvas previews */
+  .np-canvas { display: block; image-rendering: pixelated; border: 1px solid var(--border2); border-radius:4px; }
+
+  /* Diff checker */
+  .diff-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .diff-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    min-width: 200px;
+  }
+  .diff-card.ok { border-color: var(--success); }
+  .diff-card.warn { border-color: var(--warn); }
+  .diff-card.err { border-color: var(--danger); }
+  .diff-title { font-size: 11px; font-family: var(--mono); color: var(--text2); margin-bottom: 8px; }
+  .diff-status { font-size: 12px; font-family: var(--mono); padding: 3px 8px; border-radius:4px; display:inline-block; }
+  .ok .diff-status { background: rgba(46,204,113,.15); color: var(--success); }
+  .warn .diff-status { background: rgba(243,156,18,.15); color: var(--warn); }
+  .err .diff-status { background: rgba(231,76,60,.15); color: var(--danger); }
+
+  /* Code panel */
+  .code-panel {
+    background: #0a0b10;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono); font-size: 12px;
+    padding: 12px 20px;
+    max-height: 160px; overflow-y: auto;
+    color: #8be9fd;
+    line-height: 1.7;
+  }
+  .code-panel .kw { color: #ff79c6; }
+  .code-panel .val { color: #f1fa8c; }
+  .code-panel .cm { color: #44475a; }
+  .code-panel .fn { color: #50fa7b; }
+  .code-panel .str { color: #f1fa8c; }
+
+  /* Resize handles for live preview */
+  .resizable-preview {
+    position: relative;
+    display: inline-flex;
+    min-width: 80px; min-height: 32px;
+    resize: both; overflow: hidden;
+    border: 1px dashed var(--border2);
+    border-radius: 4px;
+    cursor: nwse-resize;
+  }
+  .resizable-preview canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+
+  /* Status bar */
+  .statusbar {
+    background: var(--accent); color: #fff; font-size: 11px; font-family: var(--mono);
+    padding: 4px 20px;
+    display: flex; gap: 16px; align-items: center;
+  }
+
+  /* Checker bg toggle */
+  .checker { background-image: repeating-conic-gradient(#1e2028 0% 25%, #262930 0% 50%); background-size: 16px 16px; }
+
+  /* Tab bar */
+  .tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .tab { padding: 10px 18px; font-size: 12px; font-family: var(--mono); color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .tab-content { display: none; flex: 1; overflow: auto; }
+  .tab-content.active { display: flex; flex-direction: column; }
+
+  /* Info boxes */
+  .info-box { background: rgba(79,124,255,.07); border: 1px solid rgba(79,124,255,.2); border-radius:6px; padding: 10px 14px; font-size: 12px; color: var(--text2); margin-bottom: 14px; }
+  .info-box strong { color: var(--accent); }
+
+  /* Checklist */
+  .checklist { display: flex; flex-direction: column; gap: 6px; }
+  .check-item { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; padding: 8px 12px; border-radius: 6px; background: var(--surface2); border: 1px solid var(--border); }
+  .check-item input[type=checkbox] { accent-color: var(--accent); margin-top:1px; flex-shrink:0; }
+  .check-item label { cursor:pointer; color: var(--text); line-height:1.5; }
+  .check-item.done label { text-decoration: line-through; color: var(--text2); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Dream Collector / UI Asset Previewer</h1>
+  <span class="badge">v1.0</span>
+  <span style="flex:1"></span>
+  <span style="font-size:12px; color:var(--text2); font-family:var(--mono)">sheet.png 필요 — 동일 폴더에 위치</span>
+</header>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">에셋 카테고리</div>
+      <div class="sidebar-item active" onclick="setTab('buttons')"><div class="dot"></div>버튼 (14종)</div>
+      <div class="sidebar-item" onclick="setTab('panels')"><div class="dot"></div>패널 / 배경</div>
+      <div class="sidebar-item" onclick="setTab('slots')"><div class="dot"></div>아이템 슬롯</div>
+      <div class="sidebar-item" onclick="setTab('icons')"><div class="dot"></div>체크박스 / 아이콘</div>
+      <div class="sidebar-item" onclick="setTab('sliders')"><div class="dot"></div>슬라이더</div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">도구</div>
+      <div class="sidebar-item" onclick="setTab('ninepatch')"><div class="dot"></div>NinePatch 디버거</div>
+      <div class="sidebar-item" onclick="setTab('checker')"><div class="dot"></div>수치 검증</div>
+      <div class="sidebar-item" onclick="setTab('checklist')"><div class="dot"></div>적용 체크리스트</div>
+    </div>
+    <div class="sidebar-section" style="margin-top:auto; padding:16px; border-top:1px solid var(--border)">
+      <div style="font-size:11px; color:var(--text2); font-family:var(--mono); line-height:1.8;">
+        <div>sheet.png: <span id="img-status" style="color:var(--warn)">미로드</span></div>
+        <div>에셋 수: 27 Kenney</div>
+        <div>SVG: 53 custom</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="tabs">
+      <div class="tab active" id="tab-btn-buttons">버튼</div>
+      <div class="tab" id="tab-btn-panels">패널</div>
+      <div class="tab" id="tab-btn-slots">슬롯</div>
+      <div class="tab" id="tab-btn-icons">아이콘</div>
+      <div class="tab" id="tab-btn-sliders">슬라이더</div>
+      <div class="tab" id="tab-btn-ninepatch">NinePatch 디버거</div>
+      <div class="tab" id="tab-btn-checker">수치 검증</div>
+      <div class="tab" id="tab-btn-checklist">체크리스트</div>
+    </div>
+
+    <!-- BUTTONS TAB -->
+    <div class="tab-content active" id="tab-buttons">
+      <div class="toolbar">
+        <label>컨테이너 W</label>
+        <input type="range" min="80" max="400" value="190" id="btn-w" oninput="renderAll()">
+        <input type="number" id="btn-w-num" value="190" style="width:60px" oninput="document.getElementById('btn-w').value=this.value;renderAll()">
+        <label>H</label>
+        <input type="range" min="32" max="120" value="49" id="btn-h" oninput="renderAll()">
+        <input type="number" id="btn-h-num" value="49" style="width:52px" oninput="document.getElementById('btn-h').value=this.value;renderAll()">
+        <div class="sep"></div>
+        <label>Patch</label>
+        <input type="range" min="0" max="40" value="15" id="patch" oninput="renderAll()">
+        <input type="number" id="patch-num" value="15" style="width:48px" oninput="document.getElementById('patch').value=this.value;renderAll()">
+        <div class="sep"></div>
+        <label>배경</label>
+        <select id="bg-mode" onchange="renderAll()">
+          <option value="dark">다크</option>
+          <option value="checker">체커</option>
+          <option value="light">라이트</option>
+        </select>
+      </div>
+      <div class="preview-area">
+        <div class="preview-section">
+          <h2>와이드 버튼 (Normal 상태)</h2>
+          <div class="component-grid" id="btn-grid"></div>
+        </div>
+        <div class="preview-section">
+          <h2>스퀘어 버튼 (아이콘/네비)</h2>
+          <div class="component-grid" id="sqbtn-grid"></div>
+        </div>
+        <div class="preview-section">
+          <h2>Godot 코드 — 현재 설정값</h2>
+          <div class="code-panel" id="code-panel">
+            <span class="cm"># TextureButton NinePatch 설정</span><br>
+            <span class="cm"># (아래 수치는 툴바 슬라이더 반영)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANELS TAB -->
+    <div class="tab-content" id="tab-panels">
+      <div class="preview-area">
+        <div class="preview-section">
+          <h2>패널 / 배경 — UI Pack button_rectangle_flat (192×64)</h2>
+          <div class="info-box">
+            <strong>button_rectangle_flat.png</strong> — NinePatchRect, patch_margin = <strong>6px 사방</strong><br>
+            Grey = 일반 패널 / Blue = HUD·헤더 패널. modulate로 색상 변형 가능.
+          </div>
+          <style>
+            .panel-demo {
+              display:flex; flex-direction:column; align-items:center; gap:8px;
+            }
+            .panel-demo img {
+              image-rendering: pixelated;
+              display:block;
+            }
+            .panel-demo .panel-wide  { width:240px; height:64px; object-fit:fill; }
+            .panel-demo .panel-tall  { width:160px; height:120px; object-fit:fill; }
+            .panel-demo .panel-small { width:120px; height:48px;  object-fit:fill; }
+          </style>
+          <div class="component-grid">
+            <div class="component-cell">
+              <label>Grey — panel_frame / modal</label>
+              <div class="panel-demo">
+                <img class="panel-wide"  src="../assets/ui/UI%20Pack/PNG/Grey/Default/button_rectangle_flat.png" alt="Grey Wide">
+                <img class="panel-tall"  src="../assets/ui/UI%20Pack/PNG/Grey/Default/button_rectangle_flat.png" alt="Grey Tall">
+                <img class="panel-small" src="../assets/ui/UI%20Pack/PNG/Grey/Default/button_rectangle_flat.png" alt="Grey Small">
+              </div>
+            </div>
+            <div class="component-cell">
+              <label>Blue — hud_frame / 강조</label>
+              <div class="panel-demo">
+                <img class="panel-wide"  src="../assets/ui/UI%20Pack/PNG/Blue/Default/button_rectangle_flat.png" alt="Blue Wide">
+                <img class="panel-tall"  src="../assets/ui/UI%20Pack/PNG/Blue/Default/button_rectangle_flat.png" alt="Blue Tall">
+                <img class="panel-small" src="../assets/ui/UI%20Pack/PNG/Blue/Default/button_rectangle_flat.png" alt="Blue Small">
+              </div>
+            </div>
+            <div class="component-cell">
+              <label>Yellow — 보상 / 강조 패널</label>
+              <div class="panel-demo">
+                <img class="panel-wide"  src="../assets/ui/UI%20Pack/PNG/Yellow/Default/button_rectangle_flat.png" alt="Yellow Wide">
+                <img class="panel-tall"  src="../assets/ui/UI%20Pack/PNG/Yellow/Default/button_rectangle_flat.png" alt="Yellow Tall">
+                <img class="panel-small" src="../assets/ui/UI%20Pack/PNG/Yellow/Default/button_rectangle_flat.png" alt="Yellow Small">
+              </div>
+            </div>
+            <div class="component-cell">
+              <label>Red — 경고 패널</label>
+              <div class="panel-demo">
+                <img class="panel-wide"  src="../assets/ui/UI%20Pack/PNG/Red/Default/button_rectangle_flat.png" alt="Red Wide">
+                <img class="panel-tall"  src="../assets/ui/UI%20Pack/PNG/Red/Default/button_rectangle_flat.png" alt="Red Tall">
+                <img class="panel-small" src="../assets/ui/UI%20Pack/PNG/Red/Default/button_rectangle_flat.png" alt="Red Small">
+              </div>
+            </div>
+          </div>
+          <div class="info-box" style="margin-top:16px; font-family:var(--mono); font-size:12px;">
+            <span style="color:var(--accent)"># GDScript — 패널 적용</span><br>
+            UISprites.apply_panel(my_panel, UISprites.panel_frame())  <span style="color:var(--text2)"># Grey</span><br>
+            UISprites.apply_panel(hud, UISprites.hud_frame())          <span style="color:var(--text2)"># Blue</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLOTS TAB -->
+    <div class="tab-content" id="tab-slots">
+      <div class="preview-area">
+        <div class="preview-section">
+          <h2>아이템 슬롯 — UI Pack button_square_flat (64×64)</h2>
+          <div class="info-box">
+            <strong>button_square_flat.png</strong> — NinePatchRect, patch_margin = <strong>6px 사방</strong><br>
+            희귀도별 색상 PNG + modulate (SPECIAL: 보라 tint).
+          </div>
+          <style>
+            .slot-uipack {
+              width:72px; height:72px;
+              display:flex; flex-direction:column; align-items:center; gap:6px;
+            }
+            .slot-uipack img { width:72px; height:72px; object-fit:fill; display:block; image-rendering:pixelated; }
+            .slot-uipack.special img { filter: hue-rotate(200deg) saturate(1.5); }
+          </style>
+          <div class="component-grid">
+            <div class="component-cell">
+              <label>Empty / COMMON</label>
+              <div class="slot-uipack">
+                <img src="../assets/ui/UI%20Pack/PNG/Grey/Default/button_square_flat.png" alt="Grey sq">
+              </div>
+            </div>
+            <div class="component-cell">
+              <label>RARE</label>
+              <div class="slot-uipack">
+                <img src="../assets/ui/UI%20Pack/PNG/Blue/Default/button_square_flat.png" alt="Blue sq">
+              </div>
+            </div>
+            <div class="component-cell">
+              <label>SPECIAL / EPIC<br><small style="color:var(--text2)">(보라 modulate)</small></label>
+              <div class="slot-uipack special">
+                <img src="../assets/ui/UI%20Pack/PNG/Blue/Default/button_square_flat.png" alt="Purple sq">
+              </div>
+            </div>
+            <div class="component-cell">
+              <label>LEGENDARY</label>
+              <div class="slot-uipack">
+                <img src="../assets/ui/UI%20Pack/PNG/Yellow/Default/button_square_flat.png" alt="Yellow sq">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="preview-section">
+          <h2>장비 슬롯 포지션</h2>
+          <div class="component-grid">
+            <div class="component-cell">
+              <label>무기 (Red)</label>
+              <div class="slot-uipack">
+                <img src="../assets/ui/UI%20Pack/PNG/Red/Default/button_square_flat.png" alt="Red sq">
+                <span style="font-size:18px">⚔</span>
+              </div>
+            </div>
+            <div class="component-cell">
+              <label>방어구 (Blue)</label>
+              <div class="slot-uipack">
+                <img src="../assets/ui/UI%20Pack/PNG/Blue/Default/button_square_flat.png" alt="Blue sq">
+                <span style="font-size:18px">🛡</span>
+              </div>
+            </div>
+            <div class="component-cell">
+              <label>반지 (Green)</label>
+              <div class="slot-uipack">
+                <img src="../assets/ui/UI%20Pack/PNG/Green/Default/button_square_flat.png" alt="Green sq">
+                <span style="font-size:18px">○</span>
+              </div>
+            </div>
+            <div class="component-cell">
+              <label>목걸이 (Yellow)</label>
+              <div class="slot-uipack">
+                <img src="../assets/ui/UI%20Pack/PNG/Yellow/Default/button_square_flat.png" alt="Yellow sq">
+                <span style="font-size:18px">◇</span>
+              </div>
+            </div>
+          </div>
+          <div class="info-box" style="margin-top:16px; font-family:var(--mono); font-size:12px;">
+            <span style="color:var(--accent)"># GDScript — 슬롯 적용</span><br>
+            UISprites.slot_stylebox("RARE")   <span style="color:var(--text2)"># Blue sq_flat → StyleBoxTexture</span><br>
+            UISprites.slot_modulate("SPECIAL") <span style="color:var(--text2)"># Color(0.72,0.40,1.00) 반환</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ICONS TAB -->
+    <div class="tab-content" id="tab-icons">
+      <div class="preview-area">
+        <div class="preview-section">
+          <h2>체크박스 / 아이콘 (Kenney Blue Pack)</h2>
+          <div class="info-box"><strong>주의:</strong> 아이콘은 TextureButton에서 <strong>expand_mode = keep_size</strong> 사용. stretch 모드로 설정하면 크기 변형됩니다.</div>
+          <div class="component-grid" id="icon-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDERS TAB -->
+    <div class="tab-content" id="tab-sliders">
+      <div class="preview-area">
+        <div class="preview-section">
+          <h2>슬라이더 핸들 (Kenney Blue Pack)</h2>
+          <div class="component-grid" id="slider-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NINEPATCH DEBUGGER -->
+    <div class="tab-content" id="tab-ninepatch">
+      <div class="toolbar">
+        <label>이미지 선택</label>
+        <select id="np-asset" onchange="updateNP()">
+          <option value="panel">blue_panel (100×100)</option>
+          <option value="btn-wide">blue_button00 (190×49)</option>
+          <option value="btn-sq">blue_button06 (49×49)</option>
+          <option value="btn13">blue_button13 (190×49)</option>
+        </select>
+        <div class="sep"></div>
+        <label>Left</label><input type="number" id="np-l" value="15" style="width:48px" oninput="updateNP()">
+        <label>Right</label><input type="number" id="np-r" value="15" style="width:48px" oninput="updateNP()">
+        <label>Top</label><input type="number" id="np-t" value="15" style="width:48px" oninput="updateNP()">
+        <label>Bottom</label><input type="number" id="np-b" value="15" style="width:48px" oninput="updateNP()">
+        <div class="sep"></div>
+        <label>출력 W</label><input type="range" min="80" max="500" value="200" id="np-ow" oninput="updateNP()">
+        <label>H</label><input type="range" min="32" max="200" value="60" id="np-oh" oninput="updateNP()">
+      </div>
+      <div class="preview-area">
+        <div class="preview-section">
+          <h2>NinePatch 시뮬레이터 — patch 경계선 시각화</h2>
+          <canvas id="np-canvas" width="600" height="200" style="background:#1e2028; border:1px solid var(--border2); border-radius:8px; max-width:100%;"></canvas>
+          <div style="margin-top:12px; font-size:12px; color:var(--text2); font-family:var(--mono);">
+            <span style="color:#ff6b6b">■</span> 코너 (고정) &nbsp;
+            <span style="color:#ffd93d">■</span> 사이드 (X/Y stretch) &nbsp;
+            <span style="color:#6bcb77">■</span> 중앙 (양방향 stretch)
+          </div>
+        </div>
+        <div class="preview-section">
+          <h2>Godot NinePatchRect 설정 코드</h2>
+          <div class="code-panel" id="np-code"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKER TAB -->
+    <div class="tab-content" id="tab-checker">
+      <div class="preview-area">
+        <div class="preview-section">
+          <h2>XML 좌표 검증 — blueSheet.xml 기준</h2>
+          <div class="info-box">실제 <strong>blueSheet.xml</strong> 좌표와 Godot AtlasTexture Region 설정값을 비교합니다.</div>
+          <div class="diff-row" id="diff-grid"></div>
+        </div>
+        <div class="preview-section">
+          <h2>공통 실수 패턴</h2>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="diff-card err">
+              <div class="diff-title">❌ 버튼이 찌그러지는 경우</div>
+              <code style="font-size:11px; color:var(--text2); font-family:var(--mono); line-height:2">
+                TextureButton → StyleBoxTexture 미설정<br>
+                NinePatch 대신 일반 texture_normal만 사용<br>
+                → 해결: theme_override_styles/normal에 StyleBoxTexture 등록
+              </code>
+            </div>
+            <div class="diff-card err">
+              <div class="diff-title">❌ 아이콘이 잘리는 경우</div>
+              <code style="font-size:11px; color:var(--text2); font-family:var(--mono); line-height:2">
+                AtlasTexture region = Rect2(x, y, w, h)<br>
+                x↔y 또는 w↔h 뒤바꿈 주의<br>
+                → blueSheet.xml의 x,y,width,height 순서 확인
+              </code>
+            </div>
+            <div class="diff-card warn">
+              <div class="diff-title">⚠ 버튼 크기가 이상한 경우</div>
+              <code style="font-size:11px; color:var(--text2); font-family:var(--mono); line-height:2">
+                TextureButton expand_mode = KEEP_SIZE 시 최소 크기 고정<br>
+                → custom_minimum_size로 명시 설정 권장
+              </code>
+            </div>
+            <div class="diff-card ok">
+              <div class="diff-title">✓ 올바른 NinePatch 설정 예시</div>
+              <code style="font-size:11px; color:var(--text2); font-family:var(--mono); line-height:2">
+                var stb = StyleBoxTexture.new()<br>
+                stb.texture = atlas<br>
+                stb.texture_margin_left = 15<br>
+                stb.texture_margin_right = 15<br>
+                stb.texture_margin_top = 15<br>
+                stb.texture_margin_bottom = 15<br>
+                button.add_theme_stylebox_override("normal", stb)
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST TAB -->
+    <div class="tab-content" id="tab-checklist">
+      <div class="preview-area">
+        <div class="preview-section">
+          <h2>적용 체크리스트 (개발 가이드 v1.0 기준)</h2>
+          <div class="checklist" id="checklist"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <span id="status-coords">Kenney Blue Pack — 27 sprites</span>
+      <span>|</span>
+      <span id="status-patch">NinePatch: 15px</span>
+      <span>|</span>
+      <span id="status-size">Container: 190×49</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========================
+// Asset definitions (from blueSheet.xml)
+// ========================
+const SHEET_URL = 'sheet.png';
+let sheetImg = null;
+
+const SPRITES = {
+  blue_button00: { x:0,   y:94,  w:190, h:49, label:'btn00 - Wide Normal A' },
+  blue_button01: { x:190, y:49,  w:190, h:45, label:'btn01 - Wide Pressed A' },
+  blue_button02: { x:190, y:0,   w:190, h:49, label:'btn02 - Wide Normal B' },
+  blue_button03: { x:0,   y:49,  w:190, h:45, label:'btn03 - Wide Pressed B' },
+  blue_button04: { x:0,   y:0,   w:190, h:49, label:'btn04 - Primary CTA' },
+  blue_button05: { x:0,   y:192, w:190, h:45, label:'btn05 - Primary Pressed' },
+  blue_button06: { x:288, y:194, w:49,  h:49, label:'btn06 - Square A' },
+  blue_button07: { x:239, y:194, w:49,  h:49, label:'btn07 - Square B' },
+  blue_button08: { x:190, y:194, w:49,  h:45, label:'btn08 - Square Pressed' },
+  blue_button09: { x:339, y:94,  w:49,  h:49, label:'btn09 - Nav Arrow' },
+  blue_button10: { x:290, y:94,  w:49,  h:45, label:'btn10 - Nav Pressed' },
+  blue_button11: { x:337, y:184, w:49,  h:49, label:'btn11 - Icon Border' },
+  blue_button12: { x:290, y:139, w:49,  h:45, label:'btn12 - Icon Border Press' },
+  blue_button13: { x:0,   y:143, w:190, h:49, label:'btn13 - Input/Passive' },
+  blue_panel:    { x:190, y:94,  w:100, h:100,label:'panel - 모든 패널 배경' },
+  blue_boxCheckmark: { x:380, y:36,  w:38, h:36, label:'체크박스 선택됨' },
+  blue_boxCross:     { x:380, y:0,   w:38, h:36, label:'체크박스 X' },
+  blue_boxTick:      { x:386, y:210, w:36, h:36, label:'틱 마크' },
+  blue_checkmark:    { x:337, y:233, w:21, h:20, label:'단독 체크마크' },
+  blue_cross:        { x:0,   y:237, w:18, h:18, label:'단독 X' },
+  blue_tick:         { x:18,  y:239, w:17, h:17, label:'소형 틱' },
+  blue_circle:       { x:386, y:174, w:36, h:36, label:'원형 라디오' },
+  blue_sliderDown:   { x:416, y:72,  w:28, h:42, label:'슬라이더 핸들 ↓' },
+  blue_sliderLeft:   { x:339, y:143, w:39, h:31, label:'슬라이더 ←' },
+  blue_sliderRight:  { x:378, y:143, w:39, h:31, label:'슬라이더 →' },
+  blue_sliderUp:     { x:388, y:72,  w:28, h:42, label:'슬라이더 핸들 ↑' },
+};
+
+const BTN_WIDE = ['blue_button00','blue_button01','blue_button02','blue_button03','blue_button04','blue_button05','blue_button13'];
+const BTN_SQ   = ['blue_button06','blue_button07','blue_button08','blue_button09','blue_button10','blue_button11','blue_button12'];
+const ICONS    = ['blue_boxCheckmark','blue_boxCross','blue_boxTick','blue_checkmark','blue_cross','blue_tick','blue_circle'];
+const SLIDERS  = ['blue_sliderDown','blue_sliderLeft','blue_sliderRight','blue_sliderUp'];
+
+// Checklist items
+const CHECKLIST = [
+  {phase:'Phase 1 — 에셋 셋업', items:[
+    'blueSheet.xml + sheet.png → res://assets/ui/sprites/kenney/ 복사',
+    'svg/ 폴더 전체 → res://assets/ui/sprites/svg/ 복사',
+    'apply_ui_theme_svg.gd → Project Settings > Autoloads > UITheme 등록',
+    'Godot에서 svg/ 파일 import 확인 (SVG → Texture2D 자동 변환)',
+  ]},
+  {phase:'Phase 2 — 패널 / 버튼 교체', items:[
+    '모든 ColorRect → blue_panel.png 또는 panel_dark.svg 교체',
+    '기본 Button → blue_button04(normal) + blue_button05(pressed) 교체',
+    '닫기 버튼 → blue_button11 + blue_cross 조합',
+    '확인 버튼 → blue_button11 + blue_checkmark 조합',
+  ]},
+  {phase:'Phase 3 — 전투 / 카드 UI', items:[
+    'HP Bar → bar_track + bar_fill_hp 교체',
+    'ATB Bar → bar_track_thin + bar_fill_atb 교체',
+    '카드 프레임 → get_card_texture() 헬퍼로 타입별 자동 적용',
+    '에너지 코스트 뱃지 → card_cost_badge.svg 교체',
+  ]},
+  {phase:'Phase 4 — 슬롯 / 아이템 UI', items:[
+    '장비 슬롯 → get_slot_texture(grade) 헬퍼 자동 적용',
+    '장비 포지션 슬롯 → get_equip_slot_texture(slot_type) 적용',
+    '알림 뱃지 → notif_badge.svg 교체',
+    '레벨 표시 → level_badge.svg 교체',
+  ]},
+  {phase:'Phase 5 — 설정 / 슬라이더', items:[
+    '볼륨 슬라이더 → blue_sliderLeft/Right + Down 핸들 적용',
+    '체크박스 → blue_boxCheckmark / blue_boxCross 교체',
+    '드롭다운 → blue_button13 + 화살표 아이콘 조합',
+  ]},
+  {phase:'Phase 6 — 미구현 (P0→P3)', items:[
+    '[P0] 스타 레이팅 SVG ×3 제작 (빈/반/꽉)',
+    '[P1] 원소 아이콘 SVG ×5 (꿈기억/불꽃/냉기/번개/암흑)',
+    '[P1] 전투 리액션 타이밍 바 SVG 제작',
+    '[P3] Kenney Red/Green/Yellow 팩 추가 다운로드',
+  ]},
+];
+
+// Diff data
+const DIFF_DATA = [
+  { name:'blue_panel', xml:'x:190 y:94 w:100 h:100', godot:'Rect2(190,94,100,100)', patch:'15px', ok:true },
+  { name:'blue_button04', xml:'x:0 y:0 w:190 h:49', godot:'Rect2(0,0,190,49)', patch:'15px', ok:true },
+  { name:'blue_button06', xml:'x:288 y:194 w:49 h:49', godot:'Rect2(288,194,49,49)', patch:'10px', ok:true },
+  { name:'blue_sliderDown', xml:'x:416 y:72 w:28 h:42', godot:'Rect2(416,72,28,42)', patch:'고정크기', ok:true },
+];
+
+// ========================
+// Load sheet image
+// ========================
+function loadSheet() {
+  sheetImg = new Image();
+  sheetImg.onload = () => {
+    document.getElementById('img-status').textContent = '로드됨';
+    document.getElementById('img-status').style.color = 'var(--success)';
+    renderAll();
+  };
+  sheetImg.onerror = () => {
+    document.getElementById('img-status').textContent = '없음(더미 렌더)';
+    document.getElementById('img-status').style.color = 'var(--warn)';
+    renderAll();
+  };
+  sheetImg.src = SHEET_URL;
+}
+
+// ========================
+// Draw a sprite onto canvas (with NinePatch)
+// ========================
+function drawSprite(canvas, key, outW, outH, patch) {
+  const sp = SPRITES[key];
+  if (!sp) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = outW;
+  canvas.height = outH;
+  ctx.clearRect(0, 0, outW, outH);
+
+  if (!sheetImg || !sheetImg.complete || sheetImg.naturalWidth === 0) {
+    // Fallback: draw colored placeholder
+    const hue = (Object.keys(SPRITES).indexOf(key) * 30) % 360;
+    ctx.fillStyle = `hsl(${hue},50%,30%)`;
+    ctx.roundRect ? ctx.roundRect(0,0,outW,outH,4) : ctx.fillRect(0,0,outW,outH);
+    ctx.fill();
+    ctx.strokeStyle = `hsl(${hue},60%,50%)`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = '10px monospace';
+    ctx.fillText(key.replace('blue_',''), 4, 14);
+    return;
+  }
+
+  const p = patch || 0;
+  const sx = sp.x, sy = sp.y, sw = sp.w, sh = sp.h;
+
+  if (p <= 0 || outW <= 0 || outH <= 0) {
+    ctx.drawImage(sheetImg, sx, sy, sw, sh, 0, 0, outW, outH);
+    return;
+  }
+
+  // 9 regions
+  const cols = [p, sw - p*2, p];
+  const rows = [p, sh - p*2, p];
+  const dcols = [p, outW - p*2, p];
+  const drows = [p, outH - p*2, p];
+
+  let sy2 = sy;
+  let dy = 0;
+  for (let r = 0; r < 3; r++) {
+    let sx2 = sx;
+    let dx = 0;
+    for (let c = 0; c < 3; c++) {
+      if (cols[c] > 0 && rows[r] > 0 && dcols[c] > 0 && drows[r] > 0) {
+        ctx.drawImage(sheetImg, sx2, sy2, cols[c], rows[r], dx, dy, dcols[c], drows[r]);
+      }
+      sx2 += cols[c];
+      dx += dcols[c];
+    }
+    sy2 += rows[r];
+    dy += drows[r];
+  }
+}
+
+// ========================
+// Draw NinePatch debug overlay
+// ========================
+function drawNPDebug() {
+  const assetKey = document.getElementById('np-asset').value;
+  const l = +document.getElementById('np-l').value;
+  const r = +document.getElementById('np-r').value;
+  const t = +document.getElementById('np-t').value;
+  const b = +document.getElementById('np-b').value;
+  const outW = +document.getElementById('np-ow').value;
+  const outH = +document.getElementById('np-oh').value;
+
+  const assetMap = {
+    'panel': 'blue_panel',
+    'btn-wide': 'blue_button00',
+    'btn-sq': 'blue_button06',
+    'btn13': 'blue_button13',
+  };
+
+  const key = assetMap[assetKey];
+  const canvas = document.getElementById('np-canvas');
+  canvas.width = 600;
+  canvas.height = Math.max(200, outH + 80);
+
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw the scaled output
+  const offX = 20, offY = 20;
+  const tempCanvas = document.createElement('canvas');
+  drawSprite(tempCanvas, key, outW, outH, Math.min(l,r,t,b));
+  ctx.drawImage(tempCanvas, offX, offY);
+
+  // Overlay grid lines
+  ctx.setLineDash([3,3]);
+  ctx.lineWidth = 1;
+
+  // Vertical lines
+  ctx.strokeStyle = '#ff6b6b';
+  ctx.beginPath(); ctx.moveTo(offX+l, offY); ctx.lineTo(offX+l, offY+outH); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(offX+outW-r, offY); ctx.lineTo(offX+outW-r, offY+outH); ctx.stroke();
+
+  // Horizontal lines
+  ctx.beginPath(); ctx.moveTo(offX, offY+t); ctx.lineTo(offX+outW, offY+t); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(offX, offY+outH-b); ctx.lineTo(offX+outW, offY+outH-b); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Labels
+  ctx.font = '10px IBM Plex Mono, monospace';
+  ctx.fillStyle = '#ff6b6b';
+  ctx.fillText(`L:${l}`, offX+2, offY+t-4);
+  ctx.fillText(`T:${t}`, offX+l+4, offY+12);
+  ctx.fillText(`R:${r}`, offX+outW-r+2, offY+t-4);
+  ctx.fillText(`B:${b}`, offX+l+4, offY+outH-4);
+
+  ctx.fillStyle = '#aaa';
+  ctx.fillText(`${outW}×${outH}px`, offX+outW+10, offY+20);
+
+  // Code
+  document.getElementById('np-code').innerHTML =
+    `<span class="cm"># GDScript — NinePatchRect 설정</span><br>`+
+    `<span class="kw">var</span> np = NinePatchRect.<span class="fn">new</span>()<br>`+
+    `np.texture = <span class="fn">load</span>(<span class="str">"res://assets/ui/sprites/kenney/sheet.png"</span>)<br>`+
+    `np.region_rect = Rect2(<span class="val">${SPRITES[key]?.x}, ${SPRITES[key]?.y}, ${SPRITES[key]?.w}, ${SPRITES[key]?.h}</span>)<br>`+
+    `np.patch_margin_left = <span class="val">${l}</span><br>`+
+    `np.patch_margin_right = <span class="val">${r}</span><br>`+
+    `np.patch_margin_top = <span class="val">${t}</span><br>`+
+    `np.patch_margin_bottom = <span class="val">${b}</span><br>`+
+    `np.custom_minimum_size = Vector2(<span class="val">${outW}, ${outH}</span>)`;
+}
+
+// ========================
+// Render all grids
+// ========================
+function renderAll() {
+  const w = +document.getElementById('btn-w').value;
+  const h = +document.getElementById('btn-h').value;
+  const patch = +document.getElementById('patch').value;
+  document.getElementById('btn-w-num').value = w;
+  document.getElementById('btn-h-num').value = h;
+  document.getElementById('patch-num').value = patch;
+  document.getElementById('status-size').textContent = `Container: ${w}×${h}`;
+  document.getElementById('status-patch').textContent = `NinePatch: ${patch}px`;
+
+  const bgMode = document.getElementById('bg-mode').value;
+  const bgColor = bgMode === 'dark' ? '#1e2028' : bgMode === 'light' ? '#f0f0f0' : null;
+
+  function fillGrid(gridId, keys, ow, oh, p) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    grid.innerHTML = '';
+    keys.forEach(k => {
+      const cell = document.createElement('div');
+      cell.className = 'component-cell';
+      if (bgMode === 'checker') cell.classList.add('checker');
+      if (bgColor) cell.style.background = bgColor;
+      const lbl = document.createElement('label');
+      lbl.textContent = k.replace('blue_','');
+      const canvas = document.createElement('canvas');
+      canvas.className = 'np-canvas';
+      cell.appendChild(lbl);
+      cell.appendChild(canvas);
+      grid.appendChild(cell);
+      drawSprite(canvas, k, ow, oh, p);
+    });
+  }
+
+  fillGrid('btn-grid', BTN_WIDE, w, h, patch);
+  fillGrid('sqbtn-grid', BTN_SQ, 49, 49, 10);
+  fillGrid('panel-grid', ['blue_panel'], w, Math.max(h, 80), 15);
+  fillGrid('icon-grid', ICONS, 0, 0, 0);
+  fillGrid('slider-grid', SLIDERS, 0, 0, 0);
+
+  // Code panel
+  document.getElementById('code-panel').innerHTML =
+    `<span class="cm"># TextureButton + StyleBoxTexture (NinePatch) 설정</span><br>`+
+    `<span class="kw">var</span> atlas = AtlasTexture.<span class="fn">new</span>()<br>`+
+    `atlas.atlas = <span class="fn">load</span>(<span class="str">"res://assets/ui/sprites/kenney/sheet.png"</span>)<br>`+
+    `atlas.region = Rect2(<span class="val">0, 0, 190, 49</span>) <span class="cm"># blue_button04</span><br><br>`+
+    `<span class="kw">var</span> stb = StyleBoxTexture.<span class="fn">new</span>()<br>`+
+    `stb.texture = atlas<br>`+
+    `stb.texture_margin_left   = <span class="val">${patch}</span><br>`+
+    `stb.texture_margin_right  = <span class="val">${patch}</span><br>`+
+    `stb.texture_margin_top    = <span class="val">${patch}</span><br>`+
+    `stb.texture_margin_bottom = <span class="val">${patch}</span><br>`+
+    `$Button.add_theme_stylebox_override(<span class="str">"normal"</span>, stb)<br>`+
+    `$Button.custom_minimum_size = Vector2(<span class="val">${w}, ${h}</span>)`;
+
+  drawNPDebug();
+}
+
+// ========================
+// Tab switching
+// ========================
+const TABS = ['buttons','panels','slots','icons','sliders','ninepatch','checker','checklist'];
+function setTab(name) {
+  TABS.forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===name);
+    const btn = document.getElementById('tab-btn-'+t);
+    if (btn) btn.classList.toggle('active', t===name);
+  });
+  document.querySelectorAll('.sidebar-item').forEach(el => {
+    el.classList.toggle('active', el.textContent.trim().toLowerCase().includes(name.split('-')[0]));
+  });
+}
+
+function updateNP() { drawNPDebug(); }
+
+// ========================
+// Build diff grid
+// ========================
+function buildDiff() {
+  const grid = document.getElementById('diff-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  DIFF_DATA.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'diff-card ok';
+    card.innerHTML = `
+      <div class="diff-title">${d.name}</div>
+      <div style="font-size:11px;font-family:var(--mono);line-height:2;color:var(--text2)">
+        XML: <span style="color:var(--text)">${d.xml}</span><br>
+        Godot: <span style="color:var(--accent)">${d.godot}</span><br>
+        Patch: <span style="color:var(--success)">${d.patch}</span>
+      </div>
+      <div class="diff-status">✓ 일치</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ========================
+// Build checklist
+// ========================
+function buildChecklist() {
+  const container = document.getElementById('checklist');
+  if (!container) return;
+  const saved = JSON.parse(localStorage.getItem('dc_checklist') || '{}');
+  CHECKLIST.forEach((section, si) => {
+    const ph = document.createElement('div');
+    ph.style.cssText = 'font-size:11px;font-family:var(--mono);color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin:16px 0 6px;padding:0 4px;';
+    ph.textContent = section.phase;
+    container.appendChild(ph);
+    section.items.forEach((item, ii) => {
+      const key = `${si}-${ii}`;
+      const row = document.createElement('div');
+      row.className = 'check-item' + (saved[key] ? ' done' : '');
+      row.innerHTML = `<input type="checkbox" id="chk-${key}" ${saved[key]?'checked':''}><label for="chk-${key}">${item}</label>`;
+      row.querySelector('input').addEventListener('change', function() {
+        saved[key] = this.checked;
+        localStorage.setItem('dc_checklist', JSON.stringify(saved));
+        row.classList.toggle('done', this.checked);
+      });
+      container.appendChild(row);
+    });
+  });
+}
+
+// ========================
+// Init
+// ========================
+window.addEventListener('load', () => {
+  loadSheet();
+  buildDiff();
+  buildChecklist();
+  renderAll();
+  // Tab click handlers
+  TABS.forEach(t => {
+    const btn = document.getElementById('tab-btn-'+t);
+    if (btn) btn.onclick = () => setTab(t);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 # scripts/combat/atb/ATBCrisisMode.gd
-# 위기 모드: HP 30% 이하 시 자동 개입 — DEV_SPEC_ATB.md 기반
+# 위기 모드: 플레이어 HP 30% 이하 시 전투 전체 시간 슬로우(플레이어·적 동일 적용)
 class_name ATBCrisisMode
 extends Node
 
@@ -53,8 +53,8 @@ func _enter_crisis():
 	crisis_timer = CRISIS_DURATION
 	triggered_once = true
 	if combat_manager and combat_manager.has_method("set_speed"):
-		combat_manager.set_speed(CRISIS_SPEED)
-	print("[ATBCrisis] 위기 모드! HP 30%% 이하 — 시간 슬로우 %.1f초" % CRISIS_DURATION)
+		combat_manager.set_speed(CRISIS_SPEED)  # 전투 전체 속도 (플레이어·적 동일)
+	print("[ATBCrisis] 위기 모드! HP 30%% 이하 — 전투 전체 슬로우 %.1f초 (양측 동일)" % CRISIS_DURATION)
 	emit_signal("crisis_entered")
 
 func _end_crisis():

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/screens/Combat.gd" id="1_combat"]
 
 [node name="Combat" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -369,7 +369,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="LogContent" type="VBoxContainer" parent="CombatLog/ScrollContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 
 [node name="ActionButtons" type="Control" parent="."]
@@ -404,16 +404,16 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="EndTurnButton" type="Button" parent="ActionButtons/ButtonsContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Pass"
 
 [node name="AutoButton" type="Button" parent="ActionButtons/ButtonsContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Auto"
 
 [node name="MenuButton" type="Button" parent="ActionButtons/ButtonsContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Menu"

@@ -60,7 +60,7 @@ func _ready() -> void:
 func apply_styles() -> void:
 	background.color = UITheme.COLORS.bg
 	
-	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 18)
+	UISprites.apply_panel(top_bar, UISprites.panel_dark(), 8)
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 	deck_title.add_theme_color_override("font_color", UITheme.COLORS.text)
 	stats_label.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
@@ -68,8 +68,13 @@ func apply_styles() -> void:
 	UISprites.apply_btn(back_button, "secondary")
 	UISprites.apply_btn(save_button, "green")
 	filter_buttons = [all_button, attack_button, defense_button, skill_button, power_button]
+	# ── C-03: 필터 버튼 → KenneyTheme secondary (비활성 기본값) ──
+	var kenney := get_node_or_null("/root/KenneyTheme")
 	for btn in filter_buttons:
-		UISprites.apply_btn(btn, "secondary")
+		if kenney and kenney.has_method("apply_button_secondary"):
+			kenney.apply_button_secondary(btn)
+		else:
+			UISprites.apply_btn(btn, "secondary")
 		btn.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
 	
 	# Divider
@@ -189,21 +194,28 @@ func apply_filter(filter_type: String) -> void:
 	
 	update_library_display()
 	
-	# 필터 버튼 하이라이트
-	for button in filter_buttons:
-		button.modulate = Color.WHITE
-	
+	# ── C-03: 필터 버튼 토글 — 활성 버튼 KenneyTheme primary, 나머지 secondary ──
+	var kenney := get_node_or_null("/root/KenneyTheme")
+	# 활성 버튼 맵
+	var active_btn: Button = null
 	match filter_type:
-		"all":
-			all_button.modulate = UITheme.COLORS.primary
-		"attack":
-			attack_button.modulate = UITheme.COLORS.attack
-		"skill":
-			defense_button.modulate = UITheme.COLORS.skill
-		"power":
-			skill_button.modulate = UITheme.COLORS.power
-		"curse":
-			power_button.modulate = UITheme.COLORS.curse
+		"all":     active_btn = all_button
+		"attack":  active_btn = attack_button
+		"skill":   active_btn = defense_button
+		"power":   active_btn = skill_button
+		"curse":   active_btn = power_button
+	for button in filter_buttons:
+		if button == active_btn:
+			if kenney and kenney.has_method("apply_button_primary"):
+				kenney.apply_button_primary(button)
+			else:
+				button.modulate = UITheme.COLORS.primary
+		else:
+			if kenney and kenney.has_method("apply_button_secondary"):
+				kenney.apply_button_secondary(button)
+			else:
+				button.modulate = Color.WHITE
+		button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
 
 # ─── 덱 디스플레이 업데이트 ──────────────────────────
 func update_deck_display() -> void:

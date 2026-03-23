@@ -7,7 +7,7 @@ layer = 100
 script = ExtResource("1_rewards")
 
 [node name="Control" type="Control" parent="."]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -50,39 +50,39 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TitleLabel" type="Label" parent="Control/ModalPanel/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "Choose Your Reward"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Control/ModalPanel/VBox"]
-layout_mode = 2
+layout_mode = 1
 
 [node name="DescLabel" type="Label" parent="Control/ModalPanel/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "Pick one card to add to your deck"
 horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="CardsContainer" type="HBoxContainer" parent="Control/ModalPanel/VBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_vertical = 3
 alignment = 1
 
 [node name="Card1" type="Button" parent="Control/ModalPanel/VBox/CardsContainer"]
 custom_minimum_size = Vector2(80, 112)
-layout_mode = 2
+layout_mode = 1
 text = "Card 1"
 
 [node name="Card2" type="Button" parent="Control/ModalPanel/VBox/CardsContainer"]
 custom_minimum_size = Vector2(80, 112)
-layout_mode = 2
+layout_mode = 1
 text = "Card 2"
 
 [node name="Card3" type="Button" parent="Control/ModalPanel/VBox/CardsContainer"]
 custom_minimum_size = Vector2(80, 112)
-layout_mode = 2
+layout_mode = 1
 text = "Card 3"
 
 [node name="SkipButton" type="Button" parent="Control/ModalPanel/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "Skip Reward"

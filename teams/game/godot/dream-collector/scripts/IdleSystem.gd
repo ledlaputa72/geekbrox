@@ -41,10 +41,10 @@ func _collect_tick() -> void:
 # ─── 오프라인 수집 계산 ───────────────────────────────
 func _process_offline_gain() -> void:
 	if last_save_timestamp == 0:
-		last_save_timestamp = Time.get_unix_time_from_system()
+		last_save_timestamp = int(Time.get_unix_time_from_system())
 		return
 
-	var now: int = Time.get_unix_time_from_system()
+	var now: int = int(Time.get_unix_time_from_system())
 	var elapsed_seconds: float = float(now - last_save_timestamp)
 	var elapsed_hours: float = elapsed_seconds / 3600.0
 
@@ -73,4 +73,4 @@ func apply_prestige_bonus(multiplier: float) -> void:
 
 # ─── 타임스탬프 저장 (세이브 시 호출) ────────────────
 func mark_save_time() -> void:
-	last_save_timestamp = Time.get_unix_time_from_system()
+	last_save_timestamp = int(Time.get_unix_time_from_system())

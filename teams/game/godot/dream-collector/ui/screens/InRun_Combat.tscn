@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://run_progress_bar" path="res://ui/components/RunProgressBar.tscn" id="2"]
 
 [node name="InRun" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,6 +25,7 @@ color = Color(0.0980392, 0.0980392, 0.180392, 1)
 layout_mode = 1
 offset_top = 0.0
 offset_bottom = 35.0
+bg_extend = -10
 
 [node name="TopBar" type="Control" parent="."]
 layout_mode = 1
@@ -377,7 +378,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="LogContent" type="VBoxContainer" parent="CombatLog/ScrollContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 
 [node name="ActionButtons" type="Control" parent="."]
@@ -412,16 +413,16 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="EndTurnButton" type="Button" parent="ActionButtons/ButtonsContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Pass"
 
 [node name="AutoButton" type="Button" parent="ActionButtons/ButtonsContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Auto"
 
 [node name="MenuButton" type="Button" parent="ActionButtons/ButtonsContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Menu"

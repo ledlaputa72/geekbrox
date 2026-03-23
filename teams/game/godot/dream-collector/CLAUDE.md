@@ -385,6 +385,10 @@ signal energy_changed(new_val: int)
 ├── GACHA_ENHANCEMENT_FINAL_SIMPLIFIED.md
 ├── EQUIPMENT_IMPLEMENTATION_DESIGN.md
 ├── UI_CHARACTER_SCREEN_SPEC.md         # 캐릭터 화면 UI 스펙
+├── 02_core_design/characters/
+│   └── CHARACTER_STATS_DETAILED_SYSTEM.md  # 캐릭터 상세 속성 (8개 섹션, 데이터 구조)
+├── 03_implementation_guides/ui/
+│   └── CHARACTER_INFO_POPUP_SPEC.md    # 캐릭터 정보 팝업 전체 가이드 (UI/바인딩/체크리스트)
 ├── 02_core_design/data_field_csv/      # ⭐ 데이터 필드 정의 (2026-03-04 추가)
 │   ├── 01_data_field_definitions.csv   # 108개 데이터 필드 (ID, 타입, 기본값, 캡)
 │   ├── 02_element_compatibility.csv    # 원소 상성표 (5원소 × 5원소)

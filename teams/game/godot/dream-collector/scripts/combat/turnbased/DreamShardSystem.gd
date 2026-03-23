@@ -21,7 +21,7 @@ func setup(es: TurnBasedEnergySystem, hs: TurnBasedHandSystem, p_data):
 	player_data = p_data
 
 # ── 획득 조건 ──────────────────────────────────────────
-func on_card_played(card: Card):
+func on_card_played(_card: Card):
 	# 패링 후 즉시 공격 등 특정 조건은 CombatManagerTB에서 gain_shard() 직접 호출
 	pass
 
@@ -53,9 +53,9 @@ func spend(ability: ShardAbility) -> bool:
 	shards -= cost
 	emit_signal("shards_changed", shards, MAX_SHARDS)
 	_apply_effect(ability)
-	var name = ABILITY_NAMES.get(ability, "?")
-	emit_signal("shard_ability_used", name)
-	print("[DreamShard] 사용: %s (-%d조각)" % [name, cost])
+	var ability_name = ABILITY_NAMES.get(ability, "?")
+	emit_signal("shard_ability_used", ability_name)
+	print("[DreamShard] 사용: %s (-%d조각)" % [ability_name, cost])
 	return true
 
 func _get_cost(ability: ShardAbility) -> int:

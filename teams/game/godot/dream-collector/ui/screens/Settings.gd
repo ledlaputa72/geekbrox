@@ -7,12 +7,24 @@ extends Control
 @onready var settings_list = $ScrollContainer/SettingsList
 
 func _ready():
-	UISprites.apply_btn(back_button, "secondary")
+	# ── C-05: KenneyTheme 에셋 적용 ──────────────────────────
+	var kenney := get_node_or_null("/root/KenneyTheme")
+	# 취소(뒤로) 버튼 → X 아이콘 닫기 버튼
+	if kenney and kenney.has_method("apply_button_close"):
+		kenney.apply_button_close(back_button)
+	else:
+		UISprites.apply_btn(back_button, "secondary")
+	# TopBar 패널 배경 → KenneyTheme panel ninepatch
+	var top_bar := get_node_or_null("TopBar") as PanelContainer
+	if top_bar and kenney and kenney.has_method("apply_panel"):
+		kenney.apply_panel(top_bar)
+	elif top_bar:
+		UISprites.apply_panel(top_bar, UISprites.panel_dark(), 8)
 	back_button.pressed.connect(_on_back_pressed)
-	
+
 	# Build settings UI
 	_build_settings()
-	
+
 	print("[Settings] Ready")
 
 func _build_settings():
@@ -70,6 +82,10 @@ func _add_volume_slider(label_text: String, initial_value: float):
 	slider.custom_minimum_size = Vector2(0, 40)
 	slider.value_changed.connect(_on_volume_changed.bind(label_text))
 	container.add_child(slider)
+	# ── C-05: 슬라이더 → KenneyTheme apply_slider ────────────
+	var kenney_s := get_node_or_null("/root/KenneyTheme")
+	if kenney_s and kenney_s.has_method("apply_slider"):
+		kenney_s.apply_slider(slider)
 	
 	var value_label = Label.new()
 	value_label.text = "%d%%" % (initial_value * 100)
@@ -93,31 +109,32 @@ func _on_volume_changed(value: float, volume_type: String):
 	# TODO: Apply to AudioServer
 
 func _add_language_selector():
-	"""Add language selector buttons"""
+	"""Add language selector buttons (en, ko, ja)"""
 	var container = HBoxContainer.new()
 	container.add_theme_constant_override("separation", 10)
 	settings_list.add_child(container)
-	
-	var korean_button = Button.new()
-	korean_button.text = "한국어"
-	korean_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	korean_button.custom_minimum_size = Vector2(0, 50)
-	UISprites.apply_btn(korean_button, "primary")
-	korean_button.pressed.connect(_on_language_changed.bind("ko"))
-	container.add_child(korean_button)
+	var locales := LocaleManager.get_supported_locales()
+	for locale_code in locales:
+		var btn := Button.new()
+		btn.text = LocaleManager.get_locale_display_name(locale_code)
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.custom_minimum_size = Vector2(0, 50)
+		var is_current := (locale_code == LocaleManager.get_current_locale())
+		# ── C-05: 언어 버튼 → KenneyTheme primary/secondary ──────
+		var kenney_l := get_node_or_null("/root/KenneyTheme")
+		if kenney_l:
+			if is_current and kenney_l.has_method("apply_button_primary"):
+				kenney_l.apply_button_primary(btn)
+			elif kenney_l.has_method("apply_button_secondary"):
+				kenney_l.apply_button_secondary(btn)
+		else:
+			UISprites.apply_btn(btn, "primary" if is_current else "secondary")
+		btn.pressed.connect(_on_language_changed.bind(locale_code))
+		container.add_child(btn)
 
-	var english_button = Button.new()
-	english_button.text = "English"
-	english_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	english_button.custom_minimum_size = Vector2(0, 50)
-	UISprites.apply_btn(english_button, "secondary")
-	english_button.pressed.connect(_on_language_changed.bind("en"))
-	container.add_child(english_button)
-
-func _on_language_changed(lang: String):
-	"""Handle language change"""
+func _on_language_changed(lang: String) -> void:
+	LocaleManager.set_locale(lang)
 	print("[Settings] Language changed to: ", lang)
-	# TODO: Apply language change
 
 func _add_account_info():
 	"""Add account information"""
@@ -132,7 +149,12 @@ func _add_credits():
 	var button = Button.new()
 	button.text = "크레딧 보기"
 	button.custom_minimum_size = Vector2(0, 50)
-	UISprites.apply_btn(button, "secondary")
+	# ── C-05: 저장(확인) 버튼 → KenneyTheme normal ────────────
+	var kenney_c := get_node_or_null("/root/KenneyTheme")
+	if kenney_c and kenney_c.has_method("apply_button_normal"):
+		kenney_c.apply_button_normal(button)
+	else:
+		UISprites.apply_btn(button, "secondary")
 	button.pressed.connect(_on_credits_pressed)
 	settings_list.add_child(button)
 

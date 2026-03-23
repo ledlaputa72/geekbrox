@@ -39,25 +39,8 @@ func _on_exit():
 	pass
 
 func _setup_buttons():
-	"""Setup button connections"""
-	# Apply custom style to skip button
-	var style = StyleBoxFlat.new()
-	style.bg_color = UITheme.COLORS.panel
-	style.corner_radius_top_left = 8
-	style.corner_radius_top_right = 8
-	style.corner_radius_bottom_left = 8
-	style.corner_radius_bottom_right = 8
-	style.content_margin_left = 16
-	style.content_margin_right = 16
-	style.content_margin_top = 12
-	style.content_margin_bottom = 12
-	
-	skip_button.add_theme_stylebox_override("normal", style)
-	skip_button.add_theme_stylebox_override("hover", style)
-	skip_button.add_theme_stylebox_override("pressed", style)
-	skip_button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.subtitle)
-	skip_button.add_theme_color_override("font_color", UITheme.COLORS.text)
-	
+	"""Setup button connections — SVG UI 에셋 적용"""
+	UISprites.apply_btn(skip_button, "secondary")
 	skip_button.pressed.connect(_on_skip_pressed)
 
 func _load_story(story_data: Dictionary):
@@ -69,32 +52,14 @@ func _load_story(story_data: Dictionary):
 	for child in choice_container.get_children():
 		child.queue_free()
 	
-	# Add choice buttons
+	# Add choice buttons — SVG UI 에셋 (primary=노랑)
 	var choices = story_data.get("choices", [])
 	for i in range(choices.size()):
 		var choice_text = choices[i]
 		var btn = Button.new()
 		btn.text = choice_text
-		btn.custom_minimum_size = Vector2(0, 40)
-		
-		# Apply custom style
-		var btn_style = StyleBoxFlat.new()
-		btn_style.bg_color = UITheme.COLORS.primary
-		btn_style.corner_radius_top_left = 8
-		btn_style.corner_radius_top_right = 8
-		btn_style.corner_radius_bottom_left = 8
-		btn_style.corner_radius_bottom_right = 8
-		btn_style.content_margin_left = 16
-		btn_style.content_margin_right = 16
-		btn_style.content_margin_top = 10
-		btn_style.content_margin_bottom = 10
-		
-		btn.add_theme_stylebox_override("normal", btn_style)
-		btn.add_theme_stylebox_override("hover", btn_style)
-		btn.add_theme_stylebox_override("pressed", btn_style)
-		btn.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.body)
-		btn.add_theme_color_override("font_color", UITheme.COLORS.text)
-		
+		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		UISprites.apply_btn(btn, "primary")
 		btn.pressed.connect(_on_choice_pressed.bind(i))
 		choice_container.add_child(btn)
 

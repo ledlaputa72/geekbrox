@@ -17,7 +17,7 @@ border_width_bottom = 2
 border_color = Color(0.2, 0.45, 0.9, 1)
 
 [node name="CharacterScreen" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -44,50 +44,50 @@ theme_override_constants/separation = 12
 alignment = 1
 
 [node name="TitleLabel" type="Label" parent="Header"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Character"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CurrencyBar" type="HBoxContainer" parent="Header"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 16
 
 [node name="GemsPanel" type="HBoxContainer" parent="Header/CurrencyBar"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 4
 
 [node name="GemsIcon" type="Label" parent="Header/CurrencyBar/GemsPanel"]
-layout_mode = 2
+layout_mode = 1
 text = "💎"
 
 [node name="GemsLabel" type="Label" parent="Header/CurrencyBar/GemsPanel"]
-layout_mode = 2
+layout_mode = 1
 text = "0"
 
 [node name="GoldPanel" type="HBoxContainer" parent="Header/CurrencyBar"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 4
 
 [node name="GoldIcon" type="Label" parent="Header/CurrencyBar/GoldPanel"]
-layout_mode = 2
+layout_mode = 1
 text = "🪙"
 
 [node name="GoldLabel" type="Label" parent="Header/CurrencyBar/GoldPanel"]
-layout_mode = 2
+layout_mode = 1
 text = "0"
 
 [node name="EnergyPanel" type="HBoxContainer" parent="Header/CurrencyBar"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 4
 
 [node name="EnergyIcon" type="Label" parent="Header/CurrencyBar/EnergyPanel"]
-layout_mode = 2
+layout_mode = 1
 text = "⚡"
 
 [node name="EnergyLabel" type="Label" parent="Header/CurrencyBar/EnergyPanel"]
-layout_mode = 2
+layout_mode = 1
 text = "0/100"
 
 [node name="Section_Character" type="PanelContainer" parent="."]
@@ -100,23 +100,23 @@ grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_character_bg")
 
 [node name="CharacterVBox" type="VBoxContainer" parent="Section_Character"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 6
 
 [node name="LevelLabel" type="Label" parent="Section_Character/CharacterVBox"]
-layout_mode = 2
+layout_mode = 1
 text = "Lv.1"
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 
 [node name="EquipmentLayout" type="HBoxContainer" parent="Section_Character/CharacterVBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
 alignment = 1
 
 [node name="LeftSlots" type="VBoxContainer" parent="Section_Character/CharacterVBox/EquipmentLayout"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 8
 alignment = 1
 
@@ -136,13 +136,13 @@ slot_type = "necklace"
 slot_label = "📿"
 
 [node name="CharacterDisplay" type="CenterContainer" parent="Section_Character/CharacterVBox/EquipmentLayout"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 custom_minimum_size = Vector2(140, 140)
 
 [node name="CharacterSprite" type="ColorRect" parent="Section_Character/CharacterVBox/EquipmentLayout/CharacterDisplay"]
 custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
+layout_mode = 1
 color = Color(0.35, 0.4, 0.5, 1)
 
 [node name="SpriteClickArea" type="Button" parent="Section_Character/CharacterVBox/EquipmentLayout/CharacterDisplay"]
@@ -152,11 +152,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
+focus_mode = 0
 flat = true
 text = ""
 
 [node name="RightSlots" type="VBoxContainer" parent="Section_Character/CharacterVBox/EquipmentLayout"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 8
 alignment = 1
 
@@ -176,90 +178,90 @@ slot_type = "necklace"
 slot_label = "📿"
 
 [node name="CombatPowerRow" type="HBoxContainer" parent="Section_Character/CharacterVBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="CombatPowerIcon" type="Label" parent="Section_Character/CharacterVBox/CombatPowerRow"]
-layout_mode = 2
+layout_mode = 1
 text = "⚔"
 theme_override_colors/font_color = Color(0.95, 0.8, 0.2, 1)
 
 [node name="CombatPowerLabel" type="Label" parent="Section_Character/CharacterVBox/CombatPowerRow"]
-layout_mode = 2
+layout_mode = 1
 text = "전투력"
 theme_override_font_sizes/font_size = 11
 theme_override_colors/font_color = Color(0.75, 0.75, 0.8, 1)
 
 [node name="CombatPowerValue" type="Label" parent="Section_Character/CharacterVBox/CombatPowerRow"]
-layout_mode = 2
+layout_mode = 1
 text = "0"
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.95, 0.8, 0.2, 1)
 
 [node name="StatsRow" type="HBoxContainer" parent="Section_Character/CharacterVBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 theme_override_constants/separation = 16
 alignment = 1
 
 [node name="HpStat" type="HBoxContainer" parent="Section_Character/CharacterVBox/StatsRow"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 4
 alignment = 1
 
 [node name="HpIcon" type="Label" parent="Section_Character/CharacterVBox/StatsRow/HpStat"]
-layout_mode = 2
+layout_mode = 1
 text = "❤"
 theme_override_colors/font_color = Color(0.9, 0.35, 0.35, 1)
 
 [node name="HpValue" type="Label" parent="Section_Character/CharacterVBox/StatsRow/HpStat"]
-layout_mode = 2
+layout_mode = 1
 text = "100"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 
 [node name="AtkStat" type="HBoxContainer" parent="Section_Character/CharacterVBox/StatsRow"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 4
 alignment = 1
 
 [node name="AtkIcon" type="Label" parent="Section_Character/CharacterVBox/StatsRow/AtkStat"]
-layout_mode = 2
+layout_mode = 1
 text = "⚔"
 theme_override_colors/font_color = Color(0.95, 0.75, 0.2, 1)
 
 [node name="AtkValue" type="Label" parent="Section_Character/CharacterVBox/StatsRow/AtkStat"]
-layout_mode = 2
+layout_mode = 1
 text = "40"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 
 [node name="DefStat" type="HBoxContainer" parent="Section_Character/CharacterVBox/StatsRow"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 4
 alignment = 1
 
 [node name="DefIcon" type="Label" parent="Section_Character/CharacterVBox/StatsRow/DefStat"]
-layout_mode = 2
+layout_mode = 1
 text = "🛡"
 theme_override_colors/font_color = Color(0.3, 0.7, 0.9, 1)
 
 [node name="DefValue" type="Label" parent="Section_Character/CharacterVBox/StatsRow/DefStat"]
-layout_mode = 2
+layout_mode = 1
 text = "10"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 
 [node name="SpdStat" type="HBoxContainer" parent="Section_Character/CharacterVBox/StatsRow"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 4
 alignment = 1
 
 [node name="SpdIcon" type="Label" parent="Section_Character/CharacterVBox/StatsRow/SpdStat"]
-layout_mode = 2
+layout_mode = 1
 text = "💨"
 theme_override_colors/font_color = Color(0.5, 0.9, 0.7, 1)
 
 [node name="SpdValue" type="Label" parent="Section_Character/CharacterVBox/StatsRow/SpdStat"]
-layout_mode = 2
+layout_mode = 1
 text = "10"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 
@@ -276,7 +278,7 @@ alignment = 1
 theme_override_constants/separation = 8
 
 [node name="InventoryTitleLabel" type="Label" parent="InventoryHeader"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "보유 장비"
 theme_override_font_sizes/font_size = 14
@@ -284,7 +286,7 @@ theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
 vertical_alignment = 1
 
 [node name="SortButton" type="Button" parent="InventoryHeader"]
-layout_mode = 2
+layout_mode = 1
 custom_minimum_size = Vector2(80, 32)
 text = "등급순 ▾"
 theme_override_font_sizes/font_size = 11
@@ -302,12 +304,12 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="InventoryScroll" type="ScrollContainer" parent="Section_Inventory"]
-layout_mode = 2
+layout_mode = 1
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
 [node name="ItemGrid" type="GridContainer" parent="Section_Inventory/InventoryScroll"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 columns = 5
 theme_override_constants/h_separation = 4

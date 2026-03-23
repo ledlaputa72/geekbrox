@@ -38,10 +38,10 @@ func is_major_arcana() -> bool:
 
 # 메인/서브 카테고리 표시명 (UI·필터용)
 const SUB_CATEGORY_DISPLAY = {
-	"GUARD": "\uAC00\uB4DC", "PARRY": "\uD328\uB9C1", "DODGE": "\uD68C\uD53C",
-	"ARMOR": "\uC544\uBA38", "HP": "\uCCB4\uB825",
-	"SINGLE": "\uB2E8\uD0C4", "AOE": "\uAD11\uC5ED", "DEBUFF": "\uB514\uBC84\uD504", "BUFF": "\uBC84\uD504", "UTILITY": "\uC720\uD2B9",
-	"DRAW": "\uB4DC\uB85C\uC6B0",
+	"GUARD": "가드", "PARRY": "패링", "DODGE": "회피",
+	"ARMOR": "아머", "HP": "체력",
+	"SINGLE": "단탄", "AOE": "광역", "DEBUFF": "디버프", "BUFF": "버프", "UTILITY": "유특",
+	"DRAW": "드로우",
 }
 func get_sub_category_display_name() -> String:
 	return SUB_CATEGORY_DISPLAY.get(sub_category, sub_category) if sub_category else ""

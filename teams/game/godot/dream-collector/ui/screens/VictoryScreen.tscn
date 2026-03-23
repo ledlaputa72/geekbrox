@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/screens/VictoryScreen.gd" id="1_victory"]
 
 [node name="VictoryScreen" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -33,16 +33,16 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TitleLabel" type="Label" parent="VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "🎉 VICTORY! 🎉"
 horizontal_alignment = 1
 
 [node name="Spacer1" type="Control" parent="VBox"]
 custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
+layout_mode = 1
 
 [node name="StatsPanel" type="Panel" parent="VBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_vertical = 3
 
 [node name="StatsVBox" type="VBoxContainer" parent="VBox/StatsPanel"]
@@ -58,46 +58,46 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="StatsTitle" type="Label" parent="VBox/StatsPanel/StatsVBox"]
-layout_mode = 2
+layout_mode = 1
 text = "Combat Statistics"
 horizontal_alignment = 1
 
 [node name="HSeparator1" type="HSeparator" parent="VBox/StatsPanel/StatsVBox"]
-layout_mode = 2
+layout_mode = 1
 
 [node name="TurnsLabel" type="Label" parent="VBox/StatsPanel/StatsVBox"]
-layout_mode = 2
+layout_mode = 1
 text = "Turns: 15"
 
 [node name="DamageLabel" type="Label" parent="VBox/StatsPanel/StatsVBox"]
-layout_mode = 2
+layout_mode = 1
 text = "Total Damage: 120"
 
 [node name="TimeLabel" type="Label" parent="VBox/StatsPanel/StatsVBox"]
-layout_mode = 2
+layout_mode = 1
 text = "Time: 2:34"
 
 [node name="HSeparator2" type="HSeparator" parent="VBox/StatsPanel/StatsVBox"]
-layout_mode = 2
+layout_mode = 1
 
 [node name="RewardsTitle" type="Label" parent="VBox/StatsPanel/StatsVBox"]
-layout_mode = 2
+layout_mode = 1
 text = "Rewards"
 horizontal_alignment = 1
 
 [node name="GoldLabel" type="Label" parent="VBox/StatsPanel/StatsVBox"]
-layout_mode = 2
+layout_mode = 1
 text = "🪙 Gold: +50"
 
 [node name="ReveriesLabel" type="Label" parent="VBox/StatsPanel/StatsVBox"]
-layout_mode = 2
+layout_mode = 1
 text = "💎 Reveries: +10"
 
 [node name="Spacer2" type="Control" parent="VBox"]
 custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
+layout_mode = 1
 
 [node name="ContinueButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
+layout_mode = 1
 text = "Continue"

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://event_log" path="res://ui/components/EventLog.tscn" id="4"]
 
 [node name="InRun" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

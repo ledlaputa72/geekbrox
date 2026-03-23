@@ -33,14 +33,12 @@ var background_offset: float = 0.0
 @onready var start_energy_label: Label = $ActionButtons/StartButton/EnergyLabel
 @onready var deck_button: Button = $ActionButtons/DeckButton
 
-# BottomNav
+# BottomNav (동일 컴포넌트 사용 → 다른 탭과 같은 탭 스타일)
+@onready var bottom_nav = $BottomNav
 @onready var home_tab: Button = $BottomNav/HomeTab
 @onready var cards_tab: Button = $BottomNav/CardsTab
 @onready var upgrade_tab: Button = $BottomNav/UpgradeTab
-@onready var character_tab: Button = $BottomNav/CharacterTab
 @onready var shop_tab: Button = $BottomNav/ShopTab
-
-var tab_buttons: Array = []
 
 # DreamItem Scene
 const DreamItemScene = preload("res://ui/components/DreamItem.tscn")
@@ -51,19 +49,19 @@ var currently_expanded_item = null  # Track currently expanded DreamItem for acc
 
 # ─── 초기화 ──────────────────────────────────────────
 func _ready() -> void:
-	tab_buttons = [home_tab, cards_tab, upgrade_tab, character_tab, shop_tab]
-	
 	apply_styles()
 	setup_hero_character()
 	setup_signals()
 	load_past_dreams()
 	update_display()
-	set_active_tab(0)
-	
+	bottom_nav.set_active_tab(0)
+	_apply_translations()
+	if LocaleManager:
+		LocaleManager.locale_changed.connect(_on_locale_changed)
 	print("[MainLobbyUI] Main lobby ready.")
 
 func setup_hero_character():
-	"""Setup hero sprite in viewport (HomeHeroSprite — 걷기 애니메이션)"""
+	# Setup hero sprite in viewport (HomeHeroSprite — 걷기 애니메이션)
 	if hero_sprite:
 		print("[MainLobbyUI] Hero walk sprite initialized")
 
@@ -84,19 +82,99 @@ func _process(delta: float) -> void:
 # ─── 스타일 적용 ─────────────────────────────────────
 func apply_styles() -> void:
 	background.color = UITheme.COLORS.bg
-	
-	UISprites.apply_panel(viewport_frame, UISprites.panel_frame(), 18)
+
+	UISprites.apply_panel(viewport_frame, UISprites.panel_frame(), 8)
 
 	dreams_header.add_theme_font_size_override("font_size", 16)
-	dreams_header.add_theme_color_override("font_color", UITheme.COLORS.text)
+	dreams_header.add_theme_color_override("font_color", UITheme.COLORS.get("text_on_dark", Color.WHITE))
 
-	UISprites.apply_btn(start_button, "primary")
+	# ── 메인 액션 버튼 — UI Pack button_rectangle_depth_flat ──
+	UISprites.apply_btn(start_button, "green")    # 탐험 시작: 녹색 CTA
 	start_button.add_theme_font_size_override("font_size", 18)
 	start_energy_label.add_theme_font_size_override("font_size", 16)
 	start_energy_label.add_theme_color_override("font_color", UITheme.COLORS.warning)
 
-	UISprites.apply_btn(deck_button, "secondary")
+	UISprites.apply_btn(deck_button, "secondary") # 덱 설정: 회색 보조
 	deck_button.add_theme_font_size_override("font_size", 18)
+
+	# ── 재화 칩(TopBar) — hud_pill SVG NinePatch ───────────
+	_apply_currency_pill_style()
+
+	# CurrencyBar: replace emoji with pixel icons if available
+	_apply_currency_pixel_icons()
+
+func _apply_currency_pill_style() -> void:
+	"""재화 칩 패널에 hud_pill.svg NinePatch 스타일 적용"""
+	var pill_tex := UISprites.hud_pill()
+	if pill_tex == null:
+		return
+	for panel_path in ["CurrencyBar/EnergyPanel", "CurrencyBar/GemsPanel", "CurrencyBar/GoldPanel"]:
+		var panel := get_node_or_null(panel_path)
+		if panel:
+			UISprites.apply_panel(panel, pill_tex, 8)
+
+func _apply_currency_pixel_icons() -> void:
+	if not UIManager:
+		return
+	var keys := [
+		{"hbox": "CurrencyBar/GemsPanel/GemsHBox",   "icon": "diamond"},
+		{"hbox": "CurrencyBar/GoldPanel/GoldHBox",   "icon": "coin"},
+		{"hbox": "CurrencyBar/EnergyPanel/EnergyHBox", "icon": "energy"},
+	]
+	for k in keys:
+		var panel := get_node_or_null(k.hbox) as HBoxContainer
+		if panel == null:
+			continue
+		# find first Label (emoji)
+		var emoji_label: Label = null
+		for c in panel.get_children():
+			if c is Label:
+				emoji_label = c
+				break
+		if emoji_label == null:
+			continue
+		var tex := UIManager.get_pixel_icon(k.icon)
+		if tex == null:
+			continue
+		# 중복 추가 방지
+		var already := false
+		for c in panel.get_children():
+			if c is TextureRect:
+				already = true
+				break
+		if already:
+			emoji_label.visible = false
+			continue
+		var icon_rect := TextureRect.new()
+		icon_rect.custom_minimum_size = Vector2(24, 24)
+		icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon_rect.texture = tex
+		icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var idx := emoji_label.get_index()
+		panel.add_child(icon_rect)
+		panel.move_child(icon_rect, idx)
+		emoji_label.visible = false
+
+func _apply_translations() -> void:
+	if dreams_header:
+		dreams_header.text = tr("lobby.past_dreams")
+	if start_button:
+		start_button.text = tr("lobby.start_explore")
+	if deck_button:
+		deck_button.text = tr("lobby.deck_setting")
+	if bottom_nav:
+		bottom_nav.set_tab_labels(
+			tr("lobby.tab_home"),
+			tr("lobby.tab_cards"),
+			tr("lobby.tab_upgrade"),
+			tr("lobby.tab_character"),
+			tr("lobby.tab_shop")
+		)
+
+func _on_locale_changed(_locale_code: String) -> void:
+	_apply_translations()
+	load_past_dreams()
 
 # ─── 시그널 연결 ─────────────────────────────────────
 func setup_signals() -> void:
@@ -110,12 +188,8 @@ func setup_signals() -> void:
 	start_button.pressed.connect(_on_start_pressed)
 	deck_button.pressed.connect(_on_deck_pressed)
 	
-	# Tabs
-	home_tab.pressed.connect(_on_tab_pressed.bind(0))
-	cards_tab.pressed.connect(_on_tab_pressed.bind(1))
-	upgrade_tab.pressed.connect(_on_tab_pressed.bind(2))
-	character_tab.pressed.connect(_on_tab_pressed.bind(3))
-	shop_tab.pressed.connect(_on_tab_pressed.bind(4))
+	# BottomNav 탭 (컴포넌트가 시그널 발사 → 여기서 수신)
+	bottom_nav.tab_pressed.connect(_on_tab_pressed)
 
 # ─── 지난 꿈들 로드 ──────────────────────────────────
 func load_past_dreams() -> void:
@@ -123,42 +197,57 @@ func load_past_dreams() -> void:
 	for child in dreams_container.get_children():
 		child.queue_free()
 	
+	var dream_title_key := tr("lobby.dream_title")
+	# #region agent log
+	var _agent_log_path = "/Users/stevemacbook/Projects/geekbrox/.cursor/debug-e7b017.log"
+	var _f = FileAccess.open(_agent_log_path, FileAccess.READ_WRITE)
+	if _f:
+		_f.seek_end()
+		_f.store_line(JSON.stringify({"sessionId": "e7b017", "location": "MainLobbyUI.gd:load_past_dreams", "message": "dream_title_key", "data": {"key": "lobby.dream_title", "value": dream_title_key, "len": dream_title_key.length()}, "timestamp": int(Time.get_ticks_msec()), "hypothesisId": "H1"}))
+		_f.close()
+	# #endregion agent log
 	# 임시 데이터 생성
 	past_dreams = [
 		{
 			"id": 1,
-			"title": "#1 꿈 제목",
+			"title": "#1 " + dream_title_key,
 			"rarity": "common",
-			"story": ["꿈 이야기1.", "꿈 이야기2.", "꿈 이야기3.", "꿈 이야기4."],
+			"story": ["Story 1.", "Story 2.", "Story 3.", "Story 4."],
 			"gold_reward": 50,
-			"extra_claimed": false
+			"extra_claimed": false,
 		},
 		{
 			"id": 2,
-			"title": "#2 꿈 제목",
+			"title": "#2 " + dream_title_key,
 			"rarity": "common",
-			"story": ["꿈 이야기1.", "꿈 이야기2.", "꿈 이야기3.", "꿈 이야기4."],
+			"story": ["Story 1.", "Story 2.", "Story 3.", "Story 4."],
 			"gold_reward": 50,
-			"extra_claimed": false
+			"extra_claimed": false,
 		},
 		{
 			"id": 3,
-			"title": "#3 꿈 제목",
+			"title": "#3 " + dream_title_key,
 			"rarity": "rare",
-			"story": ["꿈 이야기1.", "꿈 이야기2.", "꿈 이야기3.", "꿈 이야기4."],
+			"story": ["Story 1.", "Story 2.", "Story 3.", "Story 4."],
 			"gold_reward": 100,
-			"extra_claimed": false
+			"extra_claimed": false,
 		},
 		{
 			"id": 4,
-			"title": "#3 꿈 제목",
+			"title": "#3 " + dream_title_key,
 			"rarity": "epic",
-			"story": ["꿈 이야기1.", "꿈 이야기2.", "꿈 이야기3.", "꿈 이야기4."],
+			"story": ["Story 1.", "Story 2.", "Story 3.", "Story 4."],
 			"gold_reward": 200,
-			"extra_claimed": false
-		}
+			"extra_claimed": false,
+		},
 	]
-	
+	# #region agent log
+	_f = FileAccess.open(_agent_log_path, FileAccess.READ_WRITE)
+	if _f:
+		_f.seek_end()
+		_f.store_line(JSON.stringify({"sessionId": "e7b017", "location": "MainLobbyUI.gd:load_past_dreams", "message": "first_past_dream_title", "data": {"title": past_dreams[0].title}, "timestamp": int(Time.get_ticks_msec()), "hypothesisId": "H4"}))
+		_f.close()
+	# #endregion agent log
 	# DreamItem 생성
 	for dream_data in past_dreams:
 		var dream_item = DreamItemScene.instantiate()
@@ -182,11 +271,11 @@ func update_display() -> void:
 	gold_label.text = "5"
 	start_energy_label.text = "⚡ 3"
 
-func _on_energy_changed(new_amount: int) -> void:
-	energy_label.text = str(new_amount)
+func _on_energy_changed(_new_amount: int) -> void:
+	energy_label.text = str(_new_amount)
 
-func _on_gems_changed(new_amount: int) -> void:
-	gems_label.text = str(new_amount)
+func _on_gems_changed(_new_amount: int) -> void:
+	gems_label.text = str(_new_amount)
 
 # ─── 이벤트 핸들러 ───────────────────────────────────
 func _on_start_pressed() -> void:
@@ -221,32 +310,19 @@ func _on_dream_reward_claimed(dream_id: int) -> void:
 	# TODO: Add gold to player
 
 func _on_tab_pressed(tab_index: int) -> void:
-	set_active_tab(tab_index)
-	
+	if bottom_nav and bottom_nav.has_method("set_active_tab"):
+		bottom_nav.call_deferred("set_active_tab", tab_index)
 	match tab_index:
 		0:  # Home
-			print("[MainLobbyUI] Already on Home")
+			pass
 		1:  # Cards
-			print("[MainLobbyUI] Navigate to Card Library")
 			get_tree().change_scene_to_file("res://ui/screens/CardLibrary.tscn")
 		2:  # Upgrade
-			print("[MainLobbyUI] Navigate to Upgrade Tree")
 			get_tree().change_scene_to_file("res://ui/screens/UpgradeTree.tscn")
-		3:  # Character (Equipment)
+		3:  # Character
 			get_tree().change_scene_to_file("res://ui/screens/CharacterScreen.tscn")
 		4:  # Shop
-			print("[MainLobbyUI] Navigate to Shop")
 			get_tree().change_scene_to_file("res://ui/screens/Shop.tscn")
-
-func set_active_tab(tab_index: int) -> void:
-	for i in range(tab_buttons.size()):
-		var button = tab_buttons[i]
-		UISprites.apply_btn(button, "primary" if i == tab_index else "secondary")
-		button.add_theme_font_size_override("font_size", UITheme.FONT_SIZES.small)
-		if i == tab_index:
-			button.add_theme_color_override("font_color", UITheme.COLORS.text)
-		else:
-			button.add_theme_color_override("font_color", UITheme.COLORS.text_dim)
 
 # ─── 치트 코드 ───────────────────────────────────────
 func _input(event: InputEvent) -> void:

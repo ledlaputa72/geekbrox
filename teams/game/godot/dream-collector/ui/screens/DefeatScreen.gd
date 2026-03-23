@@ -25,7 +25,7 @@ func _ready():
 	_update_display()
 
 func _apply_theme_styles():
-	UISprites.apply_panel(stats_panel, UISprites.panel_dark(), 18)
+	UISprites.apply_panel(stats_panel, UISprites.panel_dark(), 8)
 	UISprites.apply_btn(retry_button, "red")
 	title_label.add_theme_font_size_override("font_size", 32)
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.danger)
@@ -56,7 +56,7 @@ func _update_display():
 	time_label.text = "Time: %d:%02d" % [minutes, seconds]
 	
 	node_label.text = "Reached Node: %d/%d" % [nodes_completed, total_nodes]
-	reveries_label.text = "💎 Reveries Collected: %d" % reveries_collected
+	reveries_label.text = "\U0001F48E Reveries Collected: %d" % reveries_collected
 
 func _on_retry_pressed():
 	# Return to main lobby (run failed)

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bottomnav_component" path="res://ui/components/BottomNav.tscn" id="2_bottomnav"]
 
 [node name="CardLibrary" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,7 +32,7 @@ offset_left = 16.0
 offset_right = -16.0
 
 [node name="TitleLabel" type="Label" parent="TopBar/HBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Card Library"
 theme_override_font_sizes/font_size = 20
@@ -40,7 +40,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DeckButton" type="Button" parent="TopBar/HBox"]
-layout_mode = 2
+layout_mode = 1
 text = "🃏 Deck"
 
 [node name="FilterBar" type="HBoxContainer" parent="."]
@@ -49,28 +49,34 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_top = 60.0
 offset_bottom = 110.0
-alignment = 1
-theme_override_constants/separation = 8
+offset_left = 4.0
+offset_right = -4.0
+theme_override_constants/separation = 4
 
 [node name="AllButton" type="Button" parent="FilterBar"]
-layout_mode = 2
+layout_mode = 1
+size_flags_horizontal = 3
 text = "All"
 
 [node name="AttackButton" type="Button" parent="FilterBar"]
-layout_mode = 2
-text = "⚔️ Attack"
+layout_mode = 1
+size_flags_horizontal = 3
+text = "Attack"
 
 [node name="DefenseButton" type="Button" parent="FilterBar"]
-layout_mode = 2
-text = "🛡️ Defense"
+layout_mode = 1
+size_flags_horizontal = 3
+text = "Skill"
 
 [node name="SkillButton" type="Button" parent="FilterBar"]
-layout_mode = 2
-text = "✨ Skill"
+layout_mode = 1
+size_flags_horizontal = 3
+text = "Power"
 
 [node name="PowerButton" type="Button" parent="FilterBar"]
-layout_mode = 2
-text = "⚡ Power"
+layout_mode = 1
+size_flags_horizontal = 3
+text = "Curse"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -82,17 +88,17 @@ offset_bottom = -60.0
 horizontal_scroll_mode = 0
 
 [node name="CenterContainer" type="CenterContainer" parent="ScrollContainer"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/CenterContainer"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="CardGrid" type="GridContainer" parent="ScrollContainer/CenterContainer/MarginContainer"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
 columns = 3

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://alert_modal" path="res://ui/components/AlertModal.tscn" id="2"]
 
 [node name="Shop" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,11 +32,11 @@ offset_left = 16.0
 offset_right = -16.0
 
 [node name="BackButton" type="Button" parent="TopBar/HBox"]
-layout_mode = 2
+layout_mode = 1
 text = "← Back"
 
 [node name="TitleLabel" type="Label" parent="TopBar/HBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 text = "Shop"
 theme_override_font_sizes/font_size = 20
@@ -44,16 +44,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RevariesCounter" type="HBoxContainer" parent="TopBar/HBox"]
-layout_mode = 2
+layout_mode = 1
 alignment = 2
 
 [node name="Icon" type="Label" parent="TopBar/HBox/RevariesCounter"]
-layout_mode = 2
+layout_mode = 1
 text = "💎"
 theme_override_font_sizes/font_size = 16
 
 [node name="CountLabel" type="Label" parent="TopBar/HBox/RevariesCounter"]
-layout_mode = 2
+layout_mode = 1
 text = "0"
 theme_override_font_sizes/font_size = 16
 
@@ -67,15 +67,15 @@ alignment = 1
 theme_override_constants/separation = 8
 
 [node name="CardsTabButton" type="Button" parent="TabBar"]
-layout_mode = 2
+layout_mode = 1
 text = "🎴 Cards"
 
 [node name="UpgradesTabButton" type="Button" parent="TabBar"]
-layout_mode = 2
+layout_mode = 1
 text = "⬆️ Upgrades"
 
 [node name="CosmeticsTabButton" type="Button" parent="TabBar"]
-layout_mode = 2
+layout_mode = 1
 text = "✨ Cosmetics"
 
 [node name="ContentContainer" type="Control" parent="."]
@@ -94,17 +94,17 @@ anchor_bottom = 1.0
 horizontal_scroll_mode = 0
 
 [node name="CenterContainer" type="CenterContainer" parent="ContentContainer/CardsTab"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="ContentContainer/CardsTab/CenterContainer"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="CardsGrid" type="GridContainer" parent="ContentContainer/CardsTab/CenterContainer/MarginContainer"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
 columns = 3
@@ -118,19 +118,19 @@ visible = false
 horizontal_scroll_mode = 0
 
 [node name="VBox" type="VBoxContainer" parent="ContentContainer/UpgradesTab"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
 [node name="MarginContainer" type="MarginContainer" parent="ContentContainer/UpgradesTab/VBox"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="UpgradesGrid" type="VBoxContainer" parent="ContentContainer/UpgradesTab/VBox/MarginContainer"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/separation = 12
 
 [node name="CosmeticsTab" type="ScrollContainer" parent="ContentContainer"]
@@ -142,17 +142,17 @@ visible = false
 horizontal_scroll_mode = 0
 
 [node name="CenterContainer" type="CenterContainer" parent="ContentContainer/CosmeticsTab"]
-layout_mode = 2
+layout_mode = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="ContentContainer/CosmeticsTab/CenterContainer"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="CosmeticsGrid" type="GridContainer" parent="ContentContainer/CosmeticsTab/CenterContainer/MarginContainer"]
-layout_mode = 2
+layout_mode = 1
 theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
 columns = 3
@@ -169,31 +169,31 @@ theme_override_constants/separation = 0
 
 [node name="HomeTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
+layout_mode = 1
 text = "🏠
 Home"
 
 [node name="CardsTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
+layout_mode = 1
 text = "🎴
 Cards"
 
 [node name="UpgradeTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
+layout_mode = 1
 text = "⬆️
 Upgrade"
 
 [node name="ProgressTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
+layout_mode = 1
 text = "📊
 Progress"
 
 [node name="ShopTab" type="Button" parent="BottomNav"]
 custom_minimum_size = Vector2(78, 60)
-layout_mode = 2
+layout_mode = 1
 text = "🛒
 Shop"
 

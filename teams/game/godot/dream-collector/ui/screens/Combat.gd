@@ -93,9 +93,15 @@ func _setup_monsters_horizontal():
 			m4_atb.visible = false
 
 func _apply_theme_styles():
+	# ── C-04: 메인 액션 버튼 ─────────────────────────────────
 	UISprites.apply_btn(end_turn_button, "primary")
 	UISprites.apply_btn(auto_button, "green")
 	UISprites.apply_btn(menu_button, "secondary")
+	# ── C-04: HP / ATB 바 → SVG bars ────────────────────────
+	if hero_hp_bar:
+		UISprites.apply_bar(hero_hp_bar, "hp")
+	if hero_atb_bar:
+		UISprites.apply_bar(hero_atb_bar, "atb")
 
 func _setup_buttons():
 	end_turn_button.pressed.connect(_on_end_turn_pressed)
@@ -289,7 +295,7 @@ func _update_atb_bars():
 	return
 	# (ATB system still runs in background for timing)
 
-func _on_entity_updated(entity_type: String, index: int):
+func _on_entity_updated(entity_type: String, _index: int):
 	if entity_type == "hero":
 		_update_hero_ui()
 	elif entity_type == "monster":

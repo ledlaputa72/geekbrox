@@ -1,11 +1,29 @@
 # UIManager.gd
 # UI 스프라이트 텍스처 관리 싱글톤
-# res://assets/ui/sprites/ 하위 스프라이트 일괄 관리
-# (기존 godot_ui_sprites/ 경로 제거 → assets/ui/sprites/ 통합)
+# SVG UI 에셋 사용 (assets/ui/sprites/)
 
 extends Node
 
-const UI_PATH = "res://assets/ui/sprites/"
+# SVG UI
+const UI_PATH := "res://assets/ui/sprites/"
+const PIXEL_ICON_PATH := "res://assets/ui/pixel/icons/"
+
+const PIXEL_ICONS := {
+	"settings": "icon_settings.png",
+	"diamond":  "icon_diamond.png",
+	"coin":     "icon_coin.png",
+	"energy":   "icon_energy.png",
+	"nav_home": "icon_nav_home.png",
+	"nav_cards": "icon_nav_cards.png",
+	"nav_upgrade": "icon_nav_upgrade.png",
+	"nav_character": "icon_nav_character.png",
+	"nav_shop": "icon_nav_shop.png",
+	"nav_locked": "icon_nav_locked.png",
+	"equip_weapon": "icon_equip_weapon.png",
+	"equip_armor": "icon_equip_armor.png",
+	"equip_ring": "icon_equip_ring.png",
+	"equip_necklace": "icon_equip_necklace.png",
+}
 
 # ─── 텍스처 경로 테이블 ──────────────────────────────
 const BTN_TEXTURES = {
@@ -24,7 +42,6 @@ const CARD_TEXTURES = {
 	"Curse":  "cards/card_curse.svg",
 }
 
-# items/ → slots/ (파일명 변경)
 const ITEM_SLOT_TEXTURES = {
 	"COMMON":    "slots/slot_normal.svg",
 	"RARE":      "slots/slot_rare.svg",
@@ -34,14 +51,14 @@ const ITEM_SLOT_TEXTURES = {
 	"EMPTY":     "slots/slot_empty.svg",
 }
 
-# ui_panels/dream_*.svg → lists/list_item_*.svg
+# lists/list_item_*.svg
 const DREAM_TEXTURES = {
 	"common": "lists/list_item_normal.svg",
 	"rare":   "lists/list_item_rare.svg",
 	"epic":   "lists/list_item_legend.svg",
 }
 
-# ui_panels/panel.svg 등 → panels/, hud/, bars/, tabs/, badges/ 로 분산
+# panels/, hud/, bars/, tabs/, badges/, misc/
 const PANEL_TEXTURES = {
 	"panel":       "panels/panel_frame.svg",
 	"modal":       "panels/modal_frame.svg",
@@ -59,33 +76,49 @@ const PANEL_TEXTURES = {
 	"coin":        "badges/coin_badge.svg",
 	"notif":       "badges/notif_badge.svg",
 	"divider":     "misc/divider_gold.svg",
+	"overlay":     "misc/popup_overlay.svg",
+	"mana_circle_fill":  "misc/mana_circle_fill.svg",
+	"mana_circle_track": "misc/mana_circle_track.svg",
 }
 
 # ─── 내부 로더 ───────────────────────────────────────
 func _load_tex(rel: String) -> Texture2D:
-	var path := UI_PATH + rel
+	var path: String = UI_PATH + rel
 	if ResourceLoader.exists(path):
 		return load(path)
 	push_warning("[UIManager] 텍스처 없음: " + path)
 	return null
 
+func _load_pixel_icon(name_key: String) -> Texture2D:
+	var rel: String = PIXEL_ICONS.get(name_key, "")
+	if rel.is_empty():
+		return null
+	var path: String = PIXEL_ICON_PATH + rel
+	if ResourceLoader.exists(path):
+		return load(path)
+	return null
+
+# 픽셀 스타일 아이콘 (탑바·재화·스탯 등)
+func get_pixel_icon(name_key: String) -> Texture2D:
+	return _load_pixel_icon(name_key)
+
 # ─── 텍스처 게터 ─────────────────────────────────────
 func get_button_texture(type: String) -> Texture2D:
-	return _load_tex(BTN_TEXTURES.get(type, BTN_TEXTURES["primary"]))
+	return _load_tex(BTN_TEXTURES.get(type, BTN_TEXTURES["primary"]) as String)
 
 func get_card_texture(card_type: String) -> Texture2D:
 	# "Attack"/"attack"/"ATTACK" 모두 허용
-	var key := card_type.to_lower().capitalize()
-	return _load_tex(CARD_TEXTURES.get(key, CARD_TEXTURES["Attack"]))
+	var key: String = card_type.to_lower().capitalize()
+	return _load_tex(CARD_TEXTURES.get(key, CARD_TEXTURES["Attack"]) as String)
 
 func get_item_slot_texture(rarity: String) -> Texture2D:
-	return _load_tex(ITEM_SLOT_TEXTURES.get(rarity, ITEM_SLOT_TEXTURES["EMPTY"]))
+	return _load_tex(ITEM_SLOT_TEXTURES.get(rarity, ITEM_SLOT_TEXTURES["EMPTY"]) as String)
 
 func get_dream_texture(rarity: String) -> Texture2D:
-	return _load_tex(DREAM_TEXTURES.get(rarity.to_lower(), DREAM_TEXTURES["common"]))
+	return _load_tex(DREAM_TEXTURES.get(rarity.to_lower(), DREAM_TEXTURES["common"]) as String)
 
 func get_panel_texture(type: String) -> Texture2D:
-	return _load_tex(PANEL_TEXTURES.get(type, PANEL_TEXTURES["panel"]))
+	return _load_tex(PANEL_TEXTURES.get(type, PANEL_TEXTURES["panel"]) as String)
 
 # ─── 버튼 스프라이트 적용 ────────────────────────────
 # UISprites.apply_btn에 위임 (hover=밝게, pressed=어둡게)
@@ -108,15 +141,16 @@ func apply_button_sprite(button: Button, type: String = "primary") -> void:
 
 func _make_btn_stylebox(tex: Texture2D, tint: Color) -> StyleBoxTexture:
 	var sb := StyleBoxTexture.new()
-	sb.texture             = tex
-	sb.texture_margin_left  = 40
-	sb.texture_margin_right = 40
-	sb.texture_margin_top   = 14
-	sb.texture_margin_bottom = 14
-	sb.content_margin_left  = 16
-	sb.content_margin_right = 16
-	sb.content_margin_top   = 8
-	sb.content_margin_bottom = 8
+	sb.texture               = tex
+	# SVG 300×80, rx=24 → 캡 너비 ≈27px. 30px 마진으로 좌우 캡 완전 보존
+	sb.texture_margin_left   = 30
+	sb.texture_margin_right  = 30
+	sb.texture_margin_top    = 20
+	sb.texture_margin_bottom = 20
+	sb.content_margin_left   = 16
+	sb.content_margin_right  = 16
+	sb.content_margin_top    = 10
+	sb.content_margin_bottom = 12
 	sb.modulate_color = tint
 	return sb
 

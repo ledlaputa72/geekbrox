@@ -12,7 +12,12 @@ const BAR_HEIGHT = 25
 const CAPSULE_MARGIN = 4
 const NODE_SIZE = 20
 const CURRENT_NODE_SIZE = 28
+# 첫/마지막 노드가 바 안쪽에 완전히 들어오도록 추가 패딩 (CURRENT_NODE_SIZE/2 + 여유)
+const NODE_PADDING: int = 18
 const PIN_SIZE = 12
+
+# 배경(캡슐) 좌우 확장량. 양수=바깥쪽으로 확장, 음수=안쪽으로 축소. 씬별로 설정.
+@export var bg_extend: int = 0
 const NODE_NUMBER_FONT_SIZE = 10
 const ELLIPSIS = "..."
 # 선 두께: 원(NODE_SIZE) 대비 비율
@@ -234,20 +239,20 @@ func _get_segment_and_fill(progress_ratio: float = 0.0) -> Array:
 		seg_end = float(_event_indices[vis[seg + 1]])
 	var fill: float = 0.0
 	var n_ev: int = _event_indices.size()
-	# (1)-(n-2)-(n-1)-(n) 마지막 3이벤트 뷰: (5) 깬 직후 (1) 오른쪽에서 시작, (6) 도착 시 fill=1
+	# (1)-(n-2)-(n-1)-(n) 마지막 3이벤트 뷰: 첫 이벤트(1)부터 (6)까지 전체 진행도 표시
 	if n_ev >= 4 and vis.size() == 4 and vis[0] == 0 and vis[1] == n_ev - 3 and seg == 0:
-		var start_after_prev: float = float(_event_indices[n_ev - 4]) + 1.0  # (5) 직후 노드
+		var start_pos: float = float(_event_indices[vis[0]])  # 첫 이벤트(1) 위치를 기준으로
 		var end_at_c: float = float(_event_indices[n_ev - 3])  # (6) 도착
-		if end_at_c > start_after_prev:
-			fill = (pos - start_after_prev) / (end_at_c - start_after_prev)
+		if end_at_c > start_pos:
+			fill = (pos - start_pos) / (end_at_c - start_pos)
 		else:
 			fill = 1.0 if pos >= end_at_c else 0.0
-	# A→C 첫 구간이고, B≥3 인 슬라이드 뷰: 직전 C 지난 직후를 0, 현재 C 도착을 1로 (삼각형 A에서 시작)
+	# A→C 첫 구간이고, B≥3 인 슬라이드 뷰: prev_C 이벤트를 0, 현재 C 도착을 1로
 	elif vis.size() >= 3 and vis[0] == 0 and vis[1] >= 3 and vis[1] < n_ev - 3 and seg == 0:
 		var c: int = vis[2]
 		var prev_c: int = c - 2
 		if prev_c >= 0:
-			var start_after_prev: float = float(_event_indices[prev_c]) + 1.0
+			var start_after_prev: float = float(_event_indices[prev_c])  # prev_C 이벤트 자체를 시작으로
 			var end_at_c: float = float(_event_indices[c])
 			if end_at_c > start_after_prev:
 				fill = (pos - start_after_prev) / (end_at_c - start_after_prev)
@@ -320,15 +325,17 @@ func update_display() -> void:
 	var slot_count: int = _visible_indices.size()
 	if slot_count == 0:
 		return
-	# (1)(2)(3)(n) 4개 이벤트 노드 사이 간격 동일: 원만 4등분
+	# 노드 배치 영역: 바 좌우 가장자리에서 NODE_PADDING만큼 안쪽
+	# → 첫/마지막 노드 원이 블랙바 안쪽에 완전히 들어옴
+	var node_area_width: float = bar_width - float(NODE_PADDING * 2)
 	var num_circles: int = 0
 	for ev in _visible_indices:
 		if ev >= 0:
 			num_circles += 1
-	var circle_gap: float = bar_width / float(max(1, num_circles - 1))  # 원 사이 동일 간격
+	var circle_gap: float = node_area_width / float(max(1, num_circles - 1))  # 원 사이 동일 간격
 	var base_y: float = _get_base_y()
 	var circle_row_y: float = base_y
-	var number_y: float = base_y + BAR_HEIGHT + 2
+	var number_y: float = base_y + BAR_HEIGHT + 2 - 10  # 10px 위로 (캡슐에 가깝게)
 
 	for slot_i in range(slot_count):
 		var ev_slot: int = _visible_indices[slot_i]
@@ -339,14 +346,14 @@ func update_display() -> void:
 			for j in range(slot_i):
 				if _visible_indices[j] >= 0:
 					circles_before += 1
-			center_x = CAPSULE_MARGIN + (float(circles_before) - 0.5) * circle_gap
+			center_x = CAPSULE_MARGIN + NODE_PADDING + (float(circles_before) - 0.5) * circle_gap
 		else:
 			var circle_index: int = 0
 			for j in range(slot_i + 1):
 				if _visible_indices[j] >= 0:
 					circle_index += 1
 			circle_index -= 1
-			center_x = CAPSULE_MARGIN + float(circle_index) * circle_gap
+			center_x = CAPSULE_MARGIN + NODE_PADDING + float(circle_index) * circle_gap
 		_slot_centers_x.append(center_x)
 
 		if ev_slot == -1:
@@ -443,8 +450,8 @@ func _get_progress_tip_x(progress_ratio: float = 0.0) -> float:
 		# (6) 도착 ~ (7) 전
 		if pos >= float(_event_indices[n_ev - 3]):
 			return _slot_centers_x[1]
-		# (1)-(6) 구간: (5) 직후 ~ (6) 전까지 경로를 따라 보간 (삼각형이 (1)→(6)으로 움직이도록)
-		var start_after_prev: float = float(_event_indices[n_ev - 4]) + 1.0
+		# (1)-(6) 구간: 첫 이벤트(1)부터 (6)까지 전체 진행도로 핀 위치 계산
+		var start_after_prev: float = float(_event_indices[0])  # 첫 이벤트 위치를 기준으로
 		var end_at_c: float = float(_event_indices[n_ev - 3])
 		var fill_01: float = 0.0
 		if end_at_c > start_after_prev:
@@ -475,7 +482,7 @@ func _play_slide_animation(new_slots: Array) -> void:
 	"""B·C 위치 원이 A(1) 뒤로 들어가 사라지고, 새 B·C가 오른쪽에서 등장. 삼각형은 완료 후 A로."""
 	var base_y: float = _get_base_y()
 	var circle_row_y: float = base_y
-	var number_y: float = base_y + BAR_HEIGHT + 2
+	var number_y: float = base_y + BAR_HEIGHT + 2 - 10  # 10px 위로 (_redraw_nodes와 동일)
 	var target_behind_one: float = _slot_centers_x[0] if _slot_centers_x.size() > 0 else CAPSULE_MARGIN
 	var target_panel_x: float = target_behind_one - NODE_SIZE / 2
 	var target_label_x: float = target_behind_one - 22
@@ -533,17 +540,28 @@ func _update_progress_line() -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	"""회색 트랙(안 지나간 곳) 먼저 그린 뒤, 지나간 구간만 노란 진행선으로 위에 그림. 원 관통 없음."""
+	"""다크 캡슐 배경 → 회색 트랙 → 노란 진행선 순으로 그림. 원 관통 없음."""
 	var base_y: float = _get_base_y()
 	var bar_width: float = size.x - (CAPSULE_MARGIN * 2)
 	var track_h: int = _get_track_height()
 	var track_y: float = base_y + (BAR_HEIGHT - float(track_h)) / 2.0
-	# 1) 회색 트랙 (전체 구간 = 안 지나간 곳)
-	var gray: Color = Color(0.1, 0.1, 0.15)
-	draw_rect(Rect2(CAPSULE_MARGIN, track_y, bar_width, float(track_h)), gray)
-	# 테두리 비슷하게
-	draw_rect(Rect2(CAPSULE_MARGIN, track_y, bar_width, 1), Color(0.3, 0.3, 0.4))
-	draw_rect(Rect2(CAPSULE_MARGIN, track_y + float(track_h) - 1, bar_width, 1), Color(0.3, 0.3, 0.4))
+	# 0) 다크 캡슐 외곽 배경 — 원 행만 커버 (숫자 행은 캡슐 밖)
+	# bg_extend > 0: 노드 위치 고정 + 배경만 좌우 확장 / bg_extend < 0: 배경 축소
+	var caps_h: float = float(BAR_HEIGHT) + 8.0  # 원 행 + 위아래 4px 패딩
+	var caps_y: float = maxf(base_y - 4.0, 0.0)   # 원 행 상단 기준
+	var caps_r: float = caps_h / 2.0
+	var caps_color: Color = Color(0.12, 0.13, 0.20, 0.92)
+	var bg_left: float = float(CAPSULE_MARGIN) - float(bg_extend)
+	var bg_width: float = bar_width + float(bg_extend) * 2.0
+	draw_rect(Rect2(bg_left + caps_r, caps_y, bg_width - caps_r * 2.0, caps_h), caps_color)
+	draw_circle(Vector2(bg_left + caps_r, caps_y + caps_r), caps_r, caps_color)
+	draw_circle(Vector2(bg_left + bg_width - caps_r, caps_y + caps_r), caps_r, caps_color)
+	# 1) 회색 트랙 (전체 구간 = 안 지나간 곳) — 기존 대비 20% 밝게
+	var gray: Color = Color(0.22, 0.22, 0.29)
+	draw_rect(Rect2(CAPSULE_MARGIN + caps_r, track_y, bar_width - caps_r * 2, float(track_h)), gray)
+	# 양 끝 원형 마감
+	draw_circle(Vector2(CAPSULE_MARGIN + caps_r, track_y + float(track_h) / 2.0), float(track_h) / 2.0, gray)
+	draw_circle(Vector2(CAPSULE_MARGIN + bar_width - caps_r, track_y + float(track_h) / 2.0), float(track_h) / 2.0, gray)
 
 	if nodes.is_empty() or _slot_centers_x.is_empty() or _slot_radii.is_empty():
 		return

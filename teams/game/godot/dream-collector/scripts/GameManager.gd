@@ -46,6 +46,13 @@ signal deck_saved(deck_size: int)
 
 # ─── 초기화 ─────────────────────────────────────────
 func _ready() -> void:
+	# #region agent log
+	var _f = FileAccess.open("user://debug-e7b017.log", FileAccess.READ_WRITE)
+	if _f:
+		_f.seek_end()
+		_f.store_line(JSON.stringify({"stage": "GameManager_ready", "ts": int(Time.get_ticks_msec())}))
+		_f.close()
+	# #endregion
 	print("[GameManager] Dream Collector v%s started." % VERSION)
 	SaveSystem.load_game()
 	IdleSystem.start()

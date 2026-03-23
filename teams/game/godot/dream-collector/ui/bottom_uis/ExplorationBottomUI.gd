@@ -25,7 +25,6 @@ var current_log_index: int = 0
 var auto_progress_timer: float = 0.0
 var auto_progress_interval: float = 2.0
 var is_paused: bool = false
-var _last_shown_was_event: bool = false  # 연속 이벤트 감지용
 
 # 두 단계: "progress"(진행 버튼) / "event_ready"(전투·상점 등 이벤트 진입 버튼)
 var _phase: String = "progress"
@@ -381,7 +380,7 @@ func _build_victory_row(icon: String, text: String, colors: Dictionary):
 	event_log.add_child(row)
 	_trim_old_logs()
 
-	var expanded = true
+	var expanded_ref = [true]  # lambda에서 바깥 변수 갱신을 위해 배열 사용
 	var btn = Button.new()
 	btn.flat = true
 	btn.modulate.a = 0.0
@@ -391,8 +390,8 @@ func _build_victory_row(icon: String, text: String, colors: Dictionary):
 	panel.add_child(btn)
 
 	btn.pressed.connect(func():
-		expanded = not expanded
-		var target_h = VICTORY_EXPANDED_HEIGHT if expanded else NORMAL_ROW_HEIGHT
+		expanded_ref[0] = not expanded_ref[0]
+		var target_h = VICTORY_EXPANDED_HEIGHT if expanded_ref[0] else NORMAL_ROW_HEIGHT
 		row.custom_minimum_size.y = target_h
 		circle_wrap.custom_minimum_size.y = target_h
 		circle.position.y = (target_h - 32) / 2

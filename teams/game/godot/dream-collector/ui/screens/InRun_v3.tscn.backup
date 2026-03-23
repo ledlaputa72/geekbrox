@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://speech_bubble" path="res://ui/components/SpeechBubble.tscn" id="4"]
 
 [node name="InRun" type="Control"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -121,7 +121,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HeroSprite" type="Label" parent="TopArea/CombatView/Hero/VBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_vertical = 3
 text = "🧙‍♂️"
 horizontal_alignment = 1
@@ -129,12 +129,12 @@ vertical_alignment = 1
 
 [node name="HPBar" type="ProgressBar" parent="TopArea/CombatView/Hero/VBox"]
 custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
+layout_mode = 1
 value = 80.0
 show_percentage = false
 
 [node name="HPLabel" type="Label" parent="TopArea/CombatView/Hero/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "80/80"
 horizontal_alignment = 1
 
@@ -155,7 +155,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="MonsterSprite" type="Label" parent="TopArea/CombatView/MonstersContainer/Monster1/VBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_vertical = 3
 text = "👾"
 horizontal_alignment = 1
@@ -163,12 +163,12 @@ vertical_alignment = 1
 
 [node name="HPBar" type="ProgressBar" parent="TopArea/CombatView/MonstersContainer/Monster1/VBox"]
 custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
+layout_mode = 1
 value = 100.0
 show_percentage = false
 
 [node name="HPLabel" type="Label" parent="TopArea/CombatView/MonstersContainer/Monster1/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "50/50"
 horizontal_alignment = 1
 
@@ -189,7 +189,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="MonsterSprite" type="Label" parent="TopArea/CombatView/MonstersContainer/Monster2/VBox"]
-layout_mode = 2
+layout_mode = 1
 size_flags_vertical = 3
 text = "👹"
 horizontal_alignment = 1
@@ -197,12 +197,12 @@ vertical_alignment = 1
 
 [node name="HPBar" type="ProgressBar" parent="TopArea/CombatView/MonstersContainer/Monster2/VBox"]
 custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
+layout_mode = 1
 value = 100.0
 show_percentage = false
 
 [node name="HPLabel" type="Label" parent="TopArea/CombatView/MonstersContainer/Monster2/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "50/50"
 horizontal_alignment = 1
 
@@ -370,19 +370,19 @@ grow_vertical = 0
 alignment = 1
 
 [node name="EnergyLabel" type="Label" parent="BottomArea/CombatUI/InfoArea"]
-layout_mode = 2
+layout_mode = 1
 text = "⚡ 3"
 
 [node name="DeckLabel" type="Label" parent="BottomArea/CombatUI/InfoArea"]
-layout_mode = 2
+layout_mode = 1
 text = "📚 Deck: 4"
 
 [node name="DiscardLabel" type="Label" parent="BottomArea/CombatUI/InfoArea"]
-layout_mode = 2
+layout_mode = 1
 text = "🪦 Discard: 5"
 
 [node name="ExileLabel" type="Label" parent="BottomArea/CombatUI/InfoArea"]
-layout_mode = 2
+layout_mode = 1
 text = "🚫 Exile: 0"
 
 [node name="ShopUI" type="Control" parent="BottomArea"]
@@ -422,7 +422,7 @@ columns = 3
 
 [node name="Item1" type="Panel" parent="BottomArea/ShopUI/ItemsGrid"]
 custom_minimum_size = Vector2(110, 150)
-layout_mode = 2
+layout_mode = 1
 
 [node name="VBox" type="VBoxContainer" parent="BottomArea/ShopUI/ItemsGrid/Item1"]
 layout_mode = 1
@@ -434,18 +434,18 @@ grow_vertical = 2
 alignment = 1
 
 [node name="ItemLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item1/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "상품"
 horizontal_alignment = 1
 
 [node name="PriceLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item1/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "🪙100"
 horizontal_alignment = 1
 
 [node name="Item2" type="Panel" parent="BottomArea/ShopUI/ItemsGrid"]
 custom_minimum_size = Vector2(110, 150)
-layout_mode = 2
+layout_mode = 1
 
 [node name="VBox" type="VBoxContainer" parent="BottomArea/ShopUI/ItemsGrid/Item2"]
 layout_mode = 1
@@ -457,18 +457,18 @@ grow_vertical = 2
 alignment = 1
 
 [node name="ItemLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item2/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "상품"
 horizontal_alignment = 1
 
 [node name="PriceLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item2/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "🪙100"
 horizontal_alignment = 1
 
 [node name="Item3" type="Panel" parent="BottomArea/ShopUI/ItemsGrid"]
 custom_minimum_size = Vector2(110, 150)
-layout_mode = 2
+layout_mode = 1
 
 [node name="VBox" type="VBoxContainer" parent="BottomArea/ShopUI/ItemsGrid/Item3"]
 layout_mode = 1
@@ -480,18 +480,18 @@ grow_vertical = 2
 alignment = 1
 
 [node name="ItemLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item3/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "상품"
 horizontal_alignment = 1
 
 [node name="PriceLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item3/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "🪙100"
 horizontal_alignment = 1
 
 [node name="Item4" type="Panel" parent="BottomArea/ShopUI/ItemsGrid"]
 custom_minimum_size = Vector2(110, 150)
-layout_mode = 2
+layout_mode = 1
 
 [node name="VBox" type="VBoxContainer" parent="BottomArea/ShopUI/ItemsGrid/Item4"]
 layout_mode = 1
@@ -503,18 +503,18 @@ grow_vertical = 2
 alignment = 1
 
 [node name="ItemLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item4/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "상품"
 horizontal_alignment = 1
 
 [node name="PriceLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item4/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "🪙100"
 horizontal_alignment = 1
 
 [node name="Item5" type="Panel" parent="BottomArea/ShopUI/ItemsGrid"]
 custom_minimum_size = Vector2(110, 150)
-layout_mode = 2
+layout_mode = 1
 
 [node name="VBox" type="VBoxContainer" parent="BottomArea/ShopUI/ItemsGrid/Item5"]
 layout_mode = 1
@@ -526,18 +526,18 @@ grow_vertical = 2
 alignment = 1
 
 [node name="ItemLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item5/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "상품"
 horizontal_alignment = 1
 
 [node name="PriceLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item5/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "🪙100"
 horizontal_alignment = 1
 
 [node name="Item6" type="Panel" parent="BottomArea/ShopUI/ItemsGrid"]
 custom_minimum_size = Vector2(110, 150)
-layout_mode = 2
+layout_mode = 1
 
 [node name="VBox" type="VBoxContainer" parent="BottomArea/ShopUI/ItemsGrid/Item6"]
 layout_mode = 1
@@ -549,12 +549,12 @@ grow_vertical = 2
 alignment = 1
 
 [node name="ItemLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item6/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "상품"
 horizontal_alignment = 1
 
 [node name="PriceLabel" type="Label" parent="BottomArea/ShopUI/ItemsGrid/Item6/VBox"]
-layout_mode = 2
+layout_mode = 1
 text = "🪙100"
 horizontal_alignment = 1
 

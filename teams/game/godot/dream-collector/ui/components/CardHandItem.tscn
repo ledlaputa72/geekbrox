@@ -4,7 +4,7 @@
 
 [node name="CardHandItem" type="Control"]
 custom_minimum_size = Vector2(91, 127)
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 0
 script = ExtResource("1_card_hand")
 
@@ -26,7 +26,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "\uce74\ub4dc \uc774\ub984"
+text = "카드 이름"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2

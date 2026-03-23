@@ -127,16 +127,16 @@ func apply_styles() -> void:
 	# 타로 테이블 (갈색)
 	table_bg.color = Color(0.55, 0.4, 0.25)  # 갈색
 	
-	UISprites.apply_panel(top_bar, UISprites.panel_frame(), 18)
+	UISprites.apply_panel(top_bar, UISprites.panel_frame(), 8)
 	title_label.add_theme_color_override("font_color", UITheme.COLORS.text)
 	UISprites.apply_btn(back_button, "secondary")
 	UISprites.apply_btn(explore_button, "green")
 	explore_button.add_theme_font_size_override("font_size", 20)
 
-	UISprites.apply_panel(tarot_deck, UISprites.panel_frame(), 18)
+	UISprites.apply_panel(tarot_deck, UISprites.panel_frame(), 8)
 	for i in range(3):
 		var card = card_panels[i]
-		UISprites.apply_panel(card, UISprites.panel_frame(), 18)
+		UISprites.apply_panel(card, UISprites.panel_frame(), 8)
 		var back_panel = card.get_node("BackPanel")
 		var back_style = StyleBoxFlat.new()
 		back_style.bg_color = Color(0.95, 0.95, 0.9)
